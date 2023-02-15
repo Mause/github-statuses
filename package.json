@@ -1,6 +1,12 @@
 {
   "dependencies": {
-    "next": "*",
-    "@octokit/rest": "*"
-  }
+    "@octokit/rest": "*",
+    "next": "*"
+  },
+  "name": "github-statuses",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Mause/github-statuses.git",
+  "author": "Elliana May <me@mause.me>",
+  "license": "MIT"
 }
