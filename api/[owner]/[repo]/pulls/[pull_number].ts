@@ -7,11 +7,13 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  const pr = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', request.query)
+  const pr = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', request.query);
+  console.log(pr);
   const statuses = await octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/statuses', {
     ...request.query,
     ref: pr.head.sha
   });
+  console.log(statuses);
 
   response.status(200).json({
     body: request.body,
