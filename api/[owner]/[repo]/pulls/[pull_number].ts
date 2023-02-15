@@ -12,7 +12,7 @@ export default async function handler(
     ...request.query,
     ref: pr.data.head.sha
   })).data;
-  statuses = statuses.filter(status => status.conclusion !== 'success');
+  statuses = statuses.check_runs.filter(status => status.conclusion !== 'success');
   console.log(statuses);
 
   response.status(200).json({
