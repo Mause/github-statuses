@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Octokit } from "@octokit/core";
+import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit();
 
@@ -7,8 +7,8 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  const pr = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}', request.query);
-  console.log(pr);
+  const pr = await octokit.rest.pulls.get(request.query);
+  console.log(Object.keys(pr));
   const statuses = await octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/statuses', {
     ...request.query,
     ref: pr.head.sha
