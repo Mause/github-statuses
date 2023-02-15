@@ -11,8 +11,7 @@ export default async function handler(
   const statuses = (await octokit.rest.checks.listForRef({
     ...request.query,
     ref: pr.data.head.sha
-  })).data;
-  statuses = statuses.check_runs.filter(status => status.conclusion !== 'success');
+  })).data.check_runs.filter(status => status.conclusion !== 'success');
   console.log(statuses);
 
   response.status(200).json({
