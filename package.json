@@ -4,7 +4,8 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@octokit/rest": "^19.0.7",
@@ -23,6 +24,9 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "eslint": "^8.27.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "prettier": "^2.8.4",
     "typescript": "^4.8.4"
   },
   "engines": {
@@ -33,5 +37,9 @@
   "main": "index.js",
   "repository": "https://github.com/Mause/github-statuses.git",
   "author": "Elliana May <me@mause.me>",
-  "license": "MIT"
+  "license": "MIT",
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
 }
