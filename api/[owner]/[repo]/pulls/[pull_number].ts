@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Octokit } from "@octokit/core";
 
 const octokit = new Octokit();
 
