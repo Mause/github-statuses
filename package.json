@@ -12,10 +12,14 @@
     "@remix-run/node": "^1.13.0",
     "@remix-run/react": "^1.13.0",
     "@remix-run/vercel": "^1.13.0",
+    "@tanstack/react-table": "^8.7.9",
     "@vercel/node": "^2.6.2",
+    "bulma": "^0.9.4",
     "next": "^13.1.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-bulma-components": "^4.1.0",
+    "react-dom": "^18.2.0",
+    "react-table": "^7.8.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.13.0",
@@ -27,7 +31,8 @@
     "husky": ">=6",
     "lint-staged": ">=10",
     "prettier": "^2.8.4",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "vercel": "^28.15.5"
   },
   "engines": {
     "node": ">=14"

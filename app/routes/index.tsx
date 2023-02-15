@@ -4,11 +4,7 @@ export default function Index() {
       <h1>Welcome to Remix</h1>
       <ul>
         <li>
-          <a
-            target="_blank"
-            href="/duckdb/duckdb/pulls/1000"
-            rel="noreferrer"
-          >
+          <a href="/duckdb/duckdb/pulls/1000">
             Quickstart
           </a>
         </li>
