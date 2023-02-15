@@ -8,17 +8,17 @@ export default async function handler(
   response: NextApiResponse,
 ) {
   const pr = await octokit.rest.pulls.get(request.query);
-  console.log(Object.keys(pr.data));
-  const statuses = await octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/statuses', {
+  const statuses = (await octokit.rest.checks.listForRef({
     ...request.query,
     ref: pr.data.head.sha
-  });
-  console.log(statuses.data);
+  })).data;
+  statuses = statuses.filter(status => status.conclusion !== 'success');
+  console.log(statuses);
 
   response.status(200).json({
     body: request.body,
     query: request.query,
     cookies: request.cookies,
-    statuses: statuses.data,
+    statuses,
   });
 }
