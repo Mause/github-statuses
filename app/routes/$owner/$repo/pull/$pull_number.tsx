@@ -4,11 +4,7 @@ import { Octokit } from "@octokit/rest";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { Columns, Container, Table } from "react-bulma-components";
 
-const octokit = new Octokit(
-  {
-    auth: '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'
-  }
-);
+const octokit = new Octokit();
 
 export const loader = async ({ params }: {params: Params<'repo' | 'owner' | 'pull_number'>}) => {
   const args = {repo: params.repo!, owner: params.owner!,pull_number: Number(params.pull_number!)}
