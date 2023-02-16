@@ -1,10 +1,10 @@
 import { Form } from "react-bulma-components";
-import { useRef } from "react";
+import { useState } from "react";
+import { useNavigate } from "@remix-run/react";
 
 export default function Index() {
-  const [set, value] = useState();
+  const [value, set] = useState<string>();
   const navigate = useNavigate();
-  const ref = useRef<Form.Input["value"]>("input");
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
@@ -15,11 +15,11 @@ export default function Index() {
         </li>
         <li>
           <form
-            submit={() => {
-              navigate.navigate();
+            onSubmit={() => {
+              navigate(`/${new URL(value!).pathname}`);
             }}
           >
-            <Form.Input change={(event) => set(event.target.value)} />
+            <Form.Input onChange={(event) => set(event.target.value)} />
             https://github.com/Mause/duckdb/pull/27
           </form>
         </li>
