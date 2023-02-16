@@ -53,7 +53,7 @@ export const loader = async ({
       }
     )
   ).filter((status) => {
-    console.log(status.conclusion);
+    // console.log(status.conclusion);
     return !["success", "skipped"].includes(status.conclusion!);
   });
 
@@ -94,13 +94,21 @@ export default function Index() {
         header: "Name",
       }),
       columnHelper.accessor("conclusion", {
-        cell: (props) => (
-          <span>
-            {iconMap[(props.getValue() as Conclusion)!]({})}
-            &nbsp;
-            {props.row.renderValue("conclusion")}
-          </span>
-        ),
+        cell: (props) => {
+          const conclusion = (props.getValue() as Conclusion)!;
+          const func = iconMap[conclusion];
+          if (!func) {
+            throw new Error(`bad status: ${conclusion}`);
+          }
+
+          return (
+            <span>
+              {func({})}
+              &nbsp;
+              {props.row.renderValue("conclusion")}
+            </span>
+          );
+        },
         header: "Conclusion",
       }),
       columnHelper.accessor("html_url", {
