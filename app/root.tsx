@@ -7,7 +7,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import styles from 'bulma/css/bulma.min.css';
+import { ThemeProvider } from "@primer/react";
+import styles from "bulma/css/bulma.min.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -27,10 +28,12 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <ThemeProvider>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </ThemeProvider>
       </body>
     </html>
   );
