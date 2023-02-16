@@ -96,10 +96,11 @@ export default function Index() {
       columnHelper.accessor("conclusion", {
         cell: (props) => {
           const conclusion = (props.getValue() as Conclusion)!;
-          const func = iconMap[conclusion];
-          if (!func) {
-            throw new Error(`bad status: ${conclusion}`);
-          }
+          const func =
+            iconMap[conclusion] ||
+            (() => (
+              <StyledOcticon size={32} icon={QuestionIcon} color="danger.fg" />
+            ));
 
           return (
             <span>
