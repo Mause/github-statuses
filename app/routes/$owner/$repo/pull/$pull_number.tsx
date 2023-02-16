@@ -119,17 +119,19 @@ export default function Index() {
             </span>
           );
         },
-        header: "Conclusion",
+        header: "Status",
       }),
       columnHelper.accessor("html_url", {
         cell: (props) => <a href={props.getValue()}>Details</a>,
-        header: "HTML URL",
+        header: "Details",
       }),
       columnHelper.accessor("started_at", {
         cell: (props) => props.getValue(),
+        header: "Started At",
       }),
       columnHelper.accessor("completed_at", {
         cell: (props) => props.getValue(),
+        header: "Completed At",
       }),
     ],
     getCoreRowModel: getCoreRowModel(),
