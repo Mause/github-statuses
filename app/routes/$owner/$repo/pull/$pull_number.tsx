@@ -19,6 +19,7 @@ import {
   QuestionIcon,
   ClockIcon,
 } from "@primer/octicons-react";
+import { StyledOcticon } from "@primer/react";
 
 const octokit = new Octokit();
 
@@ -60,8 +61,11 @@ export default function Index() {
   const { statuses, pr } = useLoaderData<typeof loader>();
 
   const iconMap: Record<NonNullable<Conclusion>, Icon> = {
-    success: CheckIcon,
-    failure: XIcon,
+    success: () => (
+      <StyledOcticon icon={CheckIcon} size={32} color="success.fg" />
+    ),
+    failure: () => <StyledOcticon icon={XIcon} size={32} color="danger.fg" />,
+
     skipped: SkipIcon,
     cancelled: StopIcon,
 
