@@ -46,8 +46,6 @@ export const loader = async ({
         ref: pr.data.head.sha,
       },
       (response) => {
-        console.log("isArray", Array.isArray(response.data));
-        console.log(Object.keys(response.data));
         if (response.status !== 200) {
           throw new Error(JSON.stringify(response.data));
         }
@@ -55,7 +53,7 @@ export const loader = async ({
       }
     )
   ).filter((status) => {
-    console.log(status);
+    console.log(status.conclusion);
     return !["success", "skipped"].includes(status.conclusion!);
   });
 
