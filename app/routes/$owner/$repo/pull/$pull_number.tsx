@@ -18,6 +18,8 @@ import {
   Icon,
   QuestionIcon,
   ClockIcon,
+  HourglassIcon,
+  DotIcon,
 } from "@primer/octicons-react";
 import { StyledOcticon } from "@primer/react";
 import { createAppAuth } from "@octokit/auth-app";
@@ -74,13 +76,14 @@ type Check = Awaited<
 >["data"]["check_runs"][0];
 
 type Conclusion = Check["conclusion"];
+type Status = Check["status"];
 
 const columnHelper = createColumnHelper<Check>();
 
 export default function Index() {
   const { statuses, pr } = useLoaderData<typeof loader>();
 
-  const iconMap: Record<NonNullable<Conclusion>, Icon> = {
+  const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
     success: () => (
       <StyledOcticon icon={CheckIcon} size={32} color="success.fg" />
     ),
@@ -93,6 +96,9 @@ export default function Index() {
     action_required: XIcon,
     neutral: QuestionIcon,
     timed_out: ClockIcon,
+    in_progress: DotIcon,
+    completed: XIcon,
+    queued: HourglassIcon,
   };
 
   const table = useReactTable({
@@ -104,18 +110,14 @@ export default function Index() {
       }),
       columnHelper.accessor("conclusion", {
         cell: (props) => {
-          const conclusion = (props.getValue() as Conclusion)!;
-          const func =
-            iconMap[conclusion] ||
-            (() => (
-              <StyledOcticon size={32} icon={QuestionIcon} color="danger.fg" />
-            ));
+          const conclusion =
+            (props.row.getValue("conclusion") as Conclusion) || "in_progress";
 
           return (
             <span>
-              {func({})}
+              {iconMap[conclusion]({})}
               &nbsp;
-              {props.row.renderValue("conclusion")}
+              {conclusion}
             </span>
           );
         },
