@@ -10,6 +10,14 @@ import {
 } from "@tanstack/react-table";
 import { Columns, Container, Table } from "react-bulma-components";
 import { useInterval } from "react-interval-hook";
+import {
+  SkipIcon,
+  XIcon,
+  CheckIcon,
+  Icon,
+  QuestionIcon,
+  ClockIcon,
+} from "@primer/octicons-react";
 
 const octokit = new Octokit();
 
@@ -41,10 +49,24 @@ type Check = Awaited<
   ReturnType<Octokit["rest"]["checks"]["listForRef"]>
 >["data"]["check_runs"][0];
 
+type Conclusion = Check["conclusion"];
+
 const columnHelper = createColumnHelper<Check>();
 
 export default function Index() {
   const { statuses, pr } = useLoaderData<typeof loader>();
+
+  const iconMap: Record<NonNullable<Conclusion>, Icon> = {
+    success: CheckIcon,
+    failure: XIcon,
+    skipped: SkipIcon,
+
+    // guesses
+    cancelled: XIcon,
+    action_required: XIcon,
+    neutral: QuestionIcon,
+    timed_out: ClockIcon,
+  };
 
   const table = useReactTable({
     data: statuses,
@@ -54,7 +76,13 @@ export default function Index() {
         header: "Name",
       }),
       columnHelper.accessor("conclusion", {
-        cell: (props) => <span>{props.row.renderValue("conclusion")}</span>,
+        cell: (props) => (
+          <span>
+            {iconMap[(props.getValue() as Conclusion)!]({})}
+            &nbsp;
+            {props.row.renderValue("conclusion")}
+          </span>
+        ),
         header: "Conclusion",
       }),
       columnHelper.accessor("html_url", {
