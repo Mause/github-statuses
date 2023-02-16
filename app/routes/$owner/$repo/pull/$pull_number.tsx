@@ -35,6 +35,9 @@ export const loader = async ({
   };
 
   const pr = await octokit.rest.pulls.get(args);
+  if (pr.status !== 200) {
+    throw new Error(JSON.stringify(pr.data));
+  }
   const statuses = (
     await octokit.paginate(
       octokit.rest.checks.listForRef,
@@ -44,7 +47,10 @@ export const loader = async ({
       },
       (response) => response.data.check_runs
     )
-  ).filter((status) => !["success", "skipped"].includes(status.conclusion!));
+  ).filter((status) => {
+    console.log(status);
+    return !["success", "skipped"].includes(status.conclusion!);
+  });
 
   return json({ statuses, pr });
 };
