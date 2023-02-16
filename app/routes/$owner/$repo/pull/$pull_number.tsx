@@ -20,9 +20,13 @@ import {
   ClockIcon,
 } from "@primer/octicons-react";
 import { StyledOcticon } from "@primer/react";
+import { createAppAuth } from "@octokit/auth-app";
 
 const octokit = new Octokit({
+  authStrategy: createAppAuth,
   auth: {
+    appId: process.env.GITHUB_APP_ID,
+    privateKey: process.env.GITHUB_APP_PRIVATE_KEY,
     clientId: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_SECRET,
   },
