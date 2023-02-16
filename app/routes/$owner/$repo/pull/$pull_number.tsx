@@ -34,13 +34,15 @@ export const loader = async ({
 
   const pr = await octokit.rest.pulls.get(args);
   const statuses = (
-    await octokit.rest.checks.listForRef({
-      ...args,
-      ref: pr.data.head.sha,
-    })
-  ).data.check_runs.filter(
-    (status) => !["success", "skipped"].includes(status.conclusion!)
-  );
+    await octokit.paginate(
+      octokit.rest.checks.listForRef,
+      {
+        ...args,
+        ref: pr.data.head.sha,
+      },
+      (response) => response.data.check_runs
+    )
+  ).filter((status) => !["success", "skipped"].includes(status.conclusion!));
 
   return json({ statuses, pr });
 };
