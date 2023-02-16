@@ -13,6 +13,7 @@ import { useInterval } from "react-interval-hook";
 import {
   SkipIcon,
   XIcon,
+  StopIcon,
   CheckIcon,
   Icon,
   QuestionIcon,
@@ -62,9 +63,9 @@ export default function Index() {
     success: CheckIcon,
     failure: XIcon,
     skipped: SkipIcon,
+    cancelled: StopIcon,
 
     // guesses
-    cancelled: XIcon,
     action_required: XIcon,
     neutral: QuestionIcon,
     timed_out: ClockIcon,
