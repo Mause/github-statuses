@@ -38,6 +38,7 @@ export default function Index() {
       }),
       columnHelper.accessor('html_url', {cell: props => <a href={props.getValue()}>Details</a>, header: 'HTML URL'}),
       columnHelper.accessor('started_at', {cell: props=>props.getValue()}),
+      columnHelper.accessor('completed_at', {cell: props => props.getValue()})
     ],
     getCoreRowModel: getCoreRowModel()
   });
