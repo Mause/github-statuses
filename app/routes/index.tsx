@@ -15,7 +15,8 @@ export default function Index() {
         </li>
         <li>
           <form
-            onSubmit={() => {
+            onSubmit={(event) => {
+              event.preventDefault();
               navigate(new URL(value!).pathname);
             }}
           >
