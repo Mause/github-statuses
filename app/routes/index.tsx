@@ -16,7 +16,7 @@ export default function Index() {
         <li>
           <form
             onSubmit={() => {
-              navigate(`/${new URL(value!).pathname}`);
+              navigate(new URL(value!).pathname);
             }}
           >
             <Form.Input onChange={(event) => set(event.target.value)} />
