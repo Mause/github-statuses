@@ -1,8 +1,9 @@
 import { json } from "@remix-run/node";
-import { Params, useLoaderData } from "@remix-run/react";
+import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
 import { Octokit } from "@octokit/rest";
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { Columns, Container, Table } from "react-bulma-components";
+import {useInterval} from 'react-interval-hook';
 
 const octokit = new Octokit();
 
@@ -42,6 +43,9 @@ export default function Index() {
     ],
     getCoreRowModel: getCoreRowModel()
   });
+
+  const {revalidate} = useRevalidator();
+  useInterval(()=>revalidate(), 5000);
 
   return (
     <Container>
