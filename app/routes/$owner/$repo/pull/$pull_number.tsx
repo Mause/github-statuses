@@ -44,7 +44,7 @@ export default function Index() {
     getCoreRowModel: getCoreRowModel()
   });
 
-  const {revalidate} = useRevalidator();
+  const {revalidate, state} = useRevalidator();
   useInterval(()=>revalidate(), 5000);
 
   return (
@@ -52,7 +52,8 @@ export default function Index() {
       <Columns>
       <Columns.Column>
       <h1>{ pr.title }</h1>
-      Statuses: { statuses.length }
+      Statuses: { statuses.length }<br/>
+      { state }
 
       <Table>
         <thead>
