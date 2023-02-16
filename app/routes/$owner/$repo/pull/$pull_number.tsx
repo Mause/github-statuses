@@ -22,16 +22,18 @@ import {
   DotIcon,
 } from "@primer/octicons-react";
 import { StyledOcticon } from "@primer/react";
-import { createAppAuth } from "@octokit/auth-app";
+import { createAppAuth, StrategyOptions } from "@octokit/auth-app";
 
+const auth: StrategyOptions = {
+  appId: process.env.GITHUB_APP_ID!,
+  privateKey: process.env.GITHUB_APP_PRIVATE_KEY!,
+  clientId: process.env.GITHUB_CLIENT_ID!,
+  clientSecret: process.env.GITHUB_SECRET!,
+  installationId: process.env.GITHUB_INSTALL_ID,
+};
 const octokit = new Octokit({
   authStrategy: createAppAuth,
-  auth: {
-    appId: process.env.GITHUB_APP_ID,
-    privateKey: process.env.GITHUB_APP_PRIVATE_KEY,
-    clientId: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_SECRET,
-  },
+  auth,
 });
 
 export const loader = async ({
