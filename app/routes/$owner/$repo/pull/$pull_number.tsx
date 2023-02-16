@@ -45,7 +45,12 @@ export const loader = async ({
         ...args,
         ref: pr.data.head.sha,
       },
-      (response) => response.data.check_runs
+      (response) => {
+        if (response.status !== 200) {
+          throw new Error(JSON.stringify(response.data));
+        }
+        return response.data.check_runs;
+      }
     )
   ).filter((status) => {
     console.log(status);
