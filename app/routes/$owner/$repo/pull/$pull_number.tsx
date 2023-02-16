@@ -1,25 +1,45 @@
 import { json } from "@remix-run/node";
+
 import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
 import { Octokit } from "@octokit/rest";
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { Columns, Container, Table } from "react-bulma-components";
-import {useInterval} from 'react-interval-hook';
+import { useInterval } from "react-interval-hook";
 
 const octokit = new Octokit();
 
-export const loader = async ({ params }: {params: Params<'repo' | 'owner' | 'pull_number'>}) => {
-  const args = {repo: params.repo!, owner: params.owner!,pull_number: Number(params.pull_number!)}
+export const loader = async ({
+  params,
+}: {
+  params: Params<"repo" | "owner" | "pull_number">;
+}) => {
+  const args = {
+    repo: params.repo!,
+    owner: params.owner!,
+    pull_number: Number(params.pull_number!),
+  };
 
   const pr = await octokit.rest.pulls.get(args);
-  const statuses = (await octokit.rest.checks.listForRef({
-    ...args,
-    ref: pr.data.head.sha
-  })).data.check_runs.filter(status => !['success', 'skipped'].includes(status.conclusion!));
+  const statuses = (
+    await octokit.rest.checks.listForRef({
+      ...args,
+      ref: pr.data.head.sha,
+    })
+  ).data.check_runs.filter(
+    (status) => !["success", "skipped"].includes(status.conclusion!)
+  );
 
-  return json({statuses, pr});
+  return json({ statuses, pr });
 };
 
-type Check = Awaited<ReturnType<Octokit['rest']['checks']['listForRef']>>['data']['check_runs'][0];
+type Check = Awaited<
+  ReturnType<Octokit["rest"]["checks"]["listForRef"]>
+>["data"]["check_runs"][0];
 
 const columnHelper = createColumnHelper<Check>();
 
@@ -29,80 +49,89 @@ export default function Index() {
   const table = useReactTable({
     data: statuses,
     columns: [
-      columnHelper.accessor('name', {
-        cell: props => props.row.renderValue('name'),
-        header: 'Name'
+      columnHelper.accessor("name", {
+        cell: (props) => props.row.renderValue("name"),
+        header: "Name",
       }),
-      columnHelper.accessor('conclusion', {
-        cell: props => <span>{props.row.renderValue('conclusion')}</span>,
-        header:'Conclusion'
+      columnHelper.accessor("conclusion", {
+        cell: (props) => <span>{props.row.renderValue("conclusion")}</span>,
+        header: "Conclusion",
       }),
-      columnHelper.accessor('html_url', {cell: props => <a href={props.getValue()}>Details</a>, header: 'HTML URL'}),
-      columnHelper.accessor('started_at', {cell: props=>props.getValue()}),
-      columnHelper.accessor('completed_at', {cell: props => props.getValue()})
+      columnHelper.accessor("html_url", {
+        cell: (props) => <a href={props.getValue()}>Details</a>,
+        header: "HTML URL",
+      }),
+      columnHelper.accessor("started_at", {
+        cell: (props) => props.getValue(),
+      }),
+      columnHelper.accessor("completed_at", {
+        cell: (props) => props.getValue(),
+      }),
     ],
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
   });
 
-  const {revalidate, state} = useRevalidator();
-  useInterval(()=>revalidate(), 5000);
+  const { revalidate, state } = useRevalidator();
+  useInterval(() => revalidate(), 5000);
 
   return (
     <Container>
       <Columns>
-      <Columns.Column>
-      <h1>{ pr.title }</h1>
-      Statuses: { statuses.length }<br/>
-      { state }
-
-      <Table>
-        <thead>
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th key={header.id} colSpan={header.colSpan}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+        <Columns.Column>
+          <h1>{pr.title}</h1>
+          Statuses: {statuses.length}
+          <br />
+          {state}
+          <Table>
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
                       )}
-                </th>
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map(row => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+            </tbody>
+            <tfoot>
+              {table.getFooterGroups().map((footerGroup) => (
+                <tr key={footerGroup.id}>
+                  {footerGroup.headers.map((header) => (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.footer,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          {table.getFooterGroups().map(footerGroup => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map(header => (
-                <th key={header.id} colSpan={header.colSpan}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
-      </Table>
-      </Columns.Column>
+            </tfoot>
+          </Table>
+        </Columns.Column>
       </Columns>
-      </Container>
+    </Container>
   );
 }
-
