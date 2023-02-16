@@ -21,7 +21,12 @@ import {
 } from "@primer/octicons-react";
 import { StyledOcticon } from "@primer/react";
 
-const octokit = new Octokit();
+const octokit = new Octokit({
+  auth: {
+    clientId: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_SECRET,
+  },
+});
 
 export const loader = async ({
   params,
