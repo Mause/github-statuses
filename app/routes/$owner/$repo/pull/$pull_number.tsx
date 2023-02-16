@@ -15,7 +15,7 @@ export const loader = async ({ params }: {params: Params<'repo' | 'owner' | 'pul
     ref: pr.data.head.sha
   })).data.check_runs.filter(status => !['success', 'skipped'].includes(status.conclusion!));
 
-  return json({statuses});
+  return json({statuses, pr});
 };
 
 type Check = Awaited<ReturnType<Octokit['rest']['checks']['listForRef']>>['data']['check_runs'][0];
@@ -23,7 +23,7 @@ type Check = Awaited<ReturnType<Octokit['rest']['checks']['listForRef']>>['data'
 const columnHelper = createColumnHelper<Check>();
 
 export default function Index() {
-  const { statuses } = useLoaderData<typeof loader>();
+  const { statuses, pr } = useLoaderData<typeof loader>();
 
   const table = useReactTable({
     data: statuses,
@@ -46,7 +46,7 @@ export default function Index() {
     <Container>
       <Columns>
       <Columns.Column>
-      <h1>Welcome to Remix</h1>
+      <h1>{ pr.title }</h1>
       Statuses: { statuses.length }
 
       <Table>
