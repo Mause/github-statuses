@@ -51,7 +51,7 @@ export const loader = async ({
         if (response.status !== 200) {
           throw new Error(JSON.stringify(response.data));
         }
-        return response.data.check_runs;
+        return response.data;
       }
     )
   ).filter((status) => {
