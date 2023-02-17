@@ -108,7 +108,13 @@ type Status = Check["status"];
 const columnHelper = createColumnHelper<Check>();
 
 function getRunId(status: Check): number {
-  return Number(/runs\/(\d+)\/jobs/.exec(status.details_url!)![0]);
+  const details_url = status.details_url!;
+  console.log({ details_url });
+  const match = /runs\/(\d+)\/jobs/.exec(details_url);
+  if (!match) {
+    throw new Error(`Unable to find id in ${details_url}`);
+  }
+  return Number(match![0]);
 }
 
 export default function Index() {
