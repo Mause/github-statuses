@@ -23,6 +23,7 @@ import {
 } from "@primer/octicons-react";
 import { Box, StyledOcticon } from "@primer/react";
 import { createAppAuth, StrategyOptions } from "@octokit/auth-app";
+import lodash from "lodash";
 
 const auth: StrategyOptions = {
   appId: process.env.GITHUB_APP_ID!,
@@ -35,6 +36,19 @@ const octokit = new Octokit({
   authStrategy: createAppAuth,
   auth,
 });
+
+const getWorkflowName = lodash.memoize(
+  async function (owner: string, repo: string, run_id: number) {
+    const workflow_run = await octokit.rest.actions.getWorkflowRun({
+      run_id,
+      owner,
+      repo,
+    });
+
+    return workflow_run.data.name;
+  },
+  (...args) => args.join("-")
+);
 
 export const loader = async ({
   params,
@@ -51,7 +65,7 @@ export const loader = async ({
   if (pr.status !== 200) {
     throw new Error(JSON.stringify(pr.data));
   }
-  const statuses = (
+  let statuses = (
     await octokit.paginate(
       octokit.rest.checks.listForRef,
       {
@@ -70,6 +84,17 @@ export const loader = async ({
     return !["success", "skipped"].includes(status.conclusion!);
   });
 
+  statuses = await Promise.all(
+    statuses.map(async (status) => {
+      (status as any).workflowName = await getWorkflowName(
+        params.owner!,
+        params.repo!,
+        getRunId(status)
+      );
+      return status;
+    })
+  );
+
   return json({ statuses, pr });
 };
 
@@ -81,6 +106,10 @@ type Conclusion = Check["conclusion"];
 type Status = Check["status"];
 
 const columnHelper = createColumnHelper<Check>();
+
+function getRunId(status: Check): number {
+  return Number(/runs\/(\d+)\/jobs/.exec(status.details_url!)![0]);
+}
 
 export default function Index() {
   const { statuses, pr } = useLoaderData<typeof loader>();
@@ -107,7 +136,10 @@ export default function Index() {
     data: statuses,
     columns: [
       columnHelper.accessor("name", {
-        cell: (props) => props.row.renderValue("name"),
+        cell: (props) =>
+          props.row.renderValue("workflowName") +
+          " / " +
+          props.row.renderValue("name"),
         header: "Name",
       }),
       columnHelper.accessor("conclusion", {
