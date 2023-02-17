@@ -111,6 +111,7 @@ function getRunId(status: Check): number {
   const details_url = status.details_url!;
   console.log({ details_url });
   const match = /runs\/(\d+)\/jobs/.exec(details_url);
+  console.log({ match });
   if (!match) {
     throw new Error(`Unable to find id in ${details_url}`);
   }
