@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 
 import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
-import { Octokit } from "@octokit/rest";
+import type { Octokit } from "@octokit/rest";
 import {
   createColumnHelper,
   flexRender,
@@ -22,20 +22,8 @@ import {
   DotIcon,
 } from "@primer/octicons-react";
 import { Box, StyledOcticon } from "@primer/react";
-import { createAppAuth, StrategyOptions } from "@octokit/auth-app";
 import lodash from "lodash";
-
-const auth: StrategyOptions = {
-  appId: process.env.GITHUB_APP_ID!,
-  privateKey: process.env.GITHUB_APP_PRIVATE_KEY!,
-  clientId: process.env.GITHUB_CLIENT_ID!,
-  clientSecret: process.env.GITHUB_SECRET!,
-  installationId: process.env.GITHUB_INSTALL_ID,
-};
-const octokit = new Octokit({
-  authStrategy: createAppAuth,
-  auth,
-});
+import { octokit } from "../../../../octokit.server";
 
 const getWorkflowName = lodash.memoize(
   async function (owner: string, repo: string, run_id: number) {
