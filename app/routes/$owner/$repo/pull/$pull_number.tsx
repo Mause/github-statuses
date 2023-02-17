@@ -175,7 +175,13 @@ export default function Index() {
 
   return (
     <Container>
-      <Box>
+      <Box
+        sx={{
+          overflowY: "auto",
+          border: "1px solid",
+          borderColor: "border.default",
+        }}
+      >
         <Columns>
           <Columns.Column>
             <Heading>{pr.title}</Heading>
