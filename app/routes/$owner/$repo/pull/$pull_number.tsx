@@ -100,9 +100,7 @@ const columnHelper = createColumnHelper<Check>();
 
 function getRunId(status: Check): number {
   const details_url = status.details_url!;
-  console.log({ details_url });
   const match = /runs\/(\d+)\/jobs/.exec(details_url);
-  console.log({ match });
   if (!match) {
     throw new Error(`Unable to find id in ${details_url}`);
   }
@@ -112,11 +110,12 @@ function getRunId(status: Check): number {
 export default function Index() {
   const { statuses, pr } = useLoaderData<typeof loader>();
 
+  const color = (component: Icon, color: string) => () =>
+    <StyledOcticon icon={component} size={32} color={color} />;
+
   const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
-    success: () => (
-      <StyledOcticon icon={CheckIcon} size={32} color="success.fg" />
-    ),
-    failure: () => <StyledOcticon icon={XIcon} size={32} color="danger.fg" />,
+    success: color(CheckIcon, "success.fg"),
+    failure: color(XIcon, "danger.fg"),
 
     skipped: SkipIcon,
     cancelled: StopIcon,
@@ -124,8 +123,8 @@ export default function Index() {
     // guesses
     action_required: XIcon,
     neutral: QuestionIcon,
-    timed_out: ClockIcon,
-    in_progress: DotIcon,
+    timed_out: color(ClockIcon, "danger.fg"),
+    in_progress: color(DotIcon, "attention.fg"),
     completed: XIcon,
     queued: HourglassIcon,
   };
