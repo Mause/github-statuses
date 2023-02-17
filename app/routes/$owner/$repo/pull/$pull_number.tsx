@@ -21,7 +21,7 @@ import {
   HourglassIcon,
   DotIcon,
 } from "@primer/octicons-react";
-import { Box, StyledOcticon } from "@primer/react";
+import { Box, Heading, StyledOcticon } from "@primer/react";
 import async from "async";
 import { octokit } from "../../../../octokit.server";
 
@@ -178,7 +178,7 @@ export default function Index() {
       <Box>
         <Columns>
           <Columns.Column>
-            <h1>{pr?.title || "Unknown PR title"}</h1>
+            <Heading>{pr.title}</Heading>
             Statuses: {statuses.length}
             <br />
             {state}
