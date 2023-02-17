@@ -22,10 +22,10 @@ import {
   DotIcon,
 } from "@primer/octicons-react";
 import { Box, StyledOcticon } from "@primer/react";
-import lodash from "lodash";
+import async from "async";
 import { octokit } from "../../../../octokit.server";
 
-const getWorkflowName = lodash.memoize(
+const getWorkflowName = async.memoize(
   async function (owner: string, repo: string, run_id: number) {
     const workflow_run = await octokit.rest.actions.getWorkflowRun({
       run_id,
@@ -33,9 +33,13 @@ const getWorkflowName = lodash.memoize(
       repo,
     });
 
-    return workflow_run.data.name;
+    const { name } = workflow_run.data;
+
+    console.log({ owner, repo, run_id, name });
+
+    return name;
   },
-  (...args) => args.join("-")
+  (...args: any[]) => args.join("-")
 );
 
 export const loader = async ({
@@ -53,7 +57,7 @@ export const loader = async ({
   if (pr.status !== 200) {
     throw new Error(JSON.stringify(pr.data));
   }
-  let statuses = (
+  const statuses = (
     await octokit.paginate(
       octokit.rest.checks.listForRef,
       {
@@ -72,14 +76,13 @@ export const loader = async ({
     return !["success", "skipped"].includes(status.conclusion!);
   });
 
-  statuses = await Promise.all(
+  await Promise.all(
     statuses.map(async (status) => {
       (status as any).workflowName = await getWorkflowName(
         params.owner!,
         params.repo!,
         getRunId(status)
       );
-      return status;
     })
   );
 
