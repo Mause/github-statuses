@@ -21,7 +21,7 @@ import {
   HourglassIcon,
   DotIcon,
 } from "@primer/octicons-react";
-import { StyledOcticon } from "@primer/react";
+import { Box, StyledOcticon } from "@primer/react";
 import { createAppAuth, StrategyOptions } from "@octokit/auth-app";
 
 const auth: StrategyOptions = {
@@ -146,62 +146,64 @@ export default function Index() {
 
   return (
     <Container>
-      <Columns>
-        <Columns.Column>
-          <h1>{pr.title}</h1>
-          Statuses: {statuses.length}
-          <br />
-          {state}
-          <Table>
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              {table.getFooterGroups().map((footerGroup) => (
-                <tr key={footerGroup.id}>
-                  {footerGroup.headers.map((header) => (
-                    <th key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.footer,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </tfoot>
-          </Table>
-        </Columns.Column>
-      </Columns>
+      <Box>
+        <Columns>
+          <Columns.Column>
+            <h1>{pr.title}</h1>
+            Statuses: {statuses.length}
+            <br />
+            {state}
+            <Table>
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                {table.getFooterGroups().map((footerGroup) => (
+                  <tr key={footerGroup.id}>
+                    {footerGroup.headers.map((header) => (
+                      <th key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.footer,
+                              header.getContext()
+                            )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </tfoot>
+            </Table>
+          </Columns.Column>
+        </Columns>
+      </Box>
     </Container>
   );
 }
