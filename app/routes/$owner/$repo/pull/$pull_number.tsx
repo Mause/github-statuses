@@ -115,7 +115,7 @@ function getRunId(status: Check): number {
   if (!match) {
     throw new Error(`Unable to find id in ${details_url}`);
   }
-  return Number(match![0]);
+  return Number(match[1]);
 }
 
 export default function Index() {
