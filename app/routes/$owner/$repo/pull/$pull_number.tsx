@@ -178,7 +178,7 @@ export default function Index() {
       <Box>
         <Columns>
           <Columns.Column>
-            <h1>{pr.title}</h1>
+            <h1>{pr?.title || "Unknown PR title"}</h1>
             Statuses: {statuses.length}
             <br />
             {state}
