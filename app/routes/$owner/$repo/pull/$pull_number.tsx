@@ -86,7 +86,7 @@ export const loader = async ({
     })
   );
 
-  return json({ statuses, pr });
+  return json({ statuses, pr: pr.data });
 };
 
 type Check = Awaited<
