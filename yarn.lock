@@ -1659,6 +1659,14 @@
     "@octokit/types" "^9.0.0"
     deprecation "^2.3.1"
 
+"@octokit/plugin-throttling@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-5.0.1.tgz#e3ba0a49830a777097b6d49615782a0a5e51e743"
+  integrity sha512-I4qxs7wYvYlFuY3PAUGWAVPhFXG3RwnvTiSr5Fu/Auz7bYhDLnzS2MjwV8nGLq/FPrWwYiweeZrI5yjs1YG4tQ==
+  dependencies:
+    "@octokit/types" "^9.0.0"
+    bottleneck "^2.15.3"
+
 "@octokit/request-error@^3.0.0", "@octokit/request-error@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@octokit/request-error/-/request-error-3.0.3.tgz#ef3dd08b8e964e53e55d471acfe00baa892b9c69"
@@ -3136,6 +3144,11 @@ body-parser@1.20.1:
     raw-body "2.5.1"
     type-is "~1.6.18"
     unpipe "1.0.0"
+
+bottleneck@^2.15.3:
+  version "2.19.5"
+  resolved "https://registry.yarnpkg.com/bottleneck/-/bottleneck-2.19.5.tgz#5df0b90f59fd47656ebe63c78a98419205cadd91"
+  integrity sha512-VHiNCbI1lKdl44tGrhNfU3lup0Tj/ZBMJB5/2ZbNXRCPuRCO7ed2mgcK4r17y+KB2EfuYuRaVlwNbAeaWGSpbw==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
