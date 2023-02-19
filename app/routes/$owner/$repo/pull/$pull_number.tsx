@@ -132,12 +132,13 @@ export default function Index() {
   const table = useReactTable({
     data: statuses,
     columns: [
+      columnHelper.accessor("workflowName", {
+        cell: (props) => props.row.renderValue("workflowName"),
+        header: "Workflow Name",
+      }),
       columnHelper.accessor("name", {
-        cell: (props) =>
-          props.row.renderValue("workflowName") +
-          " / " +
-          props.row.renderValue("name"),
-        header: "Name",
+        cell: (props) => props.row.renderValue("name"),
+        header: "Job Name",
       }),
       columnHelper.accessor("conclusion", {
         cell: (props) => {
