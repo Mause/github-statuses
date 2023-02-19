@@ -101,11 +101,12 @@ type ReturnShape = { statuses: Item[]; pr: PR };
 
 const columnHelper = createColumnHelper<Item>();
 
+function divmod(x: number, divisor: number) {
+  return [Math.floor(x / divisor), x % divisor];
+}
+
 function getRunId(status: Check): number {
   const details_url = status.details_url!;
-  function divmod(x: number, divisor: number) {
-    return [Math.floor(x / divisor), x % divisor];
-  }
 
   const match = /runs\/(\d+)\/jobs/.exec(details_url);
   if (!match) {
