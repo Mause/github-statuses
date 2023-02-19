@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json, TypedResponse } from "@remix-run/node";
 
 import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
@@ -30,31 +30,14 @@ import {
   Pagehead,
   StyledOcticon,
 } from "@primer/react";
-import async from "async";
 import { octokit } from "../../../../octokit.server";
-
-const getWorkflowName = async.memoize(
-  async function (owner: string, repo: string, run_id: number) {
-    const workflow_run = await octokit.rest.actions.getWorkflowRun({
-      run_id,
-      owner,
-      repo,
-    });
-
-    const { name } = workflow_run.data;
-
-    console.log({ owner, repo, run_id, name });
-
-    return name;
-  },
-  (...args: any[]) => args.join("-")
-);
+import { getWorkflowName } from "./getWorkflowName";
 
 export const loader = async ({
   params,
 }: {
   params: Params<"repo" | "owner" | "pull_number">;
-}) => {
+}): Promise<TypedResponse<ReturnShape>> => {
   const args = {
     repo: params.repo!,
     owner: params.owner!,
@@ -80,22 +63,31 @@ export const loader = async ({
       }
     )
   ).filter((status) => {
-    // console.log(status.conclusion);
     return !["success", "skipped"].includes(status.conclusion!);
   });
 
-  await Promise.all(
-    statuses.map(async (status) => {
-      (status as any).workflowName = await getWorkflowName(
-        params.owner!,
-        params.repo!,
-        getRunId(status)
-      );
+  const augmentedStatuses = await Promise.all(
+    statuses.map(async (status: Check): Promise<Item> => {
+      const started_at = Date.parse(status.started_at!);
+      const poi = Date.parse(status.completed_at!) || Date.now();
+
+      const milliseconds = poi - started_at;
+
+      return Object.assign(status, {
+        workflowName: await getWorkflowName(
+          params.owner!,
+          params.repo!,
+          getRunId(status)
+        ),
+        duration: Math.round(milliseconds / 1000),
+      });
     })
   );
 
-  return json({ statuses, pr: pr.data });
+  return json({ statuses: augmentedStatuses, pr: pr.data });
 };
+
+type PR = Awaited<ReturnType<Octokit["rest"]["pulls"]["get"]>>["data"];
 
 type Check = Awaited<
   ReturnType<Octokit["rest"]["checks"]["listForRef"]>
@@ -104,10 +96,17 @@ type Check = Awaited<
 type Conclusion = Check["conclusion"];
 type Status = Check["status"];
 
-const columnHelper = createColumnHelper<Check>();
+type Item = Check & { workflowName: string; duration: number };
+type ReturnShape = { statuses: Item[]; pr: PR };
+
+const columnHelper = createColumnHelper<Item>();
 
 function getRunId(status: Check): number {
   const details_url = status.details_url!;
+  function divmod(x: number, divisor: number) {
+    return [Math.floor(x / divisor), x % divisor];
+  }
+
   const match = /runs\/(\d+)\/jobs/.exec(details_url);
   if (!match) {
     throw new Error(`Unable to find id in ${details_url}`);
@@ -173,6 +172,14 @@ export default function Index() {
       columnHelper.accessor("started_at", {
         cell: (props) => props.getValue(),
         header: "Started At",
+      }),
+      columnHelper.accessor("duration", {
+        cell: (props) => {
+          let [minutes, seconds] = divmod(props.row.getValue("duration"), 60);
+
+          return `${minutes} minutes, ${seconds} seconds`;
+        },
+        header: "Duration",
       }),
       columnHelper.accessor("completed_at", {
         cell: (props) => props.getValue(),
