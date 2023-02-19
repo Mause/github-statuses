@@ -190,7 +190,7 @@ export default function Index() {
   });
 
   const { revalidate, state } = useRevalidator();
-  useInterval(() => revalidate(), 5000);
+  useInterval(() => revalidate(), 30000);
 
   return (
     <Container>
