@@ -144,11 +144,14 @@ export default function Index() {
           const conclusion =
             (props.row.getValue("conclusion") as Conclusion) || "in_progress";
 
+          let c = conclusion.split("_").join(" ");
+          c = c.slice(0, 1).toUpperCase() + c.slice(1);
+
           return (
             <span>
               {iconMap[conclusion]({})}
               &nbsp;
-              {conclusion}
+              {c}
             </span>
           );
         },
