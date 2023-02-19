@@ -183,6 +183,7 @@ export default function Index() {
         sx={{
           overflowY: "auto",
           border: "1px solid",
+          borderRadius: "6px",
           borderColor: "border.default",
         }}
       >
