@@ -20,8 +20,16 @@ import {
   ClockIcon,
   HourglassIcon,
   DotIcon,
+  MarkGithubIcon,
 } from "@primer/octicons-react";
-import { Box, Pagehead, StyledOcticon } from "@primer/react";
+import {
+  Avatar,
+  Box,
+  BranchName,
+  Header,
+  Pagehead,
+  StyledOcticon,
+} from "@primer/react";
 import async from "async";
 import { octokit } from "../../../../octokit.server";
 
@@ -187,62 +195,65 @@ export default function Index() {
           borderColor: "border.default",
         }}
       >
-        <Columns>
-          <Columns.Column>
-            <Pagehead>{pr.title}</Pagehead>
-            Statuses: {statuses.length}
-            <br />
-            {state}
-            <Table>
-              <thead>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <th key={header.id} colSpan={header.colSpan}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {table.getRowModel().rows.map((row) => (
-                  <tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
+        <Header>
+          <Header.Item>
+            <Header.Link href="#">
+              <StyledOcticon icon={MarkGithubIcon} size={32} sx={{ mr: 2 }} />
+              <span>GitHub Statuses</span>
+            </Header.Link>
+          </Header.Item>
+          <Header.Item>{pr.title}</Header.Item>
+          <Header.Item>Status: {state}</Header.Item>
+          <Header.Item full>
+            <BranchName>{pr.head.label}</BranchName>
+          </Header.Item>
+          <Header.Item>Statuses: {statuses.length}</Header.Item>
+        </Header>
+        <Table>
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
                         )}
-                      </td>
-                    ))}
-                  </tr>
+                  </th>
                 ))}
-              </tbody>
-              <tfoot>
-                {table.getFooterGroups().map((footerGroup) => (
-                  <tr key={footerGroup.id}>
-                    {footerGroup.headers.map((header) => (
-                      <th key={header.id} colSpan={header.colSpan}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.footer,
-                              header.getContext()
-                            )}
-                      </th>
-                    ))}
-                  </tr>
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
                 ))}
-              </tfoot>
-            </Table>
-          </Columns.Column>
-        </Columns>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            {table.getFooterGroups().map((footerGroup) => (
+              <tr key={footerGroup.id}>
+                {footerGroup.headers.map((header) => (
+                  <th key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.footer,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </tfoot>
+        </Table>
       </Box>
     </Container>
   );
