@@ -20,8 +20,9 @@ import {
   ClockIcon,
   HourglassIcon,
   DotIcon,
+  LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Box, BranchName, Header, Spinner, StyledOcticon } from "@primer/react";
+import { Box, Header, Spinner, StyledOcticon } from "@primer/react";
 import { octokit } from "../../../../octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 
@@ -201,9 +202,11 @@ export default function Index() {
           <Header.Item>
             <Header.Link href="#">Action Statuses</Header.Link>
           </Header.Item>
-          <Header.Item>{pr.title}</Header.Item>
           <Header.Item>
-            <BranchName>{pr.head.label}</BranchName>
+            {pr.title}&nbsp;
+            <Header.Link target="_blank" href={pr._links.html.href}>
+              <LinkExternalIcon />
+            </Header.Link>
           </Header.Item>
           <Header.Item full>
             {state == "loading" && <Spinner size="small" />}
