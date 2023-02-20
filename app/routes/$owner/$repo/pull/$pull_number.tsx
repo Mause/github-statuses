@@ -213,7 +213,9 @@ export default function Index() {
           </Header.Item>
           <Header.Item>Statuses: {statuses.length}</Header.Item>
         </Header>
-        <Table>
+        <Table
+          style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
+        >
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
