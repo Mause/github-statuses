@@ -119,7 +119,7 @@ export default function Index() {
   const { statuses, pr } = useLoaderData<typeof loader>();
 
   const color = (component: Icon, color: string) => () =>
-    <StyledOcticon icon={component} size={32} color={color} />;
+    <StyledOcticon icon={component} color={color} />;
 
   const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
     success: color(CheckIcon, "success.fg"),
