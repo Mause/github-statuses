@@ -12,7 +12,7 @@ import styles from "bulma/css/bulma.min.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Action Statuses",
   viewport: "width=device-width,initial-scale=1",
 });
 

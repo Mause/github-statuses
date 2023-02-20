@@ -1,4 +1,4 @@
-import { json, TypedResponse } from "@remix-run/node";
+import { json, MetaFunction, TypedResponse } from "@remix-run/node";
 
 import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
@@ -24,6 +24,10 @@ import {
 import { Box, BranchName, Header, Spinner, StyledOcticon } from "@primer/react";
 import { octokit } from "../../../../octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
+
+export const meta: MetaFunction = ({ data }) => ({
+  title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
+});
 
 export const loader = async ({
   params,
@@ -195,7 +199,7 @@ export default function Index() {
       >
         <Header>
           <Header.Item>
-            <Header.Link href="#">GitHub Statuses</Header.Link>
+            <Header.Link href="#">Action Statuses</Header.Link>
           </Header.Item>
           <Header.Item>{pr.title}</Header.Item>
           <Header.Item>
