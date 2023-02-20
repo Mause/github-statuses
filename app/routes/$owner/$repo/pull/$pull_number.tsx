@@ -161,7 +161,7 @@ const COLUMNS = [
     header: "Status",
   }),
   columnHelper.accessor("html_url", {
-    cell: (props) => <a href={props.getValue()}>Details</a>,
+    cell: (props) => <a href={props.getValue()!}>Details</a>,
     header: "Details",
   }),
   columnHelper.accessor("started_at", {
