@@ -189,7 +189,7 @@ export default function Index() {
   useInterval(() => revalidate(), 30000);
 
   return (
-    <Container>
+    <Container style={{ padding: "10px" }}>
       <Box
         sx={{
           overflowY: "auto",
