@@ -20,14 +20,12 @@ import {
   ClockIcon,
   HourglassIcon,
   DotIcon,
-  MarkGithubIcon,
 } from "@primer/octicons-react";
 import {
-  Avatar,
   Box,
   BranchName,
   Header,
-  Pagehead,
+  ProgressBar,
   StyledOcticon,
 } from "@primer/react";
 import { octokit } from "../../../../octokit.server";
@@ -48,43 +46,45 @@ export const loader = async ({
   if (pr.status !== 200) {
     throw new Error(JSON.stringify(pr.data));
   }
-  const statuses = (
-    await octokit.paginate(
-      octokit.rest.checks.listForRef,
-      {
-        ...args,
-        ref: pr.data.head.sha,
-      },
-      (response) => {
-        if (response.status !== 200) {
-          throw new Error(JSON.stringify(response.data));
-        }
-        return response.data;
+  const statuses = await octokit.paginate(
+    octokit.rest.checks.listForRef,
+    {
+      ...args,
+      ref: pr.data.head.sha,
+    },
+    (response) => {
+      if (response.status !== 200) {
+        throw new Error(JSON.stringify(response.data));
       }
-    )
-  ).filter((status) => {
-    return !["success", "skipped"].includes(status.conclusion!);
-  });
-
-  const augmentedStatuses = await Promise.all(
-    statuses.map(async (status: Check): Promise<Item> => {
-      const started_at = Date.parse(status.started_at!);
-      const poi = Date.parse(status.completed_at!) || Date.now();
-
-      const milliseconds = poi - started_at;
-
-      return Object.assign(status, {
-        workflowName: await getWorkflowName(
-          params.owner!,
-          params.repo!,
-          getRunId(status)
-        ),
-        duration: Math.round(milliseconds / 1000),
-      });
-    })
+      return response.data;
+    }
   );
 
-  return json({ statuses: augmentedStatuses, pr: pr.data });
+  const augmentedStatuses = await Promise.all(
+    statuses
+      .filter((status) => !["success", "skipped"].includes(status.conclusion!))
+      .map(async (status: Check): Promise<Item> => {
+        const started_at = Date.parse(status.started_at!);
+        const poi = Date.parse(status.completed_at!) || Date.now();
+
+        const milliseconds = poi - started_at;
+
+        return Object.assign(status, {
+          workflowName: await getWorkflowName(
+            params.owner!,
+            params.repo!,
+            getRunId(status)
+          ),
+          duration: Math.round(milliseconds / 1000),
+        });
+      })
+  );
+
+  return json({
+    statuses: augmentedStatuses,
+    pr: pr.data,
+    progress: (augmentedStatuses.length / statuses.length) * 100,
+  });
 };
 
 type PR = Awaited<ReturnType<Octokit["rest"]["pulls"]["get"]>>["data"];
@@ -97,7 +97,7 @@ type Conclusion = Check["conclusion"];
 type Status = Check["status"];
 
 type Item = Check & { workflowName: string; duration: number };
-type ReturnShape = { statuses: Item[]; pr: PR };
+type ReturnShape = { statuses: Item[]; pr: PR; progress: number };
 
 const columnHelper = createColumnHelper<Item>();
 
@@ -116,7 +116,7 @@ function getRunId(status: Check): number {
 }
 
 export default function Index() {
-  const { statuses, pr } = useLoaderData<typeof loader>();
+  const { statuses, pr, progress } = useLoaderData<typeof loader>();
 
   const color = (component: Icon, color: string) => () =>
     <StyledOcticon icon={component} color={color} />;
@@ -201,10 +201,10 @@ export default function Index() {
       >
         <Header>
           <Header.Item>
-            <Header.Link href="#">
-              <StyledOcticon icon={MarkGithubIcon} size={32} sx={{ mr: 2 }} />
-              <span>GitHub Statuses</span>
-            </Header.Link>
+            <Header.Link href="#">GitHub Statuses</Header.Link>
+          </Header.Item>
+          <Header.Item>
+            <ProgressBar progress={progress} />
           </Header.Item>
           <Header.Item>{pr.title}</Header.Item>
           <Header.Item>Status: {state}</Header.Item>
