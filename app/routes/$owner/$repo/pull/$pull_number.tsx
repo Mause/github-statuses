@@ -141,11 +141,9 @@ export default function Index() {
     data: statuses,
     columns: [
       columnHelper.accessor("workflowName", {
-        cell: (props) => props.row.renderValue("workflowName"),
         header: "Workflow Name",
       }),
       columnHelper.accessor("name", {
-        cell: (props) => props.row.renderValue("name"),
         header: "Job Name",
       }),
       columnHelper.accessor("conclusion", {
@@ -171,7 +169,6 @@ export default function Index() {
         header: "Details",
       }),
       columnHelper.accessor("started_at", {
-        cell: (props) => props.getValue(),
         header: "Started At",
       }),
       columnHelper.accessor("duration", {
@@ -183,7 +180,6 @@ export default function Index() {
         header: "Duration",
       }),
       columnHelper.accessor("completed_at", {
-        cell: (props) => props.getValue(),
         header: "Completed At",
       }),
     ],
