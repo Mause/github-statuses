@@ -8,7 +8,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Columns, Container, Table } from "react-bulma-components";
+import { Container, Table } from "react-bulma-components";
 import { useInterval } from "react-interval-hook";
 import {
   SkipIcon,
@@ -21,13 +21,7 @@ import {
   HourglassIcon,
   DotIcon,
 } from "@primer/octicons-react";
-import {
-  Box,
-  BranchName,
-  Header,
-  ProgressBar,
-  StyledOcticon,
-} from "@primer/react";
+import { Box, BranchName, Header, Spinner, StyledOcticon } from "@primer/react";
 import { octokit } from "../../../../octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 
@@ -83,7 +77,7 @@ export const loader = async ({
   return json({
     statuses: augmentedStatuses,
     pr: pr.data,
-    progress: (augmentedStatuses.length / statuses.length) * 100,
+    progress: 100 - (augmentedStatuses.length / statuses.length) * 100,
   });
 };
 
@@ -203,13 +197,12 @@ export default function Index() {
           <Header.Item>
             <Header.Link href="#">GitHub Statuses</Header.Link>
           </Header.Item>
-          <Header.Item>
-            <ProgressBar progress={progress} />
-          </Header.Item>
           <Header.Item>{pr.title}</Header.Item>
-          <Header.Item>Status: {state}</Header.Item>
-          <Header.Item full>
+          <Header.Item>
             <BranchName>{pr.head.label}</BranchName>
+          </Header.Item>
+          <Header.Item full>
+            {state == "loading" && <Spinner size="small" />}
           </Header.Item>
           <Header.Item>Statuses: {statuses.length}</Header.Item>
         </Header>
