@@ -82,7 +82,9 @@ export const loader = async ({
   return json({
     statuses: augmentedStatuses,
     pr: pr.data,
-    progress: 100 - (augmentedStatuses.length / statuses.length) * 100,
+    progress: Math.round(
+      100 - (augmentedStatuses.length / statuses.length) * 100
+    ),
   });
 };
 
@@ -211,7 +213,9 @@ export default function Index() {
           <Header.Item full>
             {state == "loading" && <Spinner size="small" />}
           </Header.Item>
-          <Header.Item>Statuses: {statuses.length}</Header.Item>
+          <Header.Item>
+            {statuses.length} statuses errored or pending, {progress}% complete
+          </Header.Item>
         </Header>
         <Table
           style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
