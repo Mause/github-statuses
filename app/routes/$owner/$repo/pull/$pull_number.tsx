@@ -116,74 +116,76 @@ function getRunId(status: Check): number {
   return Number(match[1]);
 }
 
+const color = (component: Icon, color: string) => () =>
+  <StyledOcticon icon={component} color={color} />;
+
+const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
+  success: color(CheckIcon, "success.fg"),
+  failure: color(XIcon, "danger.fg"),
+
+  skipped: SkipIcon,
+  cancelled: StopIcon,
+
+  // guesses
+  action_required: XIcon,
+  neutral: QuestionIcon,
+  timed_out: color(ClockIcon, "danger.fg"),
+  in_progress: color(DotIcon, "attention.fg"),
+  completed: XIcon,
+  queued: HourglassIcon,
+};
+
+const COLUMNS = [
+  columnHelper.accessor("workflowName", {
+    header: "Workflow Name",
+  }),
+  columnHelper.accessor("name", {
+    header: "Job Name",
+  }),
+  columnHelper.accessor("conclusion", {
+    cell: (props) => {
+      const conclusion =
+        (props.row.getValue("conclusion") as Conclusion) || "in_progress";
+
+      let c = conclusion.split("_").join(" ");
+      c = c.slice(0, 1).toUpperCase() + c.slice(1);
+
+      return (
+        <span>
+          {iconMap[conclusion]({})}
+          &nbsp;
+          {c}
+        </span>
+      );
+    },
+    header: "Status",
+  }),
+  columnHelper.accessor("html_url", {
+    cell: (props) => <a href={props.getValue()}>Details</a>,
+    header: "Details",
+  }),
+  columnHelper.accessor("started_at", {
+    header: "Started At",
+  }),
+  columnHelper.accessor("duration", {
+    cell: (props) => {
+      let [minutes, seconds] = divmod(props.row.getValue("duration"), 60);
+
+      return `${minutes} minutes, ${seconds} seconds`;
+    },
+    header: "Duration",
+  }),
+  columnHelper.accessor("completed_at", {
+    header: "Completed At",
+  }),
+];
+
 export default function Index() {
   const { statuses, pr, progress } = useLoaderData<typeof loader>();
 
-  const color = (component: Icon, color: string) => () =>
-    <StyledOcticon icon={component} color={color} />;
-
-  const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
-    success: color(CheckIcon, "success.fg"),
-    failure: color(XIcon, "danger.fg"),
-
-    skipped: SkipIcon,
-    cancelled: StopIcon,
-
-    // guesses
-    action_required: XIcon,
-    neutral: QuestionIcon,
-    timed_out: color(ClockIcon, "danger.fg"),
-    in_progress: color(DotIcon, "attention.fg"),
-    completed: XIcon,
-    queued: HourglassIcon,
-  };
-
   const table = useReactTable({
     data: statuses,
-    columns: [
-      columnHelper.accessor("workflowName", {
-        header: "Workflow Name",
-      }),
-      columnHelper.accessor("name", {
-        header: "Job Name",
-      }),
-      columnHelper.accessor("conclusion", {
-        cell: (props) => {
-          const conclusion =
-            (props.row.getValue("conclusion") as Conclusion) || "in_progress";
-
-          let c = conclusion.split("_").join(" ");
-          c = c.slice(0, 1).toUpperCase() + c.slice(1);
-
-          return (
-            <span>
-              {iconMap[conclusion]({})}
-              &nbsp;
-              {c}
-            </span>
-          );
-        },
-        header: "Status",
-      }),
-      columnHelper.accessor("html_url", {
-        cell: (props) => <a href={props.getValue()}>Details</a>,
-        header: "Details",
-      }),
-      columnHelper.accessor("started_at", {
-        header: "Started At",
-      }),
-      columnHelper.accessor("duration", {
-        cell: (props) => {
-          let [minutes, seconds] = divmod(props.row.getValue("duration"), 60);
-
-          return `${minutes} minutes, ${seconds} seconds`;
-        },
-        header: "Duration",
-      }),
-      columnHelper.accessor("completed_at", {
-        header: "Completed At",
-      }),
-    ],
+    columns: COLUMNS,
     getCoreRowModel: getCoreRowModel(),
   });
 
