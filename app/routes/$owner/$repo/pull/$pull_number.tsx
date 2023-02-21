@@ -25,6 +25,7 @@ import {
 import { Box, Header, Spinner, StyledOcticon } from "@primer/react";
 import { octokit } from "../../../../octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
+import humanizeDuration from "humanize-duration";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
@@ -66,15 +67,13 @@ export const loader = async ({
         const started_at = Date.parse(status.started_at!);
         const poi = Date.parse(status.completed_at!) || Date.now();
 
-        const milliseconds = poi - started_at;
-
         return Object.assign(status, {
           workflowName: await getWorkflowName(
             params.owner!,
             params.repo!,
             getRunId(status)
           ),
-          duration: Math.round(milliseconds / 1000),
+          duration: poi - started_at,
         });
       })
   );
@@ -168,11 +167,8 @@ const COLUMNS = [
     header: "Started At",
   }),
   columnHelper.accessor("duration", {
-    cell: (props) => {
-      let [minutes, seconds] = divmod(props.row.getValue("duration"), 60);
-
-      return `${minutes} minutes, ${seconds} seconds`;
-    },
+    cell: (props) =>
+      humanizeDuration(props.getValue(), { conjunction: " and " }),
     header: "Duration",
   }),
   columnHelper.accessor("completed_at", {
