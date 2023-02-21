@@ -136,7 +136,9 @@ const COLUMNS = [
   columnHelper.accessor("name", {
     header: "Job Name",
     cell: (props) => (
-      <a href={props.row.getValue("html_url")!}>{props.getValue()}</a>
+      <a target="_blank" href={props.row.original.html_url!}>
+        {props.getValue()}
+      </a>
     ),
   }),
   columnHelper.accessor("conclusion", {
