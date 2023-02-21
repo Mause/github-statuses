@@ -22,14 +22,17 @@ export default function Index() {
           <Header.Item>
             <Header.Link href="/">Action Statuses</Header.Link>
           </Header.Item>
-          <Header.Item>
-            <Header.Link href="/duckdb/duckdb/pull/1000">
-              Quickstart
-            </Header.Link>
-          </Header.Item>
         </Header>
         <ul>
-          <li>https://github.com/Mause/duckdb/pull/27</li>
+          <li>
+            <a href="/duckdb/duckdb/pulls">duckdb/duckdb</a>
+          </li>
+          <li>
+            <a href="/Mause/duckdb/pulls">Mause/duckdb</a>
+          </li>
+          <li>
+            <a href="/Mause/duckdb_engine/pulls">Mause/duckdb_engine</a>
+          </li>
           <li>{loading && <Spinner />}</li>
           <li>
             <form
