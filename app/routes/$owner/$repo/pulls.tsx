@@ -38,7 +38,7 @@ export default function Pulls() {
       columnHelper.accessor("title", {
         header: "Title",
         cell: (props) => (
-          <a href={new URL(props.row.getValue("_links.html.href")).pathname}>
+          <a href={new URL(props.row.original._links.html.href).pathname}>
             {props.getValue()}
           </a>
         ),
