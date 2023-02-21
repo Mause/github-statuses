@@ -102,10 +102,6 @@ type ReturnShape = { statuses: Item[]; pr: PR; progress: number };
 
 const columnHelper = createColumnHelper<Item>();
 
-function divmod(x: number, divisor: number) {
-  return [Math.floor(x / divisor), x % divisor];
-}
-
 function getRunId(status: Check): number | undefined {
   const details_url = status.details_url!;
 
