@@ -67,12 +67,13 @@ export const loader = async ({
         const started_at = Date.parse(status.started_at!);
         const poi = Date.parse(status.completed_at!) || Date.now();
 
+        const run_id = getRunId(status);
+        const workflowName = run_id
+          ? await getWorkflowName(params.owner!, params.repo!, run_id)
+          : status.app!.name!;
+
         return Object.assign(status, {
-          workflowName: await getWorkflowName(
-            params.owner!,
-            params.repo!,
-            getRunId(status)
-          ),
+          workflowName,
           duration: poi - started_at,
         });
       })
@@ -105,14 +106,12 @@ function divmod(x: number, divisor: number) {
   return [Math.floor(x / divisor), x % divisor];
 }
 
-function getRunId(status: Check): number {
+function getRunId(status: Check): number | undefined {
   const details_url = status.details_url!;
 
   const match = /runs\/(\d+)\/jobs/.exec(details_url);
-  if (!match) {
-    throw new Error(`Unable to find id in ${details_url}`);
-  }
-  return Number(match[1]);
+
+  return match ? Number(match[1]) : undefined;
 }
 
 const color = (component: Icon, color: string) => () =>
