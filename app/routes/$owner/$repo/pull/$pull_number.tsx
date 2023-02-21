@@ -217,6 +217,8 @@ export default function Index() {
         </Header>
         <Table
           style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
+          striped={true}
+          hoverable={true}
         >
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
