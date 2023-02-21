@@ -162,9 +162,6 @@ const COLUMNS = [
     },
     header: "Status",
   }),
-  columnHelper.accessor("html_url", {
-    header: "Details",
-  }),
   columnHelper.accessor("started_at", {
     header: "Started At",
   }),
