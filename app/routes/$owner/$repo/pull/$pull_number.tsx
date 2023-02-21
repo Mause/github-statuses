@@ -4,11 +4,10 @@ import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
 import {
   createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Container, Table } from "react-bulma-components";
+import { Container } from "react-bulma-components";
 import { useInterval } from "react-interval-hook";
 import {
   SkipIcon,
