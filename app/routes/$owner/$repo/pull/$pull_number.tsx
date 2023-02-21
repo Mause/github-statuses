@@ -168,7 +168,7 @@ const COLUMNS = [
   }),
   columnHelper.accessor("duration", {
     cell: (props) =>
-      humanizeDuration(props.getValue(), { conjunction: " and " }),
+      humanizeDuration(props.getValue(), { conjunction: " and ", largest: 2 }),
     header: "Duration",
   }),
   columnHelper.accessor("completed_at", {
