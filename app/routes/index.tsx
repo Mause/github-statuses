@@ -18,10 +18,9 @@ export default function Index() {
           borderColor: "border.default",
         }}
       >
-        {" "}
         <Header>
           <Header.Item>
-            <Header.Link href="#">Action Statuses</Header.Link>
+            <Header.Link href="/">Action Statuses</Header.Link>
           </Header.Item>
           <Header.Item>
             <Header.Link href="/duckdb/duckdb/pull/1000">

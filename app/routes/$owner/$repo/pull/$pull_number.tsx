@@ -204,7 +204,7 @@ export default function Index() {
       >
         <Header>
           <Header.Item>
-            <Header.Link href="#">Action Statuses</Header.Link>
+            <Header.Link href="/">Action Statuses</Header.Link>
           </Header.Item>
           <Header.Item>
             {pr.title}&nbsp;
