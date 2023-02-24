@@ -36,6 +36,10 @@ export default function Pulls() {
   const table = useReactTable({
     data: pulls.data,
     columns: [
+      columnHelper.accessor("number", {
+        header: "#",
+        cell: (props) => `#${props.getValue()}`,
+      }),
       columnHelper.accessor("title", {
         header: "Title",
         cell: (props) => (
