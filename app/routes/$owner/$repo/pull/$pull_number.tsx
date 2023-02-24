@@ -3,8 +3,11 @@ import { json, MetaFunction, TypedResponse } from "@remix-run/node";
 import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
 import {
+  ColumnSort,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { Container } from "react-bulma-components";
@@ -26,6 +29,7 @@ import { octokit } from "../../../../octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
 import { StandardTable, Wrapper } from "~/components/index";
+import { useState } from "react";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
@@ -174,11 +178,17 @@ const COLUMNS = [
 
 export default function Index() {
   const { statuses, pr, progress } = useLoaderData<typeof loader>();
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data: statuses,
     columns: COLUMNS,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
   });
 
   const { revalidate, state } = useRevalidator();

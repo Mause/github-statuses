@@ -1,5 +1,11 @@
 import { Table } from "react-bulma-components";
 import { flexRender, Table as ReactTable } from "@tanstack/react-table";
+import style from "styled-components";
+import { ChevronUpIcon, ChevronDownIcon } from "@primer/octicons-react";
+
+const StyledHeader = style.div<{ canSort: boolean }>`
+  cursor: ${(props) => (props.canSort ? "pointer" : "inherit")}
+`;
 
 export default function StandardTable<T>({ table }: { table: ReactTable<T> }) {
   return (
@@ -13,12 +19,31 @@ export default function StandardTable<T>({ table }: { table: ReactTable<T> }) {
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <th key={header.id} colSpan={header.colSpan}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
+                {header.isPlaceholder ? null : (
+                  <StyledHeader
+                    canSort={header.column.getCanSort()}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
                     )}
+                    {{
+                      asc: (
+                        <>
+                          {" "}
+                          <ChevronUpIcon />
+                        </>
+                      ),
+                      desc: (
+                        <>
+                          {" "}
+                          <ChevronDownIcon />
+                        </>
+                      ),
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </StyledHeader>
+                )}
               </th>
             ))}
           </tr>
