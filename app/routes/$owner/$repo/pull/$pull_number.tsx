@@ -26,6 +26,7 @@ import { octokit } from "../../../../octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
 import StandardTable from "~/StandardTable";
+import Wrapper from "~/Wrapper";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
@@ -185,19 +186,9 @@ export default function Index() {
   useInterval(() => revalidate(), 30000);
 
   return (
-    <Container style={{ padding: "10px" }}>
-      <Box
-        sx={{
-          overflowY: "auto",
-          border: "1px solid",
-          borderRadius: "6px",
-          borderColor: "border.default",
-        }}
-      >
-        <Header>
-          <Header.Item>
-            <Header.Link href="/">Action Statuses</Header.Link>
-          </Header.Item>
+    <Wrapper>
+      {
+        <>
           <Header.Item>
             {pr.title}&nbsp;
             <Header.Link target="_blank" href={pr._links.html.href}>
@@ -210,9 +201,9 @@ export default function Index() {
           <Header.Item>
             {statuses.length} statuses errored or pending, {progress}% complete
           </Header.Item>
-        </Header>
-        <StandardTable table={table} />
-      </Box>
-    </Container>
+        </>
+      }
+      {<StandardTable table={table} />}
+    </Wrapper>
   );
 }

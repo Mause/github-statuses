@@ -1,6 +1,4 @@
 import { Octokit } from "@octokit/rest";
-import { LinkExternalIcon } from "@primer/octicons-react";
-import { Box, Header } from "@primer/react";
 import { json } from "@remix-run/node";
 import { Params, useLoaderData } from "@remix-run/react";
 import {
@@ -8,9 +6,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Container } from "react-bulma-components";
 import { octokit } from "~/octokit.server";
 import StandardTable from "~/StandardTable";
+import Wrapper from "~/Wrapper";
 
 export const loader = async ({
   params,
@@ -48,15 +46,9 @@ export default function Pulls() {
   });
 
   return (
-    <Container>
-      <Box>
-        <Header>
-          <Header.Item>
-            <Header.Link href="/">Action Statuses</Header.Link>
-          </Header.Item>
-        </Header>
-        <StandardTable table={table} />
-      </Box>
-    </Container>
+    <Wrapper>
+      {<></>}
+      {<StandardTable table={table} />}
+    </Wrapper>
   );
 }

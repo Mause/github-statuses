@@ -2,6 +2,7 @@ import { Container, Form } from "react-bulma-components";
 import { useState } from "react";
 import { useNavigate } from "@remix-run/react";
 import { Box, Header, Spinner } from "@primer/react";
+import Wrapper from "~/Wrapper";
 
 export default function Index() {
   const [value, set] = useState<string>();
@@ -9,20 +10,9 @@ export default function Index() {
   const navigate = useNavigate();
 
   return (
-    <Container style={{ padding: "10px" }}>
-      <Box
-        sx={{
-          overflowY: "auto",
-          border: "1px solid",
-          borderRadius: "6px",
-          borderColor: "border.default",
-        }}
-      >
-        <Header>
-          <Header.Item>
-            <Header.Link href="/">Action Statuses</Header.Link>
-          </Header.Item>
-        </Header>
+    <Wrapper>
+      {<></>}
+      {
         <ul>
           <li>
             <a href="/duckdb/duckdb/pulls">duckdb/duckdb</a>
@@ -47,7 +37,7 @@ export default function Index() {
             </form>
           </li>
         </ul>
-      </Box>
-    </Container>
+      }
+    </Wrapper>
   );
 }
