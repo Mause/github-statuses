@@ -4,10 +4,13 @@ import { Params, useLoaderData } from "@remix-run/react";
 import {
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { octokit } from "~/octokit.server";
 import { StandardTable, Wrapper } from "~/components";
+import { useState } from "react";
 
 export const loader = async ({
   params,
@@ -28,6 +31,7 @@ const columnHelper = createColumnHelper<PR>();
 
 export default function Pulls() {
   const { pulls } = useLoaderData<typeof loader>();
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data: pulls.data,
@@ -42,6 +46,11 @@ export default function Pulls() {
       }),
     ],
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
   });
 
   return (
