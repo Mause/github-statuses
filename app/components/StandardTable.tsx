@@ -1,9 +1,5 @@
 import { Table } from "react-bulma-components";
-import {
-  flexRender,
-  useReactTable,
-  Table as ReactTable,
-} from "@tanstack/react-table";
+import { flexRender, Table as ReactTable } from "@tanstack/react-table";
 
 export default function StandardTable<T>({ table }: { table: ReactTable<T> }) {
   return (

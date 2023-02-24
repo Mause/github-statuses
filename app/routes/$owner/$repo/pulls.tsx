@@ -7,8 +7,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { octokit } from "~/octokit.server";
-import StandardTable from "~/StandardTable";
-import Wrapper from "~/Wrapper";
+import { StandardTable, Wrapper } from "~/components";
 
 export const loader = async ({
   params,

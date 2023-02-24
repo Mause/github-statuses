@@ -21,12 +21,11 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Box, Header, Spinner, StyledOcticon } from "@primer/react";
+import { Header, Spinner, StyledOcticon } from "@primer/react";
 import { octokit } from "../../../../octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
-import StandardTable from "~/StandardTable";
-import Wrapper from "~/Wrapper";
+import { StandardTable, Wrapper } from "~/components/index";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
