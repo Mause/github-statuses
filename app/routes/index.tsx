@@ -1,8 +1,8 @@
-import { Container, Form } from "react-bulma-components";
+import { Form } from "react-bulma-components";
 import { useState } from "react";
 import { useNavigate } from "@remix-run/react";
-import { Box, Header, Spinner } from "@primer/react";
-import Wrapper from "~/Wrapper";
+import { Spinner } from "@primer/react";
+import { Wrapper } from "~/components";
 
 export default function Index() {
   const [value, set] = useState<string>();
