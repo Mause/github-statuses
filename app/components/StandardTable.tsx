@@ -1,5 +1,6 @@
 import { Table } from "react-bulma-components";
-import { flexRender, Table as ReactTable } from "@tanstack/react-table";
+import type { Table as ReactTable } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 import style from "styled-components";
 import { ChevronUpIcon, ChevronDownIcon } from "@primer/octicons-react";
 

@@ -1,5 +1,5 @@
 import { Box, Header } from "@primer/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Container } from "react-bulma-components";
 
 export default function Wrapper({
