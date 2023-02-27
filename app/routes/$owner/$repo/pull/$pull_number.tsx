@@ -199,8 +199,8 @@ export default function Index() {
       {
         <>
           <Header.Item>
-            {pr.title}&nbsp;
             <Header.Link target="_blank" href={pr._links.html.href}>
+              {pr.title}&nbsp;
               <LinkExternalIcon />
             </Header.Link>
           </Header.Item>
