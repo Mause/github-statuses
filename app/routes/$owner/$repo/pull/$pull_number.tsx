@@ -178,6 +178,23 @@ const COLUMNS = [
   }),
 ];
 
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Wrapper>
+      {<></>}
+      {
+        <div>
+          An error has occured. Goodbye.
+          <br />
+          <code>
+            <pre>{error.stack}</pre>
+          </code>
+        </div>
+      }
+    </Wrapper>
+  );
+}
+
 export default function Index() {
   const { statuses, pr, progress } = useLoaderData<typeof loader>();
   const [sorting, setSorting] = useState<SortingState>([]);
