@@ -1,11 +1,12 @@
-import { Octokit } from "@octokit/rest";
+import type { Octokit } from "@octokit/rest";
 import { json } from "@remix-run/node";
-import { Params, useLoaderData } from "@remix-run/react";
+import type { Params } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
+import type { SortingState } from "@tanstack/react-table";
 import {
   createColumnHelper,
   getCoreRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { octokit } from "~/octokit.server";
@@ -51,7 +52,11 @@ export default function Pulls() {
       columnHelper.accessor("user.login", {
         header: "By",
         cell: (props) => (
-          <a target="_blank" href={props.row.original.user?.html_url}>
+          <a
+            target="_blank"
+            href={props.row.original.user?.html_url}
+            rel="noreferrer"
+          >
             {props.getValue()}
           </a>
         ),

@@ -1,23 +1,25 @@
-import { json, MetaFunction, TypedResponse } from "@remix-run/node";
+import type { MetaFunction, TypedResponse } from "@remix-run/node";
+import { json } from "@remix-run/node";
 
-import { Params, useLoaderData, useRevalidator } from "@remix-run/react";
+import type { Params } from "@remix-run/react";
+import { useLoaderData, useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
+import type { SortingState } from "@tanstack/react-table";
 import {
   ColumnSort,
   createColumnHelper,
   getCoreRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { Container } from "react-bulma-components";
 import { useInterval } from "react-interval-hook";
+import type { Icon } from "@primer/octicons-react";
 import {
   SkipIcon,
   XIcon,
   StopIcon,
   CheckIcon,
-  Icon,
   QuestionIcon,
   ClockIcon,
   HourglassIcon,
@@ -140,7 +142,7 @@ const COLUMNS = [
   columnHelper.accessor("name", {
     header: "Job Name",
     cell: (props) => (
-      <a target="_blank" href={props.row.original.html_url!}>
+      <a target="_blank" href={props.row.original.html_url!} rel="noreferrer">
         {props.getValue()}
       </a>
     ),
