@@ -48,6 +48,14 @@ export default function Pulls() {
           </a>
         ),
       }),
+      columnHelper.accessor("user.login", {
+        header: "By",
+        cell: (props) => (
+          <a target="_blank" href={props.row.original.user?.html_url}>
+            {props.getValue()}
+          </a>
+        ),
+      }),
     ],
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
