@@ -108,3 +108,4 @@ dist
 !.eslintrc.js
 public/build
 .vercel
+app/components/graphql
