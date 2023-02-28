@@ -1122,14 +1122,14 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.7.6":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.0.tgz#5b55c9d394e5fcf304909a8b00c07dc217b56673"
   integrity sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==
   dependencies:
     regenerator-runtime "^0.13.11"
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.8.4":
   version "7.20.13"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.13.tgz#7055ab8a7cff2b8f6058bf6ae45ff84ad2aded4b"
   integrity sha512-gt3PKXs0DBoL9xCvOIIZ2NEqAGZqHjAnmVbfQtB620V0uReIQutpel14KcneZuer7UioY8ALKZ7iocavvzTNFA==
@@ -2325,32 +2325,37 @@
     tiny-glob "^0.2.9"
     tslib "^2.4.0"
 
-"@primer/behaviors@1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@primer/behaviors/-/behaviors-1.3.1.tgz#febae28e5f7824f1fa547389b3ff8563e171da58"
-  integrity sha512-aMRDUQ350lk0FxtL5gJWPFHHOSSzDbJ6uNJVIt8XSqiGe1pxuW5mVVfrEp1uvzZ0pCHkCdm9fycjnfOeMeIrOQ==
+"@primer/behaviors@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@primer/behaviors/-/behaviors-1.3.3.tgz#eddaec0d8d6056c7730ace74250fecd7533017a0"
+  integrity sha512-iHMRuu8YWDJIdqCi1krx0cyFNeqszNKTOb0dXFu2wQ5BeIqxqPJLD7rjZ2Vjf/+YaPSbWuIQE1H6TaGMMsDfdA==
 
-"@primer/octicons-react@^17.11.1", "@primer/octicons-react@^17.7.0":
+"@primer/octicons-react@^17.11.1":
   version "17.11.1"
   resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-17.11.1.tgz#86dd68e45bc3bd0f411ece6a0302dc72b17b680b"
   integrity sha512-JGBgAHXKwzuPoOtys3ddmfD2h8GVhU9YwQgxLQD04+IGIgG8FfeXuGREfpIGQNszU4cPZtqw9dST9IONeUb0oQ==
+
+"@primer/octicons-react@^17.7.0":
+  version "17.12.0"
+  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-17.12.0.tgz#d863c32736e138d25b80bef5c2628a29963b7b22"
+  integrity sha512-GUjV6IT1Ck2lu2GVu1loR0e2dcX2e9aIVmX5rBdR7HJnRdYKY7XH+FnYj7y9sEmzUdNEDswxkefiQlfGrBXlzA==
 
 "@primer/primitives@7.10.0":
   version "7.10.0"
   resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.10.0.tgz#de0d9648d484184442583564f02d6600b872fa5f"
   integrity sha512-DdLHq21e93R9qDHyRuRpytBLY0Up9IwNWMOUgPNW6lRSng4N4+IdUlLS3Ekbasmxfs8Z8vKS8aezeYovQ5qsxQ==
 
-"@primer/react@^35.19.0":
-  version "35.19.0"
-  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.19.0.tgz#6b115ece5b4419706676a8bad1d2e8960b43b779"
-  integrity sha512-1+i/EEzPYohjQ6/Qr3hMQiGIdB8zI8GjYRlr3JyypW/x03AxghRjJHXpYtJuJQMM4rrmFzd0dyKm+UTX5QneRA==
+"@primer/react@^35.20.0":
+  version "35.20.0"
+  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.20.0.tgz#78648c8f44b711bd0e00ace37f9e3c2d5df4f5a5"
+  integrity sha512-6YA/Fxo5q0qkFQlrwM5qXLN2/xy/9AE0ORPif92dtlLPLMWN5fx2BArq4lqVVvwQib/+u6FPTxqJpJMjuPb38g==
   dependencies:
     "@github/combobox-nav" "^2.1.5"
     "@github/markdown-toolbar-element" "^2.1.0"
     "@github/paste-markdown" "^1.4.0"
     "@github/relative-time-element" "^4.1.2"
     "@lit-labs/react" "1.1.1"
-    "@primer/behaviors" "1.3.1"
+    "@primer/behaviors" "1.3.3"
     "@primer/octicons-react" "^17.7.0"
     "@primer/primitives" "7.10.0"
     "@react-aria/ssr" "^3.1.0"
@@ -2371,9 +2376,9 @@
     styled-system "^5.1.5"
 
 "@react-aria/ssr@^3.1.0":
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.4.1.tgz#79e8bb621487e8f52890c917d3c734f448ba95e7"
-  integrity sha512-NmhoilMDyIfQiOSdQgxpVH2tC2u85Y0mVijtBNbI9kcDYLEiW/r6vKYVKtkyU+C4qobXhGMPfZ70PTc0lysSVA==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.5.0.tgz#40c1270a75868185f72a88cafe37bd1392f690cb"
+  integrity sha512-h0MJdSWOd1qObLnJ8mprU31wI8tmKFJMuwT22MpWq6psisOOZaga6Ml4u6Ee6M6duWWISjXvqO4Sb/J0PBA+nQ==
   dependencies:
     "@swc/helpers" "^0.4.14"
 
