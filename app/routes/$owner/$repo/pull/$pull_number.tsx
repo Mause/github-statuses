@@ -4,15 +4,7 @@ import { json } from "@remix-run/node";
 import type { Params } from "@remix-run/react";
 import { useLoaderData, useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
-import type { SortingState } from "@tanstack/react-table";
-import {
-  ColumnSort,
-  createColumnHelper,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { Container } from "react-bulma-components";
+import { createColumnHelper } from "@tanstack/react-table";
 import { useInterval } from "react-interval-hook";
 import type { Icon } from "@primer/octicons-react";
 import {
@@ -27,11 +19,11 @@ import {
   LinkExternalIcon,
 } from "@primer/octicons-react";
 import { Header, Spinner, StyledOcticon } from "@primer/react";
-import { octokit } from "../../../../octokit.server";
+import { octokit } from "~/octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
 import { StandardTable, Wrapper } from "~/components/index";
-import { useState } from "react";
+import type { StandardTableOptions } from "~/components/StandardTable";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
@@ -197,18 +189,11 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 export default function Index() {
   const { statuses, pr, progress } = useLoaderData<typeof loader>();
-  const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable({
+  const table: StandardTableOptions<Item> = {
     data: statuses,
     columns: COLUMNS,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
-  });
+  };
 
   const { revalidate, state } = useRevalidator();
   useInterval(() => revalidate(), 30000);
@@ -231,7 +216,7 @@ export default function Index() {
           </Header.Item>
         </>
       }
-      {<StandardTable table={table} />}
+      {<StandardTable tableOptions={table} />}
     </Wrapper>
   );
 }
