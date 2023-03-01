@@ -24,6 +24,7 @@ import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
 import { StandardTable, Wrapper } from "~/components/index";
 import type { StandardTableOptions } from "~/components/StandardTable";
+import { countBy } from "lodash";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
@@ -198,6 +199,11 @@ export default function Index() {
   const { revalidate, state } = useRevalidator();
   useInterval(() => revalidate(), 30000);
 
+  const counts = countBy(statuses, "conclusion");
+  const summary = Object.entries(counts)
+    .map(([key, value]) => `${value} ${key}`)
+    .join(", ");
+
   return (
     <Wrapper>
       {
@@ -212,7 +218,7 @@ export default function Index() {
             {state == "loading" && <Spinner size="small" />}
           </Header.Item>
           <Header.Item>
-            {statuses.length} statuses errored or pending, {progress}% complete
+            {summary}, so {progress}% complete
           </Header.Item>
         </>
       }
