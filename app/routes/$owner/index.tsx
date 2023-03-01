@@ -1,11 +1,7 @@
 import { json } from "@remix-run/node";
 import type { Params } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
-import {
-  createColumnHelper,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { createColumnHelper } from "@tanstack/react-table";
 import { StandardTable, Wrapper } from "~/components";
 import { octokit } from "~/octokit.server";
 import gql from "graphql-tag";
