@@ -1,5 +1,11 @@
 import { Table } from "react-bulma-components";
-import type { SortingState, TableOptions } from "@tanstack/react-table";
+import type {
+  Column,
+  ColumnFiltersState,
+  SortingState,
+  TableOptions,
+
+  Table as ReactTable} from "@tanstack/react-table";
 import {
   getCoreRowModel,
   getFacetedMinMaxValues,
@@ -17,7 +23,7 @@ import {
   ChevronDownIcon,
   SearchIcon,
 } from "@primer/octicons-react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fuzzyFilter } from "./fuzzyFilter";
 import { TextInput } from "@primer/react";
 
@@ -34,6 +40,7 @@ export default function StandardTable<T>({
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     ...tableOptions,
@@ -45,6 +52,7 @@ export default function StandardTable<T>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     onGlobalFilterChange: setGlobalFilter,
+    onColumnFiltersChange: setColumnFilters,
     filterFns: {
       fuzzy: fuzzyFilter,
     },
@@ -55,9 +63,11 @@ export default function StandardTable<T>({
     state: {
       sorting,
       globalFilter,
+      columnFilters,
     },
     onSortingChange: setSorting,
   });
+
   return (
     <>
       <TextInput
@@ -75,29 +85,37 @@ export default function StandardTable<T>({
               {headerGroup.headers.map((header) => (
                 <th key={header.id} colSpan={header.colSpan}>
                   {header.isPlaceholder ? null : (
-                    <StyledHeader
-                      canSort={header.column.getCanSort()}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                    <>
+                      <StyledHeader
+                        canSort={header.column.getCanSort()}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: (
+                            <>
+                              {" "}
+                              <ChevronUpIcon />
+                            </>
+                          ),
+                          desc: (
+                            <>
+                              {" "}
+                              <ChevronDownIcon />
+                            </>
+                          ),
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </StyledHeader>
+
+                      {header.column.getCanFilter() && (
+                        <div>
+                          <Filter column={header.column} table={table} />
+                        </div>
                       )}
-                      {{
-                        asc: (
-                          <>
-                            {" "}
-                            <ChevronUpIcon />
-                          </>
-                        ),
-                        desc: (
-                          <>
-                            {" "}
-                            <ChevronDownIcon />
-                          </>
-                        ),
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </StyledHeader>
+                    </>
                   )}
                 </th>
               ))}
@@ -132,6 +150,89 @@ export default function StandardTable<T>({
           ))}
         </tfoot>
       </Table>
+    </>
+  );
+}
+
+function Filter({
+  column,
+  table,
+}: {
+  column: Column<any, unknown>;
+  table: ReactTable<any>;
+}) {
+  const firstValue = table
+    .getPreFilteredRowModel()
+    .flatRows[0]?.getValue(column.id);
+
+  const columnFilterValue = column.getFilterValue();
+
+  const sortedUniqueValues = useMemo(
+    () =>
+      typeof firstValue === "number"
+        ? []
+        : Array.from(column.getFacetedUniqueValues().keys()).sort(),
+    [column.getFacetedUniqueValues()]
+  );
+
+  return typeof firstValue === "number" ? (
+    <div>
+      <div className="flex space-x-2">
+        <TextInput
+          type="number"
+          min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
+          max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
+          value={(columnFilterValue as [number, number])?.[0] ?? ""}
+          onChange={(event) =>
+            column.setFilterValue((old: [number, number]) => [
+              event.target.value,
+              old?.[1],
+            ])
+          }
+          placeholder={`Min ${
+            column.getFacetedMinMaxValues()?.[0]
+              ? `(${column.getFacetedMinMaxValues()?.[0]})`
+              : ""
+          }`}
+          className="w-24 border shadow rounded"
+        />
+        <TextInput
+          type="number"
+          min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
+          max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
+          value={(columnFilterValue as [number, number])?.[1] ?? ""}
+          onChange={(event) =>
+            column.setFilterValue((old: [number, number]) => [
+              old?.[0],
+              event.target.valueAsNumber,
+            ])
+          }
+          placeholder={`Max ${
+            column.getFacetedMinMaxValues()?.[1]
+              ? `(${column.getFacetedMinMaxValues()?.[1]})`
+              : ""
+          }`}
+          className="w-24 border shadow rounded"
+        />
+      </div>
+      <div className="h-1" />
+    </div>
+  ) : (
+    <>
+      <datalist id={column.id + "list"}>
+        {sortedUniqueValues.slice(0, 5000).map((value: any) => (
+          <option value={value} key={value} />
+        ))}
+      </datalist>
+      <TextInput
+        type="text"
+        value={(columnFilterValue ?? "") as string}
+        onChange={(event) => column.setFilterValue(event.target.value)}
+        placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
+        className="w-36 border shadow rounded"
+        list={column.id + "list"}
+      />
+      <div className="h-1" />
     </>
   );
 }
