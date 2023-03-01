@@ -4,8 +4,8 @@ import type {
   ColumnFiltersState,
   SortingState,
   TableOptions,
-
-  Table as ReactTable} from "@tanstack/react-table";
+  Table as ReactTable,
+} from "@tanstack/react-table";
 import {
   getCoreRowModel,
   getFacetedMinMaxValues,
@@ -22,9 +22,9 @@ import {
   ChevronDownIcon,
   SearchIcon,
 } from "@primer/octicons-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { fuzzyFilter } from "./fuzzyFilter";
-import { TextInput } from "@primer/react";
+import { Select, TextInput } from "@primer/react";
 
 const StyledHeader = style.div<{ canSort: boolean }>`
   cursor: ${(props) => (props.canSort ? "pointer" : "inherit")}
@@ -173,49 +173,7 @@ function Filter({
     [column.getFacetedUniqueValues()]
   );
 
-  return typeof firstValue === "number" ? (
-    <div>
-      <div className="flex space-x-2">
-        <TextInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
-          value={(columnFilterValue as [number, number])?.[0] ?? ""}
-          onChange={(event) =>
-            column.setFilterValue((old: [number, number]) => [
-              event.target.value,
-              old?.[1],
-            ])
-          }
-          placeholder={`Min ${
-            column.getFacetedMinMaxValues()?.[0]
-              ? `(${column.getFacetedMinMaxValues()?.[0]})`
-              : ""
-          }`}
-          className="w-24 border shadow rounded"
-        />
-        <TextInput
-          type="number"
-          min={Number(column.getFacetedMinMaxValues()?.[0] ?? "")}
-          max={Number(column.getFacetedMinMaxValues()?.[1] ?? "")}
-          value={(columnFilterValue as [number, number])?.[1] ?? ""}
-          onChange={(event) =>
-            column.setFilterValue((old: [number, number]) => [
-              old?.[0],
-              event.target.valueAsNumber,
-            ])
-          }
-          placeholder={`Max ${
-            column.getFacetedMinMaxValues()?.[1]
-              ? `(${column.getFacetedMinMaxValues()?.[1]})`
-              : ""
-          }`}
-          className="w-24 border shadow rounded"
-        />
-      </div>
-      <div className="h-1" />
-    </div>
-  ) : (
+  return (
     <>
       <datalist id={column.id + "list"}>
         {sortedUniqueValues.slice(0, 5000).map((value: any) => (
@@ -223,14 +181,12 @@ function Filter({
         ))}
       </datalist>
       <TextInput
-        type="text"
+        type={typeof firstValue === "number" ? "numeric" : "text"}
         value={(columnFilterValue ?? "") as string}
         onChange={(event) => column.setFilterValue(event.target.value)}
         placeholder={`Search... (${column.getFacetedUniqueValues().size})`}
-        className="w-36 border shadow rounded"
         list={column.id + "list"}
       />
-      <div className="h-1" />
     </>
   );
 }
