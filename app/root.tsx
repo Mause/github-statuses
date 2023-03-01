@@ -6,9 +6,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "@remix-run/react";
-import { ThemeProvider } from "@primer/react";
+import { Spinner, ThemeProvider } from "@primer/react";
 import styles from "bulma/css/bulma.min.css";
+import { Modal } from "react-bulma-components";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -21,6 +23,8 @@ export function links() {
 }
 
 export default function App() {
+  const navigation = useNavigation();
+
   return (
     <html lang="en">
       <head>
@@ -34,6 +38,13 @@ export default function App() {
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
+          <Modal
+            show={navigation.state !== "idle"}
+            closeOnEsc={false}
+            showClose={false}
+          >
+            <Spinner size="large" sx={{ color: "whitesmoke" }} />
+          </Modal>
         </ThemeProvider>
       </body>
     </html>
