@@ -17,6 +17,7 @@ import type {
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
 import { Header } from "@primer/react";
+import type { StandardTableOptions } from "~/components/StandardTable";
 
 const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -81,7 +82,7 @@ export default function Owner() {
   type PullRequest = Get<typeof res, "user.pullRequests.edges.0.node">;
 
   const columnHelper = createColumnHelper<PullRequest>();
-  const table = {
+  const table: StandardTableOptions<PullRequest> = {
     data: res!.user!.pullRequests!.edges!.map((edge) => edge!.node),
     columns: [
       columnHelper.accessor("title", {
