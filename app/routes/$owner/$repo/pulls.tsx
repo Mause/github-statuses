@@ -1,6 +1,7 @@
 import type { Octokit } from "@octokit/rest";
 import { json } from "@remix-run/node";
 import type { Params } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import type { SortingState } from "@tanstack/react-table";
 import {
@@ -44,9 +45,9 @@ export default function Pulls() {
       columnHelper.accessor("title", {
         header: "Title",
         cell: (props) => (
-          <a href={new URL(props.row.original._links.html.href).pathname}>
+          <Link to={new URL(props.row.original._links.html.href).pathname}>
             {props.getValue()}
-          </a>
+          </Link>
         ),
       }),
       columnHelper.accessor("user.login", {
