@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import type { Params} from "@remix-run/react";
+import type { Params } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import {
   createColumnHelper,
@@ -12,11 +12,9 @@ import gql from "graphql-tag";
 import { print } from "graphql";
 import type {
   GetUserPullRequestsQuery,
-  GetUserPullRequestsQueryVariables} from "~/components/graphql/graphql";
-import {
-  IssueOrderField,
-  OrderDirection,
+  GetUserPullRequestsQueryVariables,
 } from "~/components/graphql/graphql";
+import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
 import { Header } from "@primer/react";
 
@@ -83,7 +81,7 @@ export default function Owner() {
   type PullRequest = Get<typeof res, "user.pullRequests.edges.0.node">;
 
   const columnHelper = createColumnHelper<PullRequest>();
-  const table = useReactTable({
+  const table = {
     data: res!.user!.pullRequests!.edges!.map((edge) => edge!.node),
     columns: [
       columnHelper.accessor("title", {
@@ -103,13 +101,12 @@ export default function Owner() {
       }),
       columnHelper.accessor("repository.name", { header: "Repository" }),
     ],
-    getCoreRowModel: getCoreRowModel(),
-  });
+  };
 
   return (
     <Wrapper>
       {<Header.Item>{res.user!.login}</Header.Item>}
-      {<StandardTable table={table} />}
+      {<StandardTable tableOptions={table} />}
     </Wrapper>
   );
 }
