@@ -3,16 +3,9 @@ import { json } from "@remix-run/node";
 import type { Params } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import type { SortingState } from "@tanstack/react-table";
-import {
-  createColumnHelper,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { createColumnHelper } from "@tanstack/react-table";
 import { octokit } from "~/octokit.server";
 import { StandardTable, Wrapper } from "~/components";
-import { useState } from "react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 
 export const loader = async ({
