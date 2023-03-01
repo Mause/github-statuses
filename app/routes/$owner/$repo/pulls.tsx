@@ -12,6 +12,7 @@ import {
 import { octokit } from "~/octokit.server";
 import { StandardTable, Wrapper } from "~/components";
 import { useState } from "react";
+import type { StandardTableOptions } from "~/components/StandardTable";
 
 export const loader = async ({
   params,
@@ -32,9 +33,8 @@ const columnHelper = createColumnHelper<PR>();
 
 export default function Pulls() {
   const { pulls } = useLoaderData<typeof loader>();
-  const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable({
+  const table: StandardTableOptions<PR> = {
     data: pulls.data,
     columns: [
       columnHelper.accessor("number", {
@@ -62,18 +62,12 @@ export default function Pulls() {
         ),
       }),
     ],
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
-  });
+  };
 
   return (
     <Wrapper>
       {<></>}
-      {<StandardTable table={table} />}
+      {<StandardTable tableOptions={table} />}
     </Wrapper>
   );
 }
