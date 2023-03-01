@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/rest";
-import { createAppAuth, StrategyOptions } from "@octokit/auth-app";
+import type { StrategyOptions } from "@octokit/auth-app";
+import { createAppAuth } from "@octokit/auth-app";
 import { throttling } from "@octokit/plugin-throttling";
 
 const auth: StrategyOptions = {
@@ -20,6 +21,7 @@ interface Request {
 export const octokit = new Throttled({
   authStrategy: createAppAuth,
   auth,
+  previews: ["merge-info"],
   throttle: {
     onRateLimit: (
       retryAfter: number,

@@ -1,35 +1,32 @@
-import type { Octokit } from "@octokit/rest";
+import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { Params } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { octokit } from "~/octokit.server";
 import { StandardTable, Wrapper } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
+import { titleCase } from "./pull/titleCase";
+import type { PRWithRollup } from "./pullsQuery";
+import { getPullRequests } from "./pullsQuery";
 
 export const loader = async ({
   params,
 }: {
   params: Params<"repo" | "owner">;
 }) => {
-  const pulls = await octokit.rest.pulls.list({
-    state: "open",
-    owner: params.owner!,
-    repo: params.repo!,
+  return json({
+    pulls: await getPullRequests({ owner: params.owner!, repo: params.repo! }),
   });
-
-  return json({ pulls });
 };
 
-type PR = Awaited<ReturnType<Octokit["rest"]["pulls"]["list"]>>["data"][0];
-const columnHelper = createColumnHelper<PR>();
+const columnHelper = createColumnHelper<SerializeFrom<PRWithRollup>>();
 
 export default function Pulls() {
   const { pulls } = useLoaderData<typeof loader>();
 
-  const table: StandardTableOptions<PR> = {
-    data: pulls.data,
+  const table: StandardTableOptions<SerializeFrom<PRWithRollup>> = {
+    data: pulls,
     columns: [
       columnHelper.accessor("number", {
         header: "#",
@@ -38,22 +35,30 @@ export default function Pulls() {
       columnHelper.accessor("title", {
         header: "Title",
         cell: (props) => (
-          <Link to={new URL(props.row.original._links.html.href).pathname}>
+          <Link to={new URL(props.row.original.permalink).pathname}>
             {props.getValue()}
           </Link>
         ),
       }),
-      columnHelper.accessor("user.login", {
+      columnHelper.accessor("author.login", {
         header: "By",
         cell: (props) => (
           <a
             target="_blank"
-            href={props.row.original.user?.html_url}
+            href={props.row.original.author?.url}
             rel="noreferrer"
           >
             {props.getValue()}
           </a>
         ),
+      }),
+      columnHelper.accessor("mergeable", {
+        header: "Mergability",
+        cell: (props) => titleCase(props.getValue()),
+      }),
+      columnHelper.accessor("rollup", {
+        header: "Rollup",
+        cell: (props) => JSON.stringify(props.getValue()),
       }),
     ],
   };

@@ -25,6 +25,7 @@ import humanizeDuration from "humanize-duration";
 import { StandardTable, Wrapper } from "~/components/index";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { countBy } from "lodash";
+import { titleCase } from "./titleCase";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
@@ -145,14 +146,11 @@ const COLUMNS = [
       const conclusion =
         (props.row.getValue("conclusion") as Conclusion) || "in_progress";
 
-      let c = conclusion.split("_").join(" ");
-      c = c.slice(0, 1).toUpperCase() + c.slice(1);
-
       return (
         <span>
           {iconMap[conclusion]({})}
           &nbsp;
-          {c}
+          {titleCase(conclusion)}
         </span>
       );
     },
