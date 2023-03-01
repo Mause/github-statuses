@@ -62,7 +62,7 @@ export default function StandardTable<T>({
     <>
       <TextInput
         onChange={(event) => setGlobalFilter(event.target.value)}
-        icon={SearchIcon}
+        leadingVisual={SearchIcon}
       />
       <Table
         style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
