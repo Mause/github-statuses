@@ -2,7 +2,7 @@ import type { MetaFunction, TypedResponse } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
 import type { Params } from "@remix-run/react";
-import { useLoaderData, useRevalidator } from "@remix-run/react";
+import { useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useInterval } from "react-interval-hook";
@@ -25,6 +25,7 @@ import humanizeDuration from "humanize-duration";
 import { StandardTable, Wrapper } from "~/components/index";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { countBy } from "lodash";
+import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
@@ -189,7 +190,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 }
 
 export default function Index() {
-  const { statuses, pr, progress } = useLoaderData<typeof loader>();
+  const { statuses, pr, progress } = useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<Item> = {
     data: statuses,
