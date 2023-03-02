@@ -19,9 +19,10 @@ import {
   LinkExternalIcon,
 } from "@primer/octicons-react";
 import { Header, Spinner, StyledOcticon } from "@primer/react";
-import { octokit } from "~/octokit.server";
+import { getOctokit } from "~/octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
+import type { DataLoaderParams} from "~/components/index";
 import { StandardTable, Wrapper } from "~/components/index";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { countBy } from "lodash";
@@ -32,21 +33,23 @@ export const meta: MetaFunction = ({ data }) => ({
 
 export const loader = async ({
   params,
-}: {
-  params: Params<"repo" | "owner" | "pull_number">;
-}): Promise<TypedResponse<ReturnShape>> => {
+  request,
+}: DataLoaderParams<"repo" | "owner" | "pull_number">): Promise<
+  TypedResponse<ReturnShape>
+> => {
   const args = {
     repo: params.repo!,
     owner: params.owner!,
     pull_number: Number(params.pull_number!),
   };
 
-  const pr = await octokit.rest.pulls.get(args);
+  const octokitI = await getOctokit(request);
+  const pr = await octokitI.rest.pulls.get(args);
   if (pr.status !== 200) {
     throw new Error(JSON.stringify(pr.data));
   }
-  const statuses = await octokit.paginate(
-    octokit.rest.checks.listForRef,
+  const statuses = await octokitI.paginate(
+    octokitI.rest.checks.listForRef,
     {
       ...args,
       ref: pr.data.head.sha,
@@ -68,7 +71,7 @@ export const loader = async ({
 
         const run_id = getRunId(status);
         const workflowName = run_id
-          ? await getWorkflowName(params.owner!, params.repo!, run_id)
+          ? await getWorkflowName(octokitI, params.owner!, params.repo!, run_id)
           : status.app!.name!;
 
         return Object.assign(status, {
