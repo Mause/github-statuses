@@ -1,19 +1,20 @@
 import type { Octokit } from "@octokit/rest";
 import { json } from "@remix-run/node";
-import type { Params } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { octokit } from "~/octokit.server";
+import { getOctokit } from "~/octokit.server";
+import type { DataLoaderParams} from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
 export const loader = async ({
   params,
-}: {
-  params: Params<"repo" | "owner">;
-}) => {
-  const pulls = await octokit.rest.pulls.list({
+  request,
+}: DataLoaderParams<"repo" | "owner">) => {
+  const pulls = await (
+    await getOctokit(request)
+  ).rest.pulls.list({
     state: "open",
     owner: params.owner!,
     repo: params.repo!,
