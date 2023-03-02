@@ -2,13 +2,14 @@ import { Octokit } from "@octokit/rest";
 import type { StrategyOptions } from "@octokit/auth-app";
 import { createAppAuth } from "@octokit/auth-app";
 import { throttling } from "@octokit/plugin-throttling";
-
+import {authenticator} from '~/services/auth.server';
 import { GitHubStrategy } from "remix-auth-github";
 
 const auth: StrategyOptions = {
   appId: process.env.GITHUB_APP_ID!,
   privateKey: process.env.GITHUB_APP_PRIVATE_KEY!,
   clientId: process.env.GITHUB_CLIENT_ID!,
+
   clientSecret: process.env.GITHUB_SECRET!,
   installationId: process.env.GITHUB_INSTALL_ID,
 };
@@ -55,8 +56,9 @@ export const octokit = new Throttled({
 
 let gitHubStrategy = new GitHubStrategy(
   {
-    clientID: "YOUR_CLIENT_ID",
-    clientSecret: "YOUR_CLIENT_SECRET",
+    clientID: process.env.GITHUB_CLIENT_ID!,
+    clientSecret: process.env.GITHUB_SECRET!,
+
     callbackURL: "https://example.com/auth/github/callback",
   },
   async ({ accessToken, extraParams, profile }) => {
