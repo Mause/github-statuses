@@ -10,6 +10,7 @@ module.exports = {
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "api/index.js",
   // publicPath: "/build/",
+  serverDependenciesToBundle: ["@github/catalyst", "@github/stable-socket"],
   serverModuleFormat: 'cjs',
   future: {
     v2_meta: true,
