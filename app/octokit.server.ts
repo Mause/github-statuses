@@ -2,7 +2,7 @@ import { Octokit } from "@octokit/rest";
 import type { StrategyOptions } from "@octokit/auth-app";
 import { createAppAuth } from "@octokit/auth-app";
 import { throttling } from "@octokit/plugin-throttling";
-import {authenticator} from '~/services/auth.server';
+import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 
 const auth: StrategyOptions = {
@@ -63,7 +63,7 @@ let gitHubStrategy = new GitHubStrategy(
   },
   async ({ accessToken, extraParams, profile }) => {
     // Get the user data from your DB or API using the tokens and profile
-    return User.findOrCreate({ email: profile.emails[0].value });
+    return await octokit.rest.users.getAuthenticated();
   }
 );
 
