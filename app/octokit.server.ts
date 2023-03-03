@@ -62,12 +62,18 @@ export const octokitFromToken = (token: string) =>
     },
   });
 
+const callbackURL =
+  (process.env.VERCEL_URL ||
+    `https://3000-${process.env.HOSTNAME}.ws-us89.gitpod.io`) +
+  "/auth/github/callback";
+
+console.log("running with", { callbackURL });
+
 let gitHubStrategy = new GitHubStrategy(
   {
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_SECRET!,
-    callbackURL:
-      "https://3000-mause-githubstatuses-0xnyaacrf45.ws-us89.gitpod.io/auth/github/callback",
+    callbackURL,
     scope: ["user", "read:user"],
   },
   async ({ accessToken, extraParams, profile }) => {
