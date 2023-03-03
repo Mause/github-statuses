@@ -62,18 +62,27 @@ export const octokitFromToken = (token: string) =>
     },
   });
 
-const callbackURL =
-  (process.env.VERCEL_URL ||
-    `https://3000-${process.env.HOSTNAME}.ws-us89.gitpod.io`) +
-  "/auth/github/callback";
+const port = process.env.PORT || 3000;
+const rootURL = (() => {
+  switch (process.env.VERCEL_ENV) {
+    case "development":
+      return `https://${port}-${process.env.HOSTNAME}.ws-us89.gitpod.io`;
+    case "preview":
+      return `https://${process.env.VERCEL_URL}`;
+    case "production":
+      return "https://actions.vc.mause.me";
+    default:
+      return `http://localhost:${port}`;
+  }
+})();
 
-console.log("running with", { callbackURL });
+console.log("running with", { rootURL });
 
 let gitHubStrategy = new GitHubStrategy(
   {
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_SECRET!,
-    callbackURL,
+    callbackURL: `${rootURL}/auth/github/callback`,
     scope: ["user", "read:user"],
   },
   async ({ accessToken, extraParams, profile }) => {
