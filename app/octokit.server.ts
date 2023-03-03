@@ -1,19 +1,9 @@
 import { Octokit } from "@octokit/rest";
-import type { StrategyOptions } from "@octokit/auth-app";
 import { throttling } from "@octokit/plugin-throttling";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
 import { getSession } from "./services/session.server";
-
-const auth: StrategyOptions = {
-  appId: process.env.GITHUB_APP_ID!,
-  privateKey: process.env.GITHUB_APP_PRIVATE_KEY!,
-  clientId: process.env.GITHUB_CLIENT_ID!,
-
-  clientSecret: process.env.GITHUB_SECRET!,
-  installationId: process.env.GITHUB_INSTALL_ID,
-};
 
 const Throttled = Octokit.plugin(throttling);
 
