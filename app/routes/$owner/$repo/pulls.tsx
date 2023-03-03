@@ -1,20 +1,18 @@
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import type { Params } from "@remix-run/react";
 import { Link } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { getOctokit } from "~/octokit.server";
+import type { DataLoaderParams} from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
-import { titleCase } from "./pull/titleCase";
-import type { PRWithRollup } from "./pullsQuery";
+import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getPullRequests } from "./pullsQuery";
 
 export const loader = async ({
   params,
-}: {
-  params: Params<"repo" | "owner">;
-}) => {
+  request,
+}: DataLoaderParams<"repo" | "owner">) => {
   return json({
     pulls: await getPullRequests({ owner: params.owner!, repo: params.repo! }),
   });
@@ -23,7 +21,7 @@ export const loader = async ({
 const columnHelper = createColumnHelper<SerializeFrom<PRWithRollup>>();
 
 export default function Pulls() {
-  const { pulls } = useLoaderData<typeof loader>();
+  const { pulls } = useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<SerializeFrom<PRWithRollup>> = {
     data: pulls,

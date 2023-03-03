@@ -1,9 +1,10 @@
 import { json } from "@remix-run/node";
 import type { Params } from "@remix-run/react";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import type { DataLoaderParams} from "~/components";
 import { StandardTable, Wrapper } from "~/components";
-import { octokit } from "~/octokit.server";
+import { getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
 import { print } from "graphql";
 import type {
@@ -14,6 +15,7 @@ import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
 import { Header } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
+import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
 const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -57,7 +59,10 @@ const Query = gql`
   }
 `;
 
-export const loader = async ({ params }: { params: Params<"owner"> }) => {
+export const loader = async ({
+  params,
+  request,
+}: DataLoaderParams<"owner">) => {
   const variables: GetUserPullRequestsQueryVariables = {
     owner: params.owner!,
     order: {
@@ -65,7 +70,9 @@ export const loader = async ({ params }: { params: Params<"owner"> }) => {
       direction: OrderDirection.Desc,
     },
   };
-  const res = await octokit.graphql<GetUserPullRequestsQuery>({
+  const res = await (
+    await getOctokit(request)
+  ).graphql<GetUserPullRequestsQuery>({
     query: print(Query),
     ...variables,
   });
@@ -73,7 +80,7 @@ export const loader = async ({ params }: { params: Params<"owner"> }) => {
 };
 
 export default function Owner() {
-  const { res } = useLoaderData<typeof loader>();
+  const { res } = useLoaderDataReloading<typeof loader>();
 
   type PullRequest = Get<typeof res, "user.pullRequests.edges.0.node">;
 

@@ -1,8 +1,9 @@
-import { octokit } from "../../../../octokit.server";
 import { memoize } from "async";
+import type { Octokit } from "@octokit/rest";
 
 const _getWorkflowName = memoize(
   async function (
+    octokit: Octokit,
     owner: string,
     repo: string,
     run_id: number
