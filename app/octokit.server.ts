@@ -62,7 +62,8 @@ export const octokitFromToken = (token: string) =>
     },
   });
 
-export const getRootURL = () => {
+export function getRootURL() {
+  const port = process.env.PORT || 3000;
   switch (process.env.VERCEL_ENV) {
     case "development":
       return `https://${port}-${process.env.HOSTNAME}.ws-us89.gitpod.io`;
@@ -71,9 +72,9 @@ export const getRootURL = () => {
     case "production":
       return "https://actions.vc.mause.me";
     default:
-      return `http://localhost:${process.env.PORT || 3000}`;
+      return `http://localhost:${port}`;
   }
-};
+}
 
 export const gitHubStrategy = () => {
   const callbackURL = `${getRootURL()}/auth/github/callback`;
