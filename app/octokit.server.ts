@@ -1,21 +1,31 @@
 import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
+import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
 import { getSession } from "./services/session.server";
+import { redirect } from "@remix-run/router";
 
 const Throttled = Octokit.plugin(throttling);
 
-interface Request {
-  method: string;
-  url: string;
+type Request = DataFunctionArgs["request"];
+
+export async function getUserNoRedirect(
+  request: Request
+): Promise<SessionShape | null> {
+  const session = await getSession(request.headers.get("cookie"));
+  return session.get("user");
+}
+
+export async function getUser(request: Request): Promise<SessionShape> {
+  const user = await getUserNoRedirect(request);
+  if (!user) throw redirect("/login");
+  return user;
 }
 
 export const getOctokit = async (request: DataFunctionArgs["request"]) => {
-  const session = await getSession(request.headers.get("cookie"));
-  const user = session.get("user");
-  console.log(session.data);
+  const user = await getUser(request);
   return octokitFromToken(user.accessToken);
 };
 
