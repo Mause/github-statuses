@@ -1,29 +1,39 @@
 import { Form } from "react-bulma-components";
 import { useState } from "react";
-import { Link, useNavigate } from "@remix-run/react";
-import { Box, Spinner, TreeView } from "@primer/react";
+import { Link, useNavigate, useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { Box, Spinner, TreeView, Header } from "@primer/react";
 import { Wrapper } from "~/components";
 
-const REPOS: [string, string[]][] = [
-  [
-    "Mause",
+import type { DataFunctionArgs } from "@remix-run/node";
+import { getUser } from "~/octokit.server";
+
+export const loader = async ({ request }: DataFunctionArgs) => {
+  const user = await getUser(request);
+  const repos: [string, string[]][] = [
     [
-      "duckdb",
-      "duckdb-web",
-      "duckdb_engine",
-      "mause.github.com",
-      "github-statuses",
+      user.login,
+      [
+        "duckdb",
+        "duckdb-web",
+        "duckdb_engine",
+        "mause.github.com",
+        "github-statuses",
+      ],
     ],
-  ],
-  ["duckdb", ["duckdb", "duckdb-web"]],
-  ["duckdblabs", ["sqlite_scanner", "substrait", "postgres_scanner"]],
-];
+    ["duckdb", ["duckdb", "duckdb-web"]],
+    ["duckdblabs", ["sqlite_scanner", "substrait", "postgres_scanner"]],
+  ];
+  return json({ user, repos });
+};
+
 export default function Index() {
+  const { repos, user } = useLoaderData<typeof loader>();
   const [value, set] = useState<string>();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const nodes = REPOS.map(([owner, subs]) => (
+  const nodes = repos.map(([owner, subs]) => (
     <TreeView.Item id={owner} key={owner} defaultExpanded={true}>
       {owner}
       <TreeView.SubTree>
@@ -42,7 +52,11 @@ export default function Index() {
 
   return (
     <Wrapper>
-      {<></>}
+      {
+        <Header.Item>
+          <Header.Link to={`/${user.login}`}>My PRs</Header.Link>
+        </Header.Item>
+      }
       {
         <>
           <TreeView>{nodes}</TreeView>
