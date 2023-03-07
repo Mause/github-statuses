@@ -54,7 +54,9 @@ export default function Index() {
     <Wrapper>
       {
         <Header.Item>
-          <Header.Link to={`/${user.login}`}>My PRs</Header.Link>
+          <Header.Link as={Link} to={`/${user.login}`}>
+            My PRs
+          </Header.Link>
         </Header.Item>
       }
       {
