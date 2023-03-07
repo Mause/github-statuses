@@ -1,19 +1,9 @@
 import { Octokit } from "@octokit/rest";
-import type { StrategyOptions } from "@octokit/auth-app";
 import { throttling } from "@octokit/plugin-throttling";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
 import { getSession } from "./services/session.server";
-
-const auth: StrategyOptions = {
-  appId: process.env.GITHUB_APP_ID!,
-  privateKey: process.env.GITHUB_APP_PRIVATE_KEY!,
-  clientId: process.env.GITHUB_CLIENT_ID!,
-
-  clientSecret: process.env.GITHUB_SECRET!,
-  installationId: process.env.GITHUB_INSTALL_ID,
-};
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -63,12 +53,27 @@ export const octokitFromToken = (token: string) =>
     },
   });
 
+const port = process.env.PORT || 3000;
+const rootURL = (() => {
+  switch (process.env.VERCEL_ENV) {
+    case "development":
+      return `https://${port}-${process.env.HOSTNAME}.ws-us89.gitpod.io`;
+    case "preview":
+      return `https://${process.env.VERCEL_URL}`;
+    case "production":
+      return "https://actions.vc.mause.me";
+    default:
+      return `http://localhost:${port}`;
+  }
+})();
+
+console.log("running with", { rootURL });
+
 let gitHubStrategy = new GitHubStrategy(
   {
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_SECRET!,
-    callbackURL:
-      "https://3000-mause-githubstatuses-0xnyaacrf45.ws-us89.gitpod.io/auth/github/callback",
+    callbackURL: `${rootURL}/auth/github/callback`,
     scope: ["user", "read:user"],
   },
   async ({ accessToken, extraParams, profile }) => {
