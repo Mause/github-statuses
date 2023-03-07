@@ -2,7 +2,7 @@ import { Form } from "react-bulma-components";
 import { useState } from "react";
 import { Link, useNavigate } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { Box, Spinner, TreeView } from "@primer/react";
+import { Box, Spinner, TreeView, Header } from "@primer/react";
 import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs } from "@remix-run/node";
@@ -52,7 +52,11 @@ export default function Index() {
 
   return (
     <Wrapper>
-      {<></>}
+      {
+        <Header.Item>
+          <Header.Link to={`/${user.login}`}>My PRs</Header.Link>
+        </Header.Item>
+      }
       {
         <>
           <TreeView>{nodes}</TreeView>
