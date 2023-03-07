@@ -63,7 +63,7 @@ export const octokitFromToken = (token: string) =>
   });
 
 const port = process.env.PORT || 3000;
-const rootURL = (() => {
+export const rootURL = (() => {
   switch (process.env.VERCEL_ENV) {
     case "development":
       return `https://${port}-${process.env.HOSTNAME}.ws-us89.gitpod.io`;
@@ -75,8 +75,6 @@ const rootURL = (() => {
       return `http://localhost:${port}`;
   }
 })();
-
-console.log("running with", { rootURL });
 
 let gitHubStrategy = new GitHubStrategy(
   {
