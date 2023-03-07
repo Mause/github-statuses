@@ -8,5 +8,5 @@ export async function loader() {
 }
 
 export async function action({ request }: ActionArgs) {
-  return authenticator.authenticate("github", request);
+  return authenticator().authenticate("github", request);
 }

@@ -1,7 +1,6 @@
 import type { MetaFunction, TypedResponse } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
-import type { Params } from "@remix-run/react";
 import { useRevalidator } from "@remix-run/react";
 import type { Octokit } from "@octokit/rest";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -18,11 +17,11 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Header, Spinner, StyledOcticon } from "@primer/react";
+import { Header, Spinner, StyledOcticon, Flash } from "@primer/react";
 import { getOctokit } from "~/octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
-import type { DataLoaderParams} from "~/components/index";
+import type { DataLoaderParams } from "~/components/index";
 import { StandardTable, Wrapper } from "~/components/index";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { countBy } from "lodash";
@@ -219,12 +218,21 @@ export default function Index() {
           <Header.Item full>
             {state == "loading" && <Spinner size="small" />}
           </Header.Item>
-          <Header.Item>
-            {summary}, so {progress}% complete
-          </Header.Item>
+          {statuses.length && (
+            <Header.Item>
+              {summary}, so {progress}% complete
+            </Header.Item>
+          )}
         </>
       }
-      {<StandardTable tableOptions={table} />}
+      {statuses.length ? (
+        <StandardTable tableOptions={table} />
+      ) : (
+        <Flash variant="success">
+          <StyledOcticon icon={CheckIcon} />
+          Success! All jobs have successfully completed!
+        </Flash>
+      )}
     </Wrapper>
   );
 }

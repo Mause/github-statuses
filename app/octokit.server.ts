@@ -1,21 +1,31 @@
 import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
+import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
 import { getSession } from "./services/session.server";
+import { redirect } from "@remix-run/router";
 
 const Throttled = Octokit.plugin(throttling);
 
-interface Request {
-  method: string;
-  url: string;
+type Request = DataFunctionArgs["request"];
+
+export async function getUserNoRedirect(
+  request: Request
+): Promise<SessionShape | null> {
+  const session = await getSession(request.headers.get("cookie"));
+  return session.get("user");
+}
+
+export async function getUser(request: Request): Promise<SessionShape> {
+  const user = await getUserNoRedirect(request);
+  if (!user) throw redirect("/login");
+  return user;
 }
 
 export const getOctokit = async (request: DataFunctionArgs["request"]) => {
-  const session = await getSession(request.headers.get("cookie"));
-  const user = session.get("user");
-  console.log(session.data);
+  const user = await getUser(request);
   return octokitFromToken(user.accessToken);
 };
 
@@ -53,8 +63,8 @@ export const octokitFromToken = (token: string) =>
     },
   });
 
-const port = process.env.PORT || 3000;
-const rootURL = (() => {
+export function getRootURL() {
+  const port = process.env.PORT || 3000;
   switch (process.env.VERCEL_ENV) {
     case "development":
       return `https://${port}-${process.env.HOSTNAME}.ws-us89.gitpod.io`;
@@ -65,24 +75,25 @@ const rootURL = (() => {
     default:
       return `http://localhost:${port}`;
   }
-})();
+}
 
-console.log("running with", { rootURL });
+export const gitHubStrategy = () => {
+  const callbackURL = `${getRootURL()}/auth/github/callback`;
+  console.log({ callbackURL });
 
-let gitHubStrategy = new GitHubStrategy(
-  {
-    clientID: process.env.GITHUB_CLIENT_ID!,
-    clientSecret: process.env.GITHUB_SECRET!,
-    callbackURL: `${rootURL}/auth/github/callback`,
-    scope: ["user", "read:user"],
-  },
-  async ({ accessToken, extraParams, profile }) => {
-    const octokit = octokitFromToken(accessToken);
-    // Get the user data from your DB or API using the tokens and profile
-    return Object.assign((await octokit.rest.users.getAuthenticated()).data, {
-      accessToken,
-    });
-  }
-);
-
-authenticator.use(gitHubStrategy);
+  return new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+      callbackURL,
+      scope: ["user", "read:user"],
+    },
+    async ({ accessToken, extraParams, profile }) => {
+      const octokit = octokitFromToken(accessToken);
+      // Get the user data from your DB or API using the tokens and profile
+      return Object.assign((await octokit.rest.users.getAuthenticated()).data, {
+        accessToken,
+      });
+    }
+  );
+};

@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import type { Params } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import type { DataLoaderParams} from "~/components";
+import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import { getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
@@ -103,7 +103,14 @@ export default function Owner() {
           );
         },
       }),
-      columnHelper.accessor("repository.name", { header: "Repository" }),
+      columnHelper.accessor("repository", {
+        header: "Repository",
+        cell: (props) => {
+          const value = props.getValue();
+          const name = `${value.owner.login}/${value.name}`;
+          return <Link to={`/${name}/pulls`}>{name}</Link>;
+        },
+      }),
     ],
   };
 
