@@ -4,11 +4,10 @@ import { Form } from "@remix-run/react";
 import { Wrapper } from "~/components";
 import { authenticator } from "~/services/auth.server";
 
-export const action = async ({ request }: ActionArgs) => {
-  return authenticator.logout(request, {
+export const action = async ({ request }: ActionArgs) =>
+  authenticator().logout(request, {
     redirectTo: "/login",
   });
-};
 
 export default function Logout() {
   return (

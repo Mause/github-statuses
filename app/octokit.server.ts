@@ -62,8 +62,7 @@ export const octokitFromToken = (token: string) =>
     },
   });
 
-const port = process.env.PORT || 3000;
-export const rootURL = (() => {
+export const getRootURL = () => {
   switch (process.env.VERCEL_ENV) {
     case "development":
       return `https://${port}-${process.env.HOSTNAME}.ws-us89.gitpod.io`;
@@ -72,24 +71,27 @@ export const rootURL = (() => {
     case "production":
       return "https://actions.vc.mause.me";
     default:
-      return `http://localhost:${port}`;
+      return `http://localhost:${process.env.PORT || 3000}`;
   }
-})();
+};
 
-let gitHubStrategy = new GitHubStrategy(
-  {
-    clientID: process.env.GITHUB_CLIENT_ID!,
-    clientSecret: process.env.GITHUB_SECRET!,
-    callbackURL: `${rootURL}/auth/github/callback`,
-    scope: ["user", "read:user"],
-  },
-  async ({ accessToken, extraParams, profile }) => {
-    const octokit = octokitFromToken(accessToken);
-    // Get the user data from your DB or API using the tokens and profile
-    return Object.assign((await octokit.rest.users.getAuthenticated()).data, {
-      accessToken,
-    });
-  }
-);
+export const gitHubStrategy = () => {
+  const callbackURL = `${getRootURL()}/auth/github/callback`;
+  console.log({ callbackURL });
 
-authenticator.use(gitHubStrategy);
+  return new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+      callbackURL,
+      scope: ["user", "read:user"],
+    },
+    async ({ accessToken, extraParams, profile }) => {
+      const octokit = octokitFromToken(accessToken);
+      // Get the user data from your DB or API using the tokens and profile
+      return Object.assign((await octokit.rest.users.getAuthenticated()).data, {
+        accessToken,
+      });
+    }
+  );
+};
