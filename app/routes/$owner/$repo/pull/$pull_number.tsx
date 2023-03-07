@@ -220,9 +220,11 @@ export default function Index() {
           <Header.Item full>
             {state == "loading" && <Spinner size="small" />}
           </Header.Item>
-          <Header.Item>
-            {summary}, so {progress}% complete
-          </Header.Item>
+          {statuses.length && (
+            <Header.Item>
+              {summary}, so {progress}% complete
+            </Header.Item>
+          )}
         </>
       }
       {statuses.length ? (
