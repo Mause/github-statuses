@@ -1,4 +1,4 @@
-import { octokit } from "~/octokit.server";
+import { getOctokit } from "~/octokit.server";
 import type {
   PullRequestStatusQuery,
   PullRequestStatusQueryVariables,
@@ -7,6 +7,7 @@ import type { Get } from "type-fest";
 import { print } from "graphql";
 
 import gql from "graphql-tag";
+import type { Request } from "@remix-run/node";
 
 export const query = gql`
   query PullRequestStatus(
@@ -97,8 +98,10 @@ export type PRWithRollup = PullRequest & {
 };
 
 export async function getPullRequests(
+  request: Request,
   variables: PullRequestStatusQueryVariables
 ) {
+  const octokit = await getOctokit(request);
   const resp = await octokit.graphql<PullRequestStatusQuery>(
     print(query),
     variables

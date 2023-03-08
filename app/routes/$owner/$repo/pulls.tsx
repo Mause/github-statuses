@@ -2,11 +2,12 @@ import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { getOctokit } from "~/octokit.server";
-import type { DataLoaderParams} from "~/components";
+import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
+import { titleCase } from "./pull/titleCase";
+import type { PRWithRollup } from "./pullsQuery";
 import { getPullRequests } from "./pullsQuery";
 
 export const loader = async ({
@@ -14,7 +15,10 @@ export const loader = async ({
   request,
 }: DataLoaderParams<"repo" | "owner">) => {
   return json({
-    pulls: await getPullRequests({ owner: params.owner!, repo: params.repo! }),
+    pulls: await getPullRequests(request, {
+      owner: params.owner!,
+      repo: params.repo!,
+    }),
   });
 };
 
