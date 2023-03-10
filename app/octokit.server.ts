@@ -32,6 +32,7 @@ export const getOctokit = async (request: DataFunctionArgs["request"]) => {
 export const octokitFromToken = (token: string) =>
   new Throttled({
     auth: token,
+    previews: ["merge-info"],
     throttle: {
       onRateLimit: (
         retryAfter: number,

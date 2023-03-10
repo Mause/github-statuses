@@ -25,6 +25,7 @@ import type { DataLoaderParams } from "~/components/index";
 import { StandardTable, Wrapper } from "~/components/index";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { countBy } from "lodash";
+import { titleCase } from "./titleCase";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
 export const meta: MetaFunction = ({ data }) => ({
@@ -148,14 +149,11 @@ const COLUMNS = [
       const conclusion =
         (props.row.getValue("conclusion") as Conclusion) || "in_progress";
 
-      let c = conclusion.split("_").join(" ");
-      c = c.slice(0, 1).toUpperCase() + c.slice(1);
-
       return (
         <span>
           {iconMap[conclusion]({})}
           &nbsp;
-          {c}
+          {titleCase(conclusion)}
         </span>
       );
     },
