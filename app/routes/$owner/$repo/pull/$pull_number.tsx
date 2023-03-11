@@ -216,13 +216,13 @@ export default function Index() {
             </Header.Link>
           </Header.Item>
           <Header.Item full>
-            {state == "loading" && <Spinner size="small" />}
+            {state == "loading" ? <Spinner size="small" /> : null}
           </Header.Item>
-          {statuses.length && (
+          {statuses.length ? (
             <Header.Item>
               {summary}, so {progress}% complete
             </Header.Item>
-          )}
+          ) : null}
         </>
       }
       {statuses.length ? (
