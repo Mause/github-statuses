@@ -60,7 +60,10 @@ export default function Pulls() {
       }),
       columnHelper.accessor("rollup", {
         header: "Rollup",
-        cell: (props) => JSON.stringify(props.getValue()),
+        cell: (props) =>
+          Object.entries(props.getValue())
+            .map(([k, v]) => `${v} ${k}`)
+            .join(", "),
       }),
     ],
   };
