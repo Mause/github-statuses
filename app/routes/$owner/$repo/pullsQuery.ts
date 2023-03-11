@@ -19,7 +19,7 @@ export const query = gql`
       pullRequests(
         first: $per_page
         orderBy: { field: CREATED_AT, direction: DESC },
-        state: OPEN
+        states: OPEN
       ) {
         totalCount
         edges {
