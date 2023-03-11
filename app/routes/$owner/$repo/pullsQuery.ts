@@ -18,7 +18,8 @@ export const query = gql`
     repository(owner: $owner, name: $repo) {
       pullRequests(
         first: $per_page
-        orderBy: { field: CREATED_AT, direction: DESC }
+        orderBy: { field: CREATED_AT, direction: DESC },
+        states: OPEN
       ) {
         totalCount
         edges {
