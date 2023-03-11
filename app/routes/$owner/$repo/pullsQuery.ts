@@ -13,7 +13,7 @@ export const query = gql`
   query PullRequestStatus(
     $owner: String!
     $repo: String!
-    $per_page: Int = 10
+    $per_page: Int = 100
   ) {
     repository(owner: $owner, name: $repo) {
       pullRequests(
