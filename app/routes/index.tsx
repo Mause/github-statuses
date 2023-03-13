@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useNavigate, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { TreeView, Header } from "@primer/react";
@@ -28,8 +27,6 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 
 export default function Index() {
   const { repos, user } = useLoaderData<typeof loader>();
-  const [value, set] = useState<string>();
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const nodes = repos.map(([owner, subs]) => (
