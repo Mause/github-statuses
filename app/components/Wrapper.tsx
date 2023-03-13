@@ -1,7 +1,6 @@
-import { Box, Header } from "@primer/react";
+import { Text, Header, PageLayout } from "@primer/react";
 import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
-import { Container } from "react-bulma-components";
 
 export default function Wrapper({
   children: [header, body],
@@ -9,16 +8,15 @@ export default function Wrapper({
   children: [ReactNode, ReactNode];
 }) {
   return (
-    <Container style={{ padding: "10px" }}>
-      <Box
-        sx={{
-          overflowY: "auto",
-          border: "1px solid",
-          borderRadius: "6px",
-          borderColor: "border.default",
-        }}
-      >
-        <Header>
+    <PageLayout sx={{ overflowY: "auto" }}>
+      <PageLayout.Header divider="line">
+        <Header
+          sx={{
+            border: "1px solid",
+            borderRadius: "6px",
+            borderColor: "border.default",
+          }}
+        >
           <Header.Item>
             <Header.Link as={Link} to="/">
               Action Statuses
@@ -26,8 +24,20 @@ export default function Wrapper({
           </Header.Item>
           {header}
         </Header>
-        {body}
-      </Box>
-    </Container>
+      </PageLayout.Header>
+      <PageLayout.Content>{body}</PageLayout.Content>
+      {/*
+      <PageLayout.Pane divider="line" position="start">
+        <div style={{ height: "120px" }}>
+          <p>Sides go here</p>
+        </div>
+      </PageLayout.Pane>
+      */}
+      <PageLayout.Footer divider="line">
+        <Text as="p" sx={{ color: "fg.primary", p: 2 }}>
+          By Elliana (<a href="https://github.com/Mause">@Mause</a>)
+        </Text>
+      </PageLayout.Footer>
+    </PageLayout>
   );
 }
