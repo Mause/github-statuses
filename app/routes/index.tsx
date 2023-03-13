@@ -1,8 +1,7 @@
-import { Form } from "react-bulma-components";
 import { useState } from "react";
 import { Link, useNavigate, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { Box, Spinner, TreeView, Header } from "@primer/react";
+import { TreeView, Header } from "@primer/react";
 import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs } from "@remix-run/node";
@@ -62,19 +61,6 @@ export default function Index() {
       {
         <>
           <TreeView>{nodes}</TreeView>
-          <Box>
-            {loading && <Spinner />}
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                setLoading(true);
-                navigate(new URL(value!).pathname);
-              }}
-            >
-              <Form.Input onChange={(event) => set(event.target.value)} />
-              <Form.Input type="submit" disabled={loading} />
-            </form>
-          </Box>
         </>
       }
     </Wrapper>
