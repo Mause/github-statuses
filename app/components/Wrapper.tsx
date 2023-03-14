@@ -35,7 +35,11 @@ export default function Wrapper({
       */}
       <PageLayout.Footer divider="line">
         <Text as="p" sx={{ color: "fg.primary", p: 2 }}>
-          By Elliana (<a href="https://github.com/Mause">@Mause</a>)
+          By Elliana (
+          <a href="https://github.com/Mause" target="_blank" rel="noreferrer">
+            @Mause
+          </a>
+          )
         </Text>
       </PageLayout.Footer>
     </PageLayout>
