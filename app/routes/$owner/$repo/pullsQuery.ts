@@ -16,9 +16,11 @@ export const query = gql`
     $per_page: Int = 100
   ) {
     repository(owner: $owner, name: $repo) {
+      name
+      url
       pullRequests(
         first: $per_page
-        orderBy: { field: CREATED_AT, direction: DESC },
+        orderBy: { field: CREATED_AT, direction: DESC }
         states: OPEN
       ) {
         totalCount
@@ -108,13 +110,18 @@ export async function getPullRequests(
     variables
   );
 
-  return resp
-    .repository!.pullRequests!.edges!.map((edge) => edge!.node!)
-    .map((pr): PRWithRollup => {
-      let rpr = pr as PRWithRollup;
-      rpr.rollup = ChecksStatus(rpr!.statusCheckRollup!);
-      return rpr;
-    });
+  const repo = resp.repository!;
+  return {
+    title: repo.name,
+    url: repo.url,
+    pulls: repo
+      .pullRequests!.edges!.map((edge) => edge!.node!)
+      .map((pr): PRWithRollup => {
+        let rpr = pr as PRWithRollup;
+        rpr.rollup = ChecksStatus(rpr!.statusCheckRollup!);
+        return rpr;
+      }),
+  };
 }
 
 interface PullRequestChecksStatus {

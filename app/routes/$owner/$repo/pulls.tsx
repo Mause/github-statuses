@@ -1,3 +1,4 @@
+import { Header } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
@@ -14,18 +15,18 @@ export const loader = async ({
   params,
   request,
 }: DataLoaderParams<"repo" | "owner">) => {
-  return json({
-    pulls: await getPullRequests(request, {
+  return json(
+    await getPullRequests(request, {
       owner: params.owner!,
       repo: params.repo!,
-    }),
-  });
+    })
+  );
 };
 
 const columnHelper = createColumnHelper<SerializeFrom<PRWithRollup>>();
 
 export default function Pulls() {
-  const { pulls } = useLoaderDataReloading<typeof loader>();
+  const { pulls, title, url } = useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<SerializeFrom<PRWithRollup>> = {
     data: pulls,
@@ -69,6 +70,11 @@ export default function Pulls() {
   };
 
   return (
+    <Wrapper>
+      <Header.Item>
+        <Header.Link to={url}>{title}</Header.Link>
+      </Header.Item>
       <StandardTable tableOptions={table} />
+    </Wrapper>
   );
 }
