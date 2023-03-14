@@ -1,9 +1,8 @@
 import { json } from "@remix-run/node";
-import type { Params } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, Wrapper } from "~/components";
+import { StandardTable } from "~/components";
 import { getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
 import { print } from "graphql";
@@ -16,6 +15,7 @@ import type { Get } from "type-fest";
 import { Header } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
+import { useHeader } from "~/components";
 
 const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -114,10 +114,10 @@ export default function Owner() {
     ],
   };
 
-  return (
-    <Wrapper>
-      {<Header.Item>{res.user!.login}</Header.Item>}
-      {<StandardTable tableOptions={table} />}
-    </Wrapper>
-  );
+  useHeader(
+    <Header.Item>{res.user!.login}</Header.Item>
+
+  )
+
+  return <StandardTable tableOptions={table} />
 }

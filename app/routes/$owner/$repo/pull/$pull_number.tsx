@@ -21,9 +21,7 @@ import { Header, Spinner, StyledOcticon, Flash } from "@primer/react";
 import { getOctokit } from "~/octokit.server";
 import { getWorkflowName } from "./getWorkflowName";
 import humanizeDuration from "humanize-duration";
-import type { DataLoaderParams } from "~/components/index";
-import { StandardTable, Wrapper } from "~/components/index";
-import type { StandardTableOptions } from "~/components/StandardTable";
+import { StandardTableOptions, StandardTable, DataLoaderParams, useHeader } from "~/components";
 import { countBy } from "lodash";
 import { titleCase } from "./titleCase";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
@@ -174,9 +172,6 @@ const COLUMNS = [
 
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <Wrapper>
-      {<></>}
-      {
         <div>
           An error has occured. Goodbye.
           <br />
@@ -184,8 +179,6 @@ export function ErrorBoundary({ error }: { error: Error }) {
             <pre>{error.stack}</pre>
           </code>
         </div>
-      }
-    </Wrapper>
   );
 }
 
@@ -205,9 +198,7 @@ export default function Index() {
     .map(([key, value]) => `${value} ${key}`)
     .join(", ");
 
-  return (
-    <Wrapper>
-      {
+  useHeader(
         <>
           <Header.Item>
             <Header.Link target="_blank" href={pr._links.html.href}>
@@ -224,15 +215,17 @@ export default function Index() {
             </Header.Item>
           ) : null}
         </>
-      }
-      {statuses.length ? (
+
+  );
+
+return  (
+      statuses.length ? (
         <StandardTable tableOptions={table} />
       ) : (
         <Flash variant="success">
           <StyledOcticon icon={CheckIcon} />
           Success! All jobs have successfully completed!
         </Flash>
-      )}
-    </Wrapper>
+      )
   );
 }

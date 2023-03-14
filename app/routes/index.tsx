@@ -1,10 +1,10 @@
 import { Link, useNavigate, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { TreeView, Header } from "@primer/react";
-import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs } from "@remix-run/node";
 import { getUser } from "~/octokit.server";
+import { useHeader } from "~/components";
 
 export const loader = async ({ request }: DataFunctionArgs) => {
   const user = await getUser(request);
@@ -46,27 +46,20 @@ export default function Index() {
     </TreeView.Item>
   ));
 
-  return (
-    <Wrapper>
-      {
-        <>
-          <Header.Item full>
-            <Header.Link as={Link} to={`/${user.login}`}>
-              My PRs
-            </Header.Link>
-          </Header.Item>
-          <Header.Item>
-            <Header.Link as={Link} to="/auth/logout">
-              Logout
-            </Header.Link>
-          </Header.Item>
-        </>
-      }
-      {
-        <>
-          <TreeView>{nodes}</TreeView>
-        </>
-      }
-    </Wrapper>
+  useHeader(
+    <>
+      <Header.Item full>
+        <Header.Link as={Link} to={`/${user.login}`}>
+          My PRs
+        </Header.Link>
+      </Header.Item>
+      <Header.Item>
+        <Header.Link as={Link} to="/auth/logout">
+          Logout
+        </Header.Link>
+      </Header.Item>
+    </>
   );
+
+  return <TreeView>{nodes}</TreeView>;
 }

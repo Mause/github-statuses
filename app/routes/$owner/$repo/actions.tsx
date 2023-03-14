@@ -4,8 +4,8 @@ import { createColumnHelper } from "@tanstack/table-core";
 import { print } from "graphql";
 import gql from "graphql-tag";
 import type { Get } from "type-fest";
-import type { DataLoaderParams} from "~/components";
-import { StandardTable, Wrapper } from "~/components";
+import type { DataLoaderParams } from "~/components";
+import { StandardTable } from "~/components";
 import type {
   GetRepositoryActionsQuery,
   GetRepositoryActionsQueryVariables,
@@ -87,23 +87,18 @@ type Workflow = Get<
 const columnHelper = createColumnHelper<SerializeFrom<Workflow>>();
 const COLUMNS = [
   columnHelper.accessor("id", { header: "ID" }),
-  columnHelper.accessor("workflowRun.workflow.name", { header: "Name" }),
+  columnHelper.accessor("workflowRun", { header: "Name" }),
 ];
 
 export default function Actions() {
   const { actions } = useLoaderDataReloading<typeof loader>();
 
   return (
-    <Wrapper>
-      {<></>}
-      {
         <StandardTable
           tableOptions={{
             data: actions,
             columns: COLUMNS,
           }}
         />
-      }
-    </Wrapper>
   );
 }

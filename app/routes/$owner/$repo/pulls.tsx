@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, Wrapper } from "~/components";
+import { StandardTable } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { titleCase } from "./pull/titleCase";
@@ -69,9 +69,6 @@ export default function Pulls() {
   };
 
   return (
-    <Wrapper>
-      {<></>}
-      {<StandardTable tableOptions={table} />}
-    </Wrapper>
+      <StandardTable tableOptions={table} />
   );
 }
