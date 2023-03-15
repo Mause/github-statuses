@@ -81,7 +81,7 @@ export default function StandardTable<T>({
           leadingVisual={SearchIcon}
         />
       </Table.Actions>
-      <Table>
+      <Table style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}>
         <Table.Head>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Row key={headerGroup.id}>
