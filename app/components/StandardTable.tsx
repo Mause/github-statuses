@@ -1,10 +1,11 @@
-import { Table } from "react-bulma-components";
 import type {
   Column,
   ColumnFiltersState,
   SortingState,
   TableOptions,
   Table as ReactTable,
+  SortDirection,
+  Header,
 } from "@tanstack/react-table";
 import {
   getCoreRowModel,
@@ -16,21 +17,27 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
-import style from "styled-components";
-import {
-  ChevronUpIcon,
-  ChevronDownIcon,
-  SearchIcon,
-} from "@primer/octicons-react";
+import { SearchIcon } from "@primer/octicons-react";
 import { useMemo, useState } from "react";
 import { fuzzyFilter } from "./fuzzyFilter";
-import { Select, TextInput } from "@primer/react";
-
-const StyledHeader = style.div<{ canSort: boolean }>`
-  cursor: ${(props) => (props.canSort ? "pointer" : "inherit")}
-`;
+import { TextInput } from "@primer/react";
+import { Table } from "@primer/react/drafts";
+import { TableSortHeader } from "@primer/react/lib-esm/DataTable/Table";
+import type { SortDirection as TableSortDirection } from "@primer/react/lib-esm/DataTable/sorting";
 
 export type StandardTableOptions<T> = Pick<TableOptions<T>, "data" | "columns">;
+
+function mapSortDirection(sort: boolean | SortDirection): TableSortDirection {
+  switch (sort) {
+    case "asc":
+    case true:
+      return "ASC";
+    case "desc":
+      return "DESC";
+    case false:
+      return "NONE";
+  }
+}
 
 export default function StandardTable<T>({
   tableOptions,
@@ -67,89 +74,86 @@ export default function StandardTable<T>({
   });
 
   return (
-    <>
-      <TextInput
-        onChange={(event) => setGlobalFilter(event.target.value)}
-        leadingVisual={SearchIcon}
-      />
-      <Table
-        style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
-        striped={true}
-        hoverable={true}
-      >
-        <thead>
+    <Table.Container>
+      <Table.Actions>
+        <TextInput
+          onChange={(event) => setGlobalFilter(event.target.value)}
+          leadingVisual={SearchIcon}
+        />
+      </Table.Actions>
+      <Table>
+        <Table.Head>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan}>
-                  {header.isPlaceholder ? null : (
-                    <>
-                      <StyledHeader
-                        canSort={header.column.getCanSort()}
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                        {{
-                          asc: (
-                            <>
-                              {" "}
-                              <ChevronUpIcon />
-                            </>
-                          ),
-                          desc: (
-                            <>
-                              {" "}
-                              <ChevronDownIcon />
-                            </>
-                          ),
-                        }[header.column.getIsSorted() as string] ?? null}
-                      </StyledHeader>
-
-                      {header.column.getCanFilter() && (
-                        <div>
-                          <Filter column={header.column} table={table} />
-                        </div>
-                      )}
-                    </>
-                  )}
-                </th>
-              ))}
-            </tr>
+            <Table.Row key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                const shared = {
+                  key: header.id,
+                  colSpan: header.colSpan,
+                  children: [
+                    flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    ),
+                    header.column.getCanFilter() && (
+                      <Filter column={header.column} table={table} />
+                    ),
+                  ],
+                };
+                if (header.column.getCanSort()) {
+                  return (
+                    <TableSortHeader
+                      {...shared}
+                      direction={mapSortDirection(header.column.getIsSorted())}
+                      onToggleSort={getSortOnClick(header)}
+                    />
+                  );
+                } else {
+                  return <Table.Header {...shared} />;
+                }
+              })}
+            </Table.Row>
           ))}
-        </thead>
-        <tbody>
+        </Table.Head>
+        <Table.Body>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <Table.Row key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <Table.Cell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </Table.Cell>
               ))}
-            </tr>
+            </Table.Row>
           ))}
-        </tbody>
+        </Table.Body>
+
         <tfoot>
           {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id} colSpan={header.colSpan}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
+            <Table.Row key={footerGroup.id}>
+              {footerGroup.headers.map((header) => {
+                const value = flexRender(
+                  header.column.columnDef.footer,
+                  header.getContext()
+                );
+                const shared = { key: header.id, colSpan: header.colSpan };
+                return header.isPlaceholder || !value ? (
+                  <th {...shared}></th>
+                ) : (
+                  <Table.Header {...shared}>{value}</Table.Header>
+                );
+              })}
+            </Table.Row>
           ))}
         </tfoot>
       </Table>
-    </>
+    </Table.Container>
   );
+}
+
+function getSortOnClick(header: Header<any, unknown>): () => void {
+  const handler = header.column.getToggleSortingHandler();
+  return () => {
+    if (handler) handler({});
+  };
 }
 
 function Filter({
