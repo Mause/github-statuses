@@ -198,9 +198,12 @@ export default function Index() {
   const { revalidate, state } = useRevalidator();
   useInterval(() => revalidate(), 30000);
 
-  const counts = countBy(statuses, "conclusion");
+  const counts = countBy(
+    statuses,
+    (status) => status.conclusion || status.status
+  );
   const summary = Object.entries(counts)
-    .map(([key, value]) => `${value} ${key}`)
+    .map(([key, value]) => `${value} ${key.toLocaleLowerCase()}`)
     .join(", ");
 
   return (
