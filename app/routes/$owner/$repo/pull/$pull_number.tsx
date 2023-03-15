@@ -176,15 +176,13 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Wrapper>
       {<></>}
-      {
-        <div>
-          An error has occured. Goodbye.
-          <br />
-          <code>
-            <pre>{error.stack}</pre>
-          </code>
-        </div>
-      }
+      <div>
+        An error has occured. Goodbye.
+        <br />
+        <code>
+          <pre>{error.stack}</pre>
+        </code>
+      </div>
     </Wrapper>
   );
 }
@@ -200,31 +198,32 @@ export default function Index() {
   const { revalidate, state } = useRevalidator();
   useInterval(() => revalidate(), 30000);
 
-  const counts = countBy(statuses, "conclusion");
+  const counts = countBy(
+    statuses,
+    (status) => status.conclusion || status.status
+  );
   const summary = Object.entries(counts)
-    .map(([key, value]) => `${value} ${key}`)
+    .map(([key, value]) => `${value} ${key.toLocaleLowerCase()}`)
     .join(", ");
 
   return (
     <Wrapper>
-      {
-        <>
+      <>
+        <Header.Item>
+          <Header.Link target="_blank" href={pr._links.html.href}>
+            {pr.title}&nbsp;
+            <LinkExternalIcon />
+          </Header.Link>
+        </Header.Item>
+        <Header.Item full>
+          {state == "loading" ? <Spinner size="small" /> : null}
+        </Header.Item>
+        {statuses.length ? (
           <Header.Item>
-            <Header.Link target="_blank" href={pr._links.html.href}>
-              {pr.title}&nbsp;
-              <LinkExternalIcon />
-            </Header.Link>
+            {summary}, so {progress}% complete
           </Header.Item>
-          <Header.Item full>
-            {state == "loading" ? <Spinner size="small" /> : null}
-          </Header.Item>
-          {statuses.length ? (
-            <Header.Item>
-              {summary}, so {progress}% complete
-            </Header.Item>
-          ) : null}
-        </>
-      }
+        ) : null}
+      </>
       {statuses.length ? (
         <StandardTable tableOptions={table} />
       ) : (

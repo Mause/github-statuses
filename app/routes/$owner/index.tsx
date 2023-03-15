@@ -1,5 +1,4 @@
 import { json } from "@remix-run/node";
-import type { Params } from "@remix-run/react";
 import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
@@ -13,7 +12,7 @@ import type {
 } from "~/components/graphql/graphql";
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
-import { Header } from "@primer/react";
+import { Header, PageLayout } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
@@ -116,8 +115,8 @@ export default function Owner() {
 
   return (
     <Wrapper>
-      {<Header.Item>{res.user!.login}</Header.Item>}
-      {<StandardTable tableOptions={table} />}
+      <Header.Item>{res.user!.login}</Header.Item>
+      <StandardTable tableOptions={table} />
     </Wrapper>
   );
 }
