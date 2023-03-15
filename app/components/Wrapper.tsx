@@ -2,6 +2,31 @@ import { Text, Header, PageLayout } from "@primer/react";
 import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 
+export function StandardHeader({
+  children,
+}: {
+  children?: ReactNode[] | ReactNode;
+}) {
+  return (
+    <PageLayout.Header divider="line">
+      <Header
+        sx={{
+          border: "1px solid",
+          borderRadius: "6px",
+          borderColor: "border.default",
+        }}
+      >
+        <Header.Item>
+          <Header.Link as={Link} to="/">
+            Action Statuses
+          </Header.Link>
+        </Header.Item>
+        {children}
+      </Header>
+    </PageLayout.Header>
+  );
+}
+
 export default function Wrapper({
   children: [header, body],
 }: {
@@ -9,22 +34,7 @@ export default function Wrapper({
 }) {
   return (
     <PageLayout sx={{ overflowY: "auto" }}>
-      <PageLayout.Header divider="line">
-        <Header
-          sx={{
-            border: "1px solid",
-            borderRadius: "6px",
-            borderColor: "border.default",
-          }}
-        >
-          <Header.Item>
-            <Header.Link as={Link} to="/">
-              Action Statuses
-            </Header.Link>
-          </Header.Item>
-          {header}
-        </Header>
-      </PageLayout.Header>
+      <StandardHeader children={header} />
       <PageLayout.Content>{body}</PageLayout.Content>
       {/*
       <PageLayout.Pane divider="line" position="start">

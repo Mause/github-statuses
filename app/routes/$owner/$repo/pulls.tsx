@@ -71,12 +71,10 @@ export default function Pulls() {
 
   return (
     <Wrapper>
-      {
-        <Header.Item>
-          <Header.Link to={url}>{title}</Header.Link>
-        </Header.Item>
-      }
-      {<StandardTable tableOptions={table} />}
+      <Header.Item>
+        <Header.Link to={url}>{title}</Header.Link>
+      </Header.Item>
+      <StandardTable tableOptions={table} />
     </Wrapper>
   );
 }
