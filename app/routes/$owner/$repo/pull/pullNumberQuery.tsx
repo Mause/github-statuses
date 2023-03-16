@@ -71,7 +71,7 @@ export async function getActions(
 ) {
   const octokit = await getOctokit(request);
   const thing = await octokit.graphql<GetActionsForPullRequestQuery>(
-    print(query),
+    print(fragment) + print(query),
     variables
   );
 
