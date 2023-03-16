@@ -5,10 +5,9 @@ import { getFragment } from "~/components/graphql";
 import type {
   GetActionsForPullRequestQuery,
   GetActionsForPullRequestQueryVariables,
-  PullRequestsFragment} from "~/components/graphql/graphql";
-import {
-  PullRequestsFragmentDoc,
+  PullRequestsFragment,
 } from "~/components/graphql/graphql";
+import { PullRequestsFragmentDoc } from "~/components/graphql/graphql";
 import { getOctokit } from "~/octokit.server";
 
 export const fragment = gql`
@@ -74,7 +73,7 @@ export async function getActions(
     variables
   );
 
-  const path = "repositoryOwner.repository.PullRequestsFragment.pullRequest";
+  const path = "repositoryOwner.repository.pullRequest";
 
   let obj: any = thing;
 
