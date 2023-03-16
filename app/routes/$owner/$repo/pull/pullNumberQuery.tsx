@@ -77,9 +77,10 @@ export async function getActions(
   let obj: any = thing;
 
   for (const key of path.split(".")) {
+    let keys = Object.keys(obj);
     obj = obj[key];
     if (!obj) {
-      throw new Error(`failed at ${key}`);
+      throw new Error(`failed at ${key}. available keys: ${keys}`);
     }
   }
 
