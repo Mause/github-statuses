@@ -2331,9 +2331,9 @@
   integrity sha512-iHMRuu8YWDJIdqCi1krx0cyFNeqszNKTOb0dXFu2wQ5BeIqxqPJLD7rjZ2Vjf/+YaPSbWuIQE1H6TaGMMsDfdA==
 
 "@primer/octicons-react@^18.0.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-18.0.0.tgz#f5c4b54dc0c835b8e62f356a2f5d39d6f9f7dfcd"
-  integrity sha512-i97d9dIwjvt145XMIB0pekNi2w0ul8bMnjtXJolF8VS6mQNUFUF31hgjYYVAyaqKCMA3/IDQuHj1K0eHshy8Bw==
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-18.2.0.tgz#eeac37b3d42980a7edebd790b9373d22bdb89f72"
+  integrity sha512-taT0l99qztqU9NnNo0HCutm3mEjBmXcaqWlmCLvU2MrKVrMZF3HuwaguPhNl/rNk8+mpgtDSTTDPBlpI0MtPPA==
 
 "@primer/primitives@7.11.1":
   version "7.11.1"
