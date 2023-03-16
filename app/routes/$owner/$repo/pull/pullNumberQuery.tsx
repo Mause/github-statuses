@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import type {
   GetActionsForPullRequestQuery,
   GetActionsForPullRequestQueryVariables,
+  PullRequestsFragment,
 } from "~/components/graphql/graphql";
 import { getOctokit } from "~/octokit.server";
 
@@ -63,12 +64,24 @@ export const query = gql`
 export async function getActions(
   request: Request,
   variables: Required<GetActionsForPullRequestQueryVariables>
-) {
+): Promise<NonNullable<PullRequestsFragment["pullRequest"]>> {
   const octokit = await getOctokit(request);
   const thing = await octokit.graphql<GetActionsForPullRequestQuery>(
     print(fragment) + print(query),
     variables
   );
+
+  const path =
+    "repositoryOwner.repository. $fragmentRefs.PullRequestsFragment.pullRequest";
+
+  let obj: any = thing;
+
+  for (const key of path.split(".")) {
+    obj = obj[key];
+    if (!obj) {
+      throw new Error(`failed at ${key}`);
+    }
+  }
 
   const pr =
     thing.repositoryOwner?.repository![" $fragmentRefs"]?.PullRequestsFragment;
