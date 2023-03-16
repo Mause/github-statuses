@@ -12,7 +12,7 @@ import type {
 } from "~/components/graphql/graphql";
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
-import { Header, PageLayout } from "@primer/react";
+import { Header } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
