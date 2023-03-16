@@ -16,7 +16,7 @@ export const fragment = gql`
       commits(first: 1) {
         nodes {
           commit {
-            checkSuites {
+            checkSuites(first: 100) {
               nodes {
                 app {
                   name
@@ -52,12 +52,7 @@ export const query = gql`
     $repo: String!
     $prNumber: Int!
   ) {
-    user(login: $owner) {
-      repository(name: $repo) {
-        ...PullRequests
-      }
-    }
-    organization(login: $owner) {
+    repositoryOwner(login: $owner) {
       repository(name: $repo) {
         ...PullRequests
       }
@@ -75,8 +70,8 @@ export async function getActions(
     variables
   );
 
-  const pr = (thing.organization || thing.user)?.repository![" $fragmentRefs"]
-    ?.PullRequestsFragment;
+  const pr =
+    thing.repositoryOwner?.repository![" $fragmentRefs"]?.PullRequestsFragment;
 
   return pr?.pullRequest!;
 }
