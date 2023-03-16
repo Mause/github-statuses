@@ -20,7 +20,13 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Header, Spinner, StyledOcticon, Flash } from "@primer/react";
+import {
+  Header,
+  Spinner,
+  StyledOcticon,
+  Flash,
+  Breadcrumbs,
+} from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components/index";
 import { StandardTable, Wrapper } from "~/components/index";
@@ -168,7 +174,6 @@ const COLUMNS = [
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Wrapper>
-      {<></>}
       <div>
         An error has occured. Goodbye.
         <br />
@@ -200,23 +205,26 @@ export default function Index() {
     .join(", ");
 
   return (
-    <Wrapper>
-      <>
-        <Header.Item>
-          <Header.Link target="_blank" href={pr!.permalink}>
-            {pr!.title}&nbsp;
-            <LinkExternalIcon />
-          </Header.Link>
-        </Header.Item>
-        <Header.Item full>
-          {state == "loading" ? <Spinner size="small" /> : null}
-        </Header.Item>
-        {statuses.length ? (
+    <Wrapper
+      header={
+        <>
           <Header.Item>
-            {summary}, so {progress}% complete
+            <Header.Link target="_blank" href={pr!.permalink}>
+              {pr!.title}&nbsp;
+              <LinkExternalIcon />
+            </Header.Link>
           </Header.Item>
-        ) : null}
-      </>
+          <Header.Item full>
+            {state == "loading" ? <Spinner size="small" /> : null}
+          </Header.Item>
+          {statuses.length ? (
+            <Header.Item>
+              {summary}, so {progress}% complete
+            </Header.Item>
+          ) : null}
+        </>
+      }
+    >
       {statuses.length ? (
         <StandardTable tableOptions={table} />
       ) : (

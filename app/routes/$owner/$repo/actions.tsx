@@ -95,7 +95,6 @@ export default function Actions() {
 
   return (
     <Wrapper>
-      {<></>}
       <StandardTable
         tableOptions={{
           data: actions,

@@ -12,7 +12,6 @@ export default function Login() {
   const { user } = useLoaderData<typeof loader>();
   return (
     <Wrapper>
-      <></>
       {user ? (
         <div>{user.login} logged in</div>
       ) : (
