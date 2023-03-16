@@ -73,22 +73,8 @@ export async function getActions(
     variables
   );
 
-  const path = "repositoryOwner.repository.pullRequest";
-
-  let obj: any = thing;
-
-  for (const key of path.split(".")) {
-    let keys = Object.keys(obj);
-    obj = obj[key];
-    if (!obj) {
-      throw new Error(`failed at ${key}. available keys: ${keys}`);
-    }
-  }
-
-  const pr = getFragment(
+  return getFragment(
     PullRequestsFragmentDoc,
     thing.repositoryOwner?.repository
-  );
-
-  return pr?.pullRequest!;
+  )!.pullRequest!;
 }
