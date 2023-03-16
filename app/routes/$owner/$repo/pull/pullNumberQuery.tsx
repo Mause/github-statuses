@@ -27,7 +27,7 @@ export const fragment = gql`
                   }
                 }
                 conclusion
-                checkRuns {
+                checkRuns(first: 100) {
                   nodes {
                     name
                     conclusion
