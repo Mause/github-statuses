@@ -6,7 +6,6 @@ import type {
 import { json } from "@remix-run/node";
 
 import { useRevalidator } from "@remix-run/react";
-import type { Octokit } from "@octokit/rest";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useInterval } from "react-interval-hook";
 import type { Icon } from "@primer/octicons-react";
@@ -32,10 +31,16 @@ import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
+import { CheckConclusionState } from "~/components/graphql/graphql";
 
 export const meta: MetaFunction = ({ data }) => ({
   title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
 });
+
+const TO_SKIP: CheckConclusionState[] = [
+  CheckConclusionState.Success,
+  CheckConclusionState.Skipped,
+];
 
 export const loader = async ({
   params,
@@ -51,7 +56,7 @@ export const loader = async ({
   const statuses = pr.commits!.nodes![0]?.commit!.checkSuites!.nodes!;
 
   const augmentedStatuses = statuses
-    .filter((status) => !["success", "skipped"].includes(status!.conclusion!))
+    .filter((status) => !TO_SKIP.includes(status!.conclusion!))
     .flatMap((status): Item[] => {
       const workflowName =
         status!.workflowRun?.workflow?.name ?? status!.app!.name!;
@@ -75,8 +80,6 @@ export const loader = async ({
     ),
   });
 };
-
-type PR = Awaited<ReturnType<Octokit["rest"]["pulls"]["get"]>>["data"];
 
 type Check = NonNullable<
   Get<
