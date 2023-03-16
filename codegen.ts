@@ -6,6 +6,11 @@ const config: CodegenConfig = {
   generates: {
     "./app/components/graphql/": {
       preset: "client",
+      presetConfig: {
+        fragmentMasking: {
+          unmaskFunctionName: "getFragment",
+        },
+      },
     },
   },
 };

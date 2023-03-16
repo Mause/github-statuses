@@ -1,10 +1,13 @@
 import type { Request } from "@remix-run/node";
 import { print } from "graphql";
 import gql from "graphql-tag";
+import { getFragment } from "~/components/graphql";
 import type {
   GetActionsForPullRequestQuery,
   GetActionsForPullRequestQueryVariables,
-  PullRequestsFragment,
+  PullRequestsFragment} from "~/components/graphql/graphql";
+import {
+  PullRequestsFragmentDoc,
 } from "~/components/graphql/graphql";
 import { getOctokit } from "~/octokit.server";
 
@@ -71,8 +74,7 @@ export async function getActions(
     variables
   );
 
-  const path =
-    "repositoryOwner.repository. $fragmentRefs.PullRequestsFragment.pullRequest";
+  const path = "repositoryOwner.repository.PullRequestsFragment.pullRequest";
 
   let obj: any = thing;
 
@@ -84,8 +86,10 @@ export async function getActions(
     }
   }
 
-  const pr =
-    thing.repositoryOwner?.repository![" $fragmentRefs"]?.PullRequestsFragment;
+  const pr = getFragment(
+    PullRequestsFragmentDoc,
+    thing.repositoryOwner?.repository
+  );
 
   return pr?.pullRequest!;
 }
