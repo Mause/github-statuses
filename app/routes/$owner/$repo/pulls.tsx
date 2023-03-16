@@ -63,6 +63,7 @@ export default function Pulls() {
         header: "Rollup",
         cell: (props) =>
           Object.entries(props.getValue())
+            .filter(([_, v]) => v !== 0)
             .map(([k, v]) => `${v} ${k}`)
             .join(", "),
       }),
