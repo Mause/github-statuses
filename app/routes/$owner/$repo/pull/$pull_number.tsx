@@ -54,10 +54,13 @@ export const loader = async ({
     prNumber: Number(params.pull_number!),
   });
   const statuses = pr.commits!.nodes![0]?.commit!.checkSuites!.nodes!;
-  console.log(`recieved statuses: {statuses.length}`);
+  console.log(`recieved statuses: ${statuses.length}`);
 
   const augmentedStatuses = statuses
-    .filter((status) => !TO_SKIP.includes(status!.conclusion!))
+    .filter((status) => {
+      console.log({conclusion: status.conclusion, TO_SKIP});
+      return !TO_SKIP.includes(status!.conclusion!)
+    })
     .flatMap((status): Item[] => {
       const workflowName =
         status!.workflowRun?.workflow?.name ?? status!.app!.name!;
