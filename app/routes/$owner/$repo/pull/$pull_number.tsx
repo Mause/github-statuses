@@ -54,6 +54,7 @@ export const loader = async ({
     prNumber: Number(params.pull_number!),
   });
   const statuses = pr.commits!.nodes![0]?.commit!.checkSuites!.nodes!;
+  console.log(`recieved statuses: {statuses.length}`);
 
   const augmentedStatuses = statuses
     .filter((status) => !TO_SKIP.includes(status!.conclusion!))
