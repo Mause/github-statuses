@@ -16,7 +16,7 @@ export const fragment = gql`
       title
       state
       permalink
-      commits(first: 1) {
+      commits(last: 1) {
         nodes {
           commit {
             checkSuites(first: 100) {
