@@ -58,8 +58,8 @@ export const loader = async ({
 
   const augmentedStatuses = statuses
     .filter((status) => {
-      console.log({conclusion: status.conclusion, TO_SKIP});
-      return !TO_SKIP.includes(status!.conclusion!)
+      console.log({ conclusion: status!.conclusion, TO_SKIP });
+      return !TO_SKIP.includes(status!.conclusion!);
     })
     .flatMap((status): Item[] => {
       const workflowName =
