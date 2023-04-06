@@ -2,7 +2,8 @@ import type { Octokit } from "@octokit/rest";
 import { Truncate } from "@primer/react";
 import { useLoaderData } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import type { DataLoaderParams } from "~/components";
+import type { DataLoaderParams} from "~/components";
+import { Wrapper } from "~/components";
 import { StandardTable } from "~/components";
 import { getOctokit, getUser } from "~/octokit.server";
 
@@ -24,24 +25,26 @@ const columnHelper = createColumnHelper<Event>();
 export default function Activity() {
   const { events } = useLoaderData<typeof loader>();
 
+  const tableOptions = {
+    data: events,
+    columns: [
+      columnHelper.accessor("repo.name", { header: "Repository" }),
+      columnHelper.accessor("payload", {
+        header: "Event Payload",
+        cell: (props) => (
+          <Truncate title={props.row.original.type || "unknown"} expandable>
+            <code>
+              <pre>{JSON.stringify(props.getValue(), undefined, 2)}</pre>
+            </code>
+          </Truncate>
+        ),
+      }),
+    ],
+  };
   return (
-    <StandardTable
-      tableOptions={{
-        data: events,
-        columns: [
-          columnHelper.accessor("repo.name", { header: "Repository" }),
-          columnHelper.accessor("payload", {
-            header: "Event Payload",
-            cell: (props) => (
-              <Truncate title={props.row.original.type || "unknown"} expandable>
-                <code>
-                  <pre>{JSON.stringify(props.getValue(), undefined, 2)}</pre>
-                </code>
-              </Truncate>
-            ),
-          }),
-        ],
-      }}
-    />
+    <Wrapper>
+      <></>
+      <StandardTable tableOptions={tableOptions} />
+    </Wrapper>
   );
 }
