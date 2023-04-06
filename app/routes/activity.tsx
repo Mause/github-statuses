@@ -2,7 +2,7 @@ import type { Octokit } from "@octokit/rest";
 import { Truncate } from "@primer/react";
 import { useLoaderData } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import type { DataLoaderParams} from "~/components";
+import type { DataLoaderParams } from "~/components";
 import { Wrapper } from "~/components";
 import { StandardTable } from "~/components";
 import { getOctokit, getUser } from "~/octokit.server";
@@ -29,10 +29,15 @@ export default function Activity() {
     data: events,
     columns: [
       columnHelper.accessor("repo.name", { header: "Repository" }),
+      columnHelper.accessor("type", { header: "Event Type" }),
       columnHelper.accessor("payload", {
         header: "Event Payload",
         cell: (props) => (
-          <Truncate title={props.row.original.type || "unknown"} expandable>
+          <Truncate
+            title={props.row.original.type || "unknown"}
+            expandable
+            inline
+          >
             <code>
               <pre>{JSON.stringify(props.getValue(), undefined, 2)}</pre>
             </code>
