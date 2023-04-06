@@ -27,8 +27,8 @@ export default function Activity() {
   const { events } = useLoaderData<typeof loader>();
 
   const distinct = _.chain(events)
-    .uniq()
     .map((event) => event.repo.name.split("/") as [string, string])
+    .uniq()
     .groupBy((pair) => pair[0])
     .mapValues((repos) => repos.map(([_, repo]) => repo))
     .value();
