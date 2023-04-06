@@ -2,6 +2,7 @@ import type { Octokit } from "@octokit/rest";
 import { Truncate } from "@primer/react";
 import { useLoaderData } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
+import _ from "lodash";
 import type { DataLoaderParams } from "~/components";
 import { Wrapper } from "~/components";
 import { StandardTable } from "~/components";
@@ -25,7 +26,11 @@ const columnHelper = createColumnHelper<Event>();
 export default function Activity() {
   const { events } = useLoaderData<typeof loader>();
 
-  const distinct = new Set(events.map(({ repo }) => repo.name));
+  const distinct = _.chain(events)
+    .map((event) => event.repo.name.split("/") as [string, string])
+    .groupBy((pair) => pair[0])
+    .mapValues((repos) => repos.map(([_, repo]) => repo))
+    .value();
 
   const tableOptions = {
     data: events,
@@ -53,8 +58,14 @@ export default function Activity() {
       <></>
       <>
         <ul>
-          {Array.from(distinct).map((name) => (
-            <li key={name}>{name}</li>
+          {Object.entries(distinct).map(([owner, repos]) => (
+            <li key={owner}>
+              <ul>
+                {repos.map((repo) => (
+                  <li key={repo}>{repo}</li>
+                ))}
+              </ul>
+            </li>
           ))}
         </ul>
         <StandardTable tableOptions={tableOptions} />
