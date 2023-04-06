@@ -25,6 +25,8 @@ const columnHelper = createColumnHelper<Event>();
 export default function Activity() {
   const { events } = useLoaderData<typeof loader>();
 
+  const distinct = new Set(events.map(({ repo }) => repo.name));
+
   const tableOptions = {
     data: events,
     columns: [
@@ -49,7 +51,14 @@ export default function Activity() {
   return (
     <Wrapper>
       <></>
-      <StandardTable tableOptions={tableOptions} />
+      <>
+        <ul>
+          {Array.from(distinct).map((name) => (
+            <li key={name}>{name}</li>
+          ))}
+        </ul>
+        <StandardTable tableOptions={tableOptions} />
+      </>
     </Wrapper>
   );
 }
