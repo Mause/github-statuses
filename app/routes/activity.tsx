@@ -1,12 +1,12 @@
-import { json } from "@remix-run/node";
-import gql from "graphql-tag";
 import type { DataLoaderParams } from "~/components";
-import { getOctokit } from "~/octokit.server";
+import { getOctokit, getUser } from "~/octokit.server";
 
 export async function loader({ request }: DataLoaderParams<"">) {
   const octokit = await getOctokit(request);
 
-  const events = await octokit.activity.listEventsForAuthenticatedUser();
+  const events = await octokit.activity.listEventsForAuthenticatedUser({
+    username: (await getUser(request)).login,
+  });
 
-  return json({ events });
+  return { events: events.data };
 }
