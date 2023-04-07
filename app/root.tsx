@@ -10,7 +10,7 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { Spinner, ThemeProvider } from "@primer/react";
+import { SSRProvider, Spinner, ThemeProvider } from "@primer/react";
 // @ts-ignore
 import styles from "bulma/css/bulma.min.css";
 import { Modal } from "react-bulma-components";
@@ -69,4 +69,8 @@ function App() {
   );
 }
 
-export default withSentry(App);
+export default withSentry(() => (
+  <SSRProvider>
+    <App />
+  </SSRProvider>
+));
