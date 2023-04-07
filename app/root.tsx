@@ -11,6 +11,7 @@ import {
 import { Spinner, ThemeProvider } from "@primer/react";
 import styles from "bulma/css/bulma.min.css";
 import { Modal } from "react-bulma-components";
+import { withSentry } from "@sentry/remix";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -22,7 +23,7 @@ export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
 
-export default function App() {
+function App() {
   const navigation = useNavigation();
 
   return (
@@ -50,3 +51,5 @@ export default function App() {
     </html>
   );
 }
+
+export default withSentry(App);
