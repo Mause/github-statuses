@@ -33,7 +33,8 @@ import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
 import { CheckConclusionState } from "~/components/graphql/graphql";
 
-export const meta: V2_MetaFunction = ({ data }) => [
+export const meta: V2_MetaFunction = ({ data, matches }) => [
+  ...matches.flatMap((match) => match.meta ?? []),
   { title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses" },
 ];
 
