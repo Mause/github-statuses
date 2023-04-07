@@ -13,7 +13,7 @@ import { getFragment } from "~/components/graphql";
 
 export const GetAllRepos = gql`
   fragment Repos on RepositoryOwner {
-    repositories {
+    repositories(first: 10) {
       nodes {
         name
       }
