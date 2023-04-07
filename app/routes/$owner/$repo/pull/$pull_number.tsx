@@ -1,7 +1,7 @@
 import type {
-  MetaFunction,
   SerializeFrom,
   TypedResponse,
+  V2_MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
@@ -33,9 +33,9 @@ import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
 import { CheckConclusionState } from "~/components/graphql/graphql";
 
-export const meta: MetaFunction = ({ data }) => ({
-  title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses",
-});
+export const meta: V2_MetaFunction = ({ data }) => [
+  { title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses" },
+];
 
 const TO_SKIP: CheckConclusionState[] = [
   CheckConclusionState.Success,
