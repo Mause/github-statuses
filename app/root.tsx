@@ -1,4 +1,4 @@
-import type { MetaFunction} from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -11,6 +11,7 @@ import {
   useNavigation,
 } from "@remix-run/react";
 import { Spinner, ThemeProvider } from "@primer/react";
+// @ts-ignore
 import styles from "bulma/css/bulma.min.css";
 import { Modal } from "react-bulma-components";
 import { withSentry } from "@sentry/remix";
@@ -23,11 +24,11 @@ export async function loader() {
   });
 }
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Action Statuses",
-  viewport: "width=device-width,initial-scale=1",
-});
+export const meta: V2_MetaFunction = () => [
+  { name: "charset", content: "utf-8" },
+  { title: "Action Statuses" },
+  { name: "viewport", content: "width=device-width,initial-scale=1" },
+];
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
