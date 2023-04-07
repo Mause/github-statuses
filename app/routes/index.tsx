@@ -4,10 +4,42 @@ import { TreeView, Header } from "@primer/react";
 import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs } from "@remix-run/node";
-import { getUser } from "~/octokit.server";
+import { getOctokit, getUser } from "~/octokit.server";
+import gql from "graphql-tag";
+import { print } from "graphql";
+import type { GetAllReposQuery } from "~/components/graphql/graphql";
+import { ReposFragmentDoc } from "~/components/graphql/graphql";
+import { getFragment } from "~/components/graphql";
+
+export const GetAllRepos = gql`
+  fragment Repos on RepositoryOwner {
+    repositories {
+      nodes {
+        name
+      }
+    }
+  }
+  query GetAllRepos {
+    duckdb: repositoryOwner(login: "duckdb") {
+      ...Repos
+    }
+    duckdblabs: repositoryOwner(login: "duckdblabs") {
+      ...Repos
+    }
+  }
+`;
 
 export const loader = async ({ request }: DataFunctionArgs) => {
   const user = await getUser(request);
+  const octokit = await getOctokit(request);
+
+  const res = await octokit.graphql<GetAllReposQuery>(print(GetAllRepos));
+
+  const getRepos = (org: GetAllReposQuery["duckdb"]) =>
+    getFragment(ReposFragmentDoc, org!).repositories.nodes!.map(
+      (repo) => repo!.name
+    );
+
   const repos: [string, string[]][] = [
     [
       user.login,
@@ -19,8 +51,8 @@ export const loader = async ({ request }: DataFunctionArgs) => {
         "github-statuses",
       ],
     ],
-    ["duckdb", ["duckdb", "duckdb-web"]],
-    ["duckdblabs", ["sqlite_scanner", "substrait", "postgres_scanner"]],
+    ["duckdb", getRepos(res.duckdb!)],
+    ["duckdblabs", getRepos(res.duckdblabs)],
   ];
   return json({ user, repos });
 };
