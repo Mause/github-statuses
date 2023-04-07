@@ -7,7 +7,7 @@ import * as Sentry from "@sentry/remix";
 import { useEffect } from "react";
 
 Sentry.init({
-  dsn: process.env.SENTRY_DSN,
+  dsn: window.ENV.SENTRY_DSN,
   tracesSampleRate: 1,
   integrations: [
     new Sentry.BrowserTracing({
