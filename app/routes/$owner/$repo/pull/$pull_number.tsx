@@ -56,16 +56,16 @@ export const loader = async ({
   const statuses = pr.commits!.nodes![0]?.commit!.checkSuites!.nodes!;
   console.log(`recieved statuses: ${statuses.length}`);
 
-  const augmentedStatuses = statuses
-    .filter((status) => {
-      console.log({ conclusion: status!.conclusion, TO_SKIP });
-      return !TO_SKIP.includes(status!.conclusion!);
-    })
-    .flatMap((status): Item[] => {
-      const workflowName =
-        status!.workflowRun?.workflow?.name ?? status!.app!.name!;
+  const augmentedStatuses = statuses.flatMap((status): Item[] => {
+    const workflowName =
+      status!.workflowRun?.workflow?.name ?? status!.app!.name!;
 
-      return status!.checkRuns!.nodes!.map((node) => {
+    return status!
+      .checkRuns!.nodes!.filter((status) => {
+        console.log({ conclusion: status!.conclusion, status: TO_SKIP });
+        return !TO_SKIP.includes(status!.conclusion!);
+      })
+      .map((node) => {
         const started_at = Date.parse(node!.startedAt!);
         const poi = Date.parse(node!.completedAt!) || Date.now();
 
@@ -74,7 +74,7 @@ export const loader = async ({
           duration: poi - started_at,
         });
       });
-    });
+  });
 
   return json({
     statuses: augmentedStatuses,
