@@ -1,5 +1,5 @@
 import type { Octokit } from "@octokit/rest";
-import { Truncate } from "@primer/react";
+import { Button, Details, Truncate, useDetails } from "@primer/react";
 import { useLoaderData } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import _ from "lodash";
@@ -41,17 +41,7 @@ export default function Activity() {
       columnHelper.accessor("type", { header: "Event Type" }),
       columnHelper.accessor("payload", {
         header: "Event Payload",
-        cell: (props) => (
-          <Truncate
-            title={props.row.original.type || "unknown"}
-            expandable
-            inline
-          >
-            <code>
-              <pre>{JSON.stringify(props.getValue(), undefined, 2)}</pre>
-            </code>
-          </Truncate>
-        ),
+        cell: (props) => <EventPayload event={props.row.original} />,
       }),
     ],
   };
@@ -74,5 +64,17 @@ export default function Activity() {
         <StandardTable tableOptions={tableOptions} />
       </>
     </Wrapper>
+  );
+}
+
+function EventPayload({ event }: { event: Event }) {
+  const { getDetailsProps } = useDetails({});
+  return (
+    <Details {...getDetailsProps()} title={event.type || "unknown"}>
+      <Button as="summary">Details</Button>
+      <code>
+        <pre>{JSON.stringify(event, undefined, 2)}</pre>
+      </code>
+    </Details>
   );
 }
