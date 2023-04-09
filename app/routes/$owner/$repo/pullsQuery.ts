@@ -2,14 +2,60 @@ import { getOctokit } from "~/octokit.server";
 import type {
   PullRequestStatusQuery,
   PullRequestStatusQueryVariables,
+  StatusCheckRollupFragment,
 } from "~/components/graphql/graphql";
+import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
 import { print } from "graphql";
 
 import gql from "graphql-tag";
 import type { Request } from "@remix-run/node";
+import { getFragment } from "~/components/graphql";
 
 export const query = gql`
+  fragment StatusCheckRollup on PullRequest {
+    mergeable
+    mergeStateStatus
+    statusCheckRollup: commits(last: 1) {
+      nodes {
+        commit {
+          statusCheckRollup {
+            contexts(first: 100) {
+              nodes {
+                __typename
+                ... on StatusContext {
+                  context
+                  state
+                  targetUrl
+                  createdAt
+                }
+                ... on CheckRun {
+                  name
+                  checkSuite {
+                    workflowRun {
+                      workflow {
+                        name
+                      }
+                    }
+                  }
+                  status
+                  conclusion
+                  startedAt
+                  completedAt
+                  detailsUrl
+                }
+              }
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   query PullRequestStatus(
     $owner: String!
     $repo: String!
@@ -46,44 +92,7 @@ export const query = gql`
               }
             }
             mergeStateStatus
-            statusCheckRollup: commits(last: 1) {
-              nodes {
-                commit {
-                  statusCheckRollup {
-                    contexts(first: 100) {
-                      nodes {
-                        __typename
-                        ... on StatusContext {
-                          context
-                          state
-                          targetUrl
-                          createdAt
-                        }
-                        ... on CheckRun {
-                          name
-                          checkSuite {
-                            workflowRun {
-                              workflow {
-                                name
-                              }
-                            }
-                          }
-                          status
-                          conclusion
-                          startedAt
-                          completedAt
-                          detailsUrl
-                        }
-                      }
-                      pageInfo {
-                        hasNextPage
-                        endCursor
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            ...StatusCheckRollup
             mergeable
           }
         }
@@ -96,9 +105,11 @@ type PullRequest = Get<
   PullRequestStatusQuery,
   "repository.pullRequests.edges.0.node"
 > & {};
-export type PRWithRollup = PullRequest & {
+
+export type WithRollup<T> = T & {
   rollup: PullRequestChecksStatus;
 };
+export type PRWithRollup = WithRollup<PullRequest>;
 
 export async function getPullRequests(
   request: Request,
@@ -116,9 +127,10 @@ export async function getPullRequests(
     url: repo.url,
     pulls: repo
       .pullRequests!.edges!.map((edge) => edge!.node!)
-      .map((pr): PRWithRollup => {
+      .map((pr) => {
         let rpr = pr as PRWithRollup;
-        rpr.rollup = ChecksStatus(rpr!.statusCheckRollup!);
+        let rawRollup = getFragment(StatusCheckRollupFragmentDoc, pr);
+        rpr.rollup = ChecksStatus(rawRollup!.statusCheckRollup!);
         return rpr;
       }),
   };
@@ -132,7 +144,7 @@ interface PullRequestChecksStatus {
 }
 
 function ChecksStatus(
-  pr: PullRequest["statusCheckRollup"]
+  pr: StatusCheckRollupFragment["statusCheckRollup"]
 ): PullRequestChecksStatus {
   const summary: PullRequestChecksStatus = {
     failing: 0,
