@@ -32,9 +32,17 @@ import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
 import { CheckConclusionState } from "~/components/graphql/graphql";
+import type { loader as parentLoader } from "~/root";
 
-export const meta: V2_MetaFunction = ({ data, matches }) => [
-  ...matches.flatMap((match) => match.meta ?? []),
+export const meta: V2_MetaFunction<
+  typeof loader,
+  {
+    "/": typeof parentLoader;
+  }
+> = ({ data, matches }) => [
+  ...matches
+    .flatMap((match) => match.meta ?? [])
+    .filter((meta) => !("title" in meta)),
   { title: (data?.pr ? `${data?.pr?.title} | ` : "") + "Action Statuses" },
 ];
 
