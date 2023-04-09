@@ -1568,9 +1568,9 @@
   integrity sha512-ZwSgPyo9nA6TRngXV0QnFT4e5ujeOGxRDWN2aa6qfimz2o2VOsJ9bFGuGvB723nvzq5z9zKr6JWGtvK7MSJj3w==
 
 "@github/relative-time-element@^4.1.2":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/@github/relative-time-element/-/relative-time-element-4.2.3.tgz#54277f69809ba262612124cd1db6ecd1728b3515"
-  integrity sha512-M5NaacbpSmKUk6tYQ8r/LokSHeIb6D7rTTOqZ/htQX3b7KGKiDXI0t/WF7UDy58Go0NNfEahE9WzGEKcSjqfrA==
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@github/relative-time-element/-/relative-time-element-4.2.4.tgz#4c63cd05d458e38e4d7504a616881aca10f454bc"
+  integrity sha512-18qgH9FYUHYN9K3z4s35auDHww1dKTU6TacI8JkA5OuvHVa1lTMuSTZ4hIoJngD5+mizcoRMOs6p/yZYMIjsyg==
 
 "@graphql-codegen/add@^4.0.1":
   version "4.0.1"
@@ -2396,9 +2396,9 @@
   integrity sha512-Sdss4XG96nqBqrTAyg+RuFOj+U5wkICK8n2hafcyT+lpSlZoIwcbmhyFjmDy9f88FkhHe2q0uCpQ8PjKd8ILTQ==
 
 "@primer/react@^35.21.0":
-  version "35.21.0"
-  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.21.0.tgz#b758a99700c28aaf429270d240e107bdc1666676"
-  integrity sha512-TiJ7UdwVWA9zW9YtWfNcqe/3DQSpIu31kWTRDTGSfrJzkeFHUQgKOe/oIJAMIXtg2IPNjMzxZ8wVE8OztTpidw==
+  version "35.24.0"
+  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.24.0.tgz#118e4e5933834f3d46772db15c76b205b70ef195"
+  integrity sha512-EdRcEzpS01ZpsROviII0lwFocWwRzY3w4PW0bmTXjoWpqHAdbhDJ68k2LrRet3evDxeSrJIZP7qm95pi//iraw==
   dependencies:
     "@github/combobox-nav" "^2.1.5"
     "@github/markdown-toolbar-element" "^2.1.0"
@@ -2426,9 +2426,9 @@
     styled-system "^5.1.5"
 
 "@react-aria/ssr@^3.1.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.5.0.tgz#40c1270a75868185f72a88cafe37bd1392f690cb"
-  integrity sha512-h0MJdSWOd1qObLnJ8mprU31wI8tmKFJMuwT22MpWq6psisOOZaga6Ml4u6Ee6M6duWWISjXvqO4Sb/J0PBA+nQ==
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.6.0.tgz#e5d52bd1686ff229f68f806cf94ee29dd9f54fb7"
+  integrity sha512-OFiYQdv+Yk7AO7IsQu/fAEPijbeTwrrEYvdNoJ3sblBBedD5j5fBTNWrUPNVlwC4XWWnWTCMaRIVsJujsFiWXg==
   dependencies:
     "@swc/helpers" "^0.4.14"
 
@@ -3133,19 +3133,19 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.25":
-  version "18.0.28"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.28.tgz#accaeb8b86f4908057ad629a26635fe641480065"
-  integrity sha512-RD0ivG1kEztNBdoAK7lekI9M+azSnitIn85h4iOiaLjaTrMjzslhaqCGaI4IyCJ1RljWiLCEu4jyrLLgqxBTew==
+"@types/react@*", "@types/react@^18.0.15":
+  version "18.0.33"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.33.tgz#a1575160cb4376787c2f5fe0312302f824baa61e"
+  integrity sha512-sHxzVxeanvQyQ1lr8NSHaj0kDzcNiGpILEVt69g9S31/7PfMvNCKLKcsHw4lYKjs3cGNJjXSP4mYzX43QlnjNA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^18.0.15":
-  version "18.0.33"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.33.tgz#a1575160cb4376787c2f5fe0312302f824baa61e"
-  integrity sha512-sHxzVxeanvQyQ1lr8NSHaj0kDzcNiGpILEVt69g9S31/7PfMvNCKLKcsHw4lYKjs3cGNJjXSP4mYzX43QlnjNA==
+"@types/react@^18.0.25":
+  version "18.0.28"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.28.tgz#accaeb8b86f4908057ad629a26635fe641480065"
+  integrity sha512-RD0ivG1kEztNBdoAK7lekI9M+azSnitIn85h4iOiaLjaTrMjzslhaqCGaI4IyCJ1RljWiLCEu4jyrLLgqxBTew==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
