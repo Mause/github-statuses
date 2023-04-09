@@ -12,7 +12,6 @@ export const action = async ({ request }: ActionArgs) =>
 export default function Logout() {
   return (
     <Wrapper>
-      {<></>}
       <Form method="post">
         <Button type="submit">Logout with GitHub</Button>
       </Form>

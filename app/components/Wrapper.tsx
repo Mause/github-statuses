@@ -1,4 +1,4 @@
-import { Text, Header, PageLayout } from "@primer/react";
+import { Text, Header, PageLayout, Breadcrumbs } from "@primer/react";
 import { Link } from "@remix-run/react";
 import type { ReactNode } from "react";
 
@@ -28,13 +28,22 @@ export function StandardHeader({
 }
 
 export default function Wrapper({
-  children: [header, body],
+  breadcrumbs,
+  header,
+  children: body,
 }: {
-  children: [ReactNode, ReactNode];
+  breadcrumbs?: ReactNode;
+  header?: ReactNode;
+  children: ReactNode;
 }) {
   return (
     <PageLayout sx={{ overflowY: "auto" }}>
       <StandardHeader children={header} />
+      <Breadcrumbs>
+        <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+        {breadcrumbs}
+      </Breadcrumbs>
+
       <PageLayout.Content>{body}</PageLayout.Content>
       {/*
       <PageLayout.Pane divider="line" position="start">

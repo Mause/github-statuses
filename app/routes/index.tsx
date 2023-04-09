@@ -79,19 +79,22 @@ export default function Index() {
   ));
 
   return (
-    <Wrapper>
-      <>
-        <Header.Item full>
-          <Header.Link as={Link} to={`/${user.login}`}>
-            My PRs
-          </Header.Link>
-        </Header.Item>
-        <Header.Item>
-          <Header.Link as={Link} to="/auth/logout">
-            Logout
-          </Header.Link>
-        </Header.Item>
-      </>
+    <Wrapper
+      header={
+        <>
+          <Header.Item full>
+            <Header.Link as={Link} to={`/${user.login}`}>
+              My PRs
+            </Header.Link>
+          </Header.Item>
+          <Header.Item>
+            <Header.Link as={Link} to="/auth/logout">
+              Logout
+            </Header.Link>
+          </Header.Item>
+        </>
+      }
+    >
       <TreeView>{nodes}</TreeView>
     </Wrapper>
   );

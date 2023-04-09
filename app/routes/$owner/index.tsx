@@ -114,8 +114,7 @@ export default function Owner() {
   };
 
   return (
-    <Wrapper>
-      <Header.Item>{res.user!.login}</Header.Item>
+    <Wrapper header={<Header.Item>{res.user!.login}</Header.Item>}>
       <StandardTable tableOptions={table} />
     </Wrapper>
   );
