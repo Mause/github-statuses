@@ -9,8 +9,10 @@ import type { Get } from "type-fest";
 import { print } from "graphql";
 
 import gql from "graphql-tag";
-import type { Request } from "@remix-run/node";
-import { getFragment } from "~/components/graphql";
+import type { Request, SerializeFrom } from "@remix-run/node";
+import { FragmentType, getFragment } from "~/components/graphql";
+import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
+import { AccessorFnColumnDef } from "@tanstack/react-table";
 
 export const query = gql`
   fragment StatusCheckRollup on PullRequest {
@@ -101,7 +103,7 @@ export const query = gql`
   }
 `;
 
-type PullRequest = Get<
+export type PullRequest = Get<
   PullRequestStatusQuery,
   "repository.pullRequests.edges.0.node"
 > & {};
@@ -125,14 +127,7 @@ export async function getPullRequests(
   return {
     title: repo.name,
     url: repo.url,
-    pulls: repo
-      .pullRequests!.edges!.map((edge) => edge!.node!)
-      .map((pr) => {
-        let rpr = pr as PRWithRollup;
-        let rawRollup = getFragment(StatusCheckRollupFragmentDoc, pr);
-        rpr.rollup = ChecksStatus(rawRollup!.statusCheckRollup!);
-        return rpr;
-      }),
+    pulls: repo.pullRequests!.edges!.map((edge) => edge!.node!),
   };
 }
 
@@ -143,7 +138,7 @@ interface PullRequestChecksStatus {
   total: number;
 }
 
-function ChecksStatus(
+export function getChecksStatus(
   pr: StatusCheckRollupFragment["statusCheckRollup"]
 ): PullRequestChecksStatus {
   const summary: PullRequestChecksStatus = {

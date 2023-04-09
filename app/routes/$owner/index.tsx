@@ -11,10 +11,10 @@ import type {
   GetUserPullRequestsQueryVariables,
 } from "~/components/graphql/graphql";
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
-import type { Get } from "type-fest";
 import { Header } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
+import { buildRollupColumn } from "./$repo/pulls";
 
 const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -37,20 +37,7 @@ const Query = gql`
                 }
               }
             }
-            commits(first: 1) {
-              edges {
-                node {
-                  commit {
-                    statusCheckRollup {
-                      state
-                      contexts(first: 1) {
-                        checkRunCount
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            ...StatusCheckRollup
           }
         }
       }
@@ -69,23 +56,26 @@ export const loader = async ({
       direction: OrderDirection.Desc,
     },
   };
-  const res = await (
+  const { user } = await (
     await getOctokit(request)
   ).graphql<GetUserPullRequestsQuery>({
     query: print(Query),
     ...variables,
   });
-  return json({ res });
+  return json({
+    login: user!.login!,
+    pulls: user!.pullRequests!.edges!.map((edge) => edge!.node!),
+  });
 };
 
 export default function Owner() {
-  const { res } = useLoaderDataReloading<typeof loader>();
+  const { login, pulls } = useLoaderDataReloading<typeof loader>();
 
-  type PullRequest = Get<typeof res, "user.pullRequests.edges.0.node">;
+  type PullRequest = (typeof pulls)[0];
 
   const columnHelper = createColumnHelper<PullRequest>();
   const table: StandardTableOptions<PullRequest> = {
-    data: res!.user!.pullRequests!.edges!.map((edge) => edge!.node),
+    data: pulls,
     columns: [
       columnHelper.accessor("title", {
         header: "Title",
@@ -110,12 +100,13 @@ export default function Owner() {
           return <Link to={`/${name}/pulls`}>{name}</Link>;
         },
       }),
+      buildRollupColumn(),
     ],
   };
 
   return (
     <Wrapper>
-      <Header.Item>{res.user!.login}</Header.Item>
+      <Header.Item>{login}</Header.Item>
       <StandardTable tableOptions={table} />
     </Wrapper>
   );
