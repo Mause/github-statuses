@@ -2,14 +2,18 @@ import { Header } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
+import type { AccessorFnColumnDef } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { titleCase } from "./pull/titleCase";
-import type { PRWithRollup } from "./pullsQuery";
-import { getPullRequests } from "./pullsQuery";
+import type { PullRequest } from "./pullsQuery";
+import { getChecksStatus, getPullRequests } from "./pullsQuery";
+import { getFragment } from "~/components/graphql/fragment-masking";
+import type { StatusCheckRollupFragment } from "~/components/graphql/graphql";
+import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 
 export const loader = async ({
   params,
@@ -23,12 +27,12 @@ export const loader = async ({
   );
 };
 
-const columnHelper = createColumnHelper<SerializeFrom<PRWithRollup>>();
+const columnHelper = createColumnHelper<SerializeFrom<PullRequest>>();
 
 export default function Pulls() {
   const { pulls, title, url } = useLoaderDataReloading<typeof loader>();
 
-  const table: StandardTableOptions<SerializeFrom<PRWithRollup>> = {
+  const table: StandardTableOptions<SerializeFrom<PullRequest>> = {
     data: pulls,
     columns: [
       columnHelper.accessor("number", {
@@ -59,14 +63,7 @@ export default function Pulls() {
         header: "Mergability",
         cell: (props) => titleCase(props.getValue()),
       }),
-      columnHelper.accessor("rollup", {
-        header: "Rollup",
-        cell: (props) =>
-          Object.entries(props.getValue())
-            .filter(([_, v]) => v !== 0)
-            .map(([k, v]) => `${v} ${k}`)
-            .join(", "),
-      }),
+      buildRollupColumn(),
     ],
   };
 
@@ -78,4 +75,29 @@ export default function Pulls() {
       <StandardTable tableOptions={table} />
     </Wrapper>
   );
+}
+
+export function buildRollupColumn<
+  T extends {
+    " $fragmentRefs"?: { StatusCheckRollupFragment: StatusCheckRollupFragment };
+  }
+>(): AccessorFnColumnDef<
+  SerializeFrom<T>,
+  StatusCheckRollupFragment["statusCheckRollup"]
+> {
+  return {
+    accessorFn: (props: SerializeFrom<T>) =>
+      getFragment(StatusCheckRollupFragmentDoc, props as T).statusCheckRollup,
+    header: "Rollup",
+    cell: (props) => {
+      const statusCheckRollup = props.getValue();
+
+      let rollup = getChecksStatus(statusCheckRollup);
+
+      return Object.entries(rollup)
+        .filter(([_, v]) => v !== 0)
+        .map(([k, v]) => `${v} ${k}`)
+        .join(", ");
+    },
+  };
 }
