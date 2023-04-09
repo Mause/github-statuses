@@ -8,7 +8,9 @@ import gql from "graphql-tag";
 import { print } from "graphql";
 import type {
   GetUserPullRequestsQuery,
-  GetUserPullRequestsQueryVariables,
+  GetUserPullRequestsQueryVariables} from "~/components/graphql/graphql";
+import {
+  StatusCheckRollupFragmentDoc,
 } from "~/components/graphql/graphql";
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import { Header } from "@primer/react";
@@ -58,10 +60,10 @@ export const loader = async ({
   };
   const { user } = await (
     await getOctokit(request)
-  ).graphql<GetUserPullRequestsQuery>({
-    query: print(Query),
-    ...variables,
-  });
+  ).graphql<GetUserPullRequestsQuery>(
+    print(Query) + print(StatusCheckRollupFragmentDoc),
+    variables
+  );
   return json({
     login: user!.login!,
     pulls: user!.pullRequests!.edges!.map((edge) => edge!.node!),
