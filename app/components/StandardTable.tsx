@@ -3,6 +3,7 @@ import type {
   ColumnFiltersState,
   SortingState,
   TableOptions,
+  ColumnDef,
   Table as ReactTable,
   SortDirection,
   Header,
@@ -23,6 +24,7 @@ import { fuzzyFilter } from "./fuzzyFilter";
 import { TextInput } from "@primer/react";
 import { Table } from "@primer/react/drafts";
 import { TableSortHeader } from "@primer/react/lib-esm/DataTable/Table";
+import { getGridTemplateFromColumns } from "@primer/react/lib-esm/DataTable/useTable";
 import type { SortDirection as TableSortDirection } from "@primer/react/lib-esm/DataTable/sorting";
 
 export type StandardTableOptions<T> = Pick<TableOptions<T>, "data" | "columns">;
@@ -37,6 +39,10 @@ function mapSortDirection(sort: boolean | SortDirection): TableSortDirection {
     case false:
       return "NONE";
   }
+}
+
+function convertColumn(source: ColumnDef<any>) {
+  return { header: source.header as string };
 }
 
 export default function StandardTable<T>({
@@ -73,6 +79,10 @@ export default function StandardTable<T>({
     onSortingChange: setSorting,
   });
 
+  const gridTemplateColumns = getGridTemplateFromColumns(
+    tableOptions.columns.map((column) => convertColumn(column))
+  ).join(" ");
+
   return (
     <Table.Container>
       <Table.Actions>
@@ -81,7 +91,10 @@ export default function StandardTable<T>({
           leadingVisual={SearchIcon}
         />
       </Table.Actions>
-      <Table style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}>
+      <Table
+        gridTemplateColumns={gridTemplateColumns}
+        style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
+      >
         <Table.Head>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Row key={headerGroup.id}>
@@ -89,26 +102,34 @@ export default function StandardTable<T>({
                 const shared = {
                   key: header.id,
                   colSpan: header.colSpan,
-                  children: [
-                    flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    ),
-                    header.column.getCanFilter() && (
-                      <Filter column={header.column} table={table} />
-                    ),
-                  ],
                 };
+                const [content, filt] = [
+                  flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  ),
+                  header.column.getCanFilter() && (
+                    <Filter column={header.column} table={table} />
+                  ),
+                ];
                 if (header.column.getCanSort()) {
                   return (
                     <TableSortHeader
                       {...shared}
                       direction={mapSortDirection(header.column.getIsSorted())}
                       onToggleSort={getSortOnClick(header)}
-                    />
+                    >
+                      {content}
+                      {filt}
+                    </TableSortHeader>
                   );
                 } else {
-                  return <Table.Header {...shared} />;
+                  return (
+                    <Table.Header {...shared}>
+                      {content}
+                      {filt}
+                    </Table.Header>
+                  );
                 }
               })}
             </Table.Row>
