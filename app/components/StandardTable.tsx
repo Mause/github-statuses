@@ -81,7 +81,9 @@ export default function StandardTable<T>({
           leadingVisual={SearchIcon}
         />
       </Table.Actions>
-      <Table style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}>
+      <Table
+        style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
+      >
         <Table.Head>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Row key={headerGroup.id}>
@@ -89,26 +91,34 @@ export default function StandardTable<T>({
                 const shared = {
                   key: header.id,
                   colSpan: header.colSpan,
-                  children: [
-                    flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    ),
-                    header.column.getCanFilter() && (
-                      <Filter column={header.column} table={table} />
-                    ),
-                  ],
                 };
+                const [content, filt] = [
+                  flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  ),
+                  header.column.getCanFilter() && (
+                    <Filter column={header.column} table={table} />
+                  ),
+                ];
                 if (header.column.getCanSort()) {
                   return (
                     <TableSortHeader
                       {...shared}
                       direction={mapSortDirection(header.column.getIsSorted())}
                       onToggleSort={getSortOnClick(header)}
-                    />
+                    >
+                      {content}
+                      {filt}
+                    </TableSortHeader>
                   );
                 } else {
-                  return <Table.Header {...shared} />;
+                  return (
+                    <Table.Header {...shared}>
+                      {content}
+                      {filt}
+                    </Table.Header>
+                  );
                 }
               })}
             </Table.Row>
