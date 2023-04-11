@@ -3,6 +3,7 @@ import type {
   ColumnFiltersState,
   SortingState,
   TableOptions,
+  ColumnDef,
   Table as ReactTable,
   SortDirection,
   Header,
@@ -23,6 +24,7 @@ import { fuzzyFilter } from "./fuzzyFilter";
 import { TextInput } from "@primer/react";
 import { Table } from "@primer/react/drafts";
 import { TableSortHeader } from "@primer/react/lib-esm/DataTable/Table";
+import { getGridTemplateFromColumns } from "@primer/react/lib-esm/DataTable/useTable";
 import type { SortDirection as TableSortDirection } from "@primer/react/lib-esm/DataTable/sorting";
 
 export type StandardTableOptions<T> = Pick<TableOptions<T>, "data" | "columns">;
@@ -37,6 +39,10 @@ function mapSortDirection(sort: boolean | SortDirection): TableSortDirection {
     case false:
       return "NONE";
   }
+}
+
+function convertColumn(source: ColumnDef<any>) {
+  return { header: source.header as string };
 }
 
 export default function StandardTable<T>({
@@ -73,6 +79,10 @@ export default function StandardTable<T>({
     onSortingChange: setSorting,
   });
 
+  const gridTemplateColumns = getGridTemplateFromColumns(
+    tableOptions.columns.map((column) => convertColumn(column))
+  ).join(" ");
+
   return (
     <Table.Container>
       <Table.Actions>
@@ -82,6 +92,7 @@ export default function StandardTable<T>({
         />
       </Table.Actions>
       <Table
+        gridTemplateColumns={gridTemplateColumns}
         style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
       >
         <Table.Head>
