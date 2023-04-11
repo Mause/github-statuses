@@ -4,8 +4,8 @@ import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
-import { getSession } from "./services/session.server";
 import { redirect } from "@remix-run/router";
+import { createVerifier } from "fast-jwt";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -14,8 +14,9 @@ type Request = DataFunctionArgs["request"];
 export async function getUserNoRedirect(
   request: Request
 ): Promise<SessionShape | null> {
-  const session = await getSession(request.headers.get("cookie"));
-  return session.get("user");
+  const session = await authenticator().isAuthenticated(request);
+  if (session) createVerifier({})(session.accessToken);
+  return session;
 }
 
 export async function getUser(request: Request): Promise<SessionShape> {
