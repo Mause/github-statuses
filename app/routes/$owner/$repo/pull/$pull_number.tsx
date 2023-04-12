@@ -86,14 +86,14 @@ export const loader = async ({
       });
   });
 
+  const percentFailed =
+    (augmentedStatuses.length /
+      statuses.flatMap((status) => status!.checkRuns!.nodes).length) *
+    100;
   return json({
     statuses: augmentedStatuses,
     pr,
-    progress: Math.round(
-      (augmentedStatuses.length /
-        statuses.flatMap((status) => status!.checkRuns!.nodes).length) *
-        100
-    ),
+    progress: Math.round(100 - percentFailed),
   });
 };
 
