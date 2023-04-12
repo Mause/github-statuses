@@ -17,6 +17,7 @@ export const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
     user(login: $owner) {
       login
+      url
       pullRequests(first: 10, orderBy: $order, states: OPEN) {
         edges {
           node {
@@ -48,13 +49,13 @@ export const loader = async ({
   const octokit = await getOctokit(request);
   const { user } = await call(octokit, GetUserPullRequestsDocument, variables);
   return json({
-    login: user!.login!,
+    user,
     pulls: user!.pullRequests!.edges!.map((edge) => edge!.node!),
   });
 };
 
 export default function Owner() {
-  const { login, pulls } = useLoaderDataReloading<typeof loader>();
+  const { user, pulls } = useLoaderDataReloading<typeof loader>();
 
   type PullRequest = (typeof pulls)[0];
 
@@ -87,7 +88,9 @@ export default function Owner() {
 
   return (
     <Wrapper>
-      <Header.Item>{login}</Header.Item>
+      <Header.Item>
+        <Header.Link href={user!.url}>{user!.login}</Header.Link>
+      </Header.Item>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </Wrapper>
   );
