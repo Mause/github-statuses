@@ -80,12 +80,12 @@ export function buildMergeableColumn<
   }
 >(): AccessorFnColumnDef<
   SerializeFrom<T>,
-  StatusCheckRollupFragment["mergeStateStatus"]
+  StatusCheckRollupFragment["mergeable"]
 > {
   return {
     accessorFn: (props: SerializeFrom<T>) =>
-      getFragment(StatusCheckRollupFragmentDoc, props as T).mergeStateStatus,
-    header: "Mergability",
+      getFragment(StatusCheckRollupFragmentDoc, props as T).mergeable,
+    header: "Mergeability",
     cell: (props) => titleCase(props.getValue()),
   };
 }
