@@ -1,17 +1,18 @@
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { createColumnHelper } from "@tanstack/table-core";
-import { print } from "graphql";
 import gql from "graphql-tag";
 import type { Get } from "type-fest";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import type {
   GetRepositoryActionsQuery,
-  GetRepositoryActionsQueryVariables,
+  GetRepositoryActionsQueryVariables} from "~/components/graphql/graphql";
+import {
+  GetRepositoryActionsDocument
 } from "~/components/graphql/graphql";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { getOctokit } from "~/octokit.server";
+import { call, getOctokit } from "~/octokit.server";
 
 export const query = gql`
   query GetRepositoryActions($owner: String!, $repo: String!) {
@@ -66,12 +67,8 @@ export const loader = async ({
     owner: params.owner!,
     repo: params.repo!,
   };
-  const actions = await (
-    await getOctokit(request)
-  ).graphql<GetRepositoryActionsQuery>({
-    query: print(query),
-    ...variables,
-  });
+  const octokit = await getOctokit(request);
+  const actions = await call(octokit, GetRepositoryActionsDocument, variables);
   return json({
     actions: actions
       .repository!.pullRequests!.edges!.map((edge) => edge!.node)

@@ -3,15 +3,15 @@ import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
-import { getOctokit } from "~/octokit.server";
+import { call, getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
-import { print } from "graphql";
 import type {
-  GetUserPullRequestsQuery,
   GetUserPullRequestsQueryVariables} from "~/components/graphql/graphql";
 import {
-  StatusCheckRollupFragmentDoc,
+  GetUserPullRequestsDocument,
+  GetUserPullRequestsQuery
 } from "~/components/graphql/graphql";
+import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import { Header } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
@@ -58,12 +58,8 @@ export const loader = async ({
       direction: OrderDirection.Desc,
     },
   };
-  const { user } = await (
-    await getOctokit(request)
-  ).graphql<GetUserPullRequestsQuery>(
-    print(Query) + print(StatusCheckRollupFragmentDoc),
-    variables
-  );
+  const octokit = await getOctokit(request);
+  const { user } = await call(octokit, GetUserPullRequestsDocument, variables);
   return json({
     login: user!.login!,
     pulls: user!.pullRequests!.edges!.map((edge) => edge!.node!),
