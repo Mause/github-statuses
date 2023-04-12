@@ -6,11 +6,8 @@ import { Wrapper } from "~/components";
 import type { DataFunctionArgs } from "@remix-run/node";
 import { call, getOctokit, getUser } from "~/octokit.server";
 import gql from "graphql-tag";
-import type {
-  GetAllReposQuery} from "~/components/graphql/graphql";
-import {
-  GetAllReposDocument
-} from "~/components/graphql/graphql";
+import type { GetAllReposQuery } from "~/components/graphql/graphql";
+import { GetAllReposDocument } from "~/components/graphql/graphql";
 import { ReposFragmentDoc } from "~/components/graphql/graphql";
 import { getFragment } from "~/components/graphql";
 
@@ -85,7 +82,7 @@ export default function Index() {
     <Wrapper>
       <>
         <Header.Item full>
-          <Header.Link as={Link} to={`/${user.login}`}>
+          <Header.Link as={Link} to={`/${user.login}/pulls`}>
             My PRs
           </Header.Link>
         </Header.Item>
