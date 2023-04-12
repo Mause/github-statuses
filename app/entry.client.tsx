@@ -23,7 +23,7 @@ Sentry.init({
 function hydrate() {
   startTransition(() => {
     hydrateRoot(
-      document,
+      document.getElementById('root')!,
       <StrictMode>
         <RemixBrowser />
       </StrictMode>

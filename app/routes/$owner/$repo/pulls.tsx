@@ -59,10 +59,7 @@ export default function Pulls() {
           </a>
         ),
       }),
-      columnHelper.accessor("mergeable", {
-        header: "Mergability",
-        cell: (props) => titleCase(props.getValue()),
-      }),
+      buildMergeableColumn(),
       buildRollupColumn(),
     ],
   };
@@ -75,6 +72,22 @@ export default function Pulls() {
       <StandardTable tableOptions={table} />
     </Wrapper>
   );
+}
+
+export function buildMergeableColumn<
+  T extends {
+    " $fragmentRefs"?: { StatusCheckRollupFragment: StatusCheckRollupFragment };
+  }
+>(): AccessorFnColumnDef<
+  SerializeFrom<T>,
+  StatusCheckRollupFragment["mergeStateStatus"]
+> {
+  return {
+    accessorFn: (props: SerializeFrom<T>) =>
+      getFragment(StatusCheckRollupFragmentDoc, props as T).mergeStateStatus,
+    header: "Mergability",
+    cell: (props) => titleCase(props.getValue()),
+  };
 }
 
 export function buildRollupColumn<
