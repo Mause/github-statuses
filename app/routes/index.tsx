@@ -4,10 +4,13 @@ import { TreeView, Header } from "@primer/react";
 import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs } from "@remix-run/node";
-import { getOctokit, getUser } from "~/octokit.server";
+import { call, getOctokit, getUser } from "~/octokit.server";
 import gql from "graphql-tag";
-import { print } from "graphql";
-import type { GetAllReposQuery } from "~/components/graphql/graphql";
+import type {
+  GetAllReposQuery} from "~/components/graphql/graphql";
+import {
+  GetAllReposDocument
+} from "~/components/graphql/graphql";
 import { ReposFragmentDoc } from "~/components/graphql/graphql";
 import { getFragment } from "~/components/graphql";
 
@@ -33,7 +36,7 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   const user = await getUser(request);
   const octokit = await getOctokit(request);
 
-  const res = await octokit.graphql<GetAllReposQuery>(print(GetAllRepos));
+  const res = await call(octokit, GetAllReposDocument);
 
   const getRepos = (org: GetAllReposQuery["duckdb"]) =>
     getFragment(ReposFragmentDoc, org!).repositories.nodes!.map(

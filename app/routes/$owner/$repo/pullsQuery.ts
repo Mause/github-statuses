@@ -1,18 +1,15 @@
-import { getOctokit } from "~/octokit.server";
+import { call, getOctokit } from "~/octokit.server";
 import type {
   PullRequestStatusQuery,
   PullRequestStatusQueryVariables,
-  StatusCheckRollupFragment,
+  StatusCheckRollupFragment} from "~/components/graphql/graphql";
+import {
+  PullRequestStatusDocument
 } from "~/components/graphql/graphql";
-import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
-import { print } from "graphql";
 
 import gql from "graphql-tag";
-import type { Request, SerializeFrom } from "@remix-run/node";
-import { FragmentType, getFragment } from "~/components/graphql";
-import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { AccessorFnColumnDef } from "@tanstack/react-table";
+import type { Request } from "@remix-run/node";
 
 export const query = gql`
   fragment StatusCheckRollup on PullRequest {
@@ -118,10 +115,7 @@ export async function getPullRequests(
   variables: PullRequestStatusQueryVariables
 ) {
   const octokit = await getOctokit(request);
-  const resp = await octokit.graphql<PullRequestStatusQuery>(
-    print(query),
-    variables
-  );
+  const resp = await call(octokit, PullRequestStatusDocument, variables);
 
   const repo = resp.repository!;
   return {
