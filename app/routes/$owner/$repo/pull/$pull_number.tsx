@@ -90,7 +90,9 @@ export const loader = async ({
     statuses: augmentedStatuses,
     pr,
     progress: Math.round(
-      100 - (augmentedStatuses.length / statuses.length) * 100
+      (augmentedStatuses.length /
+        statuses.flatMap((status) => status!.checkRuns!.nodes).length) *
+        100
     ),
   });
 };
