@@ -1,4 +1,4 @@
-import { Header } from "@primer/react";
+import { Header, Label } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
@@ -12,8 +12,12 @@ import { titleCase } from "./pull/titleCase";
 import type { PullRequest } from "./pullsQuery";
 import { getChecksStatus, getPullRequests } from "./pullsQuery";
 import { getFragment } from "~/components/graphql/fragment-masking";
-import type { StatusCheckRollupFragment } from "~/components/graphql/graphql";
+import type {
+  MergeableState,
+  StatusCheckRollupFragment,
+} from "~/components/graphql/graphql";
 import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
+import type { LabelColorOptions } from "@primer/react/lib-esm/Label";
 
 export const loader = async ({
   params,
@@ -88,7 +92,19 @@ export function buildMergeableColumn<
     accessorFn: (props: SerializeFrom<T>) =>
       getFragment(StatusCheckRollupFragmentDoc, props as T).mergeable,
     header: "Mergeability",
-    cell: (props) => titleCase(props.getValue()),
+    cell: (props) => {
+      const value: Record<MergeableState, LabelColorOptions> = {
+        CONFLICTING: "attention",
+        MERGEABLE: "success",
+        UNKNOWN: "secondary",
+      };
+
+      return (
+        <Label variant={value[props.getValue()]}>
+          {titleCase(props.getValue())}
+        </Label>
+      );
+    },
   };
 }
 
