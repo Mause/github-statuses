@@ -49,6 +49,7 @@ export const meta: V2_MetaFunction<
 const TO_SKIP: CheckConclusionState[] = [
   CheckConclusionState.Success,
   CheckConclusionState.Skipped,
+  CheckConclusionState.Neutral,
 ];
 
 export const loader = async ({
