@@ -3,11 +3,9 @@ import gql from "graphql-tag";
 import { getFragment } from "~/components/graphql";
 import type {
   GetActionsForPullRequestQueryVariables,
-  PullRequestsFragment} from "~/components/graphql/graphql";
-import {
-  GetActionsForPullRequestDocument,
-  GetActionsForPullRequestQuery
+  PullRequestsFragment,
 } from "~/components/graphql/graphql";
+import { GetActionsForPullRequestDocument } from "~/components/graphql/graphql";
 import { PullRequestsFragmentDoc } from "~/components/graphql/graphql";
 import { call, getOctokit } from "~/octokit.server";
 
@@ -73,8 +71,7 @@ export async function getActions(
   const thing = await call(
     octokit,
     GetActionsForPullRequestDocument,
-    variables,
-    [PullRequestsFragmentDoc]
+    variables
   );
 
   return getFragment(

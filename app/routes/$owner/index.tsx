@@ -5,13 +5,8 @@ import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import { call, getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
-import type {
-  GetUserPullRequestsQueryVariables} from "~/components/graphql/graphql";
-import {
-  GetUserPullRequestsDocument,
-  GetUserPullRequestsQuery
-} from "~/components/graphql/graphql";
-import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
+import type { GetUserPullRequestsQueryVariables } from "~/components/graphql/graphql";
+import { GetUserPullRequestsDocument } from "~/components/graphql/graphql";
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import { Header } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
