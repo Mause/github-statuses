@@ -11,7 +11,7 @@ import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import { Header } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { buildRollupColumn } from "./$repo/pulls";
+import { buildMergeableColumn, buildRollupColumn } from "./$repo/pulls";
 
 const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -93,6 +93,7 @@ export default function Owner() {
           return <Link to={`/${name}/pulls`}>{name}</Link>;
         },
       }),
+      buildMergeableColumn(),
       buildRollupColumn(),
     ],
   };

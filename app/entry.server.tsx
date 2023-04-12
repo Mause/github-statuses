@@ -2,6 +2,8 @@ import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 import { ServerStyleSheet } from "styled-components";
+import { renderHeadToString } from 'remix-island';
+import { Head } from './root';
 
 import * as Sentry from "@sentry/remix";
 
@@ -16,6 +18,7 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
+  const head = renderHeadToString({ request, remixContext, Head });
   const sheet = new ServerStyleSheet();
 
   let markup = renderToString(
@@ -24,11 +27,22 @@ export default function handleRequest(
     )
   );
   const styles = sheet.getStyleTags();
-  markup = markup.replace("__STYLES__", styles);
 
   responseHeaders.set("Content-Type", "text/html");
 
-  return new Response("<!DOCTYPE html>" + markup, {
+  return new Response(
+      `<!DOCTYPE html>
+      <html>
+        <head>
+          ${styles}
+          ${head}
+        </head>
+        <body>
+          <div id="root">
+            ${markup}
+          </div>
+        </body>
+      </html>`, {
     headers: responseHeaders,
     status: responseStatusCode,
   });

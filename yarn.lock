@@ -9121,6 +9121,11 @@ remix-auth@^3.4.0:
   dependencies:
     uuid "^8.3.2"
 
+remix-island@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/remix-island/-/remix-island-0.1.2.tgz#fa7b36044bf8ebd10e812b1890d2787a8591d1c8"
+  integrity sha512-1vXF56y7ZKb8caUduCKdkbxObAxZnTO+arQ94QlwKK6a7wVozGCfiOOk3lr919rm7cy54eeqOVI0hud3cfHlLg==
+
 remove-accents@0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
