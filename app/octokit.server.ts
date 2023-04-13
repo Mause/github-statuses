@@ -4,8 +4,6 @@ import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
-import { getSession } from "./services/session.server";
-import { redirect } from "@remix-run/router";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 
@@ -16,14 +14,13 @@ type Request = DataFunctionArgs["request"];
 export async function getUserNoRedirect(
   request: Request
 ): Promise<SessionShape | null> {
-  const session = await getSession(request.headers.get("cookie"));
-  return session.get("user");
+  return await authenticator().isAuthenticated(request);
 }
 
 export async function getUser(request: Request): Promise<SessionShape> {
-  const user = await getUserNoRedirect(request);
-  if (!user) throw redirect("/login");
-  return user;
+  return await authenticator().isAuthenticated(request, {
+    failureRedirect: "/login",
+  });
 }
 
 export const getOctokit = async (request: DataFunctionArgs["request"]) => {
