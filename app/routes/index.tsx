@@ -22,6 +22,7 @@ import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
 
 export const GetAllRepos = gql`
   fragment Repos on RepositoryOwner {
+    login
     repositories(first: 25, orderBy: $orderBy) {
       nodes {
         name
@@ -53,21 +54,14 @@ export const loader = async ({ request }: DataFunctionArgs) => {
     },
   });
 
-  const getRepos = (org: GetAllReposQuery["duckdb"]) =>
-    getFragment(ReposFragmentDoc, org!).repositories.nodes!.map(
-      (repo) => repo!.name
-    );
-
   type Child = FragmentType<DocumentTypeDecoration<ReposFragment, any>>;
 
-  const entries = Object.entries(res).filter(
-    ([key, _]) => key !== "__typename"
-  ) as [string, Child][];
-
-  const repos: [string, string[]][] = entries.map(([login, repos]) => [
-    login,
-    getRepos(repos),
-  ]);
+  const repos = Object.values(res)
+    .filter((value) => typeof value !== "string")
+    .map((org): [string, string[]] => {
+      const frag = getFragment(ReposFragmentDoc, org! as Child);
+      return [frag.login, frag.repositories.nodes!.map((repo) => repo!.name)];
+    });
 
   return json({ user, repos });
 };
