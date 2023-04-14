@@ -13,7 +13,7 @@ import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { buildMergeableColumn, buildRollupColumn } from "./$repo/pulls";
 
-const Query = gql`
+export const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
     user(login: $owner) {
       login
@@ -24,15 +24,7 @@ const Query = gql`
             title
             url
             repository {
-              name
-              owner {
-                ... on Organization {
-                  login
-                }
-                ... on User {
-                  login
-                }
-              }
+              nameWithOwner
             }
             ...StatusCheckRollup
           }
@@ -75,21 +67,16 @@ export default function Owner() {
         cell: (props) => {
           const { number, repository } = props.row.original!;
           return (
-            <Link
-              to={`/${repository.owner!.login!}/${
-                repository.name
-              }/pull/${number}`}
-            >
+            <Link to={`/${repository.nameWithOwner}/pull/${number}`}>
               {props.renderValue()}
             </Link>
           );
         },
       }),
-      columnHelper.accessor("repository", {
+      columnHelper.accessor("repository.nameWithOwner", {
         header: "Repository",
         cell: (props) => {
-          const value = props.getValue();
-          const name = `${value.owner.login}/${value.name}`;
+          const name = props.getValue();
           return <Link to={`/${name}/pulls`}>{name}</Link>;
         },
       }),
