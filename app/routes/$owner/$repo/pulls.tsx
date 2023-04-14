@@ -2,7 +2,7 @@ import { Header, Label } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import type { AccessorFnColumnDef } from "@tanstack/react-table";
+import type { AccessorFnColumnDef, CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";

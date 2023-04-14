@@ -11,12 +11,6 @@ const Throttled = Octokit.plugin(throttling);
 
 type Request = DataFunctionArgs["request"];
 
-export async function getUserNoRedirect(
-  request: Request
-): Promise<SessionShape | null> {
-  return await authenticator().isAuthenticated(request);
-}
-
 export async function getUser(request: Request): Promise<SessionShape> {
   return await authenticator().isAuthenticated(request, {
     failureRedirect: "/login",
