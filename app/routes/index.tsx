@@ -7,19 +7,23 @@ import type { DataFunctionArgs } from "@remix-run/node";
 import { call, getOctokit, getUser } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { GetAllReposQuery } from "~/components/graphql/graphql";
+import {
+  OrderDirection,
+  RepositoryOrderField,
+} from "~/components/graphql/graphql";
 import { GetAllReposDocument } from "~/components/graphql/graphql";
 import { ReposFragmentDoc } from "~/components/graphql/graphql";
 import { getFragment } from "~/components/graphql";
 
 export const GetAllRepos = gql`
   fragment Repos on RepositoryOwner {
-    repositories(first: 25) {
+    repositories(first: 25, orderBy: $orderBy) {
       nodes {
         name
       }
     }
   }
-  query GetAllRepos {
+  query GetAllRepos($orderBy: RepositoryOrder!) {
     duckdb: repositoryOwner(login: "duckdb") {
       ...Repos
     }
@@ -33,7 +37,12 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   const user = await getUser(request);
   const octokit = await getOctokit(request);
 
-  const res = await call(octokit, GetAllReposDocument);
+  const res = await call(octokit, GetAllReposDocument, {
+    orderBy: {
+      field: RepositoryOrderField.PushedAt,
+      direction: OrderDirection.Desc,
+    },
+  });
 
   const getRepos = (org: GetAllReposQuery["duckdb"]) =>
     getFragment(ReposFragmentDoc, org!).repositories.nodes!.map(
