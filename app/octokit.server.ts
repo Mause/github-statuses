@@ -81,12 +81,8 @@ export const gitHubStrategy = () => {
       callbackURL,
       scope: ["user", "read:user"],
     },
-    async ({ accessToken, extraParams, profile }) => {
-      const octokit = octokitFromToken(accessToken);
-      // Get the user data from your DB or API using the tokens and profile
-      return Object.assign((await octokit.rest.users.getAuthenticated()).data, {
-        accessToken,
-      });
+    async ({ accessToken, profile }) => {
+      return { login: profile._json.login, accessToken };
     }
   );
 };

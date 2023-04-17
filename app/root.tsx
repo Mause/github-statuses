@@ -67,17 +67,7 @@ function ErrorDisplay() {
           <pre>{error.stack}</pre>
         </code>
         <code>
-          <pre>
-            {JSON.stringify(
-              Object.fromEntries(
-                Object.entries(Object.getOwnPropertyDescriptors(error)).map(
-                  ([key, descr]) => [key, descr.value]
-                )
-              ),
-              undefined,
-              2
-            )}
-          </pre>
+          <pre>{JSON.stringify(splatObject(error), undefined, 2)}</pre>
         </code>
       </div>
     );
@@ -92,6 +82,17 @@ function ErrorDisplay() {
     );
   }
 }
+
+export const splatObject = (error: unknown) =>
+  Object.assign(
+    {},
+    error,
+    Object.fromEntries(
+      Object.entries(Object.getOwnPropertyDescriptors(error)).map(
+        ([key, descr]) => [key, descr.value]
+      )
+    )
+  );
 
 export function ErrorBoundary() {
   return (

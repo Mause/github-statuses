@@ -1,10 +1,23 @@
 import type { DataFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
-import { getRootURL } from "~/octokit.server";
+import { getOctokit, getRootURL } from "~/octokit.server";
 import { authenticator } from "~/services/auth.server";
+import { splatObject } from "../root";
 
-export const loader = async ({ request }: DataFunctionArgs) => ({
-  rootURL: getRootURL(),
-  user: (await authenticator().isAuthenticated(request))?.login || null,
-  env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
-});
+export const loader = async ({ request }: DataFunctionArgs) => {
+  const octokit = await getOctokit(request);
+
+  let user;
+  try {
+    user = await octokit.rest.users.getAuthenticated();
+  } catch (e) {
+    user = splatObject(e as Error);
+  }
+
+  return {
+    rootURL: getRootURL(),
+    user: (await authenticator().isAuthenticated(request))?.login || null,
+    userExtra: user,
+    env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
+  };
+};
