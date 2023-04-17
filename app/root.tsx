@@ -16,6 +16,9 @@ import styles from "bulma/css/bulma.min.css";
 import { Modal } from "react-bulma-components";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
+import { RequestError } from "@octokit/request-error";
+import { Wrapper } from "./components";
 
 export async function loader() {
   return json({
@@ -42,6 +45,56 @@ export const Head = createHead(() => (
   </>
 ));
 
+function ErrorDisplay() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <div>
+        <h1>Error</h1>
+        <p>{error.message}</p>
+        <p>The stack trace is:</p>
+        <code>
+          <pre>{error.stack}</pre>
+        </code>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <h1>Unknown Error</h1>
+        <code>
+          <pre>{JSON.stringify(error, undefined, 2)}</pre>
+        </code>
+      </div>
+    );
+  }
+}
+
+export function ErrorBoundary() {
+  return (
+    <ThemeProvider>
+      <Meta />
+      <Links />
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
+      <Wrapper>
+        <></>
+        <ErrorDisplay />
+      </Wrapper>
+    </ThemeProvider>
+  );
+}
 
 function App() {
   const data = useLoaderData<typeof loader>();
@@ -49,24 +102,24 @@ function App() {
 
   return (
     <>
-        <ThemeProvider>
-          <Outlet />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-            }}
-          />
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-          <Modal
-            show={navigation.state !== "idle"}
-            closeOnEsc={false}
-            showClose={false}
-          >
-            <Spinner size="large" sx={{ color: "whitesmoke" }} />
-          </Modal>
-        </ThemeProvider>
+      <ThemeProvider>
+        <Outlet />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+        <Modal
+          show={navigation.state !== "idle"}
+          closeOnEsc={false}
+          showClose={false}
+        >
+          <Spinner size="large" sx={{ color: "whitesmoke" }} />
+        </Modal>
+      </ThemeProvider>
     </>
   );
 }
