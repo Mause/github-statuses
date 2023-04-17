@@ -69,8 +69,10 @@ function ErrorDisplay() {
         <code>
           <pre>
             {JSON.stringify(
-              Object.entries(Object.getOwnPropertyDescriptors(error)).map(
-                ([key, descr]) => [key, descr.value]
+              Object.fromEntries(
+                Object.entries(Object.getOwnPropertyDescriptors(error)).map(
+                  ([key, descr]) => [key, descr.value]
+                )
               ),
               undefined,
               2
