@@ -60,11 +60,14 @@ function ErrorDisplay() {
   } else if (error instanceof Error) {
     return (
       <div>
-        <h1>Error</h1>
+        <h1>Error: {error.name}</h1>
         <p>{error.message}</p>
         <p>The stack trace is:</p>
         <code>
           <pre>{error.stack}</pre>
+        </code>
+        <code>
+          <pre>{JSON.stringify(error, undefined, 2)}</pre>
         </code>
       </div>
     );
