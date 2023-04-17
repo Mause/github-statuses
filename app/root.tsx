@@ -67,7 +67,15 @@ function ErrorDisplay() {
           <pre>{error.stack}</pre>
         </code>
         <code>
-          <pre>{JSON.stringify(error, undefined, 2)}</pre>
+          <pre>
+            {JSON.stringify(
+              Object.entries(Object.getOwnPropertyDescriptors(error)).map(
+                ([key, descr]) => [key, descr.value]
+              ),
+              undefined,
+              2
+            )}
+          </pre>
         </code>
       </div>
     );
