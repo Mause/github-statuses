@@ -1,5 +1,5 @@
 import { Text, Header, PageLayout } from "@primer/react";
-import { Link } from "@remix-run/react";
+import { Link, useMatches } from "@remix-run/react";
 import type { ReactNode } from "react";
 
 export function StandardHeader({
@@ -7,6 +7,10 @@ export function StandardHeader({
 }: {
   children?: ReactNode[] | ReactNode;
 }) {
+  const matches = useMatches();
+  const index = matches.find((route) => route.id === "routes/index");
+  const user = index?.data?.user;
+
   return (
     <PageLayout.Header divider="line">
       <Header
@@ -22,6 +26,20 @@ export function StandardHeader({
           </Header.Link>
         </Header.Item>
         {children}
+        {user ? (
+          <>
+            <Header.Item full>
+              <Header.Link as={Link} to={`/${user?.login}/pulls`}>
+                My PRs
+              </Header.Link>
+            </Header.Item>
+            <Header.Item>
+              <Header.Link as={Link} to="/auth/logout">
+                Logout
+              </Header.Link>
+            </Header.Item>
+          </>
+        ) : undefined}
       </Header>
     </PageLayout.Header>
   );
