@@ -8,7 +8,7 @@ export function StandardHeader({
   children?: ReactNode[] | ReactNode;
 }) {
   const matches = useMatches();
-  const index = matches.find((route) => route.id === "routes/index");
+  const index = matches.find((route) => route.id === "root");
   const user = index?.data?.user;
 
   return (

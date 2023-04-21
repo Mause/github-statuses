@@ -17,14 +17,16 @@ import { Modal } from "react-bulma-components";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import { RequestError } from "@octokit/request-error";
+import type { DataLoaderParams} from "./components";
 import { Wrapper } from "./components";
+import { authenticator } from "./services/auth.server";
 
-export async function loader() {
+export async function loader({ request }: DataLoaderParams<"">) {
   return json({
     ENV: {
       SENTRY_DSN: process.env.SENTRY_DSN,
     },
+    user: await authenticator().isAuthenticated(request),
   });
 }
 
