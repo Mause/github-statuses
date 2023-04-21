@@ -19,6 +19,7 @@ import {
 } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 import { SearchIcon } from "@primer/octicons-react";
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import { fuzzyFilter } from "./fuzzyFilter";
 import { TextInput } from "@primer/react";
@@ -47,8 +48,10 @@ function convertColumn(source: ColumnDef<any>) {
 
 export default function StandardTable<T>({
   tableOptions,
+  children,
 }: {
   tableOptions: StandardTableOptions<T>;
+  children: ReactNode[] | ReactNode;
 }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -82,6 +85,10 @@ export default function StandardTable<T>({
   const gridTemplateColumns = getGridTemplateFromColumns(
     tableOptions.columns.map((column) => convertColumn(column))
   ).join(" ");
+
+  if (!tableOptions.data.length) {
+    return <>{children}</>;
+  }
 
   return (
     <Table.Container>

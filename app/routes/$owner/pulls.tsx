@@ -88,7 +88,7 @@ export default function Owner() {
   return (
     <Wrapper>
       <Header.Item>{login}</Header.Item>
-      <StandardTable tableOptions={table} />
+      <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </Wrapper>
   );
 }

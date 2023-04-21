@@ -77,7 +77,7 @@ export default function Pulls() {
           {title}
         </Header.Link>
       </Header.Item>
-      <StandardTable tableOptions={table} />
+      <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </Wrapper>
   );
 }
