@@ -61,7 +61,9 @@ export default function Activity() {
             </li>
           ))}
         </ul>
-        <StandardTable tableOptions={tableOptions} />
+        <StandardTable tableOptions={tableOptions}>
+          No pull requests found
+        </StandardTable>
       </>
     </Wrapper>
   );
