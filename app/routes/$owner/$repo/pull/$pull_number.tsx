@@ -218,14 +218,12 @@ export default function Index() {
           </Header.Item>
         ) : null}
       </>
-      {statuses.length ? (
-        <StandardTable tableOptions={table} />
-      ) : (
+      <StandardTable tableOptions={table}>
         <Flash variant="success">
           <StyledOcticon icon={CheckIcon} />
           Success! All jobs have successfully completed!
         </Flash>
-      )}
+      </StandardTable>
     </Wrapper>
   );
 }

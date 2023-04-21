@@ -1,4 +1,4 @@
-import type { V2_MetaFunction } from "@remix-run/node";
+import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -17,11 +17,10 @@ import { Modal } from "react-bulma-components";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import type { DataLoaderParams} from "./components";
 import { Wrapper } from "./components";
 import { authenticator } from "./services/auth.server";
 
-export async function loader({ request }: DataLoaderParams<"">) {
+export async function loader({ request }: DataFunctionArgs) {
   return json({
     ENV: {
       SENTRY_DSN: process.env.SENTRY_DSN,
