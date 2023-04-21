@@ -1580,9 +1580,9 @@
   integrity sha512-ZwSgPyo9nA6TRngXV0QnFT4e5ujeOGxRDWN2aa6qfimz2o2VOsJ9bFGuGvB723nvzq5z9zKr6JWGtvK7MSJj3w==
 
 "@github/relative-time-element@^4.1.2":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/@github/relative-time-element/-/relative-time-element-4.2.3.tgz#54277f69809ba262612124cd1db6ecd1728b3515"
-  integrity sha512-M5NaacbpSmKUk6tYQ8r/LokSHeIb6D7rTTOqZ/htQX3b7KGKiDXI0t/WF7UDy58Go0NNfEahE9WzGEKcSjqfrA==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@github/relative-time-element/-/relative-time-element-4.3.0.tgz#3cb90ffbbe9a82c7242bdd9d54f2d74d555547cf"
+  integrity sha512-+tFjX9//HRS1HnBa5cNgfEtE52arwiutYg1TOF+Trk40SPxst9Q8Rtc3BKD6aKsvfbtub68vfhipgchGjj9o7g==
 
 "@graphql-codegen/add@^4.0.1":
   version "4.0.1"
@@ -2397,15 +2397,17 @@
   resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-18.3.0.tgz#1b608048fe26e4e66d9f3de1eac8eb82195839f5"
   integrity sha512-kOoc4wrBw3bPe2ZPj9BmCwXdEkw8hxUX/tFCvcjOsZ6eywaQXm3PR0yZnPZxZ8o4RFj2tdg/cwGr4+cU83weHw==
 
-"@primer/primitives@7.11.1":
-  version "7.11.1"
-  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.11.1.tgz#f23a93674f6d04f3cfd3ce182b72dbf11ea86ad5"
-  integrity sha512-Sdss4XG96nqBqrTAyg+RuFOj+U5wkICK8n2hafcyT+lpSlZoIwcbmhyFjmDy9f88FkhHe2q0uCpQ8PjKd8ILTQ==
+"@primer/primitives@7.11.5":
+  version "7.11.5"
+  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.11.5.tgz#df36599f70d7a8283ce967c17c0e808ecb3984a2"
+  integrity sha512-UmFQA0BZ5BIQKrlKg1TOEjDzeeI2NWyeh/5cCvXVOjfLegCXIlHf/xCLl1KCYO4YeegHmC9g5tpPLTlWjtcbaA==
+  dependencies:
+    markdown-table-ts "^1.0.3"
 
 "@primer/react@^35.21.0":
-  version "35.24.0"
-  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.24.0.tgz#118e4e5933834f3d46772db15c76b205b70ef195"
-  integrity sha512-EdRcEzpS01ZpsROviII0lwFocWwRzY3w4PW0bmTXjoWpqHAdbhDJ68k2LrRet3evDxeSrJIZP7qm95pi//iraw==
+  version "35.25.0"
+  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.25.0.tgz#0bb1ff2c70e86eac98d1b0220d8243297ddb987a"
+  integrity sha512-UEK9T6J1Wiry7H4b20x+34mC2f6WKYVSZS2O4Xe6sBTe9+Ytsi47v3CLWzi1XSAwKOr+C97TtBEAiGtcOJvxPg==
   dependencies:
     "@github/combobox-nav" "^2.1.5"
     "@github/markdown-toolbar-element" "^2.1.0"
@@ -2414,7 +2416,7 @@
     "@lit-labs/react" "1.1.1"
     "@primer/behaviors" "1.3.3"
     "@primer/octicons-react" "^18.0.0"
-    "@primer/primitives" "7.11.1"
+    "@primer/primitives" "7.11.5"
     "@react-aria/ssr" "^3.1.0"
     "@styled-system/css" "^5.1.5"
     "@styled-system/props" "^5.1.5"
@@ -2429,13 +2431,13 @@
     focus-visible "^5.2.0"
     fzy.js "0.4.1"
     history "^5.0.0"
-    react-intersection-observer "9.4.1"
+    react-intersection-observer "9.4.3"
     styled-system "^5.1.5"
 
 "@react-aria/ssr@^3.1.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.5.0.tgz#40c1270a75868185f72a88cafe37bd1392f690cb"
-  integrity sha512-h0MJdSWOd1qObLnJ8mprU31wI8tmKFJMuwT22MpWq6psisOOZaga6Ml4u6Ee6M6duWWISjXvqO4Sb/J0PBA+nQ==
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.6.0.tgz#e5d52bd1686ff229f68f806cf94ee29dd9f54fb7"
+  integrity sha512-OFiYQdv+Yk7AO7IsQu/fAEPijbeTwrrEYvdNoJ3sblBBedD5j5fBTNWrUPNVlwC4XWWnWTCMaRIVsJujsFiWXg==
   dependencies:
     "@swc/helpers" "^0.4.14"
 
@@ -7442,6 +7444,11 @@ markdown-extensions@^1.0.0:
   resolved "https://registry.yarnpkg.com/markdown-extensions/-/markdown-extensions-1.1.1.tgz#fea03b539faeaee9b4ef02a3769b455b189f7fc3"
   integrity sha512-WWC0ZuMzCyDHYCasEGs4IPvLyTGftYwh6wIEOULOF0HXcqZlhwRzrK0w2VUlxWA98xnvb/jszw4ZSkJ6ADpM6Q==
 
+markdown-table-ts@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/markdown-table-ts/-/markdown-table-ts-1.0.3.tgz#46e4163805f1ca0b1076863b93996ba77436f990"
+  integrity sha512-lYrp7FXmBqpmGmsEF92WnSukdgYvLm15FPIODZOx9+3nobkxJxjBYcszqZf5VqTjBtISPSNC7zjU9o3zwpL6AQ==
+
 mdast-util-definitions@^5.0.0:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/mdast-util-definitions/-/mdast-util-definitions-5.1.2.tgz#9910abb60ac5d7115d6819b57ae0bcef07a3f7a7"
@@ -8913,10 +8920,10 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-intersection-observer@9.4.1:
-  version "9.4.1"
-  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-9.4.1.tgz#4ccb21e16acd0b9cf5b28d275af7055bef878f6b"
-  integrity sha512-IXpIsPe6BleFOEHKzKh5UjwRUaz/JYS0lT/HPsupWEQou2hDqjhLMStc5zyE3eQVT4Fk3FufM8Fw33qW1uyeiw==
+react-intersection-observer@9.4.3:
+  version "9.4.3"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-9.4.3.tgz#ec84ce0c25cad548075130ea045ac5c7adf908f3"
+  integrity sha512-WNRqMQvKpupr6MzecAQI0Pj0+JQong307knLP4g/nBex7kYfIaZsPpXaIhKHR+oV8z+goUbH9e10j6lGRnTzlQ==
 
 react-interval-hook@^1.1.3:
   version "1.1.3"
