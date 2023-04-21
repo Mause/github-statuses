@@ -19,6 +19,7 @@ import { createHead } from "remix-island";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Wrapper } from "./components";
 import { authenticator } from "./services/auth.server";
+import { Analytics } from "@vercel/analytics/react";
 
 export async function loader({ request }: DataFunctionArgs) {
   return json({
@@ -118,6 +119,7 @@ function App() {
   return (
     <>
       <ThemeProvider>
+        <Analytics />
         <Outlet />
         <script
           dangerouslySetInnerHTML={{
