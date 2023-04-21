@@ -7,10 +7,9 @@ import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import type {
   GetRepositoryActionsQuery,
-  GetRepositoryActionsQueryVariables} from "~/components/graphql/graphql";
-import {
-  GetRepositoryActionsDocument
+  GetRepositoryActionsQueryVariables,
 } from "~/components/graphql/graphql";
+import { GetRepositoryActionsDocument } from "~/components/graphql/graphql";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { call, getOctokit } from "~/octokit.server";
 
@@ -98,7 +97,9 @@ export default function Actions() {
           data: actions,
           columns: COLUMNS,
         }}
-      />
+      >
+        No actions found
+      </StandardTable>
     </Wrapper>
   );
 }
