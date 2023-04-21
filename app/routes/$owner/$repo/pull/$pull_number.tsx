@@ -20,11 +20,18 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Header, Spinner, StyledOcticon, Flash } from "@primer/react";
+import {
+  Header,
+  Spinner,
+  StyledOcticon,
+  Flash,
+  ProgressBar,
+} from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components/index";
 import { StandardTable, Wrapper } from "~/components/index";
 import type { StandardTableOptions } from "~/components/StandardTable";
+import type { Dictionary } from "lodash";
 import { countBy } from "lodash";
 import { titleCase } from "./titleCase";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
@@ -33,6 +40,8 @@ import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
 import { CheckConclusionState } from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
+import _ from "lodash";
+import { ActionProgress } from "~/components/ActionProgress";
 
 export const meta: V2_MetaFunction<
   typeof loader,
@@ -90,10 +99,17 @@ export const loader = async ({
     (augmentedStatuses.length /
       statuses.flatMap((status) => status!.checkRuns!.nodes).length) *
     100;
+
+  const counts = countBy(
+    statuses.flatMap((status) => status?.checkRuns?.nodes!),
+    (status) => status!.conclusion || status!.status
+  );
+
   return json({
     statuses: augmentedStatuses,
     pr,
     progress: Math.round(100 - percentFailed),
+    counts,
   });
 };
 
@@ -112,6 +128,7 @@ type ReturnShape = {
   statuses: Item[];
   pr: PullRequestsFragment["pullRequest"];
   progress: number;
+  counts: Dictionary<number>;
 };
 
 const columnHelper = createColumnHelper<SerializeFrom<Item>>();
@@ -182,7 +199,8 @@ const COLUMNS = [
 ];
 
 export default function Index() {
-  const { statuses, pr, progress } = useLoaderDataReloading<typeof loader>();
+  const { statuses, pr, progress, counts } =
+    useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<SerializeFrom<Item>> = {
     data: statuses,
@@ -191,14 +209,6 @@ export default function Index() {
 
   const { revalidate, state } = useRevalidator();
   useInterval(() => revalidate(), 30000);
-
-  const counts = countBy(
-    statuses,
-    (status) => status.conclusion || status.status
-  );
-  const summary = Object.entries(counts)
-    .map(([key, value]) => `${value} ${key.toLocaleLowerCase()}`)
-    .join(", ");
 
   return (
     <Wrapper>
@@ -209,21 +219,21 @@ export default function Index() {
             <LinkExternalIcon />
           </Header.Link>
         </Header.Item>
-        <Header.Item full>
+        <Header.Item>
           {state == "loading" ? <Spinner size="small" /> : null}
         </Header.Item>
-        {statuses.length ? (
-          <Header.Item>
-            {summary}, so {progress}% complete
-          </Header.Item>
-        ) : null}
       </>
-      <StandardTable tableOptions={table}>
-        <Flash variant="success">
-          <StyledOcticon icon={CheckIcon} />
-          Success! All jobs have successfully completed!
-        </Flash>
-      </StandardTable>
+      <>
+        {statuses.length ? (
+          <ActionProgress counts={counts} progress={progress} />
+        ) : null}
+        <StandardTable tableOptions={table}>
+          <Flash variant="success">
+            <StyledOcticon icon={CheckIcon} />
+            Success! All jobs have successfully completed!
+          </Flash>
+        </StandardTable>
+      </>
     </Wrapper>
   );
 }
