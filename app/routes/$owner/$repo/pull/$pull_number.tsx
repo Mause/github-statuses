@@ -176,7 +176,7 @@ const COLUMNS = [
 
       return (
         <span>
-          {iconMap[conclusion]({})}
+          {(iconMap[conclusion] || iconMap.IN_PROGRESS)({})}
           &nbsp;
           {titleCase(conclusion)}
         </span>
