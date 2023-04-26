@@ -27,6 +27,8 @@
     "@vercel/node": "^2.6.2",
     "async": "^3.2.4",
     "bulma": "^0.9.4",
+    "github-syntax-dark": "^0.5.0",
+    "github-syntax-light": "^0.5.0",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "humanize-duration": "^3.28.0",

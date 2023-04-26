@@ -6184,6 +6184,16 @@ git-hooks-list@1.0.3:
   resolved "https://registry.yarnpkg.com/git-hooks-list/-/git-hooks-list-1.0.3.tgz#be5baaf78203ce342f2f844a9d2b03dba1b45156"
   integrity sha512-Y7wLWcrLUXwk2noSka166byGCvhMtDRpgHdzCno1UQv/n/Hegp++a2xBWJL1lJarnKD3SWaljD+0z1ztqxuKyQ==
 
+github-syntax-dark@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/github-syntax-dark/-/github-syntax-dark-0.5.0.tgz#17046545ffaa041e582458001df968b7ec91c2ea"
+  integrity sha512-RoFaoOEmvX25k0FEV4PJ0y5McWZOI6ZKfFee7YzxKUzz2SErzFec9f2IpW2zbijzImx8s9Zsd5YvO01XxX7xVg==
+
+github-syntax-light@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/github-syntax-light/-/github-syntax-light-0.5.0.tgz#17466fdd3c08d756ce3f016ed18a2a1343ce0729"
+  integrity sha512-RLdYWB13q9ruP4vHd7gMAU6kCy71NFY/KWK9RQ7xPROq7sqlqnsL7Clg4szssSK5a9Cs0ys5nxonb3oSK9no2A==
+
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"

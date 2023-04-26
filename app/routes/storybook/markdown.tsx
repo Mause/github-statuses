@@ -1,0 +1,35 @@
+import type { DataFunctionArgs} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { Wrapper } from "~/components";
+import { Markdown, dedentBlock } from "~/components";
+import { tryGetOctokit } from "~/octokit.server";
+
+export async function loader({ request }: DataFunctionArgs) {
+  const octokit = await tryGetOctokit(request);
+  const res = await octokit.markdown.render({
+    text: source,
+  });
+  return json({
+    rendered: res.data,
+  });
+}
+
+const source = dedentBlock`
+        \`\`\`python
+        def hello():
+            print('yo')
+            x + y
+        \`\`\`
+        `;
+
+export default function Test() {
+  const { rendered } = useLoaderData<typeof loader>();
+
+  return (
+    <Wrapper>
+      <></>
+      <Markdown rendered={rendered} />
+    </Wrapper>
+  );
+}

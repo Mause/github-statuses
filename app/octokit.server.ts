@@ -22,6 +22,14 @@ export const getOctokit = async (request: DataFunctionArgs["request"]) => {
   return octokitFromToken(user.accessToken);
 };
 
+export async function tryGetOctokit(request: DataFunctionArgs["request"]) {
+  try {
+    return await getOctokit(request);
+  } catch (e) {
+    return new Octokit();
+  }
+}
+
 const SECOND = 1000;
 
 export const octokitFromToken = (token: string) =>
