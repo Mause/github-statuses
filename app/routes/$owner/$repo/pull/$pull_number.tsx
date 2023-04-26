@@ -28,12 +28,11 @@ import {
   ProgressBar,
 } from "@primer/react";
 import humanizeDuration from "humanize-duration";
-import type { DataLoaderParams } from "~/components/index";
-import { StandardTable, Wrapper } from "~/components/index";
+import type { DataLoaderParams } from "~/components";
+import { StandardTable, Wrapper, titleCase } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import type { Dictionary } from "lodash";
 import { countBy } from "lodash";
-import { titleCase } from "./titleCase";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
@@ -170,8 +169,10 @@ const COLUMNS = [
   }),
   columnHelper.accessor("conclusion", {
     cell: (props) => {
+      const { row } = props;
       const conclusion =
-        (props.row.getValue("conclusion") as Conclusion) || "IN_PROGRESS";
+        (row.getValue("conclusion") as Conclusion) ||
+        (row.getValue("status") as Status);
 
       return (
         <span>

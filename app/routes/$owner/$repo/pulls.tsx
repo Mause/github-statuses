@@ -8,7 +8,7 @@ import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { titleCase } from "./pull/titleCase";
+import { titleCase } from "../../../components/titleCase";
 import type { PullRequest } from "./pullsQuery";
 import { getChecksStatus, getPullRequests } from "./pullsQuery";
 import type { FragmentType } from "~/components/graphql/fragment-masking";

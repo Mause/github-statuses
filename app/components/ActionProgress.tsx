@@ -1,6 +1,7 @@
 import { ProgressBar } from "@primer/react";
 import _ from "lodash";
 import type { Dictionary } from "lodash";
+import { titleCase } from "~/components";
 
 const style = "emphasis";
 
@@ -32,7 +33,7 @@ export function ActionProgress({
           const colour = colourMap[key] || `neutral.${style}`;
           return (
             <ProgressBar.Item
-              title={`${key} - ${colour}`}
+              title={`${titleCase(key)} - ${colour}`}
               key={key}
               sx={{
                 backgroundColor: colour,
