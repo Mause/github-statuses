@@ -73,40 +73,37 @@ export const loader = async ({
     prNumber: Number(params.pull_number!),
   });
   const statuses = pr.commits!.nodes![0]?.commit!.checkSuites!.nodes!;
-  console.log(`recieved statuses: ${statuses.length}`);
 
   const augmentedStatuses = statuses.flatMap((status): Item[] => {
     const workflowName =
       status!.workflowRun?.workflow?.name ?? status!.app!.name!;
 
-    return status!
-      .checkRuns!.nodes!.filter((status) => {
-        console.log({ conclusion: status!.conclusion, status: TO_SKIP });
-        return !TO_SKIP.includes(status!.conclusion!);
-      })
-      .map((node) => {
-        const started_at = Date.parse(node!.startedAt!);
-        const poi = Date.parse(node!.completedAt!) || Date.now();
+    return status!.checkRuns!.nodes!.map((node) => {
+      const started_at = Date.parse(node!.startedAt!);
+      const poi = Date.parse(node!.completedAt!) || Date.now();
 
-        return Object.assign({}, node, {
-          workflowName,
-          duration: poi - started_at,
-        });
+      return Object.assign({}, node, {
+        workflowName,
+        duration: poi - started_at,
       });
+    });
   });
 
+  const filteredStatuses = augmentedStatuses.filter(
+    (status) => !TO_SKIP.includes(status!.conclusion!)
+  );
+
   const percentFailed =
-    (augmentedStatuses.length /
-      statuses.flatMap((status) => status!.checkRuns!.nodes).length) *
-    100;
+    (filteredStatuses.length / augmentedStatuses.length) * 100;
 
   const counts = countBy(
-    statuses.flatMap((status) => status?.checkRuns?.nodes!),
+    augmentedStatuses,
     (status) => status!.conclusion || status!.status
   );
 
   return json({
-    statuses: augmentedStatuses,
+    statuses: filteredStatuses,
+    totalStatuses: augmentedStatuses.length,
     pr,
     progress: Math.round(100 - percentFailed),
     counts,
@@ -126,6 +123,7 @@ type Status = Check["status"];
 type Item = Check & { workflowName: string; duration: number };
 type ReturnShape = {
   statuses: Item[];
+  totalStatuses: number;
   pr: PullRequestsFragment["pullRequest"];
   progress: number;
   counts: Dictionary<number>;
@@ -199,7 +197,7 @@ const COLUMNS = [
 ];
 
 export default function Index() {
-  const { statuses, pr, progress, counts } =
+  const { statuses, pr, progress, counts, totalStatuses } =
     useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<SerializeFrom<Item>> = {
@@ -228,10 +226,16 @@ export default function Index() {
           <ActionProgress counts={counts} progress={progress} />
         ) : null}
         <StandardTable tableOptions={table}>
-          <Flash variant="success">
-            <StyledOcticon icon={CheckIcon} />
-            Success! All jobs have successfully completed!
-          </Flash>
+          {totalStatuses === 0 ? (
+            <Flash variant="warning">
+              <StyledOcticon icon={QuestionIcon} />
+            </Flash>
+          ) : (
+            <Flash variant="success">
+              <StyledOcticon icon={CheckIcon} />
+              Success! All jobs have successfully completed!
+            </Flash>
+          )}
         </StandardTable>
       </>
     </Wrapper>
