@@ -1,4 +1,5 @@
-import type { DataFunctionArgs} from "@remix-run/node";
+import { Breadcrumbs } from "@primer/react";
+import type { DataFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Wrapper } from "~/components";
@@ -26,10 +27,5 @@ const source = dedentBlock`
 export default function Test() {
   const { rendered } = useLoaderData<typeof loader>();
 
-  return (
-    <Wrapper>
-      <></>
-      <Markdown rendered={rendered} />
-    </Wrapper>
-  );
+  return <Markdown rendered={rendered} />;
 }

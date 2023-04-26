@@ -46,21 +46,19 @@ export function StandardHeader({
 }
 
 export default function Wrapper({
-  children: [header, body],
+  children: [header, body, sidebar],
 }: {
-  children: [ReactNode, ReactNode];
+  children: [ReactNode, ReactNode] | [ReactNode, ReactNode, ReactNode];
 }) {
   return (
     <PageLayout sx={{ overflowY: "auto" }}>
       <StandardHeader children={header} />
       <PageLayout.Content>{body}</PageLayout.Content>
-      {/*
-      <PageLayout.Pane divider="line" position="start">
-        <div style={{ height: "120px" }}>
-          <p>Sides go here</p>
-        </div>
-      </PageLayout.Pane>
-      */}
+      {sidebar ? (
+        <PageLayout.Pane divider="line" position="start">
+          {sidebar}
+        </PageLayout.Pane>
+      ) : undefined}
       <PageLayout.Footer divider="line">
         <Text as="p" sx={{ color: "fg.primary", p: 2 }}>
           By Elliana (
