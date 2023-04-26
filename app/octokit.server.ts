@@ -22,10 +22,15 @@ export const getOctokit = async (request: DataFunctionArgs["request"]) => {
   return octokitFromToken(user.accessToken);
 };
 
+const SECOND = 1000;
+
 export const octokitFromToken = (token: string) =>
   new Throttled({
     auth: token,
     previews: ["merge-info"],
+    request: {
+      timeout: 7 * SECOND,
+    },
     throttle: {
       onRateLimit: (
         retryAfter: number,
