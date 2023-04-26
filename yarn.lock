@@ -2353,9 +2353,9 @@
     markdown-table-ts "^1.0.3"
 
 "@primer/react@^35.21.0":
-  version "35.25.0"
-  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.25.0.tgz#0bb1ff2c70e86eac98d1b0220d8243297ddb987a"
-  integrity sha512-UEK9T6J1Wiry7H4b20x+34mC2f6WKYVSZS2O4Xe6sBTe9+Ytsi47v3CLWzi1XSAwKOr+C97TtBEAiGtcOJvxPg==
+  version "35.25.1"
+  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.25.1.tgz#998109175941c63f17f285cdb3858487a4bf7ded"
+  integrity sha512-yb7AJ7ksHtUS6s85zAT5LQZ8ya3N9bHnUOXC2NPNFXc6z1JTKckoqMhixcxzQ+7dlb4xB5MrjzVdKdq7vizcLw==
   dependencies:
     "@github/combobox-nav" "^2.1.5"
     "@github/markdown-toolbar-element" "^2.1.0"
