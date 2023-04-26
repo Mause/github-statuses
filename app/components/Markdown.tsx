@@ -13,7 +13,7 @@ export function Markdown({ rendered }: { rendered: string }) {
     <Suspense fallback={<pre dangerouslySetInnerHTML={{ __html: rendered }} />}>
       <link rel="stylesheet" href={theme} />
       <style
-        children={`pre { border-radius: 5px; border: 1px black dashed; }`}
+        children={`pre { border-radius: 5px; border: 1px black solid; }`}
       />
       <MarkdownViewer dangerousRenderedHTML={{ __html: rendered }} />
     </Suspense>
