@@ -2,10 +2,9 @@ import { call, getOctokit } from "~/octokit.server";
 import type {
   PullRequestStatusQuery,
   PullRequestStatusQueryVariables,
-  StatusCheckRollupFragment} from "~/components/graphql/graphql";
-import {
-  PullRequestStatusDocument
+  StatusCheckRollupFragment,
 } from "~/components/graphql/graphql";
+import { PullRequestStatusDocument } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
 
 import gql from "graphql-tag";
@@ -23,10 +22,7 @@ export const query = gql`
               nodes {
                 __typename
                 ... on StatusContext {
-                  context
                   state
-                  targetUrl
-                  createdAt
                 }
                 ... on CheckRun {
                   name
@@ -43,10 +39,6 @@ export const query = gql`
                   completedAt
                   detailsUrl
                 }
-              }
-              pageInfo {
-                hasNextPage
-                endCursor
               }
             }
           }
@@ -78,7 +70,7 @@ export const query = gql`
             isDraft
             isCrossRepository
             headRefName
-            permalink
+            resourcePath
             author {
               login
               url
