@@ -86,7 +86,7 @@ export default function StandardTable<T>({
     tableOptions.columns.map((column) => convertColumn(column))
   ).join(" ");
 
-  if (!tableOptions.data.length) {
+  if (!tableOptions.data?.length) {
     return <>{children}</>;
   }
 
