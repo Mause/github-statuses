@@ -1,5 +1,5 @@
 import { Link, Outlet } from "@remix-run/react";
-import { Wrapper } from "~/components";
+import { Wrapper, titleCase } from "~/components";
 
 export default function Storybook() {
   return (
@@ -7,9 +7,9 @@ export default function Storybook() {
       <></>
       <Outlet />
       <ul>
-        {["table", "markdown"].map((route) => (
+        {["table", "markdown", "action_progress"].map((route) => (
           <li key={route}>
-            <Link to={route}>{route}</Link>
+            <Link to={route}>{titleCase(route)}</Link>
           </li>
         ))}
       </ul>
