@@ -2,21 +2,26 @@ import {
   Text,
   Header,
   PageLayout,
+  Breadcrumbs,
   Link as PrimerLink,
   Spinner,
   Octicon,
 } from "@primer/react";
 import { Link, useMatches, useRevalidator } from "@remix-run/react";
+import type { RouteMatch } from "@remix-run/react";
 import { MarkGithubIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";
 import type { SessionShape } from "~/services/auth.server";
+import _ from "lodash";
+import { titleCase } from "~/components";
 
 export function StandardHeader({
   children,
 }: {
   children?: ReactNode[] | ReactNode;
 }) {
-  const root = useMatches()[0].data as { user: Pick<SessionShape, "login"> };
+  const matches = useMatches();
+  const root = matches[0].data as { user: Pick<SessionShape, "login"> };
   const user = root?.user;
   const { state } = useRevalidator();
 
@@ -57,8 +62,30 @@ export function StandardHeader({
           </>
         ) : undefined}
       </Header>
+      <Breadcrumbs>
+        {matches.map((match) => (
+          <Breadcrumbs.Item
+            key={match.id}
+            selected={match.id === _.last(matches)?.id}
+            to={match.pathname}
+            as={Link}
+          >
+            {getName(match)}
+          </Breadcrumbs.Item>
+        ))}
+      </Breadcrumbs>
     </PageLayout.Header>
   );
+}
+
+function getName(match: RouteMatch): ReactNode {
+  let segment = _.last(match.id.split("/"))!;
+
+  if (segment == "root") {
+    segment = "home";
+  }
+
+  return titleCase(segment);
 }
 
 export default function Wrapper({
