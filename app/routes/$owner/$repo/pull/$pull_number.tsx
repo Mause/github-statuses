@@ -20,13 +20,7 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import {
-  Header,
-  Spinner,
-  StyledOcticon,
-  Flash,
-  ProgressBar,
-} from "@primer/react";
+import { Header, StyledOcticon, Flash } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, Wrapper, titleCase } from "~/components";
@@ -206,7 +200,7 @@ export default function Index() {
     columns: COLUMNS,
   };
 
-  const { revalidate, state } = useRevalidator();
+  const { revalidate } = useRevalidator();
   useInterval(() => revalidate(), 30000);
 
   return (
@@ -217,9 +211,6 @@ export default function Index() {
             {pr!.title}&nbsp;
             <LinkExternalIcon />
           </Header.Link>
-        </Header.Item>
-        <Header.Item>
-          {state == "loading" ? <Spinner size="small" /> : null}
         </Header.Item>
       </>
       <>

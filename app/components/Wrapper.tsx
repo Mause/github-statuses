@@ -1,5 +1,8 @@
 import { Text, Header, PageLayout } from "@primer/react";
 import { Link, useMatches } from "@remix-run/react";
+import { MarkGithubIcon } from "@primer/octicons-react";
+import { Spinner, StyledOcticon } from "@primer/react";
+import { useRevalidator } from "@remix-run/react";
 import type { ReactNode } from "react";
 
 export function StandardHeader({
@@ -10,6 +13,7 @@ export function StandardHeader({
   const matches = useMatches();
   const index = matches.find((route) => route.id === "root");
   const user = index?.data?.user;
+  const { state } = useRevalidator();
 
   return (
     <PageLayout.Header divider="line">
@@ -20,6 +24,13 @@ export function StandardHeader({
           borderColor: "border.default",
         }}
       >
+        <Header.Item>
+          {state == "loading" ? (
+            <Spinner size="small" />
+          ) : (
+            <StyledOcticon icon={MarkGithubIcon} />
+          )}
+        </Header.Item>
         <Header.Item>
           <Header.Link as={Link} to="/">
             Action Statuses
