@@ -1,10 +1,10 @@
 import { Link, useNavigate, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { TreeView, Header } from "@primer/react";
+import { TreeView, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs } from "@remix-run/node";
-import { call, getOctokit, getUser } from "~/octokit.server";
+import { call, getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { ReposFragment } from "~/components/graphql/graphql";
 import {
@@ -20,14 +20,15 @@ import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
 export const GetAllRepos = gql`
   fragment Repos on RepositoryOwner {
     login
-    repositories(first: 25, orderBy: $orderBy) {
+    avatarUrl
+    repositories(first: 15, orderBy: $orderBy) {
       nodes {
         name
       }
     }
   }
-  query GetAllRepos($user: String!, $orderBy: RepositoryOrder!) {
-    user: repositoryOwner(login: $user) {
+  query GetAllRepos($orderBy: RepositoryOrder!) {
+    viewer {
       ...Repos
     }
     duckdb: repositoryOwner(login: "duckdb") {
@@ -40,11 +41,9 @@ export const GetAllRepos = gql`
 `;
 
 export const loader = async ({ request }: DataFunctionArgs) => {
-  const user = await getUser(request);
   const octokit = await getOctokit(request);
 
   const res = await call(octokit, GetAllReposDocument, {
-    user: user.login,
     orderBy: {
       field: RepositoryOrderField.PushedAt,
       direction: OrderDirection.Desc,
@@ -55,27 +54,29 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 
   const repos = Object.values(res)
     .filter((value) => typeof value !== "string")
-    .map((org): [string, string[]] => {
+    .map((org): [ReposFragment, string[]] => {
       const frag = getFragment(ReposFragmentDoc, org! as Child);
-      return [frag.login, frag.repositories.nodes!.map((repo) => repo!.name)];
+      return [frag, frag.repositories.nodes!.map((repo) => repo!.name)];
     });
 
-  return json({ user, repos });
+  return json({ repos });
 };
 
 export default function Index() {
-  const { repos, user } = useLoaderData<typeof loader>();
+  const { repos } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
 
   const nodes = repos.map(([owner, subs]) => (
-    <TreeView.Item id={owner} key={owner} defaultExpanded={true}>
-      {owner}
+    <TreeView.Item id={owner.login} key={owner.login} defaultExpanded={true}>
+      <TreeView.LeadingVisual>
+        <Avatar src={owner.avatarUrl} />
+      </TreeView.LeadingVisual>
+      {owner.login}
       <TreeView.SubTree>
         {subs.map((sub) => {
-          const id = `${owner}/${sub}`;
-          const href = `/${id}/pulls`;
+          const href = `${owner.login}/${sub}/pulls`;
           return (
-            <TreeView.Item key={id} id={id} onSelect={() => navigate(href)}>
+            <TreeView.Item key={href} id={href} onSelect={() => navigate(href)}>
               <Link to={href}>{sub}</Link>
             </TreeView.Item>
           );
