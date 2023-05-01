@@ -5,7 +5,7 @@
   ],
   "packageRules": [
     {
-      "name": "vercel monorepo",
+      "groupName": "vercel monorepo",
       "matchSourceUrls": ["https://github.com/vercel/vercel"]
     }
   ]
