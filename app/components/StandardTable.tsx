@@ -27,6 +27,7 @@ import { Table } from "@primer/react/drafts";
 import { TableSortHeader } from "@primer/react/lib-esm/DataTable/Table";
 import { getGridTemplateFromColumns } from "@primer/react/lib-esm/DataTable/useTable";
 import type { SortDirection as TableSortDirection } from "@primer/react/lib-esm/DataTable/sorting";
+import { captureMessage } from "@sentry/remix";
 
 export type StandardTableOptions<T> = Pick<TableOptions<T>, "data" | "columns">;
 
@@ -85,6 +86,10 @@ export default function StandardTable<T>({
   const gridTemplateColumns = getGridTemplateFromColumns(
     tableOptions.columns.map((column) => convertColumn(column))
   ).join(" ");
+
+  if (tableOptions.data == null) {
+    captureMessage("`data` was non-truthy", { level: "warning" });
+  }
 
   if (!tableOptions.data?.length) {
     return <>{children}</>;
