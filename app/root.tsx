@@ -8,9 +8,11 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation,
+  useNavigate,
   useNavigation,
 } from "@remix-run/react";
-import { SSRProvider, Spinner, ThemeProvider } from "@primer/react";
+import { Button, SSRProvider, Spinner, ThemeProvider } from "@primer/react";
 // @ts-ignore
 import styles from "bulma/css/bulma.min.css";
 import { Modal } from "react-bulma-components";
@@ -48,6 +50,8 @@ export const Head = createHead(() => (
 ));
 
 function ErrorDisplay() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const error = useRouteError();
 
   if (isRouteErrorResponse(error)) {
@@ -57,6 +61,13 @@ function ErrorDisplay() {
           {error.status} {error.statusText}
         </h1>
         <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error && error.message === "Failed to fetch") {
+    return (
+      <div>
+        <h1>Error: {error.name}</h1>
+        <Button onClick={() => navigate(pathname)}>Revalidate</Button>
       </div>
     );
   } else if (error instanceof Error) {

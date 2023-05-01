@@ -7,7 +7,7 @@ export default function Storybook() {
       <></>
       <Outlet />
       <ul>
-        {["table", "markdown", "action_progress"].map((route) => (
+        {["table", "markdown", "action_progress", "boundary"].map((route) => (
           <li key={route}>
             <Link to={route}>{titleCase(route)}</Link>
           </li>
