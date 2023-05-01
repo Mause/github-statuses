@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useNavigate, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { TreeView, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
@@ -88,7 +88,7 @@ export default function Index() {
   return (
     <Wrapper>
       <></>
-      <></>
+      <Outlet />
       <TreeView>{nodes}</TreeView>
     </Wrapper>
   );
