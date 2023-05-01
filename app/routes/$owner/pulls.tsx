@@ -87,11 +87,11 @@ export default function Owner() {
   };
 
   return (
-    <Wrapper>
+    <>
       <Header.Item>
         <Header.Link href={user!.url}>{user!.login}</Header.Link>
       </Header.Item>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
-    </Wrapper>
+    </>
   );
 }
