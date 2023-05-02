@@ -62,12 +62,16 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   return json({ repos });
 };
 
-export default function Index() {
+export default function Index({ collapse = false }: { collapse: boolean }) {
   const { repos } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
 
   const nodes = repos.map(([owner, subs]) => (
-    <TreeView.Item id={owner.login} key={owner.login} defaultExpanded={true}>
+    <TreeView.Item
+      id={owner.login}
+      key={owner.login}
+      defaultExpanded={!collapse}
+    >
       <TreeView.LeadingVisual>
         <Avatar src={owner.avatarUrl} />
       </TreeView.LeadingVisual>
