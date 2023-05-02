@@ -6,10 +6,10 @@ import { authenticator } from "~/services/auth.server";
 import { splatObject } from "../root";
 
 export const loader = async ({ request }: DataFunctionArgs) => {
-  const octokit = await getOctokit(request);
-
   let user;
   try {
+    const octokit = await getOctokit(request);
+
     user = (await octokit.rest.users.getAuthenticated()).data;
   } catch (e) {
     user = splatObject(e as Error);
