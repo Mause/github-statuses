@@ -23,7 +23,7 @@ import {
 import { Header, StyledOcticon, Flash } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, Wrapper, titleCase } from "~/components";
+import { StandardTable, titleCase } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import type { Dictionary } from "lodash";
 import { countBy } from "lodash";
@@ -204,7 +204,7 @@ export default function Index() {
   useInterval(() => revalidate(), 30000);
 
   return (
-    <Wrapper>
+    <>
       <>
         <Header.Item>
           <Header.Link target="_blank" href={pr!.permalink}>
@@ -230,6 +230,6 @@ export default function Index() {
           )}
         </StandardTable>
       </>
-    </Wrapper>
+    </>
   );
 }
