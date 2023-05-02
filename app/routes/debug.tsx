@@ -19,7 +19,7 @@ export const loader = async ({ request }: DataFunctionArgs) => {
     rootURL: getRootURL(),
     user: (await authenticator().isAuthenticated(request))?.login || null,
     userExtra: user,
-    kv: kv.dbsize,
+    kv: _.pick(kv, ['dbsize']),
     env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
   };
 };
