@@ -5,7 +5,7 @@ import { Link } from "@remix-run/react";
 import type { AccessorFnColumnDef, CellContext } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, Wrapper } from "~/components";
+import { StandardTable } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { titleCase } from "../../../components/titleCase";
@@ -69,14 +69,14 @@ export default function Pulls() {
   };
 
   return (
-    <Wrapper>
+    <>
       <Header.Item>
         <Header.Link as={Link} to={url}>
           {title}
         </Header.Link>
       </Header.Item>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
-    </Wrapper>
+    </>
   );
 }
 
