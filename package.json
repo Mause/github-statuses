@@ -4,7 +4,7 @@
   "scripts": {
     "prebuild": "graphql-codegen",
     "build": "remix build --sourcemap",
-    "dev": "remix dev",
+    "dev": "remix dev -c \"node ./server.js\"",
     "typecheck": "tsc",
     "prepare": "husky install"
   },
