@@ -10,7 +10,7 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 
   let user;
   try {
-    user = await octokit.rest.users.getAuthenticated();
+    user = (await octokit.rest.users.getAuthenticated()).data;
   } catch (e) {
     user = splatObject(e as Error);
   }
