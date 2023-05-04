@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { TreeView, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
 
-import type { DataFunctionArgs , SerializeFrom} from "@remix-run/node";
+import type { DataFunctionArgs, SerializeFrom } from "@remix-run/node";
 import { call, getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { ReposFragment } from "~/components/graphql/graphql";
@@ -16,6 +16,9 @@ import {
 import { getFragment } from "~/components/graphql";
 import type { FragmentType } from "~/components/graphql/fragment-masking";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
+import { useState } from "react";
+
+const INCREMENT = 5;
 
 export const GetAllRepos = gql`
   fragment Repos on RepositoryOwner {
@@ -93,6 +96,8 @@ function SingleOrg({
 }): JSX.Element {
   const navigate = useNavigate();
 
+  const [limit, setLimit] = useState(INCREMENT);
+
   return (
     <TreeView.Item
       id={owner.login}
@@ -104,7 +109,7 @@ function SingleOrg({
       </TreeView.LeadingVisual>
       {owner.login}
       <TreeView.SubTree>
-        {subs.map((sub) => {
+        {subs.slice(0, limit).map((sub) => {
           const href = `${owner.login}/${sub}/pulls`;
           return (
             <TreeView.Item key={href} id={href} onSelect={() => navigate(href)}>
@@ -112,6 +117,12 @@ function SingleOrg({
             </TreeView.Item>
           );
         })}
+        <TreeView.Item
+          id="more"
+          onSelect={() => setLimit((a) => a + INCREMENT)}
+        >
+          More
+        </TreeView.Item>
       </TreeView.SubTree>
     </TreeView.Item>
   );
