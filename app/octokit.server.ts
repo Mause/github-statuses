@@ -6,7 +6,7 @@ import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/remix";
 
 const Throttled = Octokit.plugin(throttling);
 
