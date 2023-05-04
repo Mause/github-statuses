@@ -109,7 +109,7 @@ export async function call<Result, Variables extends RequestParameters>(
 ): Promise<Result> {
   const transaction = Sentry.startTransaction({
     op: "graphql",
-    name: query.name,
+    name: query.__meta__.name,
   });
 
   try {
