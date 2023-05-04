@@ -110,7 +110,10 @@ export async function call<Result, Variables extends RequestParameters>(
   const match = /query [^ ]?/.exec(query.toString());
   const transaction = Sentry.startTransaction({
     op: "graphql",
-    name: (query.length && query[0]) ?? query.__meta__!.hash! ?? "unknown name",
+    name:
+      (query.length ? query[0] : undefined) ??
+      query.__meta__!.hash! ??
+      "unknown name",
   });
 
   try {
