@@ -62,7 +62,11 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   return json({ repos });
 };
 
-export default function Index({ collapse = false }: { collapse: boolean }) {
+export default function Index({
+  asChildRoute = false,
+}: {
+  asChildRoute: boolean;
+}) {
   const { repos } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
 
@@ -70,7 +74,7 @@ export default function Index({ collapse = false }: { collapse: boolean }) {
     <TreeView.Item
       id={owner.login}
       key={owner.login}
-      defaultExpanded={!collapse}
+      defaultExpanded={!asChildRoute}
     >
       <TreeView.LeadingVisual>
         <Avatar src={owner.avatarUrl} />
@@ -92,7 +96,7 @@ export default function Index({ collapse = false }: { collapse: boolean }) {
   return (
     <Wrapper>
       <></>
-      <Outlet />
+      {asChildRoute ? <Outlet /> : <div>Please select a repository</div>}
       <TreeView>{nodes}</TreeView>
     </Wrapper>
   );
