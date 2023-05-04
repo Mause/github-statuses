@@ -107,9 +107,10 @@ export async function call<Result, Variables extends RequestParameters>(
   variables?: Variables,
   fragments?: TypedDocumentString<any, any>[]
 ): Promise<Result> {
+  const match = /query [^ ]?/.exec(query.toString());
   const transaction = Sentry.startTransaction({
     op: "graphql",
-    name: query.__meta__.name,
+    name: (query.length && query[0]) ?? query.__meta__!.hash! ?? "unknown name",
   });
 
   try {
