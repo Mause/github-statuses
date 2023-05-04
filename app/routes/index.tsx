@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { TreeView, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
 
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { DataFunctionArgs , SerializeFrom} from "@remix-run/node";
 import { call, getOctokit } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { ReposFragment } from "~/components/graphql/graphql";
@@ -68,9 +68,32 @@ export default function Index({
   asChildRoute: boolean;
 }) {
   const { repos } = useLoaderData<typeof loader>();
-  const navigate = useNavigate();
 
   const nodes = repos.map(([owner, subs]) => (
+    <SingleOrg owner={owner} asChildRoute={asChildRoute} subs={subs} />
+  ));
+
+  return (
+    <Wrapper>
+      <></>
+      {asChildRoute ? <Outlet /> : <div>Please select a repository</div>}
+      <TreeView>{nodes}</TreeView>
+    </Wrapper>
+  );
+}
+
+function SingleOrg({
+  owner,
+  asChildRoute,
+  subs,
+}: {
+  owner: SerializeFrom<ReposFragment>;
+  asChildRoute: boolean;
+  subs: string[];
+}): JSX.Element {
+  const navigate = useNavigate();
+
+  return (
     <TreeView.Item
       id={owner.login}
       key={owner.login}
@@ -91,13 +114,5 @@ export default function Index({
         })}
       </TreeView.SubTree>
     </TreeView.Item>
-  ));
-
-  return (
-    <Wrapper>
-      <></>
-      {asChildRoute ? <Outlet /> : <div>Please select a repository</div>}
-      <TreeView>{nodes}</TreeView>
-    </Wrapper>
   );
 }
