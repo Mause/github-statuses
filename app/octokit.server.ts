@@ -6,6 +6,7 @@ import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
+import Sentry from "@sentry/node";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -106,8 +107,17 @@ export async function call<Result, Variables extends RequestParameters>(
   variables?: Variables,
   fragments?: TypedDocumentString<any, any>[]
 ): Promise<Result> {
-  return await octokit.graphql(
-    [query.toString(), ...(fragments || [])].join("\n"),
-    variables
-  );
+  const transaction = Sentry.startTransaction({
+    op: "graphql",
+    name: query.name,
+  });
+
+  try {
+    return await octokit.graphql(
+      [query.toString(), ...(fragments || [])].join("\n"),
+      variables
+    );
+  } finally {
+    transaction.finish();
+  }
 }

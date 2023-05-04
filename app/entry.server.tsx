@@ -6,13 +6,11 @@ import { renderHeadToString } from 'remix-island';
 import { Head } from './root';
 
 import * as Sentry from "@sentry/remix";
-import { ProfilingIntegration } from '@sentry/profiling-node';
+import { ProfilingIntegration } from "@sentry/profiling-node";
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
-  integrations: [
-    new ProfilingIntegration(),
-  ],
+  integrations: [new ProfilingIntegration()],
   tracesSampleRate: 1,
   // Set sampling rate for profiling - this is relative to tracesSampleRate
   profilesSampleRate: 1.0,
