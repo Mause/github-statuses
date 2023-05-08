@@ -5,7 +5,7 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
-import { useRevalidator } from "@remix-run/react";
+import { Link, useRevalidator } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useInterval } from "react-interval-hook";
 import type { Icon } from "@primer/octicons-react";
@@ -20,7 +20,7 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Header, StyledOcticon, Flash } from "@primer/react";
+import { Heading, StyledOcticon, Flash } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, titleCase } from "~/components";
@@ -205,31 +205,28 @@ export default function Index() {
 
   return (
     <>
-      <>
-        <Header.Item>
-          <Header.Link target="_blank" href={pr!.permalink}>
-            {pr!.title}&nbsp;
-            <LinkExternalIcon />
-          </Header.Link>
-        </Header.Item>
-      </>
-      <>
-        {statuses.length ? (
-          <ActionProgress counts={counts} progress={progress} />
-        ) : null}
-        <StandardTable tableOptions={table}>
-          {totalStatuses === 0 ? (
-            <Flash variant="warning">
-              <StyledOcticon icon={QuestionIcon} />
-            </Flash>
-          ) : (
-            <Flash variant="success">
-              <StyledOcticon icon={CheckIcon} />
-              Success! All jobs have successfully completed!
-            </Flash>
-          )}
-        </StandardTable>
-      </>
+      <Heading>
+        <Link target="_blank" href={pr!.permalink}>
+          {pr!.title}&nbsp;
+          <LinkExternalIcon />
+        </Link>
+      </Heading>
+      {statuses.length ? (
+        <ActionProgress counts={counts} progress={progress} />
+      ) : null}
+      <StandardTable tableOptions={table}>
+        {totalStatuses === 0 ? (
+          <Flash variant="warning">
+            <StyledOcticon icon={QuestionIcon} />
+            No jobs found
+          </Flash>
+        ) : (
+          <Flash variant="success">
+            <StyledOcticon icon={CheckIcon} />
+            Success! All jobs have successfully completed!
+          </Flash>
+        )}
+      </StandardTable>
     </>
   );
 }
