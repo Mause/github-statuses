@@ -5,7 +5,7 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
-import { Link, useRevalidator } from "@remix-run/react";
+import { useRevalidator } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useInterval } from "react-interval-hook";
 import type { Icon } from "@primer/octicons-react";
@@ -20,7 +20,7 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Heading, StyledOcticon, Flash } from "@primer/react";
+import { Heading, Link, StyledOcticon, Flash } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, titleCase } from "~/components";
