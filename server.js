@@ -1,10 +1,10 @@
+import { installGlobals } from "@remix-run/node";
 import { createRequestHandler } from "@remix-run/vercel";
 import * as build from "@remix-run/dev/server-build";
-import { Response } from "@remix-run/node";
 
-const TIMEOUT = 7000;
+installGlobals();
 
-const handle = createRequestHandler({
+export default createRequestHandler({
   build,
   mode: process.env.NODE_ENV,
   getLoadContext() {
@@ -12,13 +12,3 @@ const handle = createRequestHandler({
     return {};
   },
 });
-export default async function (req, res) {
-  let timeoutId;
-  await Promise.race([
-    await handle(req, res),
-    new Promise(
-      (resolve) => (timeoutId = setTimeout(resolve(new Response(502)), TIMEOUT))
-    ),
-  ]);
-  clearTimeout(timeoutId);
-}
