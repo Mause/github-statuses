@@ -1,8 +1,8 @@
-import { Header, Label } from "@primer/react";
+import { Heading, Label } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import type { AccessorFnColumnDef, CellContext } from "@tanstack/react-table";
+import type { AccessorFnColumnDef } from "@tanstack/react-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable } from "~/components";
@@ -70,11 +70,9 @@ export default function Pulls() {
 
   return (
     <>
-      <Header.Item>
-        <Header.Link as={Link} to={url}>
-          {title}
-        </Header.Link>
-      </Header.Item>
+      <Heading>
+        <Link to={url}>{title}</Link>
+      </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </>
   );

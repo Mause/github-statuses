@@ -4,14 +4,14 @@ import { createColumnHelper } from "@tanstack/table-core";
 import gql from "graphql-tag";
 import type { Get } from "type-fest";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, Wrapper } from "~/components";
+import { StandardTable } from "~/components";
 import type {
   GetRepositoryActionsQuery,
   GetRepositoryActionsQueryVariables,
 } from "~/components/graphql/graphql";
 import { GetRepositoryActionsDocument } from "~/components/graphql/graphql";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { call, getOctokit } from "~/octokit.server";
+import { call } from "~/octokit.server";
 
 export const query = gql`
   query GetRepositoryActions($owner: String!, $repo: String!) {
@@ -89,16 +89,13 @@ export default function Actions() {
   const { actions } = useLoaderDataReloading<typeof loader>();
 
   return (
-    <Wrapper>
-      {<></>}
-      <StandardTable
-        tableOptions={{
-          data: actions,
-          columns: COLUMNS,
-        }}
-      >
-        No actions found
-      </StandardTable>
-    </Wrapper>
+    <StandardTable
+      tableOptions={{
+        data: actions,
+        columns: COLUMNS,
+      }}
+    >
+      No actions found
+    </StandardTable>
   );
 }

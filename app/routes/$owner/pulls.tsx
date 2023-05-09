@@ -2,13 +2,13 @@ import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, Wrapper } from "~/components";
-import { call, getOctokit } from "~/octokit.server";
+import { StandardTable } from "~/components";
+import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { GetUserPullRequestsQueryVariables } from "~/components/graphql/graphql";
 import { GetUserPullRequestsDocument } from "~/components/graphql/graphql";
 import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
-import { Header } from "@primer/react";
+import { Heading } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { buildMergeableColumn, buildRollupColumn } from "./$repo/pulls";
@@ -87,9 +87,9 @@ export default function Owner() {
 
   return (
     <>
-      <Header.Item>
-        <Header.Link href={user!.url}>{user!.login}</Header.Link>
-      </Header.Item>
+      <Heading>
+        <Link to={user!.url}>{user!.login}</Link>
+      </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </>
   );
