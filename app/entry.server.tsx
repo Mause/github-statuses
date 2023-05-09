@@ -2,11 +2,13 @@ import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
 import { ServerStyleSheet } from "styled-components";
-import { renderHeadToString } from 'remix-island';
-import { Head } from './root';
+import { renderHeadToString } from "remix-island";
+import { Head } from "./root";
 
 import * as Sentry from "@sentry/remix";
 import { ProfilingIntegration } from "@sentry/profiling-node";
+
+const ABORT_DELAY = 7000;
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -27,7 +29,11 @@ export default function handleRequest(
 
   let markup = renderToString(
     sheet.collectStyles(
-      <RemixServer context={remixContext} url={request.url} />
+      <RemixServer
+        context={remixContext}
+        url={request.url}
+        abortDelay={ABORT_DELAY}
+      />
     )
   );
   const styles = sheet.getStyleTags();
@@ -35,7 +41,7 @@ export default function handleRequest(
   responseHeaders.set("Content-Type", "text/html");
 
   return new Response(
-      `<!DOCTYPE html>
+    `<!DOCTYPE html>
       <html>
         <head>
           ${styles}
@@ -46,8 +52,10 @@ export default function handleRequest(
             ${markup}
           </div>
         </body>
-      </html>`, {
-    headers: responseHeaders,
-    status: responseStatusCode,
-  });
+      </html>`,
+    {
+      headers: responseHeaders,
+      status: responseStatusCode,
+    }
+  );
 }
