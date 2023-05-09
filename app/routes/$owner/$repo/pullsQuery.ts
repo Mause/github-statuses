@@ -140,6 +140,9 @@ export function getChecksStatus(
     return summary;
   }
   let commit = nodes[0]!.commit;
+  if (commit?.statusCheckRollup) {
+    return summary;
+  }
   for (const c of commit!.statusCheckRollup!.contexts!.nodes!) {
     if (!(c?.__typename === "CheckRun")) continue;
 
