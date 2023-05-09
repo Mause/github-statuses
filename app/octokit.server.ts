@@ -4,9 +4,11 @@ import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { DataFunctionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
+import { RequestError } from "@octokit/request-error";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -102,18 +104,18 @@ export const gitHubStrategy = () => {
 };
 
 export async function call<Result, Variables extends RequestParameters>(
-  octokit: Octokit,
+  request: Request,
   query: TypedDocumentString<Result, Variables>,
   variables?: Variables,
   fragments?: TypedDocumentString<any, any>[]
 ): Promise<Result> {
-  const match = /query [^ ]?/.exec(query.toString());
+  const octokit = await getOctokit(request);
+
+  const match = /query ([^ ]?)/.exec(query.toString());
   const transaction = Sentry.startTransaction({
     op: "graphql",
     name:
-      (query.length ? query[0] : undefined) ??
-      query.__meta__!.hash! ??
-      "unknown name",
+      (match ? match[1] : undefined) ?? query.__meta__!.hash! ?? "unknown name",
   });
 
   try {
@@ -121,6 +123,16 @@ export async function call<Result, Variables extends RequestParameters>(
       [query.toString(), ...(fragments || [])].join("\n"),
       variables
     );
+  } catch (e) {
+    console.error(e);
+    if (e instanceof RequestError) {
+      if (e.message === "Bad credentials") {
+        await authenticator().logout(request, {
+          redirectTo: "/",
+        });
+      }
+    }
+    throw e;
   } finally {
     transaction.finish();
   }

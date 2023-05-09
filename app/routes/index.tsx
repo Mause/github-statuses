@@ -44,9 +44,7 @@ export const GetAllRepos = gql`
 `;
 
 export const loader = async ({ request }: DataFunctionArgs) => {
-  const octokit = await getOctokit(request);
-
-  const res = await call(octokit, GetAllReposDocument, {
+  const res = await call(request, GetAllReposDocument, {
     orderBy: {
       field: RepositoryOrderField.PushedAt,
       direction: OrderDirection.Desc,

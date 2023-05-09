@@ -66,8 +66,7 @@ export const loader = async ({
     owner: params.owner!,
     repo: params.repo!,
   };
-  const octokit = await getOctokit(request);
-  const actions = await call(octokit, GetRepositoryActionsDocument, variables);
+  const actions = await call(request, GetRepositoryActionsDocument, variables);
   return json({
     actions: actions
       .repository!.pullRequests!.edges!.map((edge) => edge!.node)

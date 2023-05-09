@@ -67,9 +67,8 @@ export async function getActions(
   variables: Required<GetActionsForPullRequestQueryVariables>
 ): Promise<NonNullable<PullRequestsFragment["pullRequest"]>> {
   console.log({ variables });
-  const octokit = await getOctokit(request);
   const thing = await call(
-    octokit,
+    request,
     GetActionsForPullRequestDocument,
     variables
   );

@@ -46,8 +46,7 @@ export const loader = async ({
       direction: OrderDirection.Desc,
     },
   };
-  const octokit = await getOctokit(request);
-  const { user } = await call(octokit, GetUserPullRequestsDocument, variables);
+  const { user } = await call(request, GetUserPullRequestsDocument, variables);
   return json({
     user,
     pulls: user!.pullRequests!.edges!.map((edge) => edge!.node!),

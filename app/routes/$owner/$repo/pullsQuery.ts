@@ -106,8 +106,7 @@ export async function getPullRequests(
   request: Request,
   variables: PullRequestStatusQueryVariables
 ) {
-  const octokit = await getOctokit(request);
-  const resp = await call(octokit, PullRequestStatusDocument, variables);
+  const resp = await call(request, PullRequestStatusDocument, variables);
 
   const repo = resp.repository!;
   return {
