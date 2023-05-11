@@ -1,6 +1,5 @@
 import type { Octokit } from "@octokit/rest";
-import { Button, Details, Truncate, useDetails } from "@primer/react";
-import { useLoaderData } from "@remix-run/react";
+import { Button, Details, useDetails } from "@primer/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import _ from "lodash";
 import type { DataLoaderParams } from "~/components";

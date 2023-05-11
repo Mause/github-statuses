@@ -1,8 +1,5 @@
-import { Breadcrumbs } from "@primer/react";
 import type { DataFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { Wrapper } from "~/components";
 import { Markdown, dedentBlock } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { tryGetOctokit } from "~/octokit.server";

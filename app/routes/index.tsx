@@ -1,10 +1,10 @@
-import { Link, Outlet, useNavigate, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useNavigate } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { TreeView, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs, SerializeFrom } from "@remix-run/node";
-import { call, getOctokit } from "~/octokit.server";
+import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { ReposFragment } from "~/components/graphql/graphql";
 import {
