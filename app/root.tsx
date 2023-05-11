@@ -152,8 +152,15 @@ function App() {
   );
 }
 
-export default withSentry(() => (
-  <SSRProvider>
-    <App />
-  </SSRProvider>
-));
+export default withSentry(
+  () => (
+    <SSRProvider>
+      <App />
+    </SSRProvider>
+  ),
+  {
+    errorBoundaryOptions: {
+      fallback: ErrorBoundary,
+    },
+  }
+);
