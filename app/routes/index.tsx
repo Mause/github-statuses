@@ -17,6 +17,7 @@ import { getFragment } from "~/components/graphql";
 import type { FragmentType } from "~/components/graphql/fragment-masking";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
 import { useState } from "react";
+import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
 const INCREMENT = 5;
 
@@ -68,7 +69,7 @@ export default function Index({
 }: {
   asChildRoute: boolean;
 }) {
-  const { repos } = useLoaderData<typeof loader>();
+  const { repos } = useLoaderDataReloading<typeof loader>();
 
   const nodes = repos.map(([owner, subs]) => (
     <SingleOrg owner={owner} asChildRoute={asChildRoute} subs={subs} />

@@ -4,6 +4,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Wrapper } from "~/components";
 import { Markdown, dedentBlock } from "~/components";
+import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { tryGetOctokit } from "~/octokit.server";
 
 export async function loader({ request }: DataFunctionArgs) {
@@ -25,7 +26,7 @@ const source = dedentBlock`
         `;
 
 export default function Test() {
-  const { rendered } = useLoaderData<typeof loader>();
+  const { rendered } = useLoaderDataReloading<typeof loader>();
 
   return <Markdown rendered={rendered} />;
 }

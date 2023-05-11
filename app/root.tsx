@@ -7,7 +7,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useLocation,
   useNavigate,
   useNavigation,
@@ -22,6 +21,7 @@ import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Wrapper } from "./components";
 import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
+import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 
 export async function loader({ request }: DataFunctionArgs) {
   return json({
@@ -124,7 +124,7 @@ export function ErrorBoundary() {
 }
 
 function App() {
-  const data = useLoaderData<typeof loader>();
+  const data = useLoaderDataReloading<typeof loader>();
   const navigation = useNavigation();
 
   return (

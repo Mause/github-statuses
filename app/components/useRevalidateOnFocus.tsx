@@ -3,7 +3,13 @@ import { useRevalidator, useLoaderData } from "@remix-run/react";
 
 export function useLoaderDataReloading<T>() {
   useRevalidateOnFocus();
-  return useLoaderData<T>();
+  const result = useLoaderData<T>();
+
+  if (typeof result === "string") {
+    throw new Error(result);
+  } else {
+    return result;
+  }
 }
 
 export function useRevalidateOnFocus() {

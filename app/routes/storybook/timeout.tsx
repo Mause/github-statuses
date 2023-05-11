@@ -1,5 +1,4 @@
-import { defer } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 
 export async function loader() {
   await new Promise((resolve) => setTimeout(resolve, 15000));
@@ -8,5 +7,5 @@ export async function loader() {
 }
 
 export default function Index() {
-  return useLoaderData<typeof loader>();
+  return useLoaderDataReloading<typeof loader>();
 }

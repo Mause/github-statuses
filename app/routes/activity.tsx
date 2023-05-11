@@ -6,6 +6,7 @@ import _ from "lodash";
 import type { DataLoaderParams } from "~/components";
 import { Wrapper } from "~/components";
 import { StandardTable } from "~/components";
+import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getOctokit, getUser } from "~/octokit.server";
 
 export async function loader({ request }: DataLoaderParams<"">) {
@@ -24,7 +25,7 @@ type Event = Awaited<
 const columnHelper = createColumnHelper<Event>();
 
 export default function Activity() {
-  const { events } = useLoaderData<typeof loader>();
+  const { events } = useLoaderDataReloading<typeof loader>();
 
   const distinct = _.chain(events)
     .map(({ repo }) => repo.name)
