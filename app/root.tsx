@@ -160,7 +160,7 @@ export default withSentry(
   ),
   {
     errorBoundaryOptions: {
-      fallback: ErrorBoundary,
+      fallback: <ErrorBoundary />,
     },
   }
 );
