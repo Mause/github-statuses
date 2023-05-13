@@ -100,7 +100,7 @@ export default function StandardTable<T>({
       <Table.Actions>
         <TextInput
           onChange={(event) => setGlobalFilter(event.target.value)}
-          leadingVisual={SearchIcon}
+          leadingVisual={() => <SearchIcon />}
         />
       </Table.Actions>
       <Table
