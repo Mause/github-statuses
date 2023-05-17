@@ -2234,9 +2234,9 @@
     btoa-lite "^1.0.0"
 
 "@octokit/openapi-types@^17.1.2":
-  version "17.1.2"
-  resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-17.1.2.tgz#b7bc1cc5d3581adac9dce197a21f0e5f2ceaabf1"
-  integrity sha512-OaS7Ol4Y+U50PbejfzQflGWRMxO04nYWO5ZBv6JerqMKE2WS/tI9VoVDDPXHBlRMGG2fOdKwtVGlFfc7AVIstw==
+  version "17.2.0"
+  resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-17.2.0.tgz#f1800b5f9652b8e1b85cc6dfb1e0dc888810bdb5"
+  integrity sha512-MazrFNx4plbLsGl+LFesMo96eIXkFgEtaKbnNpdh4aQ0VM10aoylFsTYP1AEjkeoRNZiiPe3T6Gl2Hr8dJWdlQ==
 
 "@octokit/plugin-paginate-rest@^6.1.0":
   version "6.1.0"
@@ -2259,9 +2259,9 @@
     deprecation "^2.3.1"
 
 "@octokit/plugin-throttling@^5.0.1":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-5.2.0.tgz#036109a4afcabf8ec47e4a20e8601820fd329cbd"
-  integrity sha512-qWYvVIS1aRC3hN4a0ICWUp51IolHIn7E4iri2AKjbExJaovMDvRtae4nGoxG5pP6+WATk7JZ5epOJobFbGYV1w==
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-5.2.2.tgz#183176003ee579933fbbad435b6113fa23a94fa5"
+  integrity sha512-oRg6BJSrj0v/Rz4segpJCAGxa2IjK82YOkTyHtIzxAt3sjF++y7bRe+RJbwSi7YEZpybiMNI9W/y0xL4UAC3jw==
   dependencies:
     "@octokit/types" "^9.0.0"
     bottleneck "^2.15.3"
