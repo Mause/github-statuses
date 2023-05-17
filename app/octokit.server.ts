@@ -45,8 +45,8 @@ export const octokitFromToken = (token: string) =>
     throttle: {
       onRateLimit: (
         retryAfter: number,
-        options: Request,
-        octokit: Octokit,
+        options: any,
+        octokit: any,
         retryCount: number
       ) => {
         octokit.log.warn(
@@ -59,11 +59,7 @@ export const octokitFromToken = (token: string) =>
           return true;
         }
       },
-      onSecondaryRateLimit: (
-        retryAfter: any,
-        options: { method: any; url: any },
-        octokit: Octokit
-      ) => {
+      onSecondaryRateLimit: (retryAfter: any, options: any, octokit: any) => {
         // does not retry, only logs a warning
         octokit.log.warn(
           `SecondaryRateLimit detected for request ${options.method} ${options.url}`
