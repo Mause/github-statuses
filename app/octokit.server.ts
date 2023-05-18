@@ -94,6 +94,7 @@ export const gitHubStrategy = () => {
       scope: ["user", "read:user"],
     },
     async ({ accessToken, profile, extraParams, refreshToken }) => {
+      console.log({ extraParams });
       return {
         login: profile._json.login,
         accessToken,
