@@ -163,14 +163,12 @@ const COLUMNS = [
   }),
   columnHelper.accessor("conclusion", {
     cell: (props) => {
-      const { row } = props;
+      const { original } = props.row;
       const conclusion =
-        (row.getValue("conclusion") as Conclusion) ||
-        (row.getValue("status") as Status);
-
+        original.conclusion ?? original.status ?? "IN_PROGRESS";
       return (
         <span>
-          {(iconMap[conclusion] || iconMap.IN_PROGRESS)({})}
+          {iconMap[conclusion]({})}
           &nbsp;
           {titleCase(conclusion)}
         </span>
