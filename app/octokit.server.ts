@@ -93,8 +93,15 @@ export const gitHubStrategy = () => {
       callbackURL,
       scope: ["user", "read:user"],
     },
-    async ({ accessToken, profile }) => {
-      return { login: profile._json.login, accessToken };
+    async ({ accessToken, profile, extraParams, refreshToken }) => {
+      return {
+        login: profile._json.login,
+        accessToken,
+        refreshToken,
+        accessTokenExpiry: extraParams.accessTokenExpiresIn
+          ? Date.now() + extraParams.accessTokenExpiresIn
+          : null,
+      };
     }
   );
 };

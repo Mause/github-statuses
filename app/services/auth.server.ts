@@ -10,6 +10,8 @@ export type SessionShape = Pick<
   "login"
 > & {
   accessToken: string;
+  refreshToken: string;
+  accessTokenExpiry: number | null;
 };
 
 // Create an instance of the authenticator, pass a generic with what

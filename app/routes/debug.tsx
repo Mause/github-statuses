@@ -15,9 +15,12 @@ export const loader = async ({ request }: DataFunctionArgs) => {
     user = splatObject(e as Error);
   }
 
+  const userObject = await authenticator().isAuthenticated(request);
   return {
     rootURL: getRootURL(),
-    user: (await authenticator().isAuthenticated(request))?.login || null,
+    user: userObject
+      ? _.pick(userObject, ["login", "accessTokenExpiry"])
+      : null,
     userExtra: user,
     kv: await kv.ping(),
     env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
