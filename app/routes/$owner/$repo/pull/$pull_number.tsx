@@ -176,7 +176,7 @@ const COLUMNS = [
 
       return (
         <span>
-          {(iconMap[conclusion] ?? QuestionIcon)({})}
+          {(iconMap[conclusion] ?? color(QuestionIcon, "danger.fg"))({})}
           &nbsp;
           {titleCase(conclusion)}
         </span>
