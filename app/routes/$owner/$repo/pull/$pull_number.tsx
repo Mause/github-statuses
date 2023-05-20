@@ -168,7 +168,8 @@ const COLUMNS = [
       const conclusion =
         original.conclusion ?? original.status ?? CheckStatusState.InProgress;
 
-      if (!(conclusion in iconMap)) {
+      const fn = iconMap[conclusion] ?? color(QuestionIcon, "danger.fg");
+      if (!(conclusion in iconMap) || !fn) {
         console.error(
           `Missing entry for: ${conclusion}. Falling back to QuestionIcon.`
         );
@@ -176,7 +177,7 @@ const COLUMNS = [
 
       return (
         <span>
-          {(iconMap[conclusion] ?? color(QuestionIcon, "danger.fg"))({})}
+          {fn({})}
           &nbsp;
           {titleCase(conclusion)}
         </span>
