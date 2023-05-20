@@ -30,11 +30,8 @@ import { countBy } from "lodash";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
-import type {
-  PullRequestsFragment} from "~/components/graphql/graphql";
-import {
-  CheckStatusState
-} from "~/components/graphql/graphql";
+import type { PullRequestsFragment } from "~/components/graphql/graphql";
+import { CheckStatusState } from "~/components/graphql/graphql";
 import { CheckConclusionState } from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
 import _ from "lodash";
@@ -170,6 +167,13 @@ const COLUMNS = [
       const { original } = props.row;
       const conclusion =
         original.conclusion ?? original.status ?? CheckStatusState.InProgress;
+
+      if (!(conclusion in iconMap)) {
+        console.error(
+          `Missing entry for: ${conclusion}. Falling back to QuestionIcon.`
+        );
+      }
+
       return (
         <span>
           {(iconMap[conclusion] ?? QuestionIcon)({})}
