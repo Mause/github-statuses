@@ -125,29 +125,38 @@ type ReturnShape = {
 
 const columnHelper = createColumnHelper<SerializeFrom<Item>>();
 
-const color = (component: Icon, color: string) => () =>
-  <StyledOcticon icon={component} color={color} />;
+const color =
+  (
+    component: Icon,
+    color:
+      | "success.fg"
+      | "danger.fg"
+      | "attention.fg"
+      | "neutral.emphasis" = "neutral.emphasis"
+  ) =>
+  () =>
+    <StyledOcticon icon={component} color={color} />;
 
 const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
   SUCCESS: color(CheckIcon, "success.fg"),
   FAILURE: color(XIcon, "danger.fg"),
 
-  SKIPPED: SkipIcon,
-  CANCELLED: StopIcon,
+  SKIPPED: color(SkipIcon),
+  CANCELLED: color(StopIcon),
 
   // guesses
-  ACTION_REQUIRED: XIcon,
-  NEUTRAL: QuestionIcon,
+  ACTION_REQUIRED: color(XIcon),
+  NEUTRAL: color(QuestionIcon),
   TIMED_OUT: color(ClockIcon, "danger.fg"),
   IN_PROGRESS: color(DotIcon, "attention.fg"),
-  COMPLETED: XIcon,
-  QUEUED: HourglassIcon,
+  COMPLETED: color(XIcon),
+  QUEUED: color(HourglassIcon),
 
-  STALE: QuestionIcon,
-  PENDING: QuestionIcon,
-  REQUESTED: QuestionIcon,
-  STARTUP_FAILURE: QuestionIcon,
-  WAITING: QuestionIcon,
+  STALE: color(QuestionIcon),
+  PENDING: color(QuestionIcon),
+  REQUESTED: color(QuestionIcon),
+  STARTUP_FAILURE: color(QuestionIcon),
+  WAITING: color(QuestionIcon),
 };
 
 const COLUMNS = [
