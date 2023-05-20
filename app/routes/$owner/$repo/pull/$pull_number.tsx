@@ -30,7 +30,11 @@ import { countBy } from "lodash";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
-import type { PullRequestsFragment } from "~/components/graphql/graphql";
+import type {
+  PullRequestsFragment} from "~/components/graphql/graphql";
+import {
+  CheckStatusState
+} from "~/components/graphql/graphql";
 import { CheckConclusionState } from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
 import _ from "lodash";
@@ -165,10 +169,10 @@ const COLUMNS = [
     cell: (props) => {
       const { original } = props.row;
       const conclusion =
-        original.conclusion ?? original.status ?? "IN_PROGRESS";
+        original.conclusion ?? original.status ?? CheckStatusState.InProgress;
       return (
         <span>
-          {iconMap[conclusion]({})}
+          {(iconMap[conclusion] ?? QuestionIcon)({})}
           &nbsp;
           {titleCase(conclusion)}
         </span>
