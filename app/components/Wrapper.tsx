@@ -62,7 +62,7 @@ export default function Wrapper({
   children: [ReactNode, ReactNode] | [ReactNode, ReactNode, ReactNode];
 }) {
   return (
-    <PageLayout sx={{ overflowY: "auto" }}>
+    <PageLayout sx={{ overflowY: "auto" }} containerWidth="full">
       <StandardHeader children={header} />
       <PageLayout.Content>{body}</PageLayout.Content>
       {sidebar ? (
