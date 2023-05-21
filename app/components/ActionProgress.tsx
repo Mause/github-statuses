@@ -28,18 +28,22 @@ export function ActionProgress({
   const total = _.sum(Object.values(counts));
   return (
     <>
-      <ProgressBar barSize="large">
+      <ProgressBar sx={{ height: "20px" }}>
         {Object.entries(counts).map(([key, value]) => {
           const colour = colourMap[key] || `neutral.${style}`;
+          const progress = (value / total) * 100;
           return (
             <ProgressBar.Item
-              title={`${titleCase(key)} - ${colour}`}
               key={key}
+              title={colour}
               sx={{
                 backgroundColor: colour,
+                color: "white",
               }}
-              progress={(value / total) * 100}
-            />
+              progress={progress}
+            >
+              {Math.round(progress)}% - {titleCase(key)}
+            </ProgressBar.Item>
           );
         })}
       </ProgressBar>
