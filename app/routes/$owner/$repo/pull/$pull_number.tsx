@@ -36,6 +36,7 @@ import { CheckConclusionState } from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
 import _ from "lodash";
 import { ActionProgress } from "~/components/ActionProgress";
+import { captureMessage } from "@sentry/remix";
 
 export const meta: V2_MetaFunction<
   typeof loader,
@@ -174,13 +175,21 @@ const COLUMNS = [
   columnHelper.accessor("conclusion", {
     cell: (props) => {
       const { original } = props.row;
-      const conclusion =
-        original.conclusion ?? original.status ?? CheckStatusState.InProgress;
+      let conclusion = original.conclusion ?? original.status;
+
+      if (!conclusion) {
+        captureMessage("`conclusion ?? status` was non-truthy", {
+          level: "warning",
+          extra: original,
+        });
+        conclusion = CheckStatusState.InProgress;
+      }
 
       const fn = iconMap[conclusion] ?? color(QuestionIcon, "danger.fg");
       if (!(conclusion in iconMap) || !fn) {
-        console.error(
-          `Missing entry for: ${conclusion}. Falling back to QuestionIcon.`
+        captureMessage(
+          `Missing entry for: ${conclusion}. Falling back to QuestionIcon.`,
+          { level: "warning" }
         );
       }
 
