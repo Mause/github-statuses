@@ -203,17 +203,21 @@ const COLUMNS = [
     },
     header: "Status",
   }),
+  /*
   columnHelper.accessor("startedAt", {
     header: "Started At",
   }),
+  */
   columnHelper.accessor("duration", {
     cell: (props) =>
       humanizeDuration(props.getValue(), { conjunction: " and ", largest: 2 }),
     header: "Duration",
   }),
+  /*
   columnHelper.accessor("completedAt", {
     header: "Completed At",
   }),
+  */
 ];
 
 export default function Index() {
