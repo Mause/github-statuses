@@ -71,12 +71,14 @@ export const octokitFromToken = (token: string) =>
 export function getRootURL() {
   const port = process.env.PORT || 3000;
   switch (process.env.VERCEL_ENV) {
-    case "development":
-      return `https://${port}-${process.env.HOSTNAME}.ws-us89.gitpod.io`;
     case "preview":
       return `https://${process.env.VERCEL_URL}`;
     case "production":
       return "https://actions.vc.mause.me";
+    case "development":
+      if (process.env.GITPOD_WORKSPACE_ID) {
+        return `https://${port}-${process.env.GITPOD_WORKSPACE_ID}.ws-us89.gitpod.io`;
+      }
     default:
       return `http://localhost:${port}`;
   }
