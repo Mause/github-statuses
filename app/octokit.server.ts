@@ -2,13 +2,23 @@ import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
 import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
-import { GitHubStrategy } from "remix-auth-github";
-import type { DataFunctionArgs } from "@remix-run/node";
+import type {
+  GitHubExtraParams,
+  GitHubProfile,
+  GitHubStrategyOptions} from "remix-auth-github";
+import {
+  GitHubStrategy
+} from "remix-auth-github";
+import type { DataFunctionArgs, SessionStorage } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
 import { RequestError } from "@octokit/request-error";
+import type { AuthenticateOptions, StrategyVerifyCallback } from "remix-auth";
+import * as sessionStorage from "./services/session.server";
+import _ from "lodash";
+import type { OAuth2StrategyVerifyParams } from "remix-auth-oauth2";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -82,11 +92,108 @@ export function getRootURL() {
   }
 }
 
-export const gitHubStrategy = () => {
+export async function isAuthenticated(
+  request: Request,
+  options:
+    | { successRedirect?: undefined; failureRedirect?: undefined }
+    | undefined
+) {
+  const authe = authenticator();
+  const user = await authe.isAuthenticated(request, options);
+  if (user?.accessTokenExpiry) {
+    const expired = Date.now() > user.accessTokenExpiry;
+    if (expired)
+      gitHubStrategy().updateToken(request, user, sessionStorage, {
+        ...options,
+        sessionKey: authe.sessionKey,
+        sessionErrorKey: authe.sessionErrorKey,
+        sessionStrategyKey: authe.sessionStrategyKey,
+        name: "",
+      });
+  }
+  return user;
+}
+
+export class XGitHubStrategy extends GitHubStrategy<SessionShape> {
+  constructor(
+    options: GitHubStrategyOptions,
+    verify: StrategyVerifyCallback<
+      SessionShape,
+      OAuth2StrategyVerifyParams<GitHubProfile, GitHubExtraParams>
+    >
+  ) {
+    super(options, verify);
+  }
+
+  public async updateToken(
+    request: Request,
+    user: { refreshToken: string },
+    sessionStorage: SessionStorage,
+    options: AuthenticateOptions
+  ) {
+    // fetch the refreshed token and user data
+    const params = new URLSearchParams(this.tokenParams());
+    params.set("client_id", this.clientID);
+    params.set("client_secret", this.clientSecret);
+    params.set("grant_type", "refresh_token");
+    params.set("refresh_token", user.refreshToken);
+    const response = await fetch(this.tokenURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params,
+    });
+    if (!response.ok) {
+      // happens e.g. if the refresh token has expired, too
+      throw await this.forceReLogin(request, sessionStorage, options);
+    }
+
+    // create new user object with updated data
+    const { accessToken, refreshToken, extraParams } =
+      await this.getAccessToken(response.clone());
+    const profile = await this.userProfile(accessToken);
+    try {
+      user = await this.verify({
+        accessToken,
+        refreshToken,
+        extraParams,
+        profile,
+      });
+    } catch (error) {
+      throw await this.forceReLogin(request, sessionStorage, options);
+    }
+
+    // save new data in session
+    const session = await sessionStorage.getSession(
+      request.headers.get("Cookie")
+    );
+    session.set(options.sessionKey, user);
+    throw redirect(request.url, {
+      headers: {
+        "Set-Cookie": await sessionStorage.commitSession(session),
+      },
+    });
+  }
+
+  async forceReLogin(
+    request: Request,
+    sessionStorage: SessionStorage,
+    options: AuthenticateOptions
+  ) {
+    const session = await sessionStorage.getSession(
+      request.headers.get("Cookie")
+    );
+    session.unset(options.sessionKey);
+    throw redirect(request.url, {
+      headers: { "Set-Cookie": await sessionStorage.commitSession(session) },
+    });
+  }
+}
+
+export const gitHubStrategy = _.memoize(() => {
   const callbackURL = `${getRootURL()}/auth/github/callback`;
   console.log({ callbackURL });
 
-  return new GitHubStrategy(
+  return new XGitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
@@ -105,7 +212,7 @@ export const gitHubStrategy = () => {
       };
     }
   );
-};
+});
 
 export async function call<Result, Variables extends RequestParameters>(
   request: Request,
