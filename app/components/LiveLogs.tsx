@@ -99,9 +99,9 @@ function RenderLogs({ live_logs }: { live_logs: string }) {
     <div>
       URL: {live_logs}
       <br />
-      <code>
-        <pre>{logs.join("\n")}</pre>
-      </code>
+      <pre>
+        <code>{logs.join("\n")}</code>
+      </pre>
     </div>
   );
 }

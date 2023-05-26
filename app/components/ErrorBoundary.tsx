@@ -33,21 +33,21 @@ export function ErrorBoundary() {
         <h1>Error: {error.name}</h1>
         <p>{error.message}</p>
         <p>The stack trace is:</p>
-        <code>
-          <pre>{error.stack?.trim()}</pre>
-        </code>
-        <code>
-          <pre>{JSON.stringify(splatObject(error), undefined, 2)}</pre>
-        </code>
+        <pre>
+          <code>{error.stack?.trim()}</code>
+        </pre>
+        <pre>
+          <code>{JSON.stringify(splatObject(error), undefined, 2)}</code>
+        </pre>
       </div>
     );
   } else {
     return (
       <div>
         <h1>Unknown Error</h1>
-        <code>
-          <pre>{JSON.stringify(error, undefined, 2)}</pre>
-        </code>
+        <pre>
+          <code>{JSON.stringify(error, undefined, 2)}</code>
+        </pre>
       </div>
     );
   }

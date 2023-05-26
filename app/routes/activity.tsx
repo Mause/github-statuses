@@ -74,9 +74,9 @@ function EventPayload({ event }: { event: Event }) {
   return (
     <Details {...getDetailsProps()} title={event.type || "unknown"}>
       <Button as="summary">Details</Button>
-      <code>
-        <pre>{JSON.stringify(event, undefined, 2)}</pre>
-      </code>
+      <pre>
+        <code>{JSON.stringify(event, undefined, 2)}</code>
+      </pre>
     </Details>
   );
 }
