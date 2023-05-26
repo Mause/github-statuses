@@ -37,7 +37,7 @@ export const query = gql`
                     }
                     checkSuites(first: 5) {
                       nodes {
-                        checkRuns {
+                        checkRuns(first: 5) {
                           nodes {
                             name
                             status
