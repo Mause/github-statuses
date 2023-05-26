@@ -36,8 +36,8 @@ export const query = gql`
                       id
                     }
                     checkSuites(first: 5) {
-                      id
                       nodes {
+                        id
                         checkRuns(first: 5) {
                           nodes {
                             name
