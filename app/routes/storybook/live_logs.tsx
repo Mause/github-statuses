@@ -7,10 +7,23 @@ export { ErrorBoundary } from "~/components";
 type Keys = "repo" | "owner" | "commit_hash" | "check_id";
 
 export async function loader({ request, params }: DataLoaderParams<Keys>) {
-  for (const key of ["repo", "owner", "commit_hash", "check_id"] as Keys[]) {
-    if (!params[key]) {
-      throw new Error(`Missing required parameter: ${key}`);
-    }
+  const keys = ["repo", "owner", "commit_hash", "check_id"] as Keys[];
+
+  const missing_keys = keys.filter((key) => !params[key]);
+
+  if (missing_keys.length) {
+    throw new Response(
+      JSON.stringify({
+        error: `Missing required keys: ${missing_keys.join(", ")}`,
+      }),
+      {
+        status: 400,
+        statusText: "Bad Request",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 
   return defer({
