@@ -22,7 +22,7 @@ export async function getLiveLogs(
   } catch (e) {
     throw { error: "not logged in" };
   }
-  console.log("octokit", octokit);
+  console.log("octokit got");
 
   const live_logs = await octokit.request<LiveLogsResponse>({
     url: `https://github.com/${args.owner}/${args.repo}/commit/${args.commit_hash}/checks/${args.check_id}/live_logs`,
