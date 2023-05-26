@@ -19,13 +19,14 @@ import { Wrapper, ErrorBoundary as ErrorDisplay } from "./components";
 import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
+import _ from "lodash";
 
 export async function loader({ request }: DataFunctionArgs) {
   return json({
     ENV: {
       SENTRY_DSN: process.env.SENTRY_DSN,
     },
-    user: await authenticator().isAuthenticated(request),
+    user: _.pick(await authenticator().isAuthenticated(request), ["login"]),
   });
 }
 
