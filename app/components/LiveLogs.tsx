@@ -24,9 +24,9 @@ export async function getLiveLogs(
   }
   console.log("octokit got");
 
-  const live_logs = await octokit.request<LiveLogsResponse>({
-    url: `https://github.com/${args.owner}/${args.repo}/commit/${args.commit_hash}/checks/${args.check_id}/live_logs`,
-  });
+  const url = `https://github.com/${args.owner}/${args.repo}/commit/${args.commit_hash}/checks/${args.check_id}/live_logs`;
+  console.log("url", url);
+  const live_logs = await octokit.request<LiveLogsResponse>({ url });
   console.log("live_logs", live_logs);
   if (!live_logs.data.success) {
     throw new Error(live_logs.data.errors.join("\n"));
