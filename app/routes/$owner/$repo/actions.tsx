@@ -25,11 +25,10 @@ export const query = gql`
           node {
             title
             url
-            commits(first: 5) {
+            commits(last: 5) {
               edges {
                 node {
                   commit {
-                    message
                     status {
                       id
                     }
@@ -38,7 +37,15 @@ export const query = gql`
                     }
                     checkSuites(first: 5) {
                       nodes {
-                        id
+                        checkRuns {
+                          nodes {
+                            name
+                            status
+                          }
+                        }
+                        app {
+                          name
+                        }
                         workflowRun {
                           url
                           workflow {
@@ -82,7 +89,11 @@ type Workflow = Get<
 const columnHelper = createColumnHelper<SerializeFrom<Workflow>>();
 const COLUMNS = [
   columnHelper.accessor("id", { header: "ID" }),
-  columnHelper.accessor("workflowRun.workflow.name", { header: "Name" }),
+  columnHelper.accessor("workflowRun.workflow.name", {
+    header: "Name",
+    cell: ({ row }) =>
+      row.original?.workflowRun?.workflow.name ?? row.original?.app?.name,
+  }),
 ];
 
 export default function Actions() {
