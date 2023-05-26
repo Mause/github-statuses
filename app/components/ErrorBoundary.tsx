@@ -30,8 +30,12 @@ export function ErrorBoundary() {
   } else if (error instanceof Error) {
     return (
       <div>
-        <h1>Error: {error.name}</h1>
-        <p>{error.message}</p>
+        <h1>
+          Error: <code>{error.name}</code>
+        </h1>
+        <p>
+          <code>{error.message}</code>
+        </p>
         <p>The stack trace is:</p>
         <pre>
           <code>{error.stack?.trim()}</code>
