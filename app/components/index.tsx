@@ -7,6 +7,7 @@ export { default as Wrapper } from "./Wrapper";
 export { Markdown } from "./Markdown";
 export { dedentBlock, dedent } from "./dedentBlock";
 export { titleCase } from "./titleCase";
+export { ErrorBoundary } from "./ErrorBoundary";
 
 export interface DataLoaderParams<T extends string> {
   params: Params<T>;

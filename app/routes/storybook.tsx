@@ -1,5 +1,6 @@
 import { Link, Outlet } from "@remix-run/react";
 import { Wrapper, titleCase } from "~/components";
+export { ErrorBoundary } from "~/root";
 
 export default function Storybook() {
   return (
