@@ -1,20 +1,20 @@
+import type { LoaderArgs} from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import type { DataLoaderParams } from "~/components";
 import LiveLogs, { getLiveLogs } from "~/components/LiveLogs";
 export { ErrorBoundary } from "~/components";
 
-type Keys = "repo" | "owner" | "commit_hash" | "check_id";
+export async function loader({ request }: LoaderArgs) {
+  const keys = ["repo", "owner", "commit_hash", "check_id"];
 
-export async function loader({ request, params }: DataLoaderParams<Keys>) {
-  const keys = ["repo", "owner", "commit_hash", "check_id"] as Keys[];
-
-  const missing_keys = keys.filter((key) => !params[key]);
+  const params = new URL(request.url).searchParams;
+  const missing_keys = keys.filter((key) => !params.get(key));
 
   if (missing_keys.length) {
     throw new Response(
       JSON.stringify({
-        error: `Missing required keys: ${missing_keys.join(", ")}`,
+        error: "Missing required keys",
+        missing_keys,
       }),
       {
         status: 400,
@@ -28,10 +28,10 @@ export async function loader({ request, params }: DataLoaderParams<Keys>) {
 
   return defer({
     logStreamWebSocketUrl: getLiveLogs(request, {
-      check_id: Number(params.check_id!),
-      commit_hash: params.commit_hash!,
-      owner: params.owner!,
-      repo: params.repo!,
+      check_id: Number(params.get("check_id")!),
+      commit_hash: params.get("commit_hash")!,
+      owner: params.get("owner")!,
+      repo: params.get("repo")!,
     }),
   });
 }
