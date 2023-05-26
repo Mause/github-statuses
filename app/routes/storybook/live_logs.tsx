@@ -1,4 +1,4 @@
-import type { LoaderArgs} from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import LiveLogs, { getLiveLogs } from "~/components/LiveLogs";
@@ -25,6 +25,8 @@ export async function loader({ request }: LoaderArgs) {
       }
     );
   }
+
+  console.log("params", params);
 
   return defer({
     logStreamWebSocketUrl: getLiveLogs(request, {

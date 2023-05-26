@@ -15,16 +15,19 @@ export async function getLiveLogs(
   request: Request,
   args: { repo: string; owner: string; commit_hash: string; check_id: Number }
 ) {
+  console.log("getLiveLogs", args);
   let octokit;
   try {
     octokit = await getOctokit(request);
   } catch (e) {
     throw { error: "not logged in" };
   }
+  console.log("octokit", octokit);
 
   const live_logs = await octokit.request<LiveLogsResponse>({
     url: `https://github.com/${args.owner}/${args.repo}/commit/${args.commit_hash}/checks/${args.check_id}/live_logs`,
   });
+  console.log("live_logs", live_logs);
   if (!live_logs.data.success) {
     throw new Error(live_logs.data.errors.join("\n"));
   }
@@ -32,6 +35,7 @@ export async function getLiveLogs(
   const authed_url = await octokit.request<{ logStreamWebSocketUrl: string }>({
     url: live_logs.data.data.authenticated_url,
   });
+  console.log("authed_url", authed_url);
 
   return authed_url.data.logStreamWebSocketUrl;
 }
