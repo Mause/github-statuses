@@ -86,7 +86,6 @@ export function getRootURL() {
 
 export const gitHubStrategy = () => {
   const callbackURL = `${getRootURL()}/auth/github/callback`;
-  console.log({ callbackURL });
 
   return new GitHubStrategy(
     {

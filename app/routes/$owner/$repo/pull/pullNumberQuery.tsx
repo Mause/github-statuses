@@ -66,7 +66,6 @@ export async function getActions(
   request: Request,
   variables: Required<GetActionsForPullRequestQueryVariables>
 ): Promise<NonNullable<PullRequestsFragment["pullRequest"]>> {
-  console.log({ variables });
   const thing = await call(
     request,
     GetActionsForPullRequestDocument,
