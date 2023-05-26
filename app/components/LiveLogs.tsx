@@ -1,7 +1,7 @@
 import { getOctokit } from "~/octokit.server";
 import { Suspense, useEffect, useState } from "react";
 import { Await } from "@remix-run/react";
-import { useAsyncError } from "react-router";
+export { ErrorBoundary } from "~/components";
 
 interface LiveLogsResponse {
   success: boolean;
@@ -40,25 +40,6 @@ export async function getLiveLogs(
   return authed_url.data.logStreamWebSocketUrl;
 }
 
-function Childe() {
-  const error = useAsyncError();
-
-  if (error instanceof Error) {
-    return (
-      <div>
-        error:{" "}
-        {JSON.stringify({
-          message: error.message,
-          name: error.name,
-          stack: error.stack,
-        })}
-      </div>
-    );
-  } else {
-    return <div>mebe error: {JSON.stringify(error)}</div>;
-  }
-}
-
 export default function LiveLogs({
   live_logs,
 }: {
@@ -67,7 +48,7 @@ export default function LiveLogs({
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={live_logs} errorElement={<Childe />}>
+        <Await resolve={live_logs}>
           {(defer) => <RenderLogs live_logs={defer} />}
         </Await>
       </Suspense>
