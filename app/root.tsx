@@ -48,6 +48,8 @@ export const Head = createHead(() => (
 ));
 
 export function ErrorBoundary() {
+  const navigation = useNavigation();
+
   return (
     <ThemeProvider>
       <Meta />
@@ -59,6 +61,13 @@ export function ErrorBoundary() {
         <></>
         <ErrorDisplay />
       </Wrapper>
+      <Modal
+        show={navigation.state !== "idle"}
+        closeOnEsc={false}
+        showClose={false}
+      >
+        <Spinner size="large" sx={{ color: "whitesmoke" }} />
+      </Modal>
     </ThemeProvider>
   );
 }

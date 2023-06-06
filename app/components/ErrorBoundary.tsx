@@ -23,8 +23,8 @@ export function ErrorBoundary() {
   } else if (error instanceof Error && error.message === "Failed to fetch") {
     return (
       <div>
-        <h1>Error: {error.name}</h1>
-        <Button onClick={() => navigate(pathname)}>Revalidate</Button>
+        <h1>Page failed to load</h1>
+        <Button onClick={() => navigate(pathname)}>Retry</Button>
       </div>
     );
   } else if (error instanceof Error) {
