@@ -2,9 +2,10 @@ import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { createColumnHelper } from "@tanstack/table-core";
 import gql from "graphql-tag";
+import _ from "lodash";
 import type { Get } from "type-fest";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable } from "~/components";
+import { StandardTable, ActionProgress } from "~/components";
 import type {
   GetRepositoryActionsQuery,
   GetRepositoryActionsQueryVariables,
@@ -100,14 +101,22 @@ const COLUMNS = [
 export default function Actions() {
   const { actions } = useLoaderDataReloading<typeof loader>();
 
+  const counts = _.countBy(
+    actions.flatMap((action) => action!.checkRuns!.nodes!),
+    (checkRun) => checkRun!.status
+  );
+
   return (
-    <StandardTable
-      tableOptions={{
-        data: actions,
-        columns: COLUMNS,
-      }}
-    >
-      No actions found
-    </StandardTable>
+    <>
+      <ActionProgress counts={counts} progress={0} />
+      <StandardTable
+        tableOptions={{
+          data: actions,
+          columns: COLUMNS,
+        }}
+      >
+        No actions found
+      </StandardTable>
+    </>
   );
 }
