@@ -1303,6 +1303,11 @@
   resolved "https://registry.yarnpkg.com/@edge-runtime/format/-/format-2.0.1.tgz#765295809ff6a0938da739e13ef327d95a418395"
   integrity sha512-aE+9DtBvQyg349srixtXEUNauWtIv5HTKPy8Q9dvG1NvpldVIvvhcDBI+SuvDVM8kQl8phbYnp2NTNloBCn/Yg==
 
+"@edge-runtime/node-utils@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@edge-runtime/node-utils/-/node-utils-2.0.3.tgz#e4f6e0d761734ca82564363cacae8f0555263871"
+  integrity sha512-JUSbi5xu/A8+D2t9B9wfirCI1J8n8q0660FfmqZgA+n3RqxD3y7SnamL1sKRE5/AbHsKs9zcqCbK2YDklbc9Bg==
+
 "@edge-runtime/primitives@2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@edge-runtime/primitives/-/primitives-2.0.0.tgz#b4bf44f9cab36aee3027fe4c3ff3cc1d5713e155"
@@ -3751,10 +3756,12 @@
     ws "8.13.0"
 
 "@vercel/node@^2.6.2":
-  version "2.14.5"
-  resolved "https://registry.yarnpkg.com/@vercel/node/-/node-2.14.5.tgz#7d53f14f255432edea1ed879773c7b64925f4432"
-  integrity sha512-0vzzeIheLWSxoF/1zMG8GwZxdxOvNLRgDMlClljCqiSa5MIXtTsmCj93JHeYo6BWgvIbiR5XrD0vt2IYqFQCug==
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/@vercel/node/-/node-2.15.1.tgz#f9bb0edcc74d465277b1ccdbb4a22fefc5abe022"
+  integrity sha512-TcncacgAnnrRlvuEWvZEOEP8BDuoDaEzMfMTpNa97Pj2vofYdGcXHVOVIGWrPPGh4TQoZQ48JlUTo4PfXgsOaA==
   dependencies:
+    "@edge-runtime/node-utils" "2.0.3"
+    "@edge-runtime/primitives" "2.1.2"
     "@edge-runtime/vm" "2.0.0"
     "@types/node" "14.18.33"
     "@types/node-fetch" "2.6.3"
