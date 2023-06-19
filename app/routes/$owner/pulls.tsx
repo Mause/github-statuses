@@ -80,8 +80,8 @@ export default function Owner() {
           return <Link to={`/${name}/pulls`}>{name}</Link>;
         },
       }),
-      buildMergeableColumn(),
-      buildRollupColumn(),
+      buildMergeableColumn<PullRequest>(),
+      buildRollupColumn<PullRequest>(),
     ],
   };
 

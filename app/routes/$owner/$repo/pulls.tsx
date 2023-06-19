@@ -63,8 +63,8 @@ export default function Pulls() {
           </a>
         ),
       }),
-      buildMergeableColumn(),
-      buildRollupColumn(),
+      buildMergeableColumn<PullRequest>(),
+      buildRollupColumn<PullRequest>(),
     ],
   };
 
@@ -89,17 +89,14 @@ export function buildMergeableColumn<
       getFragment(StatusCheckRollupFragmentDoc, props as T).mergeable,
     header: "Mergeability",
     cell: (props) => {
-      const value: Record<MergeableState, LabelColorOptions> = {
+      const value: { [key in MergeableState]: LabelColorOptions } = {
         CONFLICTING: "attention",
         MERGEABLE: "success",
         UNKNOWN: "secondary",
       };
 
-      return (
-        <Label variant={value[props.getValue()]}>
-          {titleCase(props.getValue())}
-        </Label>
-      );
+      const gotValue = props.getValue();
+      return <Label variant={value[gotValue]}>{titleCase(gotValue)}</Label>;
     },
   };
 }
