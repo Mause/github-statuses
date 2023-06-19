@@ -8,22 +8,7 @@ const config: CodegenConfig = {
       preset: "client",
       config: {
         documentMode: "string",
-        strictScalars: true,
-        scalars: {
-          Base64String: "string",
-          Date: "string",
-          DateTime: "string",
-          BigInt: "string",
-          GitObjectID: "string",
-          GitRefname: "string",
-          GitSSHRemote: "string",
-          GitTimestamp: "string",
-          HTML: "string",
-          PreciseDateTime: "string",
-          X509Certificate: "string",
-          URI: "string",
-          URL: "string",
-        },
+        defaultScalarType: "string",
       },
       presetConfig: {
         fragmentMasking: {
