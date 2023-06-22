@@ -2111,9 +2111,9 @@
     json-parse-even-better-errors "^2.3.1"
 
 "@octokit/auth-app@^5.0.0":
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/@octokit/auth-app/-/auth-app-5.0.5.tgz#c7521fa57d0e29d5153a9c98b8cc5d70760dc243"
-  integrity sha512-9IL//yXF4jSlptdUN4dZz0OYX+9PGNk+/eEhpWdpNr5Ff46/YQSKC9IrjNc45iwTemP0Xk7OiPKj3MoNOd7SQg==
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@octokit/auth-app/-/auth-app-5.0.6.tgz#9802b7c98ff29c86f4bc31417c926f6c82136f33"
+  integrity sha512-zWqWTn88LcOUBALRMKl6yA0PqXWZLI2OXN9EaYK63f4E84SeW7dNefFx1P13XnQceTnc8O3Z9B537foUbjmG+A==
   dependencies:
     "@octokit/auth-oauth-app" "^6.0.1"
     "@octokit/auth-oauth-user" "^3.0.1"
@@ -2187,7 +2187,7 @@
     is-plain-object "^5.0.0"
     universal-user-agent "^6.0.0"
 
-"@octokit/endpoint@^8.0.0":
+"@octokit/endpoint@^8.0.1":
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/@octokit/endpoint/-/endpoint-8.0.1.tgz#eb9dc49da9c4b9798490da58544e10f10ef461c8"
   integrity sha512-tVviBdPuf3kcCiIvXYDJg7NAJrkTh8QEnc+UCybknKdEBCjIi7uQbFX3liQrpk1m5PjwC7fUJg08DYZ4F+l1RQ==
@@ -2285,11 +2285,11 @@
     universal-user-agent "^6.0.0"
 
 "@octokit/request@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@octokit/request/-/request-7.0.0.tgz#b92961d368e6841123cd750a1c0916c27728c931"
-  integrity sha512-iUnS9KDsFWfHLwomq/QZmEja8nQZ9FnkMp58+6qz1AKFIBi+sF6w1HGpimRxmmpstFHHGB3eE0qYjuV1Z/Gc3Q==
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@octokit/request/-/request-7.0.1.tgz#30f545b2546c9a87c07c8b2d49c7e1d681374999"
+  integrity sha512-R227pDk1fuQXuX17LU8ChzFyTOe/myHvvceBF3C/fFath+NlsVkHICOlvEbx+9EgYUl4uDH7VqTby00menlM8Q==
   dependencies:
-    "@octokit/endpoint" "^8.0.0"
+    "@octokit/endpoint" "^8.0.1"
     "@octokit/request-error" "^4.0.1"
     "@octokit/types" "^10.0.0"
     is-plain-object "^5.0.0"
@@ -9718,14 +9718,14 @@ semver@^6.0.0, semver@^6.1.0, semver@^6.1.1, semver@^6.1.2, semver@^6.3.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
-semver@^7.3.5, semver@^7.3.7:
+semver@^7.3.5, semver@^7.3.7, semver@^7.3.8:
   version "7.5.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.2.tgz#5b851e66d1be07c1cdaf37dfc856f543325a2beb"
   integrity sha512-SoftuTROv/cRjCze/scjGyiDtcUyxw1rgYQSZY7XTmtR5hX+dm76iDbTH8TkLPHCQmlbQVSSbNZCPM2hb0knnQ==
   dependencies:
     lru-cache "^6.0.0"
 
-semver@^7.3.8, semver@^7.5.0:
+semver@^7.5.0:
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.1.tgz#c90c4d631cf74720e46b21c1d37ea07edfab91ec"
   integrity sha512-Wvss5ivl8TMRZXXESstBA4uR5iXgEN/VC5/sOcuXdVLzcdkz4HWetIoRfG5gb5X+ij/G9rw9YoGn3QoQ8OCSpw==
