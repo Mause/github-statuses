@@ -111,3 +111,5 @@ public/build
 app/components/graphql
 
 tsconfig.*.json
+api
+build

@@ -2913,7 +2913,7 @@
   dependencies:
     "@remix-run/node" "1.19.1"
 
-"@remix-run/node@1.19.1", "@remix-run/node@^1.13.0":
+"@remix-run/node@1.19.1":
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/@remix-run/node/-/node-1.19.1.tgz#f154f23cb6960a2126c7b5d94153471e6956611e"
   integrity sha512-7RbuaG3PMkit04xhu+RdOLHbLj7rhPVJwLeMXAYreQ0D9hvssWNt2lPGEowLd//2IGthU8OvNpb1rB+vyFuF1Q==
@@ -2979,13 +2979,6 @@
     cookie "^0.4.1"
     set-cookie-parser "^2.4.8"
     source-map "^0.7.3"
-
-"@remix-run/vercel@^1.13.0":
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/@remix-run/vercel/-/vercel-1.19.1.tgz#71c26536f4d43d2a278fa9e93c67812eb074fe9a"
-  integrity sha512-1ahE6Q+M7m0Zac8X3rtSBh8L31jgk3zUBNAL2iymVpYop8ythqQ6+TwNcN3/0F9sTuTHoO1giznil2kiZYLosQ==
-  dependencies:
-    "@remix-run/node" "1.19.1"
 
 "@remix-run/web-blob@^3.0.5":
   version "3.0.5"
