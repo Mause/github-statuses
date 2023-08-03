@@ -10256,9 +10256,9 @@ remix-auth-oauth2@^1.4.0:
     uuid "^8.3.2"
 
 remix-auth@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/remix-auth/-/remix-auth-3.4.0.tgz#a3cd4455477f6c60f6cf1bad0ae119101a6d8ff8"
-  integrity sha512-VRliJo9VRAS4sSYgMjYbi7rYRixPWU2Tb8PFZb06OIj0nONK/1KRzHf2+Y6VGZeIacepLVgan6g2IUJjayE2rQ==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/remix-auth/-/remix-auth-3.5.0.tgz#ccbc2e8fdf8b2f4c8ec84fdd296a3ef928bfdc89"
+  integrity sha512-+0kFPhqNPQ4mjhDXViY5mG4jvWHWMsG1IXFiCj3T58BKQGynonk93vTFZ5/CCDzGFBjTsRpcA+mXCUW5LY8MdQ==
   dependencies:
     uuid "^8.3.2"
 
