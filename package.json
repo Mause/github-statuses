@@ -45,7 +45,7 @@
     "type-fest": "^3.6.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^4.0.0",
+    "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.0.0",
     "@remix-run/dev": "^1.13.0",
     "@remix-run/eslint-config": "^1.13.0",
