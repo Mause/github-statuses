@@ -2571,19 +2571,19 @@
   integrity sha512-HWwz+6MrfK5NTWcg9GdKFpMBW/yrAV937oXiw2eDtsd88P3SRwoCt6ZO6QmKp9RP3nDU9cbqmuGZ0xBh0eIFeg==
 
 "@primer/octicons-react@^19.0.0", "@primer/octicons-react@^19.3.0":
-  version "19.5.0"
-  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-19.5.0.tgz#d02eb99842d6368b9f2d4011ebbd6f8b6dd620e6"
-  integrity sha512-8GZCcoyGz0CYhW+zi0yMsrn2qSBzZp4dbRomesAhtOzJLxKGZMyFd7VSp7mEYCCujMSCj/8faKgzyj7UrL6/3w==
+  version "19.7.0"
+  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-19.7.0.tgz#98558cd3912a44a2d132285c628808b609329aba"
+  integrity sha512-KzB7P+Ew3ud/ua61tQFkTvdS2aIfKUMsT/uHUCvIzfHTcB49xD1MIoQLAwoshiEH4M+aLLGFNCLfBC/xTIH8vw==
 
 "@primer/primitives@^7.11.11":
-  version "7.11.14"
-  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.11.14.tgz#aacf0516dc891448dc8fbe87e349272375cf6b36"
-  integrity sha512-z/yUTEkbGhvFqoJ8rpLz3pHJfLNRdoyNd/xNdAl/LKqA97Z60tsSVJMfxNMXi3aS9dCIC1dexK5/Gp4y9JrRkg==
+  version "7.12.0"
+  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.12.0.tgz#82634bba41f465bc194cdf0ca6d5ed400f3f2c0d"
+  integrity sha512-QKNxfWm7Ik1Ulswyp3KeUL2xnQj8i0E7DdB6lOrh29o7LgyuutwcOHi4CGapBIOR1fYURu+yROSTHQ2C2aDK7A==
 
 "@primer/react@^35.21.0":
-  version "35.27.1"
-  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.27.1.tgz#4226a45282479117b8369ba61ede9de983a8f671"
-  integrity sha512-xA10ygf2OUECqPCclYdA4wRyheLUj61BqOU6I+bY9AckQCNitpbFcbS9TIuOI/KTO9NkfngvcEtYkLtEZ8btNQ==
+  version "35.28.0"
+  resolved "https://registry.yarnpkg.com/@primer/react/-/react-35.28.0.tgz#b19b8df161a251f7e057834e8227285dd9c752a4"
+  integrity sha512-8+x03Zr865Wcgllud1ojAuclDcs0xJDSfqgcpyGVI7xe95v4FbM65abXUuRIpDijrUzL9qzeIR9HzuuyqXGteA==
   dependencies:
     "@github/combobox-nav" "^2.1.5"
     "@github/markdown-toolbar-element" "^2.1.0"
@@ -2593,7 +2593,7 @@
     "@primer/behaviors" "^1.3.4"
     "@primer/octicons-react" "^19.3.0"
     "@primer/primitives" "^7.11.11"
-    "@react-aria/ssr" "^3.1.0"
+    "@react-aria/ssr" "^3.5.0"
     "@styled-system/css" "^5.1.5"
     "@styled-system/props" "^5.1.5"
     "@styled-system/theme-get" "^5.1.2"
@@ -2615,10 +2615,10 @@
     react-markdown "8.0.7"
     styled-system "^5.1.5"
 
-"@react-aria/ssr@^3.1.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.7.0.tgz#7eda2964ab792dc1c3a1fdacbf5bfb185590e9a5"
-  integrity sha512-bfufjg4ESE5giN+Fxj1XIzS5f/YIhqcGc+Ve+vUUKU8xZ8t/Xtjlv8F3kjqDBQdk//n3mluFY7xG1wQVB9rMLQ==
+"@react-aria/ssr@^3.5.0":
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.7.1.tgz#11d0fac17e50028459aad325c2d093dbb2960f68"
+  integrity sha512-ovVPSD1WlRpZHt7GI9DqJrWG3OIYS+NXQ9y5HIewMJpSe+jPQmMQfyRmgX4EnvmxSlp0u04Wg/7oItcoSIb/RA==
   dependencies:
     "@swc/helpers" "^0.5.0"
 
