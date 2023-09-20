@@ -208,7 +208,7 @@ export function Dashboard({
         id: "create",
         header: "Create PR",
         cell: (props) => {
-          const branchName = props.getValue();
+          const branchName = props.row.original.name;
 
           const create = createUrl({
             source: {
