@@ -24,7 +24,7 @@ export const Query = gql`
       login
       url
       repository(name: $repo) {
-        pullRequests(first: 10, orderBy: $order, states: OPEN) {
+        pullRequests(first: 25, orderBy: $order, states: OPEN) {
           nodes {
             number
             resourcePath
