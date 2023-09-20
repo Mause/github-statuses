@@ -28,6 +28,7 @@ export const Query = gql`
           nodes {
             number
             resourcePath
+            permalink
             title
             headRef {
               name
@@ -55,6 +56,7 @@ interface Repo {
 type MirroredPullRequest = {
   number: number;
   resourcePath: string;
+  permalink: string;
   title: string;
   branchName: string;
   mirrored?: string;
@@ -90,6 +92,7 @@ export async function loader({ request }: DataFunctionArgs) {
         number: pr.number,
         title: pr.title!,
         resourcePath: pr.resourcePath!,
+        permalink: pr.permalink!,
         branchName: headRef.name!,
         mirrored: headRef.associatedPullRequests.nodes?.find(
           (node) => node?.baseRepository?.nameWithOwner == "duckdb/duckdb",
@@ -117,15 +120,22 @@ export default function Dashboard() {
       title: original.title,
     });
 
-    return mirrored ? (
-      <a target="_blank" href={mirrored} rel="noreferrer">
-        Go
-      </a>
-    ) : (
-      <a target="_blank" href={create} rel="noreferrer">
-        Create
-      </a>
+    return (
+      <>
+        {link(original.permalink, "Fork pr")}
+        {mirrored
+          ? link(mirrored, "Upstream pr")
+          : link(create, "Create upstream pr")}
+      </>
     );
+
+    function link(href: string, label: string) {
+      return (
+        <a target="_blank" href={href} rel="noreferrer">
+          {label}
+        </a>
+      );
+    }
   }
 
   const { pulls, user } = useLoaderDataReloading<typeof loader>();
