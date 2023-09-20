@@ -16,6 +16,8 @@ import { Link } from "@remix-run/react";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { IconButton, LinkButton } from "@primer/react";
 
+const selectedRepo = "duckdb";
+
 export const Query = gql`
   query GetUserRepoPullRequests(
     $owner: String!
@@ -26,6 +28,16 @@ export const Query = gql`
       login
       url
       repository(name: $repo) {
+        refs(refPrefix: "refs/heads/", first: 100) {
+          nodes {
+            name
+
+            associatedPullRequests {
+              totalCount
+            }
+          }
+        }
+
         pullRequests(first: 25, orderBy: $order, states: OPEN) {
           nodes {
             number
@@ -63,6 +75,9 @@ type MirroredPullRequest = {
   branchName: string;
   mirrored?: string;
 };
+interface Ref {
+  name: string;
+}
 
 function createUrl({
   source,
@@ -101,7 +116,16 @@ export async function loader({ request }: DataFunctionArgs) {
         )?.permalink,
       };
     });
-  return json({ pulls, user: user! });
+
+  return json({
+    pulls,
+    user: user!,
+    refs: user!
+      .repository!.refs!.nodes!.filter(
+        (node) => node!.associatedPullRequests.totalCount === 0,
+      )
+      .map((node) => node!),
+  });
 }
 
 function externalLink(mirrored: string) {
@@ -115,16 +139,16 @@ function externalLink(mirrored: string) {
 export function Dashboard({
   pulls,
   user,
+  refs,
 }: {
   pulls: MirroredPullRequest[];
+  refs: Ref[];
   user: { login: string };
 }) {
   function call(props: CellContext<MirroredPullRequest, any>) {
     const mirrored = props.getValue();
 
     const original = props.row.original;
-
-    const selectedRepo = "duckdb";
 
     const create = createUrl({
       source: {
@@ -173,14 +197,57 @@ export function Dashboard({
     ],
   };
 
+  const refTableOptions: StandardTableOptions<Ref> = {
+    data: refs,
+    columns: [
+      {
+        accessorKey: "name",
+        header: "Name",
+      },
+      {
+        id: "create",
+        header: "Create PR",
+        cell: (props) => {
+          const branchName = props.getValue();
+
+          const create = createUrl({
+            source: {
+              owner: user.login,
+              repo: selectedRepo,
+              branchName,
+            },
+            target: {
+              owner: user.login,
+              repo: selectedRepo,
+              branchName: "main",
+            },
+            title: branchName,
+          });
+
+          return (
+            <LinkButton target="_blank" href={create}>
+              Create fork pr
+            </LinkButton>
+          );
+        },
+      },
+    ],
+  };
+
   return (
-    <StandardTable tableOptions={tableOptions}>
-      No pull requests found
-    </StandardTable>
+    <>
+      <StandardTable tableOptions={tableOptions}>
+        No pull requests found
+      </StandardTable>
+      <hr />
+      <StandardTable tableOptions={refTableOptions}>
+        No refs found
+      </StandardTable>
+    </>
   );
 }
 
 export default function () {
-  const { pulls, user } = useLoaderDataReloading<typeof loader>();
-  return <Dashboard pulls={pulls} user={user} />;
+  const { pulls, user, refs } = useLoaderDataReloading<typeof loader>();
+  return <Dashboard pulls={pulls} user={user} refs={refs} />;
 }
