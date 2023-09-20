@@ -13,6 +13,8 @@ import {
 import type { DataFunctionArgs } from "@sentry/remix/types/utils/vendor/types";
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
+import { LinkExternalIcon } from "@primer/octicons-react";
+import { IconButton } from "@primer/react";
 
 export const Query = gql`
   query GetUserRepoPullRequests(
@@ -102,6 +104,21 @@ export async function loader({ request }: DataFunctionArgs) {
   return json({ pulls, user: user! });
 }
 
+function externalLink(mirrored: string) {
+  return (
+    <Link to={mirrored}>
+      <IconButton aria-labelledby="" icon={LinkExternalIcon} />
+    </Link>
+  );
+}
+function link(href: string, label: string) {
+  return (
+    <a target="_blank" href={href} rel="noreferrer">
+      {label}
+    </a>
+  );
+}
+
 export default function Dashboard() {
   function call(props: CellContext<MirroredPullRequest, any>) {
     const mirrored = props.getValue();
@@ -120,22 +137,9 @@ export default function Dashboard() {
       title: original.title,
     });
 
-    return (
-      <>
-        {link(original.permalink, "Fork pr")}
-        {mirrored
-          ? link(mirrored, "Upstream pr")
-          : link(create, "Create upstream pr")}
-      </>
-    );
-
-    function link(href: string, label: string) {
-      return (
-        <a target="_blank" href={href} rel="noreferrer">
-          {label}
-        </a>
-      );
-    }
+    return mirrored
+      ? externalLink(mirrored)
+      : link(create, "Create upstream pr");
   }
 
   const { pulls, user } = useLoaderDataReloading<typeof loader>();
@@ -156,7 +160,13 @@ export default function Dashboard() {
         ),
       }),
       {
+        accessorKey: "permalink",
+        header: "Fork PR",
+        cell: (props) => externalLink(props.getValue()),
+      },
+      {
         accessorKey: "mirrored",
+        header: "Upstream PR",
         cell: call,
       },
     ],
