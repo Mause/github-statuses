@@ -11,7 +11,8 @@ import {
   OrderDirection,
 } from "~/components/graphql/graphql";
 import type { DataFunctionArgs } from "@sentry/remix/types/utils/vendor/types";
-import type { CellContext } from "@tanstack/react-table";
+import { createColumnHelper, type CellContext } from "@tanstack/react-table";
+import { Link } from "@remix-run/react";
 
 export const Query = gql`
   query GetUserRepoPullRequests(
@@ -25,7 +26,8 @@ export const Query = gql`
       repository(name: $repo) {
         pullRequests(first: 10, orderBy: $order, states: OPEN) {
           nodes {
-            id
+            number
+            resourcePath
             title
             headRef {
               name
@@ -51,7 +53,8 @@ interface Repo {
   branchName: string;
 }
 type MirroredPullRequest = {
-  id: string;
+  number: number;
+  resourcePath: string;
   title: string;
   branchName: string;
   mirrored?: string;
@@ -84,8 +87,9 @@ export async function loader({ request }: DataFunctionArgs) {
     .map((pr) => {
       const headRef = pr.headRef!;
       return {
-        id: pr.id,
+        number: pr.number,
         title: pr.title!,
+        resourcePath: pr.resourcePath!,
         branchName: headRef.name!,
         mirrored: headRef.associatedPullRequests.nodes?.find(
           (node) => node?.baseRepository?.nameWithOwner == "duckdb/duckdb",
@@ -126,18 +130,21 @@ export default function Dashboard() {
 
   const { pulls, user } = useLoaderDataReloading<typeof loader>();
 
+  const columnHelper = createColumnHelper<MirroredPullRequest>();
+
   const tableOptions: StandardTableOptions<MirroredPullRequest> = {
     data: pulls,
     columns: [
-      {
-        accessorFn: (pr) => pr.id,
-        id: "id",
-        header: "ID",
-      },
-      {
-        accessorKey: "title",
-        header: "Name",
-      },
+      columnHelper.accessor("number", {
+        header: "#",
+        cell: (props) => `#${props.getValue()}`,
+      }),
+      columnHelper.accessor("title", {
+        header: "Title",
+        cell: (props) => (
+          <Link to={props.row.original.resourcePath}>{props.getValue()}</Link>
+        ),
+      }),
       {
         accessorKey: "mirrored",
         cell: call,
