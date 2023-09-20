@@ -18,9 +18,16 @@ export default function DashboardStory() {
       mirrored: "https://github.com/duckdb/duckdb/pull/2",
     },
   ];
+  const refs = [
+    {
+      name: "c-api-functions",
+    },
+  ];
+
   return (
     <Dashboard
       pulls={pulls}
+      refs={refs}
       user={{
         login: "Mause",
       }}
