@@ -28,6 +28,11 @@ export default function DashboardStory() {
     <Dashboard
       pulls={pulls}
       refs={refs}
+      parent={{
+        name: "duckdb",
+        nameWithOwner: "Mause/duckdb",
+        owner: { login: "duckdb" },
+      }}
       user={{
         login: "Mause",
       }}

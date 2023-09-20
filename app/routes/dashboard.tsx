@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import type { StandardTableOptions } from "~/components";
 import { StandardTable } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { call } from "~/octokit.server";
+import { call, getUser } from "~/octokit.server";
 import {
   GetUserRepoPullRequestsDocument,
   IssueOrderField,
@@ -28,6 +28,14 @@ export const Query = gql`
       login
       url
       repository(name: $repo) {
+        parent {
+          name
+          owner {
+            login
+          }
+          nameWithOwner
+        }
+
         refs(refPrefix: "refs/heads/", first: 100) {
           nodes {
             name
@@ -92,17 +100,21 @@ function createUrl({
 }
 
 export async function loader({ request }: DataFunctionArgs) {
+  const loggedInUser = await getUser(request);
+
   const { user } = await call(request, GetUserRepoPullRequestsDocument, {
-    owner: "Mause",
-    repo: "duckdb",
+    owner: loggedInUser.login,
+    repo: selectedRepo,
     order: {
       direction: OrderDirection.Desc,
       field: IssueOrderField.UpdatedAt,
     },
   });
 
-  const pulls = user!
-    .repository!.pullRequests.nodes!.map((pr) => pr!)
+  const repo = user!.repository!;
+
+  const pulls = repo.pullRequests
+    .nodes!.map((pr) => pr!)
     .map((pr) => {
       const headRef = pr.headRef!;
       return {
@@ -112,7 +124,8 @@ export async function loader({ request }: DataFunctionArgs) {
         permalink: pr.permalink!,
         branchName: headRef.name!,
         mirrored: headRef.associatedPullRequests.nodes?.find(
-          (node) => node?.baseRepository?.nameWithOwner == "duckdb/duckdb",
+          (node) =>
+            node?.baseRepository?.nameWithOwner == repo.parent!.nameWithOwner,
         )?.permalink,
       };
     });
@@ -120,9 +133,11 @@ export async function loader({ request }: DataFunctionArgs) {
   return json({
     pulls,
     user: user!,
-    refs: user!
-      .repository!.refs!.nodes!.filter(
-        (node) => node!.associatedPullRequests.totalCount === 0,
+    refs: repo
+      .refs!.nodes!.filter(
+        (node) =>
+          node!.associatedPullRequests.totalCount === 0 &&
+          node!.name !== "main",
       )
       .map((node) => node!),
   });
@@ -139,10 +154,12 @@ function externalLink(mirrored: string) {
 export function Dashboard({
   pulls,
   user,
+  parent,
   refs,
 }: {
   pulls: MirroredPullRequest[];
   refs: Ref[];
+  parent: { nameWithOwner: string; name: string; owner: { login: string } };
   user: { login: string };
 }) {
   function call(props: CellContext<MirroredPullRequest, any>) {
@@ -156,7 +173,11 @@ export function Dashboard({
         repo: selectedRepo,
         branchName: original.branchName,
       },
-      target: { owner: "duckdb", repo: selectedRepo, branchName: "main" },
+      target: {
+        owner: parent.owner.login,
+        repo: parent.name,
+        branchName: "main",
+      },
       title: original.title,
     });
 
@@ -249,5 +270,12 @@ export function Dashboard({
 
 export default function () {
   const { pulls, user, refs } = useLoaderDataReloading<typeof loader>();
-  return <Dashboard pulls={pulls} user={user} refs={refs} />;
+  return (
+    <Dashboard
+      pulls={pulls}
+      user={user}
+      refs={refs}
+      parent={user!.repository!.parent!}
+    />
+  );
 }
