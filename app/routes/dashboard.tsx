@@ -14,7 +14,7 @@ import type { DataFunctionArgs } from "@sentry/remix/types/utils/vendor/types";
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
 import { LinkExternalIcon } from "@primer/octicons-react";
-import { IconButton } from "@primer/react";
+import { IconButton, LinkButton } from "@primer/react";
 
 export const Query = gql`
   query GetUserRepoPullRequests(
@@ -106,20 +106,19 @@ export async function loader({ request }: DataFunctionArgs) {
 
 function externalLink(mirrored: string) {
   return (
-    <Link to={mirrored}>
+    <Link to={mirrored} target="_blank">
       <IconButton aria-labelledby="" icon={LinkExternalIcon} />
     </Link>
   );
 }
-function link(href: string, label: string) {
-  return (
-    <a target="_blank" href={href} rel="noreferrer">
-      {label}
-    </a>
-  );
-}
 
-export default function Dashboard() {
+export function Dashboard({
+  pulls,
+  user,
+}: {
+  pulls: MirroredPullRequest[];
+  user: { login: string };
+}) {
   function call(props: CellContext<MirroredPullRequest, any>) {
     const mirrored = props.getValue();
 
@@ -137,12 +136,14 @@ export default function Dashboard() {
       title: original.title,
     });
 
-    return mirrored
-      ? externalLink(mirrored)
-      : link(create, "Create upstream pr");
+    return mirrored ? (
+      externalLink(mirrored)
+    ) : (
+      <LinkButton target="_blank" href={create}>
+        Create upstream pr
+      </LinkButton>
+    );
   }
-
-  const { pulls, user } = useLoaderDataReloading<typeof loader>();
 
   const columnHelper = createColumnHelper<MirroredPullRequest>();
 
@@ -172,5 +173,14 @@ export default function Dashboard() {
     ],
   };
 
-  return <StandardTable tableOptions={tableOptions}>hello</StandardTable>;
+  return (
+    <StandardTable tableOptions={tableOptions}>
+      No pull requests found
+    </StandardTable>
+  );
+}
+
+export default function () {
+  const { pulls, user } = useLoaderDataReloading<typeof loader>();
+  return <Dashboard pulls={pulls} user={user} />;
 }
