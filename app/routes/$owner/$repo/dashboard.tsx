@@ -1,22 +1,20 @@
 import { json } from "@remix-run/node";
 import gql from "graphql-tag";
 
-import type { StandardTableOptions } from "~/components";
+import type { DataLoaderParams, StandardTableOptions } from "~/components";
 import { StandardTable } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { call, getUser } from "~/octokit.server";
+import { call } from "~/octokit.server";
 import {
   GetUserRepoPullRequestsDocument,
   IssueOrderField,
   OrderDirection,
 } from "~/components/graphql/graphql";
-import type { DataFunctionArgs } from "@sentry/remix/types/utils/vendor/types";
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { IconButton, LinkButton } from "@primer/react";
-
-const selectedRepo = "duckdb";
+import _ from "lodash";
 
 export const Query = gql`
   query GetUserRepoPullRequests(
@@ -28,6 +26,10 @@ export const Query = gql`
       login
       url
       repository(name: $repo) {
+        name
+        owner {
+          login
+        }
         parent {
           name
           owner {
@@ -99,12 +101,13 @@ function createUrl({
   return `https://github.com/${target.owner}/${target.repo}/compare/${target.branchName}...${source.owner}:${source.repo}:${source.branchName}?quick_pull=1&title=${title}`;
 }
 
-export async function loader({ request }: DataFunctionArgs) {
-  const loggedInUser = await getUser(request);
-
+export async function loader({
+  request,
+  params,
+}: DataLoaderParams<"owner" | "repo">) {
   const { user } = await call(request, GetUserRepoPullRequestsDocument, {
-    owner: loggedInUser.login,
-    repo: selectedRepo,
+    owner: params.owner!,
+    repo: params.repo!,
     order: {
       direction: OrderDirection.Desc,
       field: IssueOrderField.UpdatedAt,
@@ -132,12 +135,12 @@ export async function loader({ request }: DataFunctionArgs) {
 
   return json({
     pulls,
-    user: user!,
+    repo: _.pick(repo, ["name", "owner", "parent"]),
     refs: repo
       .refs!.nodes!.filter(
         (node) =>
           node!.associatedPullRequests.totalCount === 0 &&
-          node!.name !== "main",
+          node!.name !== "main", // TODO: unhardcode
       )
       .map((node) => node!),
   });
@@ -153,15 +156,15 @@ function externalLink(mirrored: string) {
 
 export function Dashboard({
   pulls,
-  user,
-  parent,
+  repo,
   refs,
-}: {
-  pulls: MirroredPullRequest[];
-  refs: Ref[];
-  parent: { nameWithOwner: string; name: string; owner: { login: string } };
-  user: { login: string };
-}) {
+}: ReturnType<typeof useLoaderDataReloading<typeof loader>>) {
+  const parent = repo.parent!;
+  const selectedRepo = {
+    repo: repo.name,
+    owner: repo.owner.login,
+  };
+
   function call(props: CellContext<MirroredPullRequest, any>) {
     const mirrored = props.getValue();
 
@@ -169,14 +172,13 @@ export function Dashboard({
 
     const create = createUrl({
       source: {
-        owner: user.login,
-        repo: selectedRepo,
+        ...selectedRepo,
         branchName: original.branchName,
       },
       target: {
         owner: parent.owner.login,
         repo: parent.name,
-        branchName: "main",
+        branchName: "main", // TODO: unhardcode
       },
       title: original.title,
     });
@@ -233,13 +235,11 @@ export function Dashboard({
 
           const create = createUrl({
             source: {
-              owner: user.login,
-              repo: selectedRepo,
+              ...selectedRepo,
               branchName,
             },
             target: {
-              owner: user.login,
-              repo: selectedRepo,
+              ...selectedRepo,
               branchName: "main",
             },
             title: branchName,
@@ -269,13 +269,6 @@ export function Dashboard({
 }
 
 export default function () {
-  const { pulls, user, refs } = useLoaderDataReloading<typeof loader>();
-  return (
-    <Dashboard
-      pulls={pulls}
-      user={user}
-      refs={refs}
-      parent={user!.repository!.parent!}
-    />
-  );
+  const data = useLoaderDataReloading<typeof loader>();
+  return <Dashboard {...data} />;
 }

@@ -1,4 +1,4 @@
-import { Dashboard } from "../dashboard";
+import { Dashboard } from "../$owner/$repo/dashboard";
 
 export default function DashboardStory() {
   const pulls = [
@@ -21,6 +21,9 @@ export default function DashboardStory() {
   const refs = [
     {
       name: "c-api-functions",
+      associatedPullRequests: {
+        totalCount: 0,
+      },
     },
   ];
 
@@ -28,13 +31,14 @@ export default function DashboardStory() {
     <Dashboard
       pulls={pulls}
       refs={refs}
-      parent={{
+      repo={{
+        owner: { login: "Mause" },
         name: "duckdb",
-        nameWithOwner: "Mause/duckdb",
-        owner: { login: "duckdb" },
-      }}
-      user={{
-        login: "Mause",
+        parent: {
+          name: "duckdb",
+          nameWithOwner: "Mause/duckdb",
+          owner: { login: "duckdb" },
+        },
       }}
     />
   );
