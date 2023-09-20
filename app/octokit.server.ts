@@ -3,8 +3,7 @@ import { throttling } from "@octokit/plugin-throttling";
 import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
-import type { DataFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { Request as RemixRequest } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
@@ -12,20 +11,24 @@ import { RequestError } from "@octokit/request-error";
 
 const Throttled = Octokit.plugin(throttling);
 
-type Request = DataFunctionArgs["request"];
+type NodeRequest = globalThis.Request;
+type Requests = RemixRequest | NodeRequest;
 
-export async function getUser(request: Request): Promise<SessionShape> {
-  return await authenticator().isAuthenticated(request, {
+const toNodeRequest = (input: Requests): NodeRequest =>
+  input as unknown as NodeRequest;
+
+export async function getUser(request: Requests): Promise<SessionShape> {
+  return await authenticator().isAuthenticated(toNodeRequest(request), {
     failureRedirect: "/login",
   });
 }
 
-export const getOctokit = async (request: DataFunctionArgs["request"]) => {
+export const getOctokit = async (request: Requests) => {
   const user = await getUser(request);
   return octokitFromToken(user.accessToken);
 };
 
-export async function tryGetOctokit(request: DataFunctionArgs["request"]) {
+export async function tryGetOctokit(request: Requests) {
   try {
     return await getOctokit(request);
   } catch (e) {
@@ -47,10 +50,10 @@ export const octokitFromToken = (token: string) =>
         retryAfter: number,
         options: any,
         octokit: any,
-        retryCount: number
+        retryCount: number,
       ) => {
         octokit.log.warn(
-          `Request quota exhausted for request ${options.method} ${options.url}`
+          `Request quota exhausted for request ${options.method} ${options.url}`,
         );
 
         if (retryCount < 1) {
@@ -62,7 +65,7 @@ export const octokitFromToken = (token: string) =>
       onSecondaryRateLimit: (retryAfter: any, options: any, octokit: any) => {
         // does not retry, only logs a warning
         octokit.log.warn(
-          `SecondaryRateLimit detected for request ${options.method} ${options.url}`
+          `SecondaryRateLimit detected for request ${options.method} ${options.url}`,
         );
       },
     },
@@ -104,17 +107,17 @@ export const gitHubStrategy = () => {
           ? Date.now() + extraParams.accessTokenExpiresIn
           : null,
       };
-    }
+    },
   );
 };
 
 export async function call<Result, Variables extends RequestParameters>(
-  request: Request,
+  request: Requests,
   query: TypedDocumentString<Result, Variables>,
   variables?: Variables,
-  fragments?: TypedDocumentString<any, any>[]
+  fragments?: TypedDocumentString<any, any>[],
 ): Promise<Result> {
-  const octokit = await getOctokit(request);
+  const octokit = await getOctokit(toNodeRequest(request));
 
   const match = /query ([^ ]?)/.exec(query.toString());
   const transaction = Sentry.startTransaction({
@@ -126,13 +129,13 @@ export async function call<Result, Variables extends RequestParameters>(
   try {
     return await octokit.graphql(
       [query.toString(), ...(fragments || [])].join("\n"),
-      variables
+      variables,
     );
   } catch (e) {
     console.error(e);
     if (e instanceof RequestError) {
       if (e.message === "Bad credentials") {
-        await authenticator().logout(request, {
+        await authenticator().logout(toNodeRequest(request), {
           redirectTo: "/",
         });
       }
