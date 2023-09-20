@@ -96,7 +96,7 @@ export async function loader({ request }: DataFunctionArgs) {
     owner: "Mause",
     repo: "duckdb",
     order: {
-      direction: OrderDirection.Asc,
+      direction: OrderDirection.Desc,
       field: IssueOrderField.UpdatedAt,
     },
   });
