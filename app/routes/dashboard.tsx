@@ -38,7 +38,7 @@ export const Query = gql`
           }
         }
 
-        pullRequests(first: 25, orderBy: $order, states: OPEN) {
+        pullRequests(first: 50, orderBy: $order, states: OPEN) {
           nodes {
             number
             resourcePath
@@ -96,7 +96,7 @@ export async function loader({ request }: DataFunctionArgs) {
     owner: "Mause",
     repo: "duckdb",
     order: {
-      direction: OrderDirection.Asc,
+      direction: OrderDirection.Desc,
       field: IssueOrderField.UpdatedAt,
     },
   });
