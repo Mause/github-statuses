@@ -72,6 +72,9 @@ export default function Pulls() {
     <>
       <Heading>
         <Link to={url}>{title}</Link>
+        <Link to='dashboard'>
+           ✓
+        </Link>
       </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </>
