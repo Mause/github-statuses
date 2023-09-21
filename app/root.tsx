@@ -9,7 +9,7 @@ import {
   ScrollRestoration,
   useNavigation,
 } from "@remix-run/react";
-import { SSRProvider, Spinner, ThemeProvider } from "@primer/react";
+import { Spinner, ThemeProvider } from "@primer/react";
 // @ts-ignore
 import styles from "bulma/css/bulma.min.css";
 import { Modal } from "react-bulma-components";
@@ -101,15 +101,8 @@ function App() {
   );
 }
 
-export default withSentry(
-  () => (
-    <SSRProvider>
-      <App />
-    </SSRProvider>
-  ),
-  {
-    errorBoundaryOptions: {
-      fallback: <ErrorBoundary />,
-    },
-  }
-);
+export default withSentry(() => <App />, {
+  errorBoundaryOptions: {
+    fallback: <ErrorBoundary />,
+  },
+});
