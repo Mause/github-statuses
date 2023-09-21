@@ -3,7 +3,7 @@
   "sideEffects": false,
   "scripts": {
     "prebuild": "graphql-codegen",
-    "build": "remix build --sourcemap",
+    "build": "yarn prebuild && remix build --sourcemap",
     "dev": "remix dev",
     "typecheck": "tsc",
     "prepare": "husky install"
