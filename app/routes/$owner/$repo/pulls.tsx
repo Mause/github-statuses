@@ -73,7 +73,7 @@ export default function Pulls() {
       <Heading>
         <Link to={url}>{title}</Link>
         &nbsp;
-        <Link to='../dashboard'>
+        <Link to='/dashboard'>
            ✓
         </Link>
       </Heading>
