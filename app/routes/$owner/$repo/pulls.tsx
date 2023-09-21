@@ -29,7 +29,7 @@ export const loader = async ({
     await getPullRequests(request, {
       owner: params.owner!,
       repo: params.repo!,
-    })
+    }),
   );
 };
 
@@ -73,8 +73,8 @@ export default function Pulls() {
       <Heading>
         <Link to={url}>{title}</Link>
         &nbsp;
-        <Link to='./dashboard'>
-           ✓
+        <Link to="../dashboard" relative="path">
+          ✓
         </Link>
       </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
@@ -83,7 +83,9 @@ export default function Pulls() {
 }
 
 export function buildMergeableColumn<
-  T extends FragmentType<DocumentTypeDecoration<StatusCheckRollupFragment, any>>
+  T extends FragmentType<
+    DocumentTypeDecoration<StatusCheckRollupFragment, any>
+  >,
 >(): AccessorFnColumnDef<
   SerializeFrom<T>,
   StatusCheckRollupFragment["mergeable"]
@@ -106,7 +108,9 @@ export function buildMergeableColumn<
 }
 
 export function buildRollupColumn<
-  T extends FragmentType<DocumentTypeDecoration<StatusCheckRollupFragment, any>>
+  T extends FragmentType<
+    DocumentTypeDecoration<StatusCheckRollupFragment, any>
+  >,
 >(): AccessorFnColumnDef<
   SerializeFrom<T>,
   StatusCheckRollupFragment["statusCheckRollup"]
