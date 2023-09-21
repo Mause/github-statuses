@@ -3689,7 +3689,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/node@npm:1.19.3":
+"@remix-run/node@npm:1.19.3, @remix-run/node@npm:^1.0.0":
   version: 1.19.3
   resolution: "@remix-run/node@npm:1.19.3"
   dependencies:
@@ -3753,6 +3753,17 @@ __metadata:
     set-cookie-parser: ^2.4.8
     source-map: ^0.7.3
   checksum: b9dffb469ed38ad4017dc6c509d47f6c352ec9bab3d4dd740d0067df6f6ae2f34133d81262f2a762587dbc6004ce94abf6187fb4902f8e1b4f6baf4e8a619648
+  languageName: node
+  linkType: hard
+
+"@remix-run/v1-route-convention@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@remix-run/v1-route-convention@npm:0.1.3"
+  dependencies:
+    minimatch: ^7.4.3
+  peerDependencies:
+    "@remix-run/dev": ^1.15.0 || ^2.0.0
+  checksum: ffb47c25145e777139c611a630ac9d8fb286d70900cea5c56c684aabacbd5033219fb9f1aaa0112c900107ba12f2f024525cab6c13354d127d947078022a18f7
   languageName: node
   linkType: hard
 
@@ -9182,8 +9193,10 @@ __metadata:
     "@primer/react": ^35.21.0
     "@remix-run/dev": ^1.13.0
     "@remix-run/eslint-config": ^1.13.0
+    "@remix-run/node": ^1.0.0
     "@remix-run/react": ^1.13.0
     "@remix-run/serve": ^1.13.0
+    "@remix-run/v1-route-convention": ^0.1.3
     "@sentry/profiling-node": ^1.0.0
     "@sentry/remix": ^7.47.0
     "@tanstack/match-sorter-utils": ^8.7.6
@@ -11761,6 +11774,15 @@ __metadata:
   dependencies:
     brace-expansion: ^1.1.7
   checksum: 3392388e3ef7de7ae9a3a48d48a27a323934452f4af81b925dfbe85ce2dc07da855e3dbcc69229888be4e5118f6c0b79847d30f3e7c0e0017b25e423c11c0409
+  languageName: node
+  linkType: hard
+
+"minimatch@npm:^7.4.3":
+  version: 7.4.6
+  resolution: "minimatch@npm:7.4.6"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: 1a6c8d22618df9d2a88aabeef1de5622eb7b558e9f8010be791cb6b0fa6e102d39b11c28d75b855a1e377b12edc7db8ff12a99c20353441caa6a05e78deb5da9
   languageName: node
   linkType: hard
 
