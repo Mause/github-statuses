@@ -31,6 +31,7 @@ export let authenticator = _.memoize(() => {
           accessTokenExpiry: null,
         };
       },
+      async authenticate(_strategy: string, _request: Request) {},
       async logout(_request: Request, _options: {}) {},
     };
   }
