@@ -14,9 +14,27 @@ export type SessionShape = Pick<
   accessTokenExpiry: number | null;
 };
 
+const DEV = process.env.NODE_ENV == "development";
+
+export const DUMMY_TOKEN = "DUMMY_TOKEN";
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
 export let authenticator = _.memoize(() => {
+  if (DEV) {
+    console.log("Running in DEV mode");
+    return {
+      async isAuthenticated(_request: Request, _options?: {}) {
+        return {
+          accessToken: process.env.ACCESS_TOKEN || DUMMY_TOKEN,
+          login: "Mause",
+          refreshToken: "",
+          accessTokenExpiry: null,
+        };
+      },
+      async authenticate(_strategy: string, _request: Request) {},
+      async logout(_request: Request, _options: {}) {},
+    };
+  }
   const authenticator = new Authenticator<SessionShape>(sessionStorage);
   authenticator.use(gitHubStrategy());
   return authenticator;

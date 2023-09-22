@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
 import type { SessionShape } from "~/services/auth.server";
-import { authenticator } from "~/services/auth.server";
+import { DUMMY_TOKEN, authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { Request as RemixRequest } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
@@ -25,6 +25,9 @@ export async function getUser(request: Requests): Promise<SessionShape> {
 
 export const getOctokit = async (request: Requests) => {
   const user = await getUser(request);
+  if (user.accessToken === DUMMY_TOKEN) {
+    throw new Error("Please add dev access token to .env");
+  }
   return octokitFromToken(user.accessToken);
 };
 
