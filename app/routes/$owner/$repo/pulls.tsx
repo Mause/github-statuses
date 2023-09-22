@@ -1,4 +1,4 @@
-import { Heading, Label } from "@primer/react";
+import { Heading, Label, Octicon } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
@@ -8,7 +8,7 @@ import type { DataLoaderParams } from "~/components";
 import { StandardTable } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { titleCase } from "../../../components/titleCase";
+import { titleCase } from "~/components/titleCase";
 import type { PullRequest } from "./pullsQuery";
 import { getChecksStatus, getPullRequests } from "./pullsQuery";
 import type { FragmentType } from "~/components/graphql/fragment-masking";
@@ -19,7 +19,8 @@ import type {
 } from "~/components/graphql/graphql";
 import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-import type { LabelColorOptions } from "@primer/react/lib-esm/Label";
+import type { LabelColorOptions } from "@primer/react/lib/Label";
+import { GlobeIcon } from "@primer/octicons-react";
 
 export const loader = async ({
   params,
@@ -36,7 +37,7 @@ export const loader = async ({
 const columnHelper = createColumnHelper<SerializeFrom<PullRequest>>();
 
 export default function Pulls() {
-  const { pulls, title, url } = useLoaderDataReloading<typeof loader>();
+  const { pulls, isFork, title, url } = useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<SerializeFrom<PullRequest>> = {
     data: pulls,
@@ -72,10 +73,14 @@ export default function Pulls() {
     <>
       <Heading>
         <Link to={url}>{title}</Link>
-        &nbsp;
-        <Link to="../dashboard" relative="path">
-          ✓
-        </Link>
+        {isFork ? (
+          <>
+            &nbsp;
+            <Link to="../dashboard" relative="path">
+              <Octicon icon={GlobeIcon} />
+            </Link>
+          </>
+        ) : undefined}
       </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </>
