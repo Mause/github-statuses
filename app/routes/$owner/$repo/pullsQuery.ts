@@ -1,4 +1,4 @@
-import { call, getOctokit } from "~/octokit.server";
+import { call } from "~/octokit.server";
 import type {
   PullRequestStatusQuery,
   PullRequestStatusQueryVariables,
@@ -104,7 +104,7 @@ export type PRWithRollup = WithRollup<PullRequest>;
 
 export async function getPullRequests(
   request: Request,
-  variables: PullRequestStatusQueryVariables
+  variables: PullRequestStatusQueryVariables,
 ) {
   const resp = await call(request, PullRequestStatusDocument, variables);
 
@@ -124,7 +124,7 @@ interface PullRequestChecksStatus {
 }
 
 export function getChecksStatus(
-  pr: StatusCheckRollupFragment["statusCheckRollup"]
+  pr: StatusCheckRollupFragment["statusCheckRollup"],
 ): PullRequestChecksStatus {
   const summary: PullRequestChecksStatus = {
     failing: 0,
@@ -138,12 +138,14 @@ export function getChecksStatus(
   if (nodes.length == 0) {
     return summary;
   }
-  let commit = nodes[0]!.commit;
+  let { commit } = nodes[0]!;
   if (!commit?.statusCheckRollup) {
     return summary;
   }
   for (const c of commit!.statusCheckRollup!.contexts!.nodes!) {
-    if (!(c?.__typename === "CheckRun")) continue;
+    if (!(c?.__typename === "CheckRun")) {
+      continue;
+    }
 
     let state;
     // CheckRun

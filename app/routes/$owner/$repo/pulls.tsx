@@ -8,7 +8,7 @@ import type { DataLoaderParams } from "~/components";
 import { StandardTable } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { titleCase } from "../../../components/titleCase";
+import { titleCase } from "~/components/titleCase";
 import type { PullRequest } from "./pullsQuery";
 import { getChecksStatus, getPullRequests } from "./pullsQuery";
 import type { FragmentType } from "~/components/graphql/fragment-masking";
@@ -19,7 +19,7 @@ import type {
 } from "~/components/graphql/graphql";
 import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-import type { LabelColorOptions } from "@primer/react/lib-esm/Label";
+import type { LabelColorOptions } from "@primer/react/lib/Label";
 
 export const loader = async ({
   params,
