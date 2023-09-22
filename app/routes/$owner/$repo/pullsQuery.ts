@@ -55,6 +55,9 @@ export const query = gql`
     repository(owner: $owner, name: $repo) {
       name
       url
+      parent {
+        name
+      }
       pullRequests(
         first: $per_page
         orderBy: { field: CREATED_AT, direction: DESC }
@@ -112,6 +115,7 @@ export async function getPullRequests(
   return {
     title: repo.name,
     url: repo.url,
+    isFork: !!repo.parent,
     pulls: repo.pullRequests!.edges!.map((edge) => edge!.node!),
   };
 }
