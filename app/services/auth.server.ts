@@ -22,11 +22,11 @@ export let authenticator = _.memoize(() => {
   if (DEV) {
     console.log("Running in DEV mode");
     const accessToken = process.env.ACCESS_TOKEN;
-    if (!accessToken) {
-      throw new Error("Please add dummy access token to .env");
-    }
     return {
       async isAuthenticated(_request: Request, _options: {}) {
+        if (!accessToken) {
+          throw new Error("Please add dummy access token to .env");
+        }
         return {
           accessToken,
           login: "Mause",
