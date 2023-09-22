@@ -16,19 +16,16 @@ export type SessionShape = Pick<
 
 const DEV = process.env.NODE_ENV == "development";
 
+export const DUMMY_TOKEN = "DUMMY_TOKEN";
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
 export let authenticator = _.memoize(() => {
   if (DEV) {
     console.log("Running in DEV mode");
-    const accessToken = process.env.ACCESS_TOKEN;
     return {
-      async isAuthenticated(_request: Request, _options: {}) {
-        if (!accessToken) {
-          throw new Error("Please add dummy access token to .env");
-        }
+      async isAuthenticated(_request: Request, _options?: {}) {
         return {
-          accessToken,
+          accessToken: process.env.ACCESS_TOKEN || DUMMY_TOKEN,
           login: "Mause",
           refreshToken: "",
           accessTokenExpiry: null,
