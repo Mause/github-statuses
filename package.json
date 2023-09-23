@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@octokit/auth-app": "^6.0.0",
-    "@octokit/plugin-throttling": "^7.0.0",
+    "@octokit/plugin-throttling": "^8.0.0",
     "@octokit/rest": "^20.0.0",
     "@primer/octicons-react": "^19.0.0",
     "@primer/react": "^35.21.0",
