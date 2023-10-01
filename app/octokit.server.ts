@@ -18,8 +18,8 @@ type Requests = RemixRequest | NodeRequest;
 const toNodeRequest = (input: Requests): NodeRequest =>
   input as unknown as NodeRequest;
 
-export const userPrefs = createCookie("redirect", {
-  maxAge: 604_800, // one week
+export const redirectCookie = createCookie("redirect", {
+  maxAge: 60 * 30, // half an hour
 });
 
 export async function getUser(request: Requests): Promise<SessionShape> {
@@ -27,7 +27,7 @@ export async function getUser(request: Requests): Promise<SessionShape> {
   if (!res) {
     throw redirect("/login", {
       headers: {
-        "Set-Cookie": await userPrefs.serialize(request.url),
+        "Set-Cookie": await redirectCookie.serialize(request.url),
       },
     });
   }
@@ -36,8 +36,7 @@ export async function getUser(request: Requests): Promise<SessionShape> {
 
 export async function getRedirect(request: Request): Promise<string> {
   const cookieHeader = request.headers.get("Cookie");
-  const cookie = (await userPrefs.parse(cookieHeader)) || {};
-  return cookie;
+  return (await redirectCookie.parse(cookieHeader)) || "/";
 }
 
 export const getOctokit = async (request: Requests) => {
