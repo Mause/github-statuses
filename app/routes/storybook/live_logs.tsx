@@ -1,10 +1,10 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import LiveLogs, { getLiveLogs } from "~/components/LiveLogs";
 export { ErrorBoundary } from "~/components";
 
-export async function loader({ request }: LoaderArgs) {
+export const loader: LoaderFunction = async ({ request }) => {
   const keys = ["repo", "owner", "commit_hash", "check_id"];
 
   const params = new URL(request.url).searchParams;
@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderArgs) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
   }
 
@@ -36,7 +36,7 @@ export async function loader({ request }: LoaderArgs) {
       repo: params.get("repo")!,
     }),
   });
-}
+};
 
 export default function LiveLogsDemo() {
   const { logStreamWebSocketUrl } = useLoaderData<typeof loader>();
