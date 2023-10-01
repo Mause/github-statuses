@@ -1,5 +1,5 @@
 // app/routes/auth/github.tsx
-import type { ActionArgs } from "@remix-run/node";
+import type { ActionFunction} from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 
@@ -7,6 +7,6 @@ export async function loader() {
   return redirect("/login");
 }
 
-export async function action({ request }: ActionArgs) {
+export const action: ActionFunction = async ({ request }) => {
   return authenticator().authenticate("github", request);
-}
+};
