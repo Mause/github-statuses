@@ -4,8 +4,11 @@ import type {
   GetActionsForPullRequestQueryVariables,
   PullRequestsFragment,
 } from "~/components/graphql/graphql";
-import { GetActionsForPullRequestDocument , PullRequestsFragmentDoc } from "~/components/graphql/graphql";
-import type { Requests} from "~/octokit.server";
+import {
+  GetActionsForPullRequestDocument,
+  PullRequestsFragmentDoc,
+} from "~/components/graphql/graphql";
+import type { Requests } from "~/octokit.server";
 import { call } from "~/octokit.server";
 
 export const fragment = gql`

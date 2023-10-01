@@ -23,7 +23,7 @@ export function useRevalidateOnFocus() {
       window.addEventListener("focus", onFocus);
       return () => window.removeEventListener("focus", onFocus);
     },
-    [revalidate]
+    [revalidate],
   );
 
   useEffect(
@@ -35,6 +35,6 @@ export function useRevalidateOnFocus() {
       return () =>
         window.removeEventListener("visibilitychange", onVisibilityChange);
     },
-    [revalidate]
+    [revalidate],
   );
 }

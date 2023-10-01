@@ -16,8 +16,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import { flexRender } from "@tanstack/react-table";
+ flexRender } from "@tanstack/react-table";
 import { SearchIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
@@ -84,7 +83,7 @@ export default function StandardTable<T>({
   });
 
   const gridTemplateColumns = getGridTemplateFromColumns(
-    tableOptions.columns.map((column) => convertColumn(column))
+    tableOptions.columns.map((column) => convertColumn(column)),
   ).join(" ");
 
   if (tableOptions.data == null) {
@@ -118,7 +117,7 @@ export default function StandardTable<T>({
                 const [content, filt] = [
                   flexRender(
                     header.column.columnDef.header,
-                    header.getContext()
+                    header.getContext(),
                   ),
                   header.column.getCanFilter() && (
                     <Filter column={header.column} table={table} />
@@ -165,7 +164,7 @@ export default function StandardTable<T>({
               {footerGroup.headers.map((header) => {
                 const value = flexRender(
                   header.column.columnDef.footer,
-                  header.getContext()
+                  header.getContext(),
                 );
                 const shared = { key: header.id, colSpan: header.colSpan };
                 return header.isPlaceholder || !value ? (
@@ -209,7 +208,7 @@ function Filter({
         : Array.from(column.getFacetedUniqueValues().keys())
             .sort()
             .filter((x) => x),
-    [column.getFacetedUniqueValues()]
+    [column.getFacetedUniqueValues()],
   );
 
   return (
