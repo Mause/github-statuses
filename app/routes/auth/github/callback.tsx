@@ -5,7 +5,7 @@ import { getRedirect } from "~/octokit.server";
 
 export async function loader({ request }: LoaderArgs) {
   return authenticator().authenticate("github", request, {
-    successRedirect: getRedirect(request),
+    successRedirect: await getRedirect(request),
     failureRedirect: "/login",
   });
 }
