@@ -19,7 +19,7 @@ const toNodeRequest = (input: Requests): NodeRequest =>
   input as unknown as NodeRequest;
 
 export const userPrefs = createCookie("redirect", {
-  maxAge: 604_800, // one week
+  maxAge: 60 * 30, // half an hour
 });
 
 export async function getUser(request: Requests): Promise<SessionShape> {
