@@ -4018,14 +4018,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.69.0, @sentry/types@npm:^7.64.0":
+"@sentry/types@npm:7.69.0":
   version: 7.69.0
   resolution: "@sentry/types@npm:7.69.0"
   checksum: aaa40a43cab358e10c2566d62966eff61925fb2605c146967bf9eb8acb4a883d4ca7c8a5eee1915271da08f27ddf1ed7dc520a8617f229ce70c7d00557173cc4
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.72.0":
+"@sentry/types@npm:7.72.0, @sentry/types@npm:^7.64.0":
   version: 7.72.0
   resolution: "@sentry/types@npm:7.72.0"
   checksum: 1122ef5c8715305224c8e6c878782c28a04d008a1cb9ee0fa33b9178dd1155e834195da7f737fe8f550e75ef9b360786c614b7b222f86446a0d390a2a973202d
