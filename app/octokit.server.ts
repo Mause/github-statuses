@@ -4,7 +4,7 @@ import type { SessionShape } from "~/services/auth.server";
 import { DUMMY_TOKEN, authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { Request as RemixRequest } from "@remix-run/node";
-import { redirect , createCookie } from "@remix-run/node";
+import { redirect, createCookie } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
