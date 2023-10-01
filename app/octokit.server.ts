@@ -13,7 +13,7 @@ import { RequestError } from "@octokit/request-error";
 const Throttled = Octokit.plugin(throttling);
 
 type NodeRequest = globalThis.Request;
-type Requests = RemixRequest | NodeRequest;
+export type Requests = RemixRequest | NodeRequest;
 
 const toNodeRequest = (input: Requests): NodeRequest =>
   input as unknown as NodeRequest;
