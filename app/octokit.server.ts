@@ -4,6 +4,7 @@ import type { SessionShape } from "~/services/auth.server";
 import { DUMMY_TOKEN, authenticator } from "~/services/auth.server";
 import { GitHubStrategy } from "remix-auth-github";
 import type { Request as RemixRequest } from "@remix-run/node";
+import { redirect , createCookie } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
@@ -17,10 +18,26 @@ type Requests = RemixRequest | NodeRequest;
 const toNodeRequest = (input: Requests): NodeRequest =>
   input as unknown as NodeRequest;
 
+export const userPrefs = createCookie("redirect", {
+  maxAge: 604_800, // one week
+});
+
 export async function getUser(request: Requests): Promise<SessionShape> {
-  return await authenticator().isAuthenticated(toNodeRequest(request), {
-    failureRedirect: "/login",
-  });
+  const res = await authenticator().isAuthenticated(toNodeRequest(request), {});
+  if (!res) {
+    throw redirect("/login", {
+      headers: {
+        "Set-Cookie": await userPrefs.serialize(request.url),
+      },
+    });
+  }
+  return res;
+}
+
+export async function getRedirect(request: Request): Promise<string> {
+  const cookieHeader = request.headers.get("Cookie");
+  const cookie = (await userPrefs.parse(cookieHeader)) || {};
+  return cookie;
 }
 
 export const getOctokit = async (request: Requests) => {
