@@ -1,8 +1,8 @@
 // app/routes/auth/github/callback.tsx
-import type { LoaderArgs} from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
-import { getRedirect, userPrefs } from "~/octokit.server";
+import { getRedirect, redirectCookie } from "~/octokit.server";
 
 export async function loader({ request }: LoaderArgs) {
   await authenticator().authenticate("github", request, {
@@ -11,6 +11,6 @@ export async function loader({ request }: LoaderArgs) {
   const target = await getRedirect(request);
 
   throw redirect(target, {
-    headers: { "Set-Cookie": await userPrefs.serialize(undefined) },
+    headers: { "Set-Cookie": await redirectCookie.serialize(undefined) },
   });
 }
