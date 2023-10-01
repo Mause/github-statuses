@@ -31,10 +31,8 @@ import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
-import { CheckStatusState } from "~/components/graphql/graphql";
-import { CheckConclusionState } from "~/components/graphql/graphql";
+import { CheckStatusState , CheckConclusionState } from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
-import _ from "lodash";
 import { ActionProgress } from "~/components/ActionProgress";
 import { captureMessage } from "@sentry/remix";
 
@@ -67,7 +65,7 @@ export const loader = async ({
     owner: params.owner!,
     prNumber: Number(params.pull_number!),
   });
-  const statuses = pr.commits!.nodes![0]?.commit!.checkSuites!.nodes!;
+  const statuses = pr.commits!.nodes![0]!.commit!.checkSuites!.nodes!;
 
   const augmentedStatuses = statuses.flatMap((status): Item[] => {
     const workflowName =
@@ -85,7 +83,7 @@ export const loader = async ({
   });
 
   const filteredStatuses = augmentedStatuses.filter(
-    (status) => !TO_SKIP.includes(status!.conclusion!)
+    (status) => !TO_SKIP.includes(status!.conclusion!),
   );
 
   const percentFailed =
@@ -93,7 +91,7 @@ export const loader = async ({
 
   const counts = countBy(
     augmentedStatuses,
-    (status) => status!.conclusion || status!.status
+    (status) => status!.conclusion || status!.status,
   );
 
   return json({
@@ -133,10 +131,9 @@ const color =
       | "success.fg"
       | "danger.fg"
       | "attention.fg"
-      | "neutral.emphasis" = "neutral.emphasis"
+      | "neutral.emphasis" = "neutral.emphasis",
   ) =>
-  () =>
-    <StyledOcticon icon={component} color={color} />;
+  () => <StyledOcticon icon={component} color={color} />;
 
 const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
   SUCCESS: color(CheckIcon, "success.fg"),
@@ -189,7 +186,7 @@ const COLUMNS = [
       if (!(conclusion in iconMap) || !fn) {
         captureMessage(
           `Missing entry for: ${conclusion}. Falling back to QuestionIcon.`,
-          { level: "warning" }
+          { level: "warning" },
         );
       }
 

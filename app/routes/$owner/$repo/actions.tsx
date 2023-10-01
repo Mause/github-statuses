@@ -10,8 +10,7 @@ import type {
   GetRepositoryActionsQuery,
   GetRepositoryActionsQueryVariables,
 } from "~/components/graphql/graphql";
-import { CheckStatusState } from "~/components/graphql/graphql";
-import { GetRepositoryActionsDocument } from "~/components/graphql/graphql";
+import { CheckStatusState , GetRepositoryActionsDocument } from "~/components/graphql/graphql";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { call } from "~/octokit.server";
 
@@ -106,7 +105,7 @@ export default function Actions() {
     actions
       .flatMap((action) => action!.checkRuns!.nodes!)
       .filter((checkRun) => checkRun?.status != CheckStatusState.Completed),
-    (checkRun) => checkRun!.status
+    (checkRun) => checkRun!.status,
   );
 
   return (

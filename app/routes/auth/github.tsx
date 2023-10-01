@@ -1,5 +1,5 @@
 // app/routes/auth/github.tsx
-import type { ActionFunction} from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 
