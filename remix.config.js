@@ -1,3 +1,5 @@
+const {createRoutesFromFolders} = require('@remix-run/v1-route-convention');
+
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   // When running locally in development mode, we use the built in remix
@@ -8,12 +10,16 @@ module.exports = {
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "api/index.js",
   // publicPath: "/build/",
+  serverModuleFormat: 'cjs',
   future: {
     v2_meta: true,
     v2_errorBoundary: true,
     v2_normalizeFormMethod: true,
     v2_dev: false,
     v2_headers: true,
-    v2_routeConvention: false,
+    v2_routeConvention: true,
   },
+  routes(defineRoutes) {
+    return createRoutesFromFolders(defineRoutes);
+  }
 };
