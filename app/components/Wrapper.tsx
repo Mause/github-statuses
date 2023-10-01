@@ -1,18 +1,22 @@
-import { Text, Header, PageLayout } from "@primer/react";
-import { Link, useMatches } from "@remix-run/react";
+import {
+  Text,
+  Header,
+  PageLayout,
+  Spinner,
+  StyledOcticon,
+} from "@primer/react";
+import { Link, useMatches, useRevalidator } from "@remix-run/react";
 import { MarkGithubIcon } from "@primer/octicons-react";
-import { Spinner, StyledOcticon } from "@primer/react";
-import { useRevalidator } from "@remix-run/react";
 import type { ReactNode } from "react";
+import type { SessionShape } from "~/services/auth.server";
 
 export function StandardHeader({
   children,
 }: {
   children?: ReactNode[] | ReactNode;
 }) {
-  const matches = useMatches();
-  const index = matches.find((route) => route.id === "root");
-  const user = index?.data?.user;
+  const root = useMatches()[0].data as { user: Pick<SessionShape, "login"> };
+  const user = root?.user;
   const { state } = useRevalidator();
 
   return (

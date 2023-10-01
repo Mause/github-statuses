@@ -1,8 +1,8 @@
 // app/routes/auth/github/callback.tsx
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 
-export async function loader({ request }: LoaderArgs) {
+export const loader: LoaderFunction = async ({ request }) => {
   return authenticator().authenticate("github", request, {
     successRedirect: "/",
     failureRedirect: "/login",

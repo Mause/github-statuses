@@ -1,3 +1,4 @@
+import type { Requests } from "~/octokit.server";
 import { call } from "~/octokit.server";
 import type {
   PullRequestStatusQuery,
@@ -8,7 +9,6 @@ import { PullRequestStatusDocument } from "~/components/graphql/graphql";
 import type { Get } from "type-fest";
 
 import gql from "graphql-tag";
-import type { Request } from "@remix-run/node";
 
 export const query = gql`
   fragment StatusCheckRollup on PullRequest {
@@ -106,7 +106,7 @@ export type WithRollup<T> = T & {
 export type PRWithRollup = WithRollup<PullRequest>;
 
 export async function getPullRequests(
-  request: Request,
+  request: Requests,
   variables: PullRequestStatusQueryVariables,
 ) {
   const resp = await call(request, PullRequestStatusDocument, variables);
