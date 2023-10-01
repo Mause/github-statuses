@@ -2,7 +2,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
-import { getRedirect, userPrefs } from "~/octokit.server";
+import { getRedirect, redirectCookie } from "~/octokit.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   await authenticator().authenticate("github", request, {
@@ -11,6 +11,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   const target = await getRedirect(request);
 
   throw redirect(target, {
-    headers: { "Set-Cookie": await userPrefs.serialize(undefined) },
+    headers: { "Set-Cookie": await redirectCookie.serialize(undefined) },
   });
 };
