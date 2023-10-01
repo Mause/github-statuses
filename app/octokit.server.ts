@@ -36,7 +36,7 @@ export async function getUser(request: Requests): Promise<SessionShape> {
 
 export async function getRedirect(request: Request): Promise<string> {
   const cookieHeader = request.headers.get("Cookie");
-  return (await redirectCookie.parse(cookieHeader)) || {};
+  return (await redirectCookie.parse(cookieHeader)) || "/";
 }
 
 export const getOctokit = async (request: Requests) => {
