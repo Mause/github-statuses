@@ -22,7 +22,7 @@ export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
   const head = renderHeadToString({ request, remixContext, Head });
   const sheet = new ServerStyleSheet();
@@ -33,8 +33,8 @@ export default function handleRequest(
         context={remixContext}
         url={request.url}
         abortDelay={ABORT_DELAY}
-      />
-    )
+      />,
+    ),
   );
   const styles = sheet.getStyleTags();
 
@@ -56,6 +56,6 @@ export default function handleRequest(
     {
       headers: responseHeaders,
       status: responseStatusCode,
-    }
+    },
   );
 }

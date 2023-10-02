@@ -13,7 +13,7 @@ interface LiveLogsResponse {
 
 export async function getLiveLogs(
   request: Request,
-  args: { repo: string; owner: string; commit_hash: string; check_id: Number }
+  args: { repo: string; owner: string; commit_hash: string; check_id: Number },
 ) {
   console.log("getLiveLogs", args);
   let octokit;
@@ -68,7 +68,7 @@ function useLogs(url: string) {
         JSON.stringify({
           type: "subscribe",
           data: { job_id: 17618, type: "logs" },
-        })
+        }),
       );
     };
 

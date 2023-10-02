@@ -63,7 +63,7 @@ export const splatObject = (error: unknown) =>
     error,
     Object.fromEntries(
       Object.entries(Object.getOwnPropertyDescriptors(error)).map(
-        ([key, descr]) => [key, descr.value]
-      )
-    )
+        ([key, descr]) => [key, descr.value],
+      ),
+    ),
   );

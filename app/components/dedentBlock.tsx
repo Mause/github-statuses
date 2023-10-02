@@ -3,26 +3,27 @@ import _ from "lodash";
 const _whitespace_only_re = /^[ \t]+$/gm;
 const _leading_whitespace_re = /(^[ \t]*)(?:[^ \t\n])/gm;
 
+/**
+ * Remove any common leading whitespace from every line in \`text\`.
+ *
+ * This can be used to make triple-quoted strings line up with the left
+ * edge of the display, while still presenting them in the source code
+ * in indented form.
+ *
+ * Note that tabs and spaces are both treated as whitespace, but they
+ * are not equal: the lines "  hello" and "\\thello" are
+ * considered to have no common leading whitespace.
+ *
+ * Entirely blank lines are normalized to a newline character.
+ */
 export function dedent(text: string) {
-  `Remove any common leading whitespace from every line in \`text\`.
-
-    This can be used to make triple-quoted strings line up with the left
-    edge of the display, while still presenting them in the source code
-    in indented form.
-
-    Note that tabs and spaces are both treated as whitespace, but they
-    are not equal: the lines "  hello" and "\\thello" are
-    considered to have no common leading whitespace.
-
-    Entirely blank lines are normalized to a newline character.
-    `;
   // Look for the longest leading string of spaces and tabs common to
   // all lines.
   let margin = null;
   text = text.replaceAll(_whitespace_only_re, "");
 
   let indents = Array.from(text.matchAll(_leading_whitespace_re)).map(
-    (arr) => arr[1]
+    (arr) => arr[1],
   );
   for (let indent of indents) {
     if (margin === null) {
