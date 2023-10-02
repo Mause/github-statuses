@@ -3757,13 +3757,13 @@ __metadata:
   linkType: hard
 
 "@remix-run/v1-route-convention@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "@remix-run/v1-route-convention@npm:0.1.3"
+  version: 0.1.4
+  resolution: "@remix-run/v1-route-convention@npm:0.1.4"
   dependencies:
     minimatch: ^7.4.3
   peerDependencies:
     "@remix-run/dev": ^1.15.0 || ^2.0.0
-  checksum: ffb47c25145e777139c611a630ac9d8fb286d70900cea5c56c684aabacbd5033219fb9f1aaa0112c900107ba12f2f024525cab6c13354d127d947078022a18f7
+  checksum: c0c782dcac749274b0fd49a9b7850c1ecff4151955dbf31a106de6c2b288038e41457e46092fad1bc1e5f4a7cdfff64f29f06170d07bb8b4be762fa77ed069b3
   languageName: node
   linkType: hard
 
