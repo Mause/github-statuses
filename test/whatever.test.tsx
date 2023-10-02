@@ -1,17 +1,18 @@
-import { unstable_createRemixStub as createRemixStub } from "@remix-run/testing";
 import { screen, render } from "@testing-library/react";
-import BasePage from "../app/routes/index";
 
-describe("base", () => {
-  test("hello", async () => {
-    const Stub = createRemixStub([
-      {
-        Component: () => <BasePage asChildRoute={false} />,
-      },
-    ]);
+test("hello", async () => {
+  const {default: BasePage} = await import("~/routes/index");
+  const { createRemixStub } = await import("@remix-run/testing/dist/create-remix-stub");
 
-    render(<Stub />);
+  console.log({BasePage, createRemixStub})
 
-    await screen.findByText("hello");
-  });
+  const Stub = createRemixStub([
+    {
+      Component: () => <BasePage asChildRoute={false} />,
+    },
+  ]);
+
+  render(<Stub />);
+
+  await screen.findByText("hello");
 });
