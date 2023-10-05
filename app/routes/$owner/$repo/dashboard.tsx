@@ -45,7 +45,7 @@ export const Query = gql`
           nodes {
             name
 
-            associatedPullRequests {
+            associatedPullRequests(states: OPEN) {
               totalCount
             }
           }
@@ -59,7 +59,7 @@ export const Query = gql`
             title
             headRef {
               name
-              associatedPullRequests(first: 5) {
+              associatedPullRequests(first: 5, states: OPEN) {
                 nodes {
                   baseRepository {
                     nameWithOwner
