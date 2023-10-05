@@ -1,4 +1,4 @@
-import type { LoaderFunction} from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { Response } from "@remix-run/node";
 
 export const loader: LoaderFunction = ({ request }) => {
@@ -6,5 +6,9 @@ export const loader: LoaderFunction = ({ request }) => {
 
   console.log(url.searchParams);
 
-  return new Response(url.searchParams.get("hub.challenge"), { status: 200 });
+  const challenge = url.searchParams.get("hub.challenge");
+
+  console.log({ challenge });
+
+  return new Response(challenge, { status: 200 });
 };
