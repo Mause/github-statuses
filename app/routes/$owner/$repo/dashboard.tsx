@@ -37,6 +37,9 @@ export const Query = gql`
           }
           nameWithOwner
         }
+        defaultBranchRef {
+          name
+        }
 
         refs(refPrefix: "refs/heads/", first: 100) {
           nodes {
@@ -133,14 +136,16 @@ export async function loader({
       };
     });
 
+  const defaultBranchRef = repo.defaultBranchRef!.name;
+
   return json({
     pulls,
-    repo: _.pick(repo, ["name", "owner", "parent"]),
+    repo: _.pick(repo, ["name", "owner", "parent", "defaultBranchRef"]),
     refs: repo
       .refs!.nodes!.filter(
         (node) =>
           node!.associatedPullRequests.totalCount === 0 &&
-          node!.name !== "main", // TODO: unhardcode
+          node!.name !== defaultBranchRef,
       )
       .map((node) => node!),
   });
@@ -164,11 +169,12 @@ export function Dashboard({
     repo: repo.name,
     owner: repo.owner.login,
   };
+  const defaultBranchName = repo.defaultBranchRef!.name!;
 
   function call(props: CellContext<MirroredPullRequest, any>) {
     const mirrored = props.getValue();
 
-    const original = props.row.original;
+    const { original } = props.row;
 
     const create = createUrl({
       source: {
@@ -178,7 +184,7 @@ export function Dashboard({
       target: {
         owner: parent.owner.login,
         repo: parent.name,
-        branchName: "main", // TODO: unhardcode
+        branchName: defaultBranchName,
       },
       title: original.title,
     });
@@ -240,7 +246,7 @@ export function Dashboard({
             },
             target: {
               ...selectedRepo,
-              branchName: "main",
+              branchName: defaultBranchName,
             },
             title: branchName,
           });
