@@ -72,7 +72,12 @@ export default function Index({
   const { repos } = useLoaderDataReloading<typeof loader>();
 
   const nodes = repos.map(([owner, subs]) => (
-    <SingleOrg owner={owner} asChildRoute={asChildRoute} subs={subs} />
+    <SingleOrg
+      key={owner.login}
+      owner={owner}
+      asChildRoute={asChildRoute}
+      subs={subs}
+    />
   ));
 
   return (
