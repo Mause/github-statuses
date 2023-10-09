@@ -12,6 +12,9 @@ export default function DashboardStorySelector() {
         <TabNav.Link as={Link} to="empty">
           Empty
         </TabNav.Link>
+        <TabNav.Link as={Link} to="not_a_fork">
+          Not a fork
+        </TabNav.Link>
       </TabNav>
       <Outlet />
     </>
