@@ -13,7 +13,7 @@ import {
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
 import { LinkExternalIcon } from "@primer/octicons-react";
-import { IconButton, LinkButton } from "@primer/react";
+import { Flash, IconButton, LinkButton } from "@primer/react";
 import _ from "lodash";
 
 export const Query = gql`
@@ -131,7 +131,7 @@ export async function loader({
         branchName: headRef.name!,
         mirrored: headRef.associatedPullRequests.nodes?.find(
           (node) =>
-            node?.baseRepository?.nameWithOwner == repo.parent!.nameWithOwner,
+            node?.baseRepository?.nameWithOwner == repo.parent?.nameWithOwner,
         )?.permalink,
       };
     });
@@ -164,7 +164,7 @@ export function Dashboard({
   repo,
   refs,
 }: ReturnType<typeof useLoaderDataReloading<typeof loader>>) {
-  const parent = repo.parent!;
+  const { parent } = repo;
   const selectedRepo = {
     repo: repo.name,
     owner: repo.owner.login,
@@ -182,8 +182,8 @@ export function Dashboard({
         branchName: original.branchName,
       },
       target: {
-        owner: parent.owner.login,
-        repo: parent.name,
+        owner: parent!.owner.login,
+        repo: parent!.name,
         branchName: defaultBranchName,
       },
       title: original.title,
@@ -225,6 +225,14 @@ export function Dashboard({
       },
     ],
   };
+
+  if (!parent) {
+    return (
+      <Flash variant="warning">
+        This repository is not a fork, so this page cannot be used.
+      </Flash>
+    );
+  }
 
   const refTableOptions: StandardTableOptions<Ref> = {
     data: refs,
