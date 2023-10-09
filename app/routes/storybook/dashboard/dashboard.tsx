@@ -34,6 +34,9 @@ export default function DashboardStory() {
       repo={{
         owner: { login: "Mause" },
         name: "duckdb",
+        defaultBranchRef: {
+          name: "main",
+        },
         parent: {
           name: "duckdb",
           nameWithOwner: "Mause/duckdb",
