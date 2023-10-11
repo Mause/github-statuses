@@ -42,16 +42,8 @@ export default function Pulls() {
   const table: StandardTableOptions<SerializeFrom<PullRequest>> = {
     data: pulls,
     columns: [
-      columnHelper.accessor("number", {
-        header: "#",
-        cell: (props) => `#${props.getValue()}`,
-      }),
-      columnHelper.accessor("title", {
-        header: "Title",
-        cell: (props) => (
-          <Link to={props.row.original.resourcePath}>{props.getValue()}</Link>
-        ),
-      }),
+      buildNumberColumn(),
+      buildTitleColumn(),
       columnHelper.accessor("author.login", {
         header: "By",
         cell: (props) => (
@@ -85,6 +77,38 @@ export default function Pulls() {
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </>
   );
+}
+
+export function buildNumberColumn<
+  T extends FragmentType<DocumentTypeDecoration<StatusCheckRollupFragment, any>>
+>(): AccessorFnColumnDef<SerializeFrom<T>, number> {
+  return {
+    accessorFn: (props: SerializeFrom<T>) =>
+      getFragment(StatusCheckRollupFragmentDoc, props as T).number,
+    header: "#",
+    cell: (props) => `#${props.getValue()}`,
+  };
+}
+
+export function buildTitleColumn<
+  T extends FragmentType<DocumentTypeDecoration<StatusCheckRollupFragment, any>>
+>(): AccessorFnColumnDef<SerializeFrom<T>, string> {
+  return {
+    accessorFn: (props: SerializeFrom<T>) =>
+      getFragment(StatusCheckRollupFragmentDoc, props as T).title,
+    header: "Title",
+    cell: (props) => {
+      const { number, repository } = getFragment(
+        StatusCheckRollupFragmentDoc,
+        props.row.original! as T
+      );
+      return (
+        <Link to={`/${repository.nameWithOwner}/pull/${number}`}>
+          {props.renderValue()}
+        </Link>
+      );
+    },
+  };
 }
 
 export function buildMergeableColumn<

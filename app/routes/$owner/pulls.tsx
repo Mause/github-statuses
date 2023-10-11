@@ -11,7 +11,11 @@ import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
 import { Heading } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { buildMergeableColumn, buildRollupColumn } from "./$repo/pulls";
+import {
+  buildMergeableColumn,
+  buildRollupColumn,
+  buildTitleColumn,
+} from "./$repo/pulls";
 
 export const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -62,17 +66,7 @@ export default function Owner() {
   const table: StandardTableOptions<PullRequest> = {
     data: pulls,
     columns: [
-      columnHelper.accessor("title", {
-        header: "Title",
-        cell: (props) => {
-          const { number, repository } = props.row.original!;
-          return (
-            <Link to={`/${repository.nameWithOwner}/pull/${number}`}>
-              {props.renderValue()}
-            </Link>
-          );
-        },
-      }),
+      buildTitleColumn(),
       columnHelper.accessor("repository.nameWithOwner", {
         header: "Repository",
         cell: (props) => {

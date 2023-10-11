@@ -12,6 +12,11 @@ import gql from "graphql-tag";
 
 export const query = gql`
   fragment StatusCheckRollup on PullRequest {
+    title
+    number
+    repository {
+      nameWithOwner
+    }
     mergeable
     mergeStateStatus
     statusCheckRollup: commits(last: 1) {
