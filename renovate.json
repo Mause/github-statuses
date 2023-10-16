@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "groupName": "vercel monorepo",
+      "matchSourceUrls": ["https://github.com/vercel/vercel"]
+    },
+    {
+      "groupName": "sentry monorepo",
+      "matchSourceUrls": ["https://github.com/getsentry/sentry-javascript", "https://github.com/getsentry/profiling-node"]
+    }
+  ]
+}
