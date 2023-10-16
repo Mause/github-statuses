@@ -114,7 +114,7 @@ function SingleOrg({
       {owner.login}
       <TreeView.SubTree>
         {subs.slice(0, limit).map((sub) => {
-          const href = `/${owner.login}/${sub}/pulls`;
+          const href = `/${owner.login}/${sub}`;
           return (
             <TreeView.Item key={href} id={href} onSelect={() => navigate(href)}>
               <Link to={href}>{sub}</Link>
