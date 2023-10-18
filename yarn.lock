@@ -3455,10 +3455,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oddbird/popover-polyfill@npm:0.2.2":
-  version: 0.2.2
-  resolution: "@oddbird/popover-polyfill@npm:0.2.2"
-  checksum: 5bc776f8b2d4d528c1c6886108ada3acc43ea1b62f396be7f5c4f45ef1ac50300d50b2be3ac4f2e5de2bfa2a1aab5722c33952a0391c98041b4a46b84f3b1d39
+"@oddbird/popover-polyfill@npm:0.2.3":
+  version: 0.2.3
+  resolution: "@oddbird/popover-polyfill@npm:0.2.3"
+  checksum: 6ce9ddfd6c904c48d6f8b741e86a9855936f391376592669b8956bc62a9ce832508c8cc1663757b1d527342e7531438fcd98683235cd8bfa3926c6a249a6207b
   languageName: node
   linkType: hard
 
@@ -3509,7 +3509,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/octicons-react@npm:^19.0.0, @primer/octicons-react@npm:^19.7.0":
+"@primer/octicons-react@npm:^19.0.0, @primer/octicons-react@npm:^19.8.0":
   version: 19.8.0
   resolution: "@primer/octicons-react@npm:19.8.0"
   peerDependencies:
@@ -3526,17 +3526,17 @@ __metadata:
   linkType: hard
 
 "@primer/react@npm:^35.21.0":
-  version: 35.31.0
-  resolution: "@primer/react@npm:35.31.0"
+  version: 35.32.1
+  resolution: "@primer/react@npm:35.32.1"
   dependencies:
     "@github/combobox-nav": ^2.1.5
     "@github/markdown-toolbar-element": ^2.1.0
     "@github/paste-markdown": ^1.4.0
     "@github/relative-time-element": ^4.1.2
     "@lit-labs/react": ^1.1.1
-    "@oddbird/popover-polyfill": 0.2.2
+    "@oddbird/popover-polyfill": 0.2.3
     "@primer/behaviors": ^1.3.4
-    "@primer/octicons-react": ^19.7.0
+    "@primer/octicons-react": ^19.8.0
     "@primer/primitives": ^7.11.11
     "@react-aria/ssr": ^3.5.0
     "@styled-system/css": ^5.1.5
@@ -3563,7 +3563,7 @@ __metadata:
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
     styled-components: 4.x || 5.x
-  checksum: 88974a4ff77f178f9a8c88af32dc88524e59d128d57e12cd0a986b2459cfb3f511e43b373526074427d5fdd2d00ab69f5db4ebfef08aad779c186fe3f8ae993c
+  checksum: c76200d85b897a9cd1fac5bf92ad2e623a1bd09856423964ad98899a8c15a17b95014f7649a1a21316965543023e2552a255663eb463596111f76054ea2a44ff
   languageName: node
   linkType: hard
 
