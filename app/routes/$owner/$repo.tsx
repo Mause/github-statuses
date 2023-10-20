@@ -41,6 +41,7 @@ export default function Repo() {
           target="_blank"
           href={url}
           aria-labelledby="Heading"
+          variant="invisible"
         />
       </Heading>
       <NavList>
