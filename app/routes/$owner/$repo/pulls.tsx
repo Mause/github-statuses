@@ -1,4 +1,4 @@
-import { Heading, Label, Octicon } from "@primer/react";
+import { Label } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
@@ -20,7 +20,6 @@ import type {
 import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
 import type { LabelColorOptions } from "@primer/react/lib/Label";
-import { GlobeIcon } from "@primer/octicons-react";
 
 export const loader = async ({
   params,
@@ -37,7 +36,7 @@ export const loader = async ({
 const columnHelper = createColumnHelper<SerializeFrom<PullRequest>>();
 
 export default function Pulls() {
-  const { pulls, isFork, title, url } = useLoaderDataReloading<typeof loader>();
+  const { pulls } = useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<SerializeFrom<PullRequest>> = {
     data: pulls,
@@ -62,25 +61,14 @@ export default function Pulls() {
   };
 
   return (
-    <>
-      <Heading>
-        <Link to={url}>{title}</Link>
-        {isFork ? (
-          <>
-            &nbsp;
-            <Link to="../dashboard" relative="path">
-              <Octicon icon={GlobeIcon} />
-            </Link>
-          </>
-        ) : undefined}
-      </Heading>
-      <StandardTable tableOptions={table}>No pull requests found</StandardTable>
-    </>
+    <StandardTable tableOptions={table}>No pull requests found</StandardTable>
   );
 }
 
 export function buildNumberColumn<
-  T extends FragmentType<DocumentTypeDecoration<StatusCheckRollupFragment, any>>
+  T extends FragmentType<
+    DocumentTypeDecoration<StatusCheckRollupFragment, any>
+  >,
 >(): AccessorFnColumnDef<SerializeFrom<T>, number> {
   return {
     accessorFn: (props: SerializeFrom<T>) =>
@@ -91,7 +79,9 @@ export function buildNumberColumn<
 }
 
 export function buildTitleColumn<
-  T extends FragmentType<DocumentTypeDecoration<StatusCheckRollupFragment, any>>
+  T extends FragmentType<
+    DocumentTypeDecoration<StatusCheckRollupFragment, any>
+  >,
 >(): AccessorFnColumnDef<SerializeFrom<T>, string> {
   return {
     accessorFn: (props: SerializeFrom<T>) =>
@@ -100,7 +90,7 @@ export function buildTitleColumn<
     cell: (props) => {
       const { number, repository } = getFragment(
         StatusCheckRollupFragmentDoc,
-        props.row.original! as T
+        props.row.original! as T,
       );
       return (
         <Link to={`/${repository.nameWithOwner}/pull/${number}`}>
