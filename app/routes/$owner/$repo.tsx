@@ -1,5 +1,5 @@
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import { Heading, NavList, Octicon } from "@primer/react";
+import { Heading, IconButton, NavList } from "@primer/react";
 import type { LoaderFunction } from "@remix-run/node";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
@@ -35,9 +35,13 @@ export default function Repo() {
     <>
       <Heading>
         {nameWithOwner}
-        <Link to={url}>
-          <Octicon icon={GlobeIcon}></Octicon>
-        </Link>
+        <IconButton
+          icon={GlobeIcon}
+          as="a"
+          target="_blank"
+          href={url}
+          aria-labelledby="Heading"
+        />
       </Heading>
       <NavList>
         <NavList.Item as={Link} relative="route" to="./dashboard">
