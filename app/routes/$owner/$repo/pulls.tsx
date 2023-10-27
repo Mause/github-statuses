@@ -1,4 +1,4 @@
-import { Label } from "@primer/react";
+import { Label, Link as PrimerLink } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
@@ -93,9 +93,12 @@ export function buildTitleColumn<
         props.row.original! as T,
       );
       return (
-        <Link to={`/${repository.nameWithOwner}/pull/${number}`}>
+        <PrimerLink
+          as={Link}
+          to={`/${repository.nameWithOwner}/pull/${number}`}
+        >
           {props.renderValue()}
-        </Link>
+        </PrimerLink>
       );
     },
   };

@@ -13,7 +13,12 @@ import {
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
 import { LinkExternalIcon } from "@primer/octicons-react";
-import { Flash, IconButton, LinkButton } from "@primer/react";
+import {
+  Flash,
+  IconButton,
+  LinkButton,
+  Link as PrimerLink,
+} from "@primer/react";
 import _ from "lodash";
 
 export const Query = gql`
@@ -210,7 +215,9 @@ export function Dashboard({
       columnHelper.accessor("title", {
         header: "Title",
         cell: (props) => (
-          <Link to={props.row.original.resourcePath}>{props.getValue()}</Link>
+          <PrimerLink as={Link} to={props.row.original.resourcePath}>
+            {props.getValue()}
+          </PrimerLink>
         ),
       }),
       {
