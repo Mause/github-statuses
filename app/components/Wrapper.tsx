@@ -2,6 +2,7 @@ import {
   Text,
   Header,
   PageLayout,
+  Link as PrimerLink,
   Spinner,
   StyledOcticon,
 } from "@primer/react";
@@ -77,9 +78,13 @@ export default function Wrapper({
       <PageLayout.Footer divider="line">
         <Text as="p" sx={{ color: "fg.primary", p: 2 }}>
           By Elliana (
-          <a href="https://github.com/Mause" target="_blank" rel="noreferrer">
+          <PrimerLink
+            href="https://github.com/Mause"
+            target="_blank"
+            rel="noreferrer"
+          >
             @Mause
-          </a>
+          </PrimerLink>
           )
         </Text>
       </PageLayout.Footer>

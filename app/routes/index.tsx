@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { TreeView, Avatar } from "@primer/react";
+import { TreeView, Link as PrimerLink, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
 
 import type { DataFunctionArgs, SerializeFrom } from "@remix-run/node";
@@ -117,7 +117,9 @@ function SingleOrg({
           const href = `/${owner.login}/${sub}`;
           return (
             <TreeView.Item key={href} id={href} onSelect={() => navigate(href)}>
-              <Link to={href}>{sub}</Link>
+              <PrimerLink as={Link} to={href}>
+                {sub}
+              </PrimerLink>
             </TreeView.Item>
           );
         })}
