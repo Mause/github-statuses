@@ -6,9 +6,8 @@ import { StandardTable } from "~/components";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { GetUserPullRequestsQueryVariables } from "~/components/graphql/graphql";
-import { GetUserPullRequestsDocument } from "~/components/graphql/graphql";
-import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
-import { Heading } from "@primer/react";
+import { GetUserPullRequestsDocument , IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
+import { Heading, Link as PrimerLink } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import {
@@ -71,7 +70,11 @@ export default function Owner() {
         header: "Repository",
         cell: (props) => {
           const name = props.getValue();
-          return <Link to={`/${name}/pulls`}>{name}</Link>;
+          return (
+            <PrimerLink as={Link} to={`/${name}/pulls`}>
+              {name}
+            </PrimerLink>
+          );
         },
       }),
       buildMergeableColumn<PullRequest>(),
