@@ -13,7 +13,7 @@
     "@octokit/plugin-throttling": "^8.0.0",
     "@octokit/rest": "^20.0.0",
     "@primer/octicons-react": "^19.0.0",
-    "@primer/react": "^35.21.0",
+    "@primer/react": "^36.0.0",
     "@remix-run/node": "^1.0.0",
     "@remix-run/react": "^1.13.0",
     "@remix-run/v1-route-convention": "^0.1.3",
