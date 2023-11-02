@@ -20,12 +20,7 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import {
-  Heading,
-  Link as PrimerLink,
-  StyledOcticon,
-  Flash,
-} from "@primer/react";
+import { Heading, Link as PrimerLink, Octicon, Flash } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, titleCase } from "~/components";
@@ -141,7 +136,7 @@ const color =
       | "attention.fg"
       | "neutral.emphasis" = "neutral.emphasis",
   ) =>
-  () => <StyledOcticon icon={component} color={color} />;
+  () => <Octicon icon={component} color={color} />;
 
 const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
   SUCCESS: color(CheckIcon, "success.fg"),
@@ -255,12 +250,12 @@ export default function Index() {
       <StandardTable tableOptions={table}>
         {totalStatuses === 0 ? (
           <Flash variant="warning">
-            <StyledOcticon icon={QuestionIcon} />
+            <Octicon icon={QuestionIcon} />
             No jobs found
           </Flash>
         ) : (
           <Flash variant="success">
-            <StyledOcticon icon={CheckIcon} />
+            <Octicon icon={CheckIcon} />
             Success! All jobs have successfully completed!
           </Flash>
         )}

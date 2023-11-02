@@ -3476,9 +3476,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/react@npm:^35.21.0":
-  version: 35.32.2
-  resolution: "@primer/react@npm:35.32.2"
+"@primer/react@npm:^36.0.0":
+  version: 36.0.0
+  resolution: "@primer/react@npm:36.0.0"
   dependencies:
     "@github/combobox-nav": ^2.1.5
     "@github/markdown-toolbar-element": ^2.1.0
@@ -3494,7 +3494,6 @@ __metadata:
     "@styled-system/props": ^5.1.5
     "@styled-system/theme-get": ^5.1.2
     "@types/react-is": ^18.2.1
-    "@types/styled-components": ^5.1.11
     "@types/styled-system": ^5.1.12
     "@types/styled-system__css": ^5.0.16
     "@types/styled-system__theme-get": ^5.0.1
@@ -3511,10 +3510,20 @@ __metadata:
     react-markdown: 8.0.7
     styled-system: ^5.1.5
   peerDependencies:
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-    styled-components: 4.x || 5.x
-  checksum: f47ebb0714c97ae95f581f3d66599bc25796c858c72f00f7ea0d4d76c96fb76c23044770b4c8badf279ae7a9e4e01af83b2b9c3f435c920e8a56225ceff60772
+    "@types/react": ^18.0.0
+    "@types/react-dom": ^18.0.0
+    "@types/styled-components": ^5.1.11
+    react: ^18.0.0
+    react-dom: ^18.0.0
+    styled-components: 5.x
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+    "@types/styled-components":
+      optional: true
+  checksum: f2b7b211b8c8bc3812ff96d4a6977744549fea796c90950ef1a24628feaa659ce6679f0e51c93c28b0b3ca0cdfda29ecd91cfe3e39afad3a2d7a60b8606a03af
   languageName: node
   linkType: hard
 
@@ -4316,12 +4325,12 @@ __metadata:
   linkType: hard
 
 "@types/hoist-non-react-statics@npm:*":
-  version: 3.3.2
-  resolution: "@types/hoist-non-react-statics@npm:3.3.2"
+  version: 3.3.4
+  resolution: "@types/hoist-non-react-statics@npm:3.3.4"
   dependencies:
     "@types/react": "*"
     hoist-non-react-statics: ^3.3.0
-  checksum: fe5d4b751e13f56010811fd6c4e49e53e2ccbcbbdc54bb8d86a413fbd08c5a83311bca9ef75a1a88d3ba62806711b5dea3f323c0e0f932b3a283dcebc3240238
+  checksum: dee430941a9ea16b7f665ecafa9b134066a49d13ae497fc051cf5d41b3aead394ab1a8179c3c98c9a3584f80aed16fab82dd7979c7dcddfbb5f74a132575d362
   languageName: node
   linkType: hard
 
@@ -4509,14 +4518,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-components@npm:^5.1.11":
-  version: 5.1.27
-  resolution: "@types/styled-components@npm:5.1.27"
+"@types/styled-components@npm:^5.1.29":
+  version: 5.1.29
+  resolution: "@types/styled-components@npm:5.1.29"
   dependencies:
     "@types/hoist-non-react-statics": "*"
     "@types/react": "*"
     csstype: ^3.0.2
-  checksum: 6f8d99642f09f28a233a5bf93d3139389c3bf5e4c643620881cb286f581d6844f3c1c43be5bd9405d3b199b6a858bd8b0ec6ccbb17b2304a88d70e2a6f91a996
+  checksum: 9447f26056d05268fb271024388f636c0cb27fc53181baf411c46332c76efa7bf130148ff6c4b1b5565e758ce7dbdc402027ec8ee0e7bdc17418e3d745d06eae
   languageName: node
   linkType: hard
 
@@ -9119,7 +9128,7 @@ __metadata:
     "@octokit/plugin-throttling": ^8.0.0
     "@octokit/rest": ^20.0.0
     "@primer/octicons-react": ^19.0.0
-    "@primer/react": ^35.21.0
+    "@primer/react": ^36.0.0
     "@remix-run/dev": ^1.13.0
     "@remix-run/eslint-config": ^1.13.0
     "@remix-run/node": ^1.0.0
@@ -9135,6 +9144,7 @@ __metadata:
     "@types/lodash": ^4.14.191
     "@types/react": ^18.0.25
     "@types/react-dom": ^18.0.8
+    "@types/styled-components": ^5.1.29
     "@typescript-eslint/eslint-plugin": ^6.0.0
     "@vercel/analytics": ^1.0.0
     "@vercel/kv": ^0.2.0
