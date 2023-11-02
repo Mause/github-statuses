@@ -88,10 +88,7 @@ function Loading() {
         onEscape={() => {}}
         returnFocusRef={ref as MutableRefObject<HTMLElement>}
       >
-        <Spinner
-          size="large"
-          sx={{ color: "whitesmoke", alignContent: "center" }}
-        />
+        <Spinner size="large" sx={{ alignContent: "center" }} />
       </Overlay>
     );
   } else {
