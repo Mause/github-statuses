@@ -20,7 +20,7 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Heading, Link, StyledOcticon, Flash } from "@primer/react";
+import { Heading, Link, Octicon, Flash } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, titleCase } from "~/components";
@@ -31,7 +31,10 @@ import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
-import { CheckStatusState , CheckConclusionState } from "~/components/graphql/graphql";
+import {
+  CheckStatusState,
+  CheckConclusionState,
+} from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
 import { ActionProgress } from "~/components/ActionProgress";
 import { captureMessage } from "@sentry/remix";
@@ -133,7 +136,7 @@ const color =
       | "attention.fg"
       | "neutral.emphasis" = "neutral.emphasis",
   ) =>
-  () => <StyledOcticon icon={component} color={color} />;
+  () => <Octicon icon={component} color={color} />;
 
 const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
   SUCCESS: color(CheckIcon, "success.fg"),
@@ -243,12 +246,12 @@ export default function Index() {
       <StandardTable tableOptions={table}>
         {totalStatuses === 0 ? (
           <Flash variant="warning">
-            <StyledOcticon icon={QuestionIcon} />
+            <Octicon icon={QuestionIcon} />
             No jobs found
           </Flash>
         ) : (
           <Flash variant="success">
-            <StyledOcticon icon={CheckIcon} />
+            <Octicon icon={CheckIcon} />
             Success! All jobs have successfully completed!
           </Flash>
         )}

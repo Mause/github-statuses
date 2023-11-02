@@ -4,7 +4,7 @@ import {
   PageLayout,
   Link as PrimerLink,
   Spinner,
-  StyledOcticon,
+  Octicon,
 } from "@primer/react";
 import { Link, useMatches, useRevalidator } from "@remix-run/react";
 import { MarkGithubIcon } from "@primer/octicons-react";
@@ -33,7 +33,7 @@ export function StandardHeader({
           {state == "loading" ? (
             <Spinner size="small" />
           ) : (
-            <StyledOcticon icon={MarkGithubIcon} />
+            <Octicon icon={MarkGithubIcon} />
           )}
         </Header.Item>
         <Header.Item>
