@@ -14,8 +14,8 @@ import {
   BaseStyles,
   Spinner,
   ThemeProvider,
+  Dialog,
   themeGet,
-  Overlay,
 } from "@primer/react";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
@@ -74,22 +74,14 @@ function Loading() {
   );
   const navigation = useNavigation();
 
-  if (ref.current && navigation.state !== "idle") {
+  if (ref.current) {
     return (
-      <Overlay
-        maxHeight="xsmall"
-        maxWidth="small"
-        position="relative"
-        sx={{
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-        onClickOutside={() => {}}
-        onEscape={() => {}}
+      <Dialog
+        isOpen={navigation.state !== "idle"}
         returnFocusRef={ref as MutableRefObject<HTMLElement>}
       >
         <Spinner size="large" sx={{ alignContent: "center" }} />
-      </Overlay>
+      </Dialog>
     );
   } else {
     return undefined;
