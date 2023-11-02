@@ -158,9 +158,9 @@ export async function loader({
 
 function externalLink(mirrored: string) {
   return (
-    <Link to={mirrored} target="_blank">
+    <PrimerLink as={Link} to={mirrored} target="_blank">
       <IconButton aria-labelledby="" icon={LinkExternalIcon} />
-    </Link>
+    </PrimerLink>
   );
 }
 

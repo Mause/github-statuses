@@ -1,3 +1,4 @@
+import { Link as PrimerLink } from "@primer/react";
 import { Link, Outlet } from "@remix-run/react";
 import { Wrapper, titleCase } from "~/components";
 export { ErrorBoundary } from "~/root";
@@ -18,7 +19,9 @@ export default function Storybook() {
           "live_logs",
         ].map((route) => (
           <li key={route}>
-            <Link to={route}>{titleCase(route)}</Link>
+            <PrimerLink as={Link} to={route}>
+              {titleCase(route)}
+            </PrimerLink>
           </li>
         ))}
       </ul>
