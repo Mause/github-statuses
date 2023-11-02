@@ -46,13 +46,13 @@ export default function Pulls() {
       columnHelper.accessor("author.login", {
         header: "By",
         cell: (props) => (
-          <a
+          <PrimerLink
             target="_blank"
             href={props.row.original.author?.url}
             rel="noreferrer"
           >
             {props.getValue()}
-          </a>
+          </PrimerLink>
         ),
       }),
       buildMergeableColumn<PullRequest>(),
