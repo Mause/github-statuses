@@ -20,7 +20,7 @@ import {
   DotIcon,
   LinkExternalIcon,
 } from "@primer/octicons-react";
-import { Heading, Link, Octicon, Flash } from "@primer/react";
+import { Heading, Link as PrimerLink, Octicon, Flash } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, titleCase } from "~/components";
@@ -167,9 +167,13 @@ const COLUMNS = [
   columnHelper.accessor("name", {
     header: "Job Name",
     cell: (props) => (
-      <a target="_blank" href={props.row.original.permalink!} rel="noreferrer">
+      <PrimerLink
+        target="_blank"
+        href={props.row.original.permalink!}
+        rel="noreferrer"
+      >
         {props.getValue()}
-      </a>
+      </PrimerLink>
     ),
   }),
   columnHelper.accessor("conclusion", {
@@ -235,10 +239,10 @@ export default function Index() {
   return (
     <>
       <Heading>
-        <Link target="_blank" href={pr!.permalink}>
+        <PrimerLink target="_blank" href={pr!.permalink}>
           {pr!.title}&nbsp;
           <LinkExternalIcon />
-        </Link>
+        </PrimerLink>
       </Heading>
       {statuses.length ? (
         <ActionProgress counts={counts} progress={progress} />
