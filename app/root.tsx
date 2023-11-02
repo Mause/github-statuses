@@ -8,8 +8,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "@remix-run/react";
-import { BaseStyles, Spinner, ThemeProvider, themeGet , Overlay } from "@primer/react";
+import {
+  BaseStyles,
+  Spinner,
+  ThemeProvider,
+  themeGet,
+  Overlay,
+} from "@primer/react";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
 import { Wrapper, ErrorBoundary as ErrorDisplay } from "./components";
@@ -17,7 +24,7 @@ import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
-import type { MutableRefObject} from "react";
+import type { MutableRefObject } from "react";
 import { useRef } from "react";
 
 export async function loader({ request }: DataFunctionArgs) {
@@ -65,9 +72,9 @@ function Loading() {
   const ref = useRef<HTMLElement | undefined>(
     "document" in globalThis ? document.body : undefined,
   );
+  const navigation = useNavigation();
 
-  if (ref.current) {
-    //} && navigation.state !== "idle") {
+  if (ref.current && navigation.state !== "idle") {
     return (
       <Overlay
         maxHeight="xsmall"
@@ -81,10 +88,7 @@ function Loading() {
         onEscape={() => {}}
         returnFocusRef={ref as MutableRefObject<HTMLElement>}
       >
-        <Spinner
-          size="large"
-          sx={{ color: "whitesmoke", alignContent: "center" }}
-        />
+        <Spinner size="large" sx={{ alignContent: "center" }} />
       </Overlay>
     );
   } else {
