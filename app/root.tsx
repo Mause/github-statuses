@@ -1,6 +1,7 @@
 import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
 import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
+import { Dialog } from "@primer/react/drafts";
 import {
   Links,
   LiveReload,
@@ -10,13 +11,7 @@ import {
   ScrollRestoration,
   useNavigation,
 } from "@remix-run/react";
-import {
-  BaseStyles,
-  Spinner,
-  ThemeProvider,
-  Dialog,
-  themeGet,
-} from "@primer/react";
+import { BaseStyles, Spinner, ThemeProvider, themeGet } from "@primer/react";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
 import { Wrapper, ErrorBoundary as ErrorDisplay } from "./components";
@@ -24,8 +19,6 @@ import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
-import type { MutableRefObject } from "react";
-import { useRef } from "react";
 
 export async function loader({ request }: DataFunctionArgs) {
   return json({
@@ -69,23 +62,13 @@ export function ErrorBoundary() {
 }
 
 function Loading() {
-  const ref = useRef<HTMLElement | undefined>(
-    "document" in globalThis ? document.body : undefined,
-  );
   const navigation = useNavigation();
 
-  if (ref.current) {
-    return (
-      <Dialog
-        isOpen={navigation.state !== "idle"}
-        returnFocusRef={ref as MutableRefObject<HTMLElement>}
-      >
-        <Spinner size="large" sx={{ alignContent: "center" }} />
-      </Dialog>
-    );
-  } else {
-    return undefined;
-  }
+  return navigation.state !== "idle" ? (
+    <Dialog onClose={() => {}}>
+      <Spinner size="large" sx={{ alignContent: "center" }} />
+    </Dialog>
+  ) : undefined;
 }
 
 const GlobalStyle = createGlobalStyle`
