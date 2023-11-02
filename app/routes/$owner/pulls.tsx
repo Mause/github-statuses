@@ -6,7 +6,11 @@ import { StandardTable } from "~/components";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { GetUserPullRequestsQueryVariables } from "~/components/graphql/graphql";
-import { GetUserPullRequestsDocument , IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
+import {
+  GetUserPullRequestsDocument,
+  IssueOrderField,
+  OrderDirection,
+} from "~/components/graphql/graphql";
 import { Heading, Link as PrimerLink } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
@@ -85,7 +89,7 @@ export default function Owner() {
   return (
     <>
       <Heading>
-        <Link to={user!.url}>{user!.login}</Link>
+        <PrimerLink href={user!.url}>{user!.login}</PrimerLink>
       </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </>
