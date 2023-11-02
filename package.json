@@ -81,5 +81,5 @@
     "*.{ts,tsx,js,graphql}": "eslint --cache --fix",
     "*.{ts,tsx,js,graphql,css,md}": "prettier --write"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@4.0.1"
 }
