@@ -1,4 +1,5 @@
 import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -7,12 +8,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useNavigation,
 } from "@remix-run/react";
-import { Spinner, ThemeProvider } from "@primer/react";
-// @ts-ignore
-import styles from "bulma/css/bulma.min.css";
-import { Modal } from "react-bulma-components";
+import { BaseStyles, Spinner, ThemeProvider, themeGet , Overlay } from "@primer/react";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
 import { Wrapper, ErrorBoundary as ErrorDisplay } from "./components";
@@ -20,6 +17,8 @@ import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
+import type { MutableRefObject} from "react";
+import { useRef } from "react";
 
 export async function loader({ request }: DataFunctionArgs) {
   return json({
@@ -36,10 +35,6 @@ export const meta: V2_MetaFunction = () => [
   { name: "viewport", content: "width=device-width,initial-scale=1" },
 ];
 
-export function links() {
-  return [{ rel: "stylesheet", href: styles }];
-}
-
 export const Head = createHead(() => (
   <>
     <Meta />
@@ -48,54 +43,89 @@ export const Head = createHead(() => (
 ));
 
 export function ErrorBoundary() {
-  const navigation = useNavigation();
-
   return (
     <ThemeProvider>
-      <Meta />
-      <Links />
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
-      <Wrapper>
-        <></>
-        <ErrorDisplay />
-      </Wrapper>
-      <Modal
-        show={navigation.state !== "idle"}
-        closeOnEsc={false}
-        showClose={false}
-      >
-        <Spinner size="large" sx={{ color: "whitesmoke" }} />
-      </Modal>
+      <BaseStyles>
+        <Meta />
+        <Links />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+        <Wrapper>
+          <></>
+          <ErrorDisplay />
+        </Wrapper>
+        <Loading />
+      </BaseStyles>
     </ThemeProvider>
   );
 }
 
-function App() {
+function Loading() {
+  const ref = useRef<HTMLElement | undefined>(
+    "document" in globalThis ? document.body : undefined,
+  );
+
+  if (ref.current) {
+    //} && navigation.state !== "idle") {
+    return (
+      <Overlay
+        maxHeight="xsmall"
+        maxWidth="small"
+        position="relative"
+        sx={{
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+        onClickOutside={() => {}}
+        onEscape={() => {}}
+        returnFocusRef={ref as MutableRefObject<HTMLElement>}
+      >
+        <Spinner
+          size="large"
+          sx={{ color: "whitesmoke", alignContent: "center" }}
+        />
+      </Overlay>
+    );
+  } else {
+    return undefined;
+  }
+}
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${themeGet("colors.canvas.default")}};
+  }
+`;
+
+function RealApp() {
   const data = useLoaderDataReloading<typeof loader>();
-  const navigation = useNavigation();
 
   return (
     <>
-      <ThemeProvider>
-        <Analytics />
-        <Outlet />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-        <Modal
-          show={navigation.state !== "idle"}
-          closeOnEsc={false}
-          showClose={false}
-        >
-          <Spinner size="large" sx={{ color: "whitesmoke" }} />
-        </Modal>
+      <Analytics />
+      <Outlet />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+        }}
+      />
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
+      <Loading />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <ThemeProvider colorMode="auto">
+        <BaseStyles>
+          <GlobalStyle></GlobalStyle>
+          <RealApp />
+        </BaseStyles>
       </ThemeProvider>
     </>
   );
