@@ -65,7 +65,7 @@ function Loading() {
   const navigation = useNavigation();
 
   return navigation.state !== "idle" ? (
-    <Dialog onClose={() => {}}>
+    <Dialog title="Loading..." width="small" height="auto" onClose={() => {}}>
       <Spinner size="large" sx={{ alignContent: "center" }} />
     </Dialog>
   ) : undefined;
