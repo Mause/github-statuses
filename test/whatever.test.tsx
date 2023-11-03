@@ -1,7 +1,7 @@
 import { screen, render } from "@testing-library/react";
 
 test("hello", async () => {
-  let BasePage;
+  let BasePage: React.FunctionComponent<{asChildRoute: boolean}>;
   try {
     BasePage = (await import("~/routes/index")).default;
   } catch (e) {
