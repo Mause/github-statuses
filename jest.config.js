@@ -1,3 +1,7 @@
+import {createRequire} from 'node:module';
+
+const require = createRequire(import.meta.url);
+
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   preset: "ts-jest",
