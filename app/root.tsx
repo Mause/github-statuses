@@ -75,11 +75,12 @@ function Loading() {
   return (
     <Dialog
       title={`${titleCase(navigation.state)}...`}
-      subtitle={`On your way to ${navigation.location}`}
-      width="small"
+      width="medium"
       height="auto"
       onClose={() => {}}
     >
+      On your way to <code>{navigation.location.pathname}</code>
+      <br />
       <Spinner size="large" sx={{ alignContent: "center" }} />
     </Dialog>
   );
