@@ -14,7 +14,11 @@ import {
 import { BaseStyles, Spinner, ThemeProvider, themeGet } from "@primer/react";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
-import { Wrapper, ErrorBoundary as ErrorDisplay } from "./components";
+import {
+  Wrapper,
+  ErrorBoundary as ErrorDisplay,
+  titleCase,
+} from "./components";
 import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
@@ -64,11 +68,22 @@ export function ErrorBoundary() {
 function Loading() {
   const navigation = useNavigation();
 
-  return navigation.state !== "idle" ? (
-    <Dialog title="Loading..." width="small" height="auto" onClose={() => {}}>
+  if (navigation.state === "idle") {
+    return undefined;
+  }
+
+  return (
+    <Dialog
+      title={`${titleCase(navigation.state)}...`}
+      width="medium"
+      height="auto"
+      onClose={() => {}}
+    >
+      On your way to <code>{navigation.location.pathname}</code>
+      <br />
       <Spinner size="large" sx={{ alignContent: "center" }} />
     </Dialog>
-  ) : undefined;
+  );
 }
 
 const GlobalStyle = createGlobalStyle`
