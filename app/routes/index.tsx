@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "@remix-run/react";
+import { Link, Outlet, useMatch, useNavigate } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { TreeView, Link as PrimerLink, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
@@ -89,6 +89,31 @@ export default function Index({
   );
 }
 
+function TreeLinkItem({
+  id,
+  href,
+  children,
+}: {
+  id: string;
+  href: string;
+  children: React.ReactNode[] | React.ReactNode;
+}) {
+  const navigate = useNavigate();
+  const isCurrent = !!useMatch(href);
+  return (
+    <TreeView.Item
+      id={id}
+      aria-current={isCurrent ? "page" : false}
+      current={isCurrent}
+      onSelect={() => navigate(href)}
+    >
+      <PrimerLink as={Link} to={href}>
+        {children}
+      </PrimerLink>
+    </TreeView.Item>
+  );
+}
+
 function SingleOrg({
   owner,
   asChildRoute,
@@ -98,8 +123,6 @@ function SingleOrg({
   asChildRoute: boolean;
   subs: string[];
 }): JSX.Element {
-  const navigate = useNavigate();
-
   const [limit, setLimit] = useState(INCREMENT);
 
   return (
@@ -116,11 +139,9 @@ function SingleOrg({
         {subs.slice(0, limit).map((sub) => {
           const href = `/${owner.login}/${sub}`;
           return (
-            <TreeView.Item key={href} id={href} onSelect={() => navigate(href)}>
-              <PrimerLink as={Link} to={href}>
-                {sub}
-              </PrimerLink>
-            </TreeView.Item>
+            <TreeLinkItem key={href} id={href} href={href}>
+              {sub}
+            </TreeLinkItem>
           );
         })}
         <TreeView.Item
