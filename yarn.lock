@@ -5085,12 +5085,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/kv@npm:^0.2.0":
-  version: 0.2.4
-  resolution: "@vercel/kv@npm:0.2.4"
+"@vercel/kv@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@vercel/kv@npm:1.0.0"
   dependencies:
     "@upstash/redis": "npm:1.24.3"
-  checksum: 7101467dd2fec86cf2de3b35b84e71fe2028eb40710e41a133099c81493ab0de0dd365bb99e2776eeee7fd300d41d375f52a97f60ede04284064bf72e70fcec1
+  checksum: 93330b05b57dfadb4b74f207ed92b9fb5bf19416173e4a66b28194fee371a93719378d389eae019bb46116d3e6fd95258255222fe8cd2b66d3c1f46b3c792f80
   languageName: node
   linkType: hard
 
@@ -9211,7 +9211,7 @@ __metadata:
     "@types/styled-components": "npm:^5.1.29"
     "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
     "@vercel/analytics": "npm:^1.0.0"
-    "@vercel/kv": "npm:^0.2.0"
+    "@vercel/kv": "npm:^1.0.0"
     "@vercel/node": "npm:^3.0.0"
     async: "npm:^3.2.4"
     eslint: "npm:^8.0.1"
