@@ -9,6 +9,7 @@ import styled from "styled-components";
 const PreStyle = styled.pre`
   pre {
     border-radius: 5px;
+    padding: 0.5em;
     border: ${themeGet("borderWidths.1")} ${themeGet("colors.border.default")}
       solid;
   }
