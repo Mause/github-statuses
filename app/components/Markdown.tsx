@@ -28,7 +28,9 @@ export function Markdown({ rendered }: { rendered: string }) {
 }
 
 function useStylesheet() {
-  const { colorMode } = useTheme();
+  const { resolvedColorMode } = useTheme();
 
-  return colorMode === "dark" || colorMode == "night" ? darkStyle : lightStyle;
+  return resolvedColorMode === "dark" || resolvedColorMode == "night"
+    ? darkStyle
+    : lightStyle;
 }
