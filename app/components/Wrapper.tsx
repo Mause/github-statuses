@@ -79,7 +79,7 @@ export function StandardHeader({
 }
 
 function getName(match: RouteMatch): ReactNode {
-  let segment = _.last(match.id.split("/"))!;
+  let segment = _.last(match.pathname.split("/"))!;
 
   if (segment == "root") {
     segment = "home";
