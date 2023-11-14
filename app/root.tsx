@@ -23,6 +23,7 @@ import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
+import type { ReactNode } from "react";
 
 export async function loader({ request }: DataFunctionArgs) {
   return json({
@@ -48,20 +49,14 @@ export const Head = createHead(() => (
 
 export function ErrorBoundary() {
   return (
-    <ThemeProvider>
-      <BaseStyles>
-        <Meta />
-        <Links />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-        <Wrapper>
-          <></>
-          <ErrorDisplay />
-        </Wrapper>
-        <Loading />
-      </BaseStyles>
-    </ThemeProvider>
+    <AddTheme>
+      <Meta />
+      <Links />
+      <Wrapper>
+        <></>
+        <ErrorDisplay />
+      </Wrapper>
+    </AddTheme>
   );
 }
 
@@ -92,36 +87,32 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function RealApp() {
+const AddTheme = ({ children }: { children: ReactNode[] | ReactNode }) => (
+  <ThemeProvider colorMode="auto">
+    <BaseStyles>
+      <Analytics />
+      <GlobalStyle></GlobalStyle>
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
+      <Loading />
+      {children}
+    </BaseStyles>
+  </ThemeProvider>
+);
+
+function App() {
   const data = useLoaderDataReloading<typeof loader>();
 
   return (
-    <>
-      <Analytics />
+    <AddTheme>
       <Outlet />
       <script
         dangerouslySetInnerHTML={{
           __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
         }}
       />
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
-      <Loading />
-    </>
-  );
-}
-
-function App() {
-  return (
-    <>
-      <ThemeProvider colorMode="auto">
-        <BaseStyles>
-          <GlobalStyle></GlobalStyle>
-          <RealApp />
-        </BaseStyles>
-      </ThemeProvider>
-    </>
+    </AddTheme>
   );
 }
 
