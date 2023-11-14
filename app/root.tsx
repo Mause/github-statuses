@@ -87,21 +87,6 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function RealApp() {
-  const data = useLoaderDataReloading<typeof loader>();
-
-  return (
-    <>
-      <Outlet />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-        }}
-      />
-    </>
-  );
-}
-
 const AddTheme = ({ children }: { children: ReactNode[] | ReactNode }) => (
   <ThemeProvider colorMode="auto">
     <BaseStyles>
@@ -116,11 +101,20 @@ const AddTheme = ({ children }: { children: ReactNode[] | ReactNode }) => (
   </ThemeProvider>
 );
 
-const App = () => (
-  <AddTheme>
-    <RealApp />
-  </AddTheme>
-);
+function App() {
+  const data = useLoaderDataReloading<typeof loader>();
+
+  return (
+    <AddTheme>
+      <Outlet />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+        }}
+      />
+    </AddTheme>
+  );
+}
 
 export default withSentry(() => <App />, {
   errorBoundaryOptions: {
