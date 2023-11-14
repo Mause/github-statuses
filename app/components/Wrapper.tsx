@@ -63,16 +63,18 @@ export function StandardHeader({
         ) : undefined}
       </Header>
       <Breadcrumbs>
-        {matches.map((match) => (
-          <Breadcrumbs.Item
-            key={match.id}
-            selected={match.id === _.last(matches)?.id}
-            to={match.pathname}
-            as={Link}
-          >
-            {getName(match)}
-          </Breadcrumbs.Item>
-        ))}
+        {matches
+          .filter(({ id }) => id !== "routes/index")
+          .map((match) => (
+            <Breadcrumbs.Item
+              key={match.id}
+              selected={match.id === _.last(matches)?.id}
+              to={match.pathname}
+              as={Link}
+            >
+              {getName(match)}
+            </Breadcrumbs.Item>
+          ))}
       </Breadcrumbs>
     </PageLayout.Header>
   );
