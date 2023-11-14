@@ -3817,17 +3817,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry-internal/tracing@npm:7.77.0":
-  version: 7.77.0
-  resolution: "@sentry-internal/tracing@npm:7.77.0"
-  dependencies:
-    "@sentry/core": "npm:7.77.0"
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
-  checksum: 9cb934de672436402c2b32bcf586a318dedf85a2039d5728f364cbdc7d33fdb6d277aa20257614d24666c1b78aacbd8416aa4689ea1596751a0d398dde77f443
-  languageName: node
-  linkType: hard
-
 "@sentry-internal/tracing@npm:7.80.0":
   version: 7.80.0
   resolution: "@sentry-internal/tracing@npm:7.80.0"
@@ -3867,17 +3856,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.77.0, @sentry/core@npm:^7.76.0":
-  version: 7.77.0
-  resolution: "@sentry/core@npm:7.77.0"
-  dependencies:
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
-  checksum: 59c468ef1cf9f035bb302bcc89f509916d0b19550cac296da83f526c0c779d53dbc5a0eb1c363d2e6ce46d2356c898d4fdecc8956e5c5c7d8dadb3470dbd5147
-  languageName: node
-  linkType: hard
-
-"@sentry/core@npm:7.80.0":
+"@sentry/core@npm:7.80.0, @sentry/core@npm:^7.76.0":
   version: 7.80.0
   resolution: "@sentry/core@npm:7.80.0"
   dependencies:
@@ -3888,17 +3867,17 @@ __metadata:
   linkType: hard
 
 "@sentry/hub@npm:^7.76.0":
-  version: 7.77.0
-  resolution: "@sentry/hub@npm:7.77.0"
+  version: 7.80.0
+  resolution: "@sentry/hub@npm:7.80.0"
   dependencies:
-    "@sentry/core": "npm:7.77.0"
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
-  checksum: bd6520a8edba1fe50e462a6cc836dbec6e3c50798445384ba7b3a0ffe8710c2427754774d1e616c4d28ec0816462f102d821134ffa736ebffa726ac5c80e88e4
+    "@sentry/core": "npm:7.80.0"
+    "@sentry/types": "npm:7.80.0"
+    "@sentry/utils": "npm:7.80.0"
+  checksum: f50b6f96adc8dc63c5d53e2fa54a57526e409e7b23a2e9a9b3d6bb996ce9a7db576f03ea01ca1dbc0a19445a92f73e0f8353d8819b890c8984c7679fe3634aa3
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:7.80.0":
+"@sentry/node@npm:7.80.0, @sentry/node@npm:^7.76.0":
   version: 7.80.0
   resolution: "@sentry/node@npm:7.80.0"
   dependencies:
@@ -3911,20 +3890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:^7.76.0":
-  version: 7.77.0
-  resolution: "@sentry/node@npm:7.77.0"
-  dependencies:
-    "@sentry-internal/tracing": "npm:7.77.0"
-    "@sentry/core": "npm:7.77.0"
-    "@sentry/types": "npm:7.77.0"
-    "@sentry/utils": "npm:7.77.0"
-    https-proxy-agent: "npm:^5.0.0"
-  checksum: 35eb2db0d05763d41b09025d7b636784c3408aeb006534cf8f35ac0d679bbe147535323b24c6066a1305a7cceaaaaeda40e2afafe63e06325fc2de18ae9f9990
-  languageName: node
-  linkType: hard
-
-"@sentry/profiling-node@npm:^1.0.0":
+"@sentry/profiling-node@npm:^1.2.6":
   version: 1.2.6
   resolution: "@sentry/profiling-node@npm:1.2.6"
   dependencies:
@@ -3990,30 +3956,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.77.0, @sentry/types@npm:^7.76.0":
-  version: 7.77.0
-  resolution: "@sentry/types@npm:7.77.0"
-  checksum: 004a914efdcc3f15a23187340895dfb5aa6add6903f159ea3bab7f5e594967123c4921de1365bfa1e1c75ee6ece36f6b0b5e9b9756c0c1ed931bbf51274b653c
-  languageName: node
-  linkType: hard
-
-"@sentry/types@npm:7.80.0":
+"@sentry/types@npm:7.80.0, @sentry/types@npm:^7.76.0":
   version: 7.80.0
   resolution: "@sentry/types@npm:7.80.0"
   checksum: 2f15ab4d671de647c7e8865b351c23429df6760145ef402bc6728c3ea540d2a1fd3ae5bddef380018755593ce55ec21c7fa43c5c2b0a2f481af1030932d8c0a6
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.77.0, @sentry/utils@npm:^7.76.0":
-  version: 7.77.0
-  resolution: "@sentry/utils@npm:7.77.0"
-  dependencies:
-    "@sentry/types": "npm:7.77.0"
-  checksum: 958a60c85584321ab9c52add6c17774334605731f78a60544b0de0dfa5180610d30659adb211d6b6d6b06ca191bc13085da1919a8223f428b2e952515a5b7e4b
-  languageName: node
-  linkType: hard
-
-"@sentry/utils@npm:7.80.0":
+"@sentry/utils@npm:7.80.0, @sentry/utils@npm:^7.76.0":
   version: 7.80.0
   resolution: "@sentry/utils@npm:7.80.0"
   dependencies:
@@ -9207,7 +9157,7 @@ __metadata:
     "@remix-run/react": "npm:^1.13.0"
     "@remix-run/serve": "npm:^1.13.0"
     "@remix-run/v1-route-convention": "npm:^0.1.3"
-    "@sentry/profiling-node": "npm:^1.0.0"
+    "@sentry/profiling-node": "npm:^1.2.6"
     "@sentry/remix": "npm:^7.47.0"
     "@tanstack/match-sorter-utils": "npm:^8.7.6"
     "@tanstack/react-table": "npm:^8.7.9"
