@@ -26,7 +26,7 @@ import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
 import type { ReactNode } from "react";
 import type { ColorModeWithAuto } from "@primer/react/lib/ThemeProvider";
-import { colorModeCookie } from "./routes/settings";
+import { colorModeCookie } from "./components/cookies";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const colorMode = (await colorModeCookie.parse(

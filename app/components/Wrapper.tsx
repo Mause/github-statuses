@@ -6,15 +6,15 @@ import {
   Link as PrimerLink,
   Spinner,
   Octicon,
+  IconButton,
 } from "@primer/react";
 import { Link, useMatches, useRevalidator } from "@remix-run/react";
 import type { RouteMatch } from "@remix-run/react";
-import { MarkGithubIcon } from "@primer/octicons-react";
+import { GearIcon, MarkGithubIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";
 import type { SessionShape } from "~/services/auth.server";
 import _ from "lodash";
 import { titleCase } from "~/components";
-import { ColorModeSetting } from "./ColorModeSetting";
 
 export function StandardHeader({
   children,
@@ -55,7 +55,15 @@ export function StandardHeader({
                 My PRs
               </Header.Link>
             </Header.Item>
-            <ColorModeSetting />
+            <Header.Item>
+              <Header.Link as={Link} to="/settings">
+                <IconButton
+                  variant="invisible"
+                  aria-labelledby="N/A"
+                  icon={GearIcon}
+                />
+              </Header.Link>
+            </Header.Item>
             <Header.Item>
               <Header.Link as={Link} to="/auth/logout">
                 Logout
