@@ -6,10 +6,11 @@ import {
   Link as PrimerLink,
   Spinner,
   Octicon,
+  IconButton,
 } from "@primer/react";
 import { Link, useMatches, useRevalidator } from "@remix-run/react";
 import type { RouteMatch } from "@remix-run/react";
-import { MarkGithubIcon } from "@primer/octicons-react";
+import { GearIcon, MarkGithubIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";
 import type { SessionShape } from "~/services/auth.server";
 import _ from "lodash";
@@ -52,6 +53,11 @@ export function StandardHeader({
             <Header.Item full>
               <Header.Link as={Link} to={`/${user?.login}/pulls`}>
                 My PRs
+              </Header.Link>
+            </Header.Item>
+            <Header.Item>
+              <Header.Link as={Link} to="/settings">
+                <IconButton aria-label="Settings page link" icon={GearIcon} />
               </Header.Link>
             </Header.Item>
             <Header.Item>

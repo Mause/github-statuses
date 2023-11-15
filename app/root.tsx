@@ -1,4 +1,4 @@
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, V2_MetaFunction } from "@remix-run/node";
 import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
 import { Dialog } from "@primer/react/drafts";
@@ -9,6 +9,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useNavigation,
 } from "@remix-run/react";
 import { BaseStyles, Spinner, ThemeProvider, themeGet } from "@primer/react";
@@ -24,15 +25,22 @@ import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
 import type { ReactNode } from "react";
+import type { ColorModeWithAuto } from "@primer/react/lib/ThemeProvider";
+import { colorModeCookie } from "./components/cookies";
 
-export async function loader({ request }: DataFunctionArgs) {
+export const loader: LoaderFunction = async ({ request }) => {
+  const colorMode = (await colorModeCookie.parse(
+    request.headers.get("cookie"),
+  )) as ColorModeWithAuto;
+
   return json({
     ENV: {
       SENTRY_DSN: process.env.SENTRY_DSN,
     },
     user: _.pick(await authenticator().isAuthenticated(request), ["login"]),
+    colorMode: colorMode ?? "auto",
   });
-}
+};
 
 export const meta: V2_MetaFunction = () => [
   { name: "charset", content: "utf-8" },
@@ -87,19 +95,23 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const AddTheme = ({ children }: { children: ReactNode[] | ReactNode }) => (
-  <ThemeProvider colorMode="auto">
-    <BaseStyles>
-      <Analytics />
-      <GlobalStyle></GlobalStyle>
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
-      <Loading />
-      {children}
-    </BaseStyles>
-  </ThemeProvider>
-);
+function AddTheme({ children }: { children: ReactNode[] | ReactNode }) {
+  const data = useLoaderData<typeof loader>();
+
+  return (
+    <ThemeProvider colorMode={data?.colorMode ?? "auto"}>
+      <BaseStyles>
+        <Analytics />
+        <GlobalStyle></GlobalStyle>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+        <Loading />
+        {children}
+      </BaseStyles>
+    </ThemeProvider>
+  );
+}
 
 function App() {
   const data = useLoaderDataReloading<typeof loader>();
