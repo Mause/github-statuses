@@ -57,11 +57,7 @@ export function StandardHeader({
             </Header.Item>
             <Header.Item>
               <Header.Link as={Link} to="/settings">
-                <IconButton
-                  variant="invisible"
-                  aria-labelledby="N/A"
-                  icon={GearIcon}
-                />
+                <IconButton aria-label="Settings page link" icon={GearIcon} />
               </Header.Link>
             </Header.Item>
             <Header.Item>
