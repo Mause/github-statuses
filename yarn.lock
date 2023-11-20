@@ -4311,6 +4311,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/adm-zip@npm:^0.5.4":
+  version: 0.5.4
+  resolution: "@types/adm-zip@npm:0.5.4"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: f28c42adb4f1ffc33aa54003bd396648135703a5fad2c6aaeb05946be94a64ab16d2285ef7b1bb35c5ed70314a8a818606678ec90d0b9e91f9a081d0a93bf8d3
+  languageName: node
+  linkType: hard
+
 "@types/aria-query@npm:^5.0.1":
   version: 5.0.1
   resolution: "@types/aria-query@npm:5.0.1"
@@ -4529,6 +4538,15 @@ __metadata:
   version: 14.18.33
   resolution: "@types/node@npm:14.18.33"
   checksum: 10cfbb5f66ff7117e9f4cf36d2cafb05c5a0c90d12af03f439a0aca4d3992897698c49aec4a4c591e3260a8356335a4fb0fbfb46980f60a17fe0cd2a0327b5b5
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.9.2":
+  version: 20.9.2
+  resolution: "@types/node@npm:20.9.2"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 891a035a5b7796001f5daaec03b2d84ebb67d731b67abb34c352af1b5b1f53beb4a92f0f6a66f6e0ed97191c3022cc8c830e048f8a5c53806e8ab248873a7c7b
   languageName: node
   linkType: hard
 
@@ -5364,6 +5382,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: deaeebfbea6e40f6c0e1070e9b0e16e76ba484de54cbd735914d1d41d19169a450de8630b7a3a0c4e271a3b0c0b075a3427ad1a40d8a69f8747c0e8cb02ee3e2
+  languageName: node
+  linkType: hard
+
+"adm-zip@npm:^0.5.10":
+  version: 0.5.10
+  resolution: "adm-zip@npm:0.5.10"
+  checksum: 1f391a4e02940688b6ca6d4b3ea96cc82a9dbe1596671d7dbc052f9a53ed2efa6ba9ba253f032ea16e70081f22d6ddd1af2d65d6be700853cdee9c2fc925c20e
   languageName: node
   linkType: hard
 
@@ -9227,9 +9252,11 @@ __metadata:
     "@sentry/remix": "npm:^7.47.0"
     "@tanstack/match-sorter-utils": "npm:^8.7.6"
     "@tanstack/react-table": "npm:^8.7.9"
+    "@types/adm-zip": "npm:^0.5.4"
     "@types/async": "npm:^3.2.18"
     "@types/humanize-duration": "npm:^3.27.1"
     "@types/lodash": "npm:^4.14.191"
+    "@types/node": "npm:^20.9.2"
     "@types/react": "npm:^18.0.25"
     "@types/react-dom": "npm:^18.0.8"
     "@types/styled-components": "npm:^5.1.29"
@@ -9237,6 +9264,7 @@ __metadata:
     "@vercel/analytics": "npm:^1.0.0"
     "@vercel/kv": "npm:^1.0.0"
     "@vercel/node": "npm:^3.0.0"
+    adm-zip: "npm:^0.5.10"
     async: "npm:^3.2.4"
     eslint: "npm:^8.0.1"
     eslint-config-standard-with-typescript: "npm:^40.0.0"
@@ -15320,6 +15348,13 @@ __metadata:
   version: 0.1.2
   resolution: "unc-path-regex@npm:0.1.2"
   checksum: bf9c781c4e2f38e6613ea17a51072e4b416840fbe6eeb244597ce9b028fac2fb6cfd3dde1f14111b02c245e665dc461aab8168ecc30b14364d02caa37f812996
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: bb673d7876c2d411b6eb6c560e0c571eef4a01c1c19925175d16e3a30c4c428181fb8d7ae802a261f283e4166a0ac435e2f505743aa9e45d893f9a3df017b501
   languageName: node
   linkType: hard
 
