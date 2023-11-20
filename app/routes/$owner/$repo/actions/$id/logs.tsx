@@ -2,10 +2,11 @@ import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getOctokit } from "~/octokit.server";
 import { getLogs } from "./archive.server";
-import { Details, useDetails } from "@primer/react";
+import { Details, ToggleSwitch, useDetails } from "@primer/react";
 import { extname } from "path";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 
@@ -82,12 +83,12 @@ function matchDirective(line: string) {
   return { directive: res![1], line: res![2], original: line };
 }
 
-function extractErrors(data: string) {
-  return data
-    .split("\n")
-    .filter((line) => line.toLocaleLowerCase().includes("error"))
-    .map((line) => line.substring(TIMESTAMP_LENGTH + 1))
-    .filter((line) => line !== "Evaluating continue on error");
+function extractErrors(data: string[]) {
+  return data.filter(
+    (line) =>
+      line.toLocaleLowerCase().includes("error") &&
+      line !== "Evaluating continue on error",
+  );
 }
 
 function extractName(name: string): string {
@@ -100,21 +101,38 @@ function extractName(name: string): string {
 
 export default function Logs() {
   const { logs } = useLoaderData<typeof loader>();
+  const [onlyErrors, setOnlyErrors] = useState(true);
+  const [extracted, setExtracted] = useState<[string, string[]][]>([]);
 
-  const extracted = logs.map(
-    ([name, data]) =>
-      [extractName(name), extractErrors(data)] as [string, string[]],
-  );
+  useEffect(() => {
+    setExtracted(
+      logs.map(([name, data]) => {
+        let lines = data
+          .split("\n")
+          .map((line) => line.substring(TIMESTAMP_LENGTH + 1));
+
+        if (onlyErrors) {
+          lines = extractErrors(lines);
+        }
+
+        return [extractName(name), lines] as [string, string[]];
+      }),
+    );
+  }, [logs, onlyErrors]);
 
   return (
-    <ul>
-      {extracted
-        .filter(([, data]) => data.length)
-        .map(([name, data]) => (
-          <li key={name}>
-            <Log name={name} data={data} />
-          </li>
-        ))}
-    </ul>
+    <>
+      <ToggleSwitch defaultChecked={onlyErrors} onChange={setOnlyErrors} />
+      {JSON.stringify(onlyErrors)}
+      <ul>
+        {extracted
+          .filter(([, data]) => data.length)
+          .map(([name, data]) => (
+            <li key={name}>
+              <Log name={name} data={data} />
+            </li>
+          ))}
+      </ul>
+    </>
   );
 }
