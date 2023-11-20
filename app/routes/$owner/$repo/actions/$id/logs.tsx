@@ -39,7 +39,23 @@ const Summary = styled.summary<{ open: boolean }>`
   list-style-position: inside !important;
 `;
 
-function Log({ name, data }: { name: string; data: string }) {
+const paleRed = "#ff5353";
+
+function constructLine(original: string) {
+  if (!original.startsWith("##[")) {
+    return original;
+  }
+  const { directive, line } = matchDirective(original);
+
+  switch (directive) {
+    case "error":
+      return <span style={{ color: paleRed }}>{line}</span>;
+  }
+
+  return JSON.stringify({ directive, line, original });
+}
+
+function Log({ name, data }: { name: string; data: string[] }) {
   const { open, getDetailsProps } = useDetails({});
 
   return (
@@ -47,11 +63,23 @@ function Log({ name, data }: { name: string; data: string }) {
       <Summary open={open ?? false}>{name}</Summary>
       <PreStyle>
         <pre>
-          <code>{data}</code>
+          <code>
+            {data.map((line, i) => (
+              <span key={i}>
+                {constructLine(line)}
+                <br />
+              </span>
+            ))}
+          </code>
         </pre>
       </PreStyle>
     </Details>
   );
+}
+
+function matchDirective(line: string) {
+  const res = line.match(/##\[([^\[]*)\](.*)/);
+  return { directive: res![1], line: res![2], original: line };
 }
 
 function extractErrors(data: string) {
@@ -59,8 +87,7 @@ function extractErrors(data: string) {
     .split("\n")
     .filter((line) => line.toLocaleLowerCase().includes("error"))
     .map((line) => line.substring(TIMESTAMP_LENGTH + 1))
-    .filter((line) => line !== "Evaluating continue on error")
-    .join("\n");
+    .filter((line) => line !== "Evaluating continue on error");
 }
 
 function extractName(name: string): string {
@@ -74,10 +101,10 @@ function extractName(name: string): string {
 export default function Logs() {
   const { logs } = useLoaderData<typeof loader>();
 
-  const extracted = logs.map(([name, data]) => [
-    extractName(name),
-    extractErrors(data),
-  ]);
+  const extracted = logs.map(
+    ([name, data]) =>
+      [extractName(name), extractErrors(data)] as [string, string[]],
+  );
 
   return (
     <ul>
