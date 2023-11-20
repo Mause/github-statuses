@@ -51,7 +51,7 @@ export function constructLine(original: string) {
   if (!(original.startsWith("##[") || original.startsWith("##vso["))) {
     return original;
   }
-  const { directive, line } = matchDirective(original);
+  const { isVSO, directive, line } = matchDirective(original);
 
   switch (directive) {
     case "error":
@@ -64,7 +64,7 @@ export function constructLine(original: string) {
       return line;
   }
 
-  return JSON.stringify({ directive, line, original });
+  return JSON.stringify({ isVSO, directive, line, original });
 }
 
 function Log({ name, data }: { name: string; data: string[] }) {
