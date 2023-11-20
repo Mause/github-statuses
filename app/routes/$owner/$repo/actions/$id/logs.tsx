@@ -42,8 +42,13 @@ const Summary = styled.summary<{ open: boolean }>`
 
 const paleRed = "#ff5353";
 
-function constructLine(original: string) {
-  if (!original.startsWith("##[")) {
+/**
+ * See https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash
+ *
+ * I guess GitHub Actions translates to the Azure syntax under the hood
+ */
+export function constructLine(original: string) {
+  if (!(original.startsWith("##[") || original.startsWith("##vso["))) {
     return original;
   }
   const { directive, line } = matchDirective(original);
@@ -51,6 +56,12 @@ function constructLine(original: string) {
   switch (directive) {
     case "error":
       return <span style={{ color: paleRed }}>{line}</span>;
+    case "warning":
+    case "debug":
+    case "section":
+    case "group":
+    case "endgroup":
+      return line;
   }
 
   return JSON.stringify({ directive, line, original });
@@ -79,8 +90,13 @@ function Log({ name, data }: { name: string; data: string[] }) {
 }
 
 function matchDirective(line: string) {
-  const res = line.match(/##\[([^\[]*)\](.*)/);
-  return { directive: res![1], line: res![2], original: line };
+  const res = line.match(/##(vso)?\[([^\[]*)\](.*)/);
+  return {
+    isVSO: !!res![1],
+    directive: res![2],
+    line: res![3],
+    original: line,
+  };
 }
 
 function extractErrors(data: string[]) {
