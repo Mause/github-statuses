@@ -2,7 +2,7 @@ import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getOctokit } from "~/octokit.server";
 import { getLogs } from "./archive.server";
-import { Details, ToggleSwitch, useDetails } from "@primer/react";
+import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
 import { extname } from "path";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
@@ -120,8 +120,10 @@ export default function Logs() {
 
   return (
     <>
-      <ToggleSwitch defaultChecked={onlyErrors} onChange={setOnlyErrors} />
-      {JSON.stringify(onlyErrors)}
+      <FormControl>
+        <FormControl.Label>Only show errors</FormControl.Label>
+        <ToggleSwitch defaultChecked={onlyErrors} onChange={setOnlyErrors} />
+      </FormControl>
       <ul>
         {extracted
           .filter(([, data]) => data.length)
