@@ -1,6 +1,6 @@
 import AdmZip from "adm-zip";
 
-export function getLogs(arrayBuffer: ArrayBuffer) {
+export function getLogs(arrayBuffer: ArrayBuffer): [string, string][] {
   const buffer = Buffer.from(arrayBuffer);
   const zip = new AdmZip(buffer, { readEntries: true });
 
@@ -10,9 +10,7 @@ export function getLogs(arrayBuffer: ArrayBuffer) {
     throw new Error("No files found");
   }
 
-  const logs: [string, string][] = files
+  return files
     .filter((file) => !file.isDirectory && !file.entryName.includes("/"))
     .map((file) => [file.entryName, file.getData().toString()]);
-  console.log(logs);
-  return logs;
 }
