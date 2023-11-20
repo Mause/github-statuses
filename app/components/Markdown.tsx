@@ -6,7 +6,7 @@ import lightStyle from "github-syntax-light/lib/github-light.css";
 import { themeGet, useTheme } from "@primer/react";
 import styled from "styled-components";
 
-const PreStyle = styled.pre`
+export const PreStyle = styled.pre`
   pre {
     border-radius: 5px;
     padding: 0.5em;

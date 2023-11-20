@@ -33,11 +33,19 @@ export const fragment = gql`
                 conclusion
                 checkRuns(first: 100) {
                   nodes {
+                    checkSuite {
+                      workflowRun {
+                        databaseId
+                      }
+                    }
                     name
                     conclusion
                     startedAt
                     completedAt
                     permalink
+                    repository {
+                      nameWithOwner
+                    }
                     status
                   }
                 }

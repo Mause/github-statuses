@@ -5,7 +5,7 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
-import { useRevalidator } from "@remix-run/react";
+import { Link, useRevalidator } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useInterval } from "react-interval-hook";
 import type { Icon } from "@primer/octicons-react";
@@ -19,8 +19,15 @@ import {
   HourglassIcon,
   DotIcon,
   LinkExternalIcon,
+  LogIcon,
 } from "@primer/octicons-react";
-import { Heading, Link as PrimerLink, Octicon, Flash } from "@primer/react";
+import {
+  Heading,
+  Link as PrimerLink,
+  Octicon,
+  Flash,
+  IconButton,
+} from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, titleCase } from "~/components";
@@ -206,6 +213,24 @@ const COLUMNS = [
       );
     },
     header: "Status",
+  }),
+  columnHelper.display({
+    cell(props) {
+      const { original } = props.row;
+      const to = `/${original.repository.nameWithOwner}/actions/${
+        original.checkSuite!.workflowRun!.databaseId
+      }/logs`;
+
+      return (
+        <IconButton
+          icon={LogIcon}
+          as={Link}
+          aria-label="Logs"
+          to={to}
+        ></IconButton>
+      );
+    },
+    header: "Logs",
   }),
   /*
   columnHelper.accessor("startedAt", {
