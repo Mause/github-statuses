@@ -94,9 +94,7 @@ function extractErrors(data: string[]) {
 function extractName(name: string): string {
   name = name.substring(0, name.length - extname(name).length);
 
-  let [, reName] = name.split("_");
-
-  return reName;
+  return name.split("_")[1];
 }
 
 export default function Logs() {
