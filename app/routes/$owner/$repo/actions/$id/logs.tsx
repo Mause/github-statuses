@@ -41,11 +41,13 @@ function Log({ name, data }: { name: string; data: string }) {
   return (
     <>
       <h4>{name}</h4>
-      <Details {...details.getDetailsProps()}>
-        <pre>
-          <code>{errors}</code>
-        </pre>
-      </Details>
+      {errors.length ? (
+        <Details {...details.getDetailsProps()}>
+          <pre>
+            <code>{errors}</code>
+          </pre>
+        </Details>
+      ) : undefined}
     </>
   );
 }
