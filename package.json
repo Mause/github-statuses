@@ -89,7 +89,7 @@
     "*.{ts,tsx,js,graphql,css,md}": "yarn prettier --write"
   },
   "resolutions": {
-    "@sentry/remix/@sentry/cli@npm:^2.21.2": "file:./empty-npm-package"
+    "@sentry/remix/@sentry/cli": "file:./empty-npm-package"
   },
   "packageManager": "yarn@4.0.2"
 }
