@@ -88,5 +88,8 @@
     "*.{ts,tsx,js,graphql}": "yarn eslint --cache --fix",
     "*.{ts,tsx,js,graphql,css,md}": "yarn prettier --write"
   },
+  "resolutions": {
+    "@sentry/remix/@sentry/cli@npm:^2.21.2": "file:./empty-npm-package"
+  },
   "packageManager": "yarn@4.0.2"
 }
