@@ -10,8 +10,8 @@ export type SessionShape = Pick<
   "login"
 > & {
   accessToken: string;
-  refreshToken: string;
-  accessTokenExpiry: number | null;
+  refreshToken?: string;
+  accessTokenExpiry: Date | null;
 };
 
 const DEV = process.env.NODE_ENV == "development";
