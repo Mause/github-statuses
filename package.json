@@ -84,9 +84,9 @@
   "author": "Elliana May <me@mause.me>",
   "license": "MIT",
   "lint-staged": {
-    "*.{ts,tsx}": "tsc-files --noEmit",
-    "*.{ts,tsx,js,graphql}": "eslint --cache --fix",
-    "*.{ts,tsx,js,graphql,css,md}": "prettier --write"
+    "*.{ts,tsx}": "yarn tsc-files --noEmit",
+    "*.{ts,tsx,js,graphql}": "yarn eslint --cache --fix",
+    "*.{ts,tsx,js,graphql,css,md}": "yarn prettier --write"
   },
   "packageManager": "yarn@4.0.2"
 }
