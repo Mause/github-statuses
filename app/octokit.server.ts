@@ -107,6 +107,7 @@ export const gitHubStrategy = () => {
         accessToken,
         refreshToken,
         accessTokenExpiry: extraParams.accessTokenExpiresAt,
+        refreshTokenExpiry: extraParams.refreshTokenExpiresAt,
       };
     },
   );

@@ -11,7 +11,8 @@ export type SessionShape = Pick<
 > & {
   accessToken: string;
   refreshToken?: string;
-  accessTokenExpiry: Date | null;
+  accessTokenExpiry?: Date;
+  refreshTokenExpiry?: Date;
 };
 
 const DEV = process.env.NODE_ENV == "development";
@@ -28,7 +29,8 @@ export let authenticator = _.memoize(() => {
           accessToken: process.env.ACCESS_TOKEN || DUMMY_TOKEN,
           login: "Mause",
           refreshToken: "",
-          accessTokenExpiry: null,
+          accessTokenExpiry: undefined,
+          refreshTokenExpiry: undefined,
         };
       },
       async authenticate(_strategy: string, _request: Request) {},
