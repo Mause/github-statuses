@@ -3,12 +3,22 @@ import { useLoaderData } from "@remix-run/react";
 import { getOctokit } from "~/octokit.server";
 import { getLogs } from "./archive.server";
 import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
-import { extname } from "path";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import _ from "lodash";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
+interface SingleStep {
+  name: string;
+  index: number;
+  lines: string[];
+}
+interface SingleJob {
+  name: string;
+  steps: SingleStep[];
+}
+type AllSteps = SingleJob[];
 
 export const loader = async ({ request, params }: DataFunctionArgs) => {
   const octokit = await getOctokit(request);
@@ -67,7 +77,25 @@ export function constructLine(original: string) {
   return JSON.stringify({ isVSO, directive, line, original });
 }
 
-function Log({ name, data }: { name: string; data: string[] }) {
+function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
+  const { open, getDetailsProps } = useDetails({});
+  return (
+    <Details {...getDetailsProps()}>
+      <Summary open={open ?? false}>{name}</Summary>
+      <ol>
+        {steps
+          .filter(({ lines }) => lines.length)
+          .map(({ name, lines, index }) => (
+            <li key={name} value={index}>
+              <Step name={name} lines={lines} />
+            </li>
+          ))}
+      </ol>
+    </Details>
+  );
+}
+
+function Step({ name, lines }: { name: string; lines: string[] }) {
   const { open, getDetailsProps } = useDetails({});
 
   return (
@@ -76,7 +104,7 @@ function Log({ name, data }: { name: string; data: string[] }) {
       <PreStyle>
         <pre>
           <code>
-            {data.map((line, i) => (
+            {lines.map((line, i) => (
               <span key={i}>
                 {constructLine(line)}
                 <br />
@@ -107,30 +135,29 @@ function extractErrors(data: string[]) {
   );
 }
 
-function extractName(name: string): string {
-  name = name.substring(0, name.length - extname(name).length);
-
-  return name.split("_")[1];
-}
-
 export default function Logs() {
   const { logs } = useLoaderData<typeof loader>();
   const [onlyErrors, setOnlyErrors] = useState(true);
-  const [extracted, setExtracted] = useState<[string, string[]][]>([]);
+  const [extracted, setExtracted] = useState<AllSteps>([]);
 
   useEffect(() => {
     setExtracted(
-      logs.map(([name, data]) => {
-        let lines = data
-          .split("\n")
-          .map((line) => line.substring(TIMESTAMP_LENGTH + 1));
+      _.map(logs, (data, name) => ({
+        name,
+        steps: data.map((step) => {
+          let lines = step.contents
+            .split("\n")
+            // TODO: show timestamps?
+            .map((line) => line.substring(TIMESTAMP_LENGTH + 1));
 
-        if (onlyErrors) {
-          lines = extractErrors(lines);
-        }
+          // TODO: move this filtering to the backend
+          if (onlyErrors) {
+            lines = extractErrors(lines);
+          }
 
-        return [extractName(name), lines] as [string, string[]];
-      }),
+          return { name: step.name, lines, index: step.index };
+        }),
+      })),
     );
   }, [logs, onlyErrors]);
 
@@ -142,10 +169,10 @@ export default function Logs() {
       </FormControl>
       <ul>
         {extracted
-          .filter(([, data]) => data.length)
-          .map(([name, data]) => (
+          .filter(({ steps }) => steps.length)
+          .map(({ name, steps }) => (
             <li key={name}>
-              <Log name={name} data={data} />
+              <Job name={name} steps={steps} />
             </li>
           ))}
       </ul>
