@@ -1,6 +1,6 @@
 import AdmZip from "adm-zip";
-import { extractName } from "./logs";
 import _ from "lodash";
+import { extname } from "path";
 
 export function getLogs(arrayBuffer: ArrayBuffer): {
   [jobName: string]: StepData[];
@@ -31,15 +31,19 @@ export interface StepData {
   contents: string;
 }
 
+function extractName(name: string): string {
+  return name.substring(0, name.length - extname(name).length);
+}
+
 export function processEntries(entries: AdmZip.IZipEntry[]): StepData[] {
   return _.chain(entries)
     .map((entry) => {
-      const name = entry.name;
-      const parts = name.split("_");
+      const filename = entry.name;
+      const [index, name] = filename.split("_", 1);
       return {
         name: extractName(name),
-        filename: name,
-        index: Number(parts[0]),
+        filename,
+        index: Number(index),
         contents: entry.getData().toString(),
       };
     })

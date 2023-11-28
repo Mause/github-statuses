@@ -3,7 +3,6 @@ import { useLoaderData } from "@remix-run/react";
 import { getOctokit } from "~/octokit.server";
 import { getLogs } from "./archive.server";
 import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
-import { extname } from "path";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -134,12 +133,6 @@ function extractErrors(data: string[]) {
       line.toLocaleLowerCase().includes("error") &&
       line !== "Evaluating continue on error",
   );
-}
-
-export function extractName(name: string): string {
-  name = name.substring(0, name.length - extname(name).length);
-
-  return name.split("_")[1];
 }
 
 export default function Logs() {
