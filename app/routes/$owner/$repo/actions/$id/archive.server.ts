@@ -2,7 +2,9 @@ import AdmZip from "adm-zip";
 import { extractName } from "./logs";
 import _ from "lodash";
 
-export function getLogs(arrayBuffer: ArrayBuffer): { [k: string]: StepData[] } {
+export function getLogs(arrayBuffer: ArrayBuffer): {
+  [jobName: string]: StepData[];
+} {
   const buffer = Buffer.from(arrayBuffer);
   const zip = new AdmZip(buffer, { readEntries: true });
 

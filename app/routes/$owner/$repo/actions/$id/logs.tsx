@@ -150,22 +150,20 @@ export default function Logs() {
 
   useEffect(() => {
     setExtracted(
-      _.map(logs, (data, name) => {
-        return {
-          name,
-          steps: data.map((step) => {
-            let lines = step.contents
-              .split("\n")
-              .map((line) => line.substring(TIMESTAMP_LENGTH + 1));
+      _.map(logs, (data, name) => ({
+        name,
+        steps: data.map((step) => {
+          let lines = step.contents
+            .split("\n")
+            .map((line) => line.substring(TIMESTAMP_LENGTH + 1));
 
-            if (onlyErrors) {
-              lines = extractErrors(lines);
-            }
+          if (onlyErrors) {
+            lines = extractErrors(lines);
+          }
 
-            return { name: step.name, lines, index: step.index };
-          }),
-        };
-      }),
+          return { name: step.name, lines, index: step.index };
+        }),
+      })),
     );
   }, [logs, onlyErrors]);
 
