@@ -87,7 +87,7 @@ function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
           .filter(({ lines }) => lines.length)
           .map(({ name, lines, index }) => (
             <li key={name} value={index}>
-              <Step name={name} data={lines} />
+              <Step name={name} lines={lines} />
             </li>
           ))}
       </ol>
@@ -95,7 +95,7 @@ function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
   );
 }
 
-function Step({ name, data }: { name: string; data: string[] }) {
+function Step({ name, lines }: { name: string; lines: string[] }) {
   const { open, getDetailsProps } = useDetails({});
 
   return (
@@ -104,7 +104,7 @@ function Step({ name, data }: { name: string; data: string[] }) {
       <PreStyle>
         <pre>
           <code>
-            {data.map((line, i) => (
+            {lines.map((line, i) => (
               <span key={i}>
                 {constructLine(line)}
                 <br />
@@ -138,7 +138,6 @@ function extractErrors(data: string[]) {
 export default function Logs() {
   const { logs } = useLoaderData<typeof loader>();
   const [onlyErrors, setOnlyErrors] = useState(true);
-
   const [extracted, setExtracted] = useState<AllSteps>([]);
 
   useEffect(() => {
