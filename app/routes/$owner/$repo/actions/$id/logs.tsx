@@ -147,8 +147,10 @@ export default function Logs() {
         steps: data.map((step) => {
           let lines = step.contents
             .split("\n")
+            // TODO: show timestamps?
             .map((line) => line.substring(TIMESTAMP_LENGTH + 1));
 
+          // TODO: move this filtering to the backend
           if (onlyErrors) {
             lines = extractErrors(lines);
           }
