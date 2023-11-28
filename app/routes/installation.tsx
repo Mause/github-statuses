@@ -6,6 +6,7 @@ import { sessionStorage } from "~/services/session.server";
 import type { Octokit } from "@octokit/rest";
 import _ from "lodash";
 import AdmZip from "adm-zip";
+import { extractName } from "./$owner/$repo/actions/$id/logs";
 
 const INSTALLATION_ID = "installation_id";
 
@@ -53,15 +54,25 @@ export const loader = async ({ request }: DataFunctionArgs) => {
     (entry) => entry.entryName.split("/")[0],
   );
 
+  const logs = _.map(entries, (entries, job) => [job, processEntries(entries)]);
   return json({
     installationAccessToken: installationAccessToken.data,
-    log_zip: _.map(entries, (entries, job) => [job, processEntries(entries)]),
+    log_zip: logs,
   });
 
   function processEntries(entries: AdmZip.IZipEntry[]) {
     return _.chain(entries)
-      .map((entry) => entry.name)
-      .sortBy((entry) => Number(entry.split("_")[0]))
+      .map((entry) => {
+        const name = entry.name;
+        const parts = name.split("_");
+        return {
+          name: extractName(name),
+          filename: name,
+          index: Number(parts[0]),
+          contents: entry.getData().toString(),
+        };
+      })
+      .sortBy((entry) => entry.index)
       .value();
   }
 };
