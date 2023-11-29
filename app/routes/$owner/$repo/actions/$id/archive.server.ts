@@ -28,7 +28,7 @@ export interface StepData {
   name: string;
   filename: string;
   index: number;
-  contents: string;
+  contents: string[];
 }
 
 function extractName(name: string): string {
@@ -44,7 +44,7 @@ export function processEntries(entries: AdmZip.IZipEntry[]): StepData[] {
         name: extractName(name),
         filename,
         index: Number(index),
-        contents: entry.getData().toString(),
+        contents: entry.getData().toString().split("\n"),
       };
     })
     .sortBy((entry) => entry.index)

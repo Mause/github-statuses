@@ -146,7 +146,7 @@ export default function Logs() {
       _.map(logs, (data, name) => ({
         name,
         steps: data.map((step) => {
-          let lines = step.contents.split("\n");
+          let lines = step.contents;
 
           if (!showTimestamps) {
             lines = lines.map((line) => line.substring(TIMESTAMP_LENGTH + 1));
