@@ -4736,11 +4736,11 @@ __metadata:
   linkType: hard
 
 "@types/adm-zip@npm:^0.5.4":
-  version: 0.5.4
-  resolution: "@types/adm-zip@npm:0.5.4"
+  version: 0.5.5
+  resolution: "@types/adm-zip@npm:0.5.5"
   dependencies:
     "@types/node": "npm:*"
-  checksum: f28c42adb4f1ffc33aa54003bd396648135703a5fad2c6aaeb05946be94a64ab16d2285ef7b1bb35c5ed70314a8a818606678ec90d0b9e91f9a081d0a93bf8d3
+  checksum: 4976dc61e33534ecfb7eee87e8a587db06420a4eb9f34eee9425aece82e9fdd01ddd22677ff6430c582f4d9735c7d714c71adb8f149e3511bc189501b4113631
   languageName: node
   linkType: hard
 
