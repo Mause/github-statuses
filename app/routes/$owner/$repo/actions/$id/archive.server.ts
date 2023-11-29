@@ -28,7 +28,7 @@ export interface StepData {
   name: string;
   filename: string;
   index: number;
-  contents: string;
+  contents: string[];
 }
 
 function extractName(name: string): string {
@@ -39,12 +39,12 @@ export function processEntries(entries: AdmZip.IZipEntry[]): StepData[] {
   return _.chain(entries)
     .map((entry) => {
       const filename = entry.name;
-      const [index, name] = filename.split("_", 1);
+      const [index, name] = filename.split("_", 2);
       return {
         name: extractName(name),
         filename,
         index: Number(index),
-        contents: entry.getData().toString(),
+        contents: entry.getData().toString().split("\n"),
       };
     })
     .sortBy((entry) => entry.index)

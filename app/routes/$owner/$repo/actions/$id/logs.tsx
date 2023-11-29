@@ -138,6 +138,7 @@ function extractErrors(data: string[]) {
 export default function Logs() {
   const { logs } = useLoaderData<typeof loader>();
   const [onlyErrors, setOnlyErrors] = useState(true);
+  const [showTimestamps, setShowTimestamps] = useState(false);
   const [extracted, setExtracted] = useState<AllSteps>([]);
 
   useEffect(() => {
@@ -145,10 +146,11 @@ export default function Logs() {
       _.map(logs, (data, name) => ({
         name,
         steps: data.map((step) => {
-          let lines = step.contents
-            .split("\n")
-            // TODO: show timestamps?
-            .map((line) => line.substring(TIMESTAMP_LENGTH + 1));
+          let lines = step.contents;
+
+          if (!showTimestamps) {
+            lines = lines.map((line) => line.substring(TIMESTAMP_LENGTH + 1));
+          }
 
           // TODO: move this filtering to the backend
           if (onlyErrors) {
@@ -159,13 +161,20 @@ export default function Logs() {
         }),
       })),
     );
-  }, [logs, onlyErrors]);
+  }, [logs, onlyErrors, showTimestamps]);
 
   return (
     <>
       <FormControl>
         <FormControl.Label>Only show errors</FormControl.Label>
         <ToggleSwitch defaultChecked={onlyErrors} onChange={setOnlyErrors} />
+      </FormControl>
+      <FormControl>
+        <FormControl.Label>Show timestamps</FormControl.Label>
+        <ToggleSwitch
+          defaultChecked={showTimestamps}
+          onChange={setShowTimestamps}
+        />
       </FormControl>
       <ul>
         {extracted
