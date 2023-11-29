@@ -39,7 +39,7 @@ export function processEntries(entries: AdmZip.IZipEntry[]): StepData[] {
   return _.chain(entries)
     .map((entry) => {
       const filename = entry.name;
-      const [index, name] = filename.split("_", 1);
+      const [index, name] = filename.split("_", 2);
       return {
         name: extractName(name),
         filename,
