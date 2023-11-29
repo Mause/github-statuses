@@ -5660,12 +5660,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/next@npm:4.0.14":
-  version: 4.0.14
-  resolution: "@vercel/next@npm:4.0.14"
+"@vercel/next@npm:4.0.15":
+  version: 4.0.15
+  resolution: "@vercel/next@npm:4.0.15"
   dependencies:
     "@vercel/nft": "npm:0.24.2"
-  checksum: d13d6c86b8d8c1626c02e47f4a6371f929f6a884da57c76ee552286fa47c0a34b521da23c09059ddaedbde7d73cbd6c1655d3ca80acb62a67a34d73c0489e7fd
+  checksum: eac6a1b8f53fa042bdef15a8bcc30388e43bb7e59acf8968b18ba1240519022d0de232dcb3d4f1622a60ae22862338a2178a046230101f9f83e6db8f27392eee
   languageName: node
   linkType: hard
 
@@ -5759,10 +5759,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/ruby@npm:2.0.2":
-  version: 2.0.2
-  resolution: "@vercel/ruby@npm:2.0.2"
-  checksum: a4d770a5d2cc6f5acf5992c99e43dc49ec7c36ff756438420831d1ed70ead2d3e90f665e5d5321ee54957ba911cf64a9630d1f074432a4b012b90e4185ac09a7
+"@vercel/ruby@npm:2.0.3":
+  version: 2.0.3
+  resolution: "@vercel/ruby@npm:2.0.3"
+  checksum: fca72db44af7696b26e6c01270faa269f24ac83285cfed11c98c61e90ed6c8da6f02ec8755cee854a33ac01984acb5244b9e80a161013d32dc3914b53692416d
   languageName: node
   linkType: hard
 
@@ -17276,25 +17276,25 @@ __metadata:
   linkType: hard
 
 "vercel@npm:^32.0.0":
-  version: 32.5.5
-  resolution: "vercel@npm:32.5.5"
+  version: 32.5.6
+  resolution: "vercel@npm:32.5.6"
   dependencies:
     "@vercel/build-utils": "npm:7.2.5"
     "@vercel/fun": "npm:1.1.0"
     "@vercel/go": "npm:3.0.3"
     "@vercel/hydrogen": "npm:1.0.1"
-    "@vercel/next": "npm:4.0.14"
+    "@vercel/next": "npm:4.0.15"
     "@vercel/node": "npm:3.0.11"
     "@vercel/python": "npm:4.1.0"
     "@vercel/redwood": "npm:2.0.5"
     "@vercel/remix-builder": "npm:2.0.11"
-    "@vercel/ruby": "npm:2.0.2"
+    "@vercel/ruby": "npm:2.0.3"
     "@vercel/static-build": "npm:2.0.12"
     chokidar: "npm:3.3.1"
   bin:
     vc: dist/index.js
     vercel: dist/index.js
-  checksum: 380865c2114327939b47cd4f23b30b2b9a1f1ebf2030d562ac42180bd39f954fa84a9505c77360402a5935e2d7066eea5cac915a832526c622db1dca42f94413
+  checksum: 8baf8840b82ad89a82b5ec9fb039764caab16217f8ce8e3dcd0053c2aec3a1297aedddc35e697d42f62e0b395fae52c2a06de328d10bc7796e8f5a3831f331dc
   languageName: node
   linkType: hard
 
