@@ -1,10 +1,11 @@
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import { Heading, IconButton, NavList } from "@primer/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
+import { Heading, IconButton, TabNav } from "@primer/react";
 import type { LoaderFunction } from "@remix-run/node";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import { GetBasicRepositoryDocument } from "~/components/graphql/graphql";
 import { GlobeIcon } from "@primer/octicons-react";
+import { TabNavLink } from "../../components/TabNavLink";
 
 export const GetBasicRepository = gql`
   query GetBasicRepository($owner: String!, $repo: String!) {
@@ -44,14 +45,10 @@ export default function Repo() {
           variant="invisible"
         />
       </Heading>
-      <NavList>
-        <NavList.Item as={Link} relative="route" to="./dashboard">
-          Dashboard
-        </NavList.Item>
-        <NavList.Item as={Link} relative="route" to="./pulls">
-          Pulls
-        </NavList.Item>
-      </NavList>
+      <TabNav>
+        <TabNavLink to="./dashboard">Dashboard</TabNavLink>
+        <TabNavLink to="./pulls">Pulls</TabNavLink>
+      </TabNav>
       <Outlet />
     </>
   );
