@@ -87,7 +87,7 @@ interface Repo {
   repo: string;
   branchName: string;
 }
-type MirroredPullRequest = {
+export interface MirroredPullRequest {
   number: number;
   resourcePath: string;
   permalink: string;
@@ -95,7 +95,7 @@ type MirroredPullRequest = {
   branchName: string;
   mirrored?: string;
   body: string;
-};
+}
 interface Ref {
   name: string;
 }
