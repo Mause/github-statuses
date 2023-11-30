@@ -4232,17 +4232,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry-internal/tracing@npm:7.80.0":
-  version: 7.80.0
-  resolution: "@sentry-internal/tracing@npm:7.80.0"
-  dependencies:
-    "@sentry/core": "npm:7.80.0"
-    "@sentry/types": "npm:7.80.0"
-    "@sentry/utils": "npm:7.80.0"
-  checksum: bafd4bda3d8d98cb6a36f5b604a1de9d9478b5301c02683915617809ef52b81e7132d2a68288ef79f965e41e37e16e1d13ec57e47fa2b9f36c202493eae7dd2b
-  languageName: node
-  linkType: hard
-
 "@sentry-internal/tracing@npm:7.84.0":
   version: 7.84.0
   resolution: "@sentry-internal/tracing@npm:7.84.0"
@@ -4274,17 +4263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.80.0, @sentry/core@npm:^7.76.0":
-  version: 7.80.0
-  resolution: "@sentry/core@npm:7.80.0"
-  dependencies:
-    "@sentry/types": "npm:7.80.0"
-    "@sentry/utils": "npm:7.80.0"
-  checksum: a753c2915fdad42e54614a8cb05670c7d164c6f319f079627fe15881b4c0e22dfaa3195e42f42998ae22424a49841e5d04a8aa007b6f186b78df8068edb8e3b4
-  languageName: node
-  linkType: hard
-
-"@sentry/core@npm:7.84.0":
+"@sentry/core@npm:7.84.0, @sentry/core@npm:^7.76.0":
   version: 7.84.0
   resolution: "@sentry/core@npm:7.84.0"
   dependencies:
@@ -4295,17 +4274,17 @@ __metadata:
   linkType: hard
 
 "@sentry/hub@npm:^7.76.0":
-  version: 7.80.0
-  resolution: "@sentry/hub@npm:7.80.0"
+  version: 7.84.0
+  resolution: "@sentry/hub@npm:7.84.0"
   dependencies:
-    "@sentry/core": "npm:7.80.0"
-    "@sentry/types": "npm:7.80.0"
-    "@sentry/utils": "npm:7.80.0"
-  checksum: f50b6f96adc8dc63c5d53e2fa54a57526e409e7b23a2e9a9b3d6bb996ce9a7db576f03ea01ca1dbc0a19445a92f73e0f8353d8819b890c8984c7679fe3634aa3
+    "@sentry/core": "npm:7.84.0"
+    "@sentry/types": "npm:7.84.0"
+    "@sentry/utils": "npm:7.84.0"
+  checksum: 34ff376bd64dad5c97c06ac1195afd94e31cdae051a02ec65bca1f048574121b5d65bdcb2a277e0b785f13e9f746d688bd9ed39fabdf1e19ca5d82378280de22
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:7.84.0":
+"@sentry/node@npm:7.84.0, @sentry/node@npm:^7.76.0":
   version: 7.84.0
   resolution: "@sentry/node@npm:7.84.0"
   dependencies:
@@ -4315,19 +4294,6 @@ __metadata:
     "@sentry/utils": "npm:7.84.0"
     https-proxy-agent: "npm:^5.0.0"
   checksum: 1fb362e026cd101f3072dfa564ea031aa4b51f504664e288242abd6a687bd0068f0b06511cb491dca531fb46ebd03da2c807e9483b96d1701d04b90b678f1849
-  languageName: node
-  linkType: hard
-
-"@sentry/node@npm:^7.76.0":
-  version: 7.80.0
-  resolution: "@sentry/node@npm:7.80.0"
-  dependencies:
-    "@sentry-internal/tracing": "npm:7.80.0"
-    "@sentry/core": "npm:7.80.0"
-    "@sentry/types": "npm:7.80.0"
-    "@sentry/utils": "npm:7.80.0"
-    https-proxy-agent: "npm:^5.0.0"
-  checksum: 2c62c4d52153eb68ebd3918914b23e5c9063bfac52815437c373e4f53a0123c068ec9210b8e7105043f90414385439d2c780815f5ef5eeb8aed5971f86b0cf6c
   languageName: node
   linkType: hard
 
@@ -4397,30 +4363,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.80.0, @sentry/types@npm:^7.76.0":
-  version: 7.80.0
-  resolution: "@sentry/types@npm:7.80.0"
-  checksum: 2f15ab4d671de647c7e8865b351c23429df6760145ef402bc6728c3ea540d2a1fd3ae5bddef380018755593ce55ec21c7fa43c5c2b0a2f481af1030932d8c0a6
-  languageName: node
-  linkType: hard
-
-"@sentry/types@npm:7.84.0":
+"@sentry/types@npm:7.84.0, @sentry/types@npm:^7.76.0":
   version: 7.84.0
   resolution: "@sentry/types@npm:7.84.0"
   checksum: f1e9e3d682943bd4ae40e690690397d8dad8e8404a3d7fa1e847046b221e00d04427964ee01eb7a11ac897373fa85b768862721cbe604c248b276449d5b46943
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.80.0, @sentry/utils@npm:^7.76.0":
-  version: 7.80.0
-  resolution: "@sentry/utils@npm:7.80.0"
-  dependencies:
-    "@sentry/types": "npm:7.80.0"
-  checksum: 0292eac88c7444eecfad3866323d313602ccfac436a902b997adffaf170fe82eba9ef0d2cd617fcb5cd506dcabd8d616a0a8a2763a0f5940f452395c7d42a68a
-  languageName: node
-  linkType: hard
-
-"@sentry/utils@npm:7.84.0":
+"@sentry/utils@npm:7.84.0, @sentry/utils@npm:^7.76.0":
   version: 7.84.0
   resolution: "@sentry/utils@npm:7.84.0"
   dependencies:
@@ -10084,17 +10034,17 @@ __metadata:
   linkType: hard
 
 "glob@npm:^10.3.4":
-  version: 10.3.5
-  resolution: "glob@npm:10.3.5"
+  version: 10.3.10
+  resolution: "glob@npm:10.3.10"
   dependencies:
     foreground-child: "npm:^3.1.0"
-    jackspeak: "npm:^2.0.3"
+    jackspeak: "npm:^2.3.5"
     minimatch: "npm:^9.0.1"
     minipass: "npm:^5.0.0 || ^6.0.2 || ^7.0.0"
     path-scurry: "npm:^1.10.1"
   bin:
-    glob: dist/cjs/src/bin.js
-  checksum: 043ae36edf44b9a86a703c6f0680afc36599b5c26b5522270d64cd3782b44555ef5923c855fe99e555a6caeaff46eb9475362f157f141df4d2986b06d9bbb677
+    glob: dist/esm/bin.mjs
+  checksum: 13d8a1feb7eac7945f8c8480e11cd4a44b24d26503d99a8d8ac8d5aefbf3e9802a2b6087318a829fad04cb4e829f25c5f4f1110c68966c498720dd261c7e344d
   languageName: node
   linkType: hard
 
@@ -11382,6 +11332,19 @@ __metadata:
     "@pkgjs/parseargs":
       optional: true
   checksum: 787b0617dcc534ef793ba685b92347b1b3d634d888b2833a57b140e97eb1f628ec3e460ba1a68fd99bd148004442625db7519be186b38ff51f4951e7c99b52d7
+  languageName: node
+  linkType: hard
+
+"jackspeak@npm:^2.3.5":
+  version: 2.3.6
+  resolution: "jackspeak@npm:2.3.6"
+  dependencies:
+    "@isaacs/cliui": "npm:^8.0.2"
+    "@pkgjs/parseargs": "npm:^0.11.0"
+  dependenciesMeta:
+    "@pkgjs/parseargs":
+      optional: true
+  checksum: f01d8f972d894cd7638bc338e9ef5ddb86f7b208ce177a36d718eac96ec86638a6efa17d0221b10073e64b45edc2ce15340db9380b1f5d5c5d000cbc517dc111
   languageName: node
   linkType: hard
 
