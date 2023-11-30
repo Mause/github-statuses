@@ -11,6 +11,16 @@ interface LiveLogsResponse {
   };
 }
 
+export function jsonResponse(body: unknown) {
+  return new Response(JSON.stringify(body), {
+    status: 400,
+    statusText: "Bad Request",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 export async function getLiveLogs(
   request: Request,
   args: { repo: string; owner: string; commit_hash: string; check_id: Number },
@@ -26,7 +36,13 @@ export async function getLiveLogs(
 
   const url = `https://github.com/${args.owner}/${args.repo}/commit/${args.commit_hash}/checks/${args.check_id}/live_logs`;
   console.log("url", url);
-  const live_logs = await octokit.request<LiveLogsResponse>({ url });
+  let live_logs;
+  try {
+    live_logs = await octokit.request<LiveLogsResponse>({ url });
+  } catch (e) {
+    console.log("error", e);
+    throw jsonResponse({ error: (e as Error).message });
+  }
   console.log("live_logs", live_logs);
   if (!live_logs.data.success) {
     throw new Error(live_logs.data.errors.join("\n"));
