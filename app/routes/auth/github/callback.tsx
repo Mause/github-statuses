@@ -7,4 +7,4 @@ export const loader: LoaderFunction = async ({ request }) => {
     successRedirect: "/",
     failureRedirect: "/login",
   });
-}
+};
