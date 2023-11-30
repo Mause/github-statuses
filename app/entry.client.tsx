@@ -1,5 +1,5 @@
-import { RemixBrowser , useLocation, useMatches } from "@remix-run/react";
-import { startTransition, StrictMode , useEffect } from "react";
+import { RemixBrowser, useLocation, useMatches } from "@remix-run/react";
+import { startTransition, StrictMode, useEffect } from "react";
 import { hydrateRoot } from "react-dom/client";
 
 import * as Sentry from "@sentry/remix";
