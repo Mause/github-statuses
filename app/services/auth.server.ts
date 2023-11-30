@@ -11,8 +11,8 @@ export type SessionShape = Pick<
 > & {
   accessToken: string;
   refreshToken?: string;
-  accessTokenExpiry?: Date;
-  refreshTokenExpiry?: Date;
+  accessTokenExpiry: string | number | null;
+  refreshTokenExpiry: string | number | null;
 };
 
 // Create an instance of the authenticator, pass a generic with what
