@@ -20,6 +20,7 @@ import {
   Link as PrimerLink,
 } from "@primer/react";
 import _ from "lodash";
+import { URL } from "url";
 
 export const Query = gql`
   query GetUserRepoPullRequests(
@@ -62,6 +63,7 @@ export const Query = gql`
             resourcePath
             permalink
             title
+            body
             headRef {
               name
               associatedPullRequests(first: 5, states: OPEN) {
@@ -92,21 +94,32 @@ type MirroredPullRequest = {
   title: string;
   branchName: string;
   mirrored?: string;
+  body: string;
 };
 interface Ref {
   name: string;
 }
 
-function createUrl({
+export function createUrl({
   source,
   target,
   title,
+  body,
 }: {
   source: Repo;
   target: Repo;
   title: string;
+  body: string;
 }) {
-  return `https://github.com/${target.owner}/${target.repo}/compare/${target.branchName}...${source.owner}:${source.repo}:${source.branchName}?quick_pull=1&title=${title}`;
+  const url = new URL("https://github.com/");
+  url.pathname += `${target.owner}/${target.repo}/compare/`;
+  url.pathname += `${target.branchName}...${source.owner}:${source.repo}:${source.branchName}`;
+  url.search = new URLSearchParams({
+    quick_pull: "1",
+    title,
+    body,
+  }).toString();
+  return url.toString();
 }
 
 export async function loader({
@@ -131,6 +144,7 @@ export async function loader({
       return {
         number: pr.number,
         title: pr.title!,
+        body: pr.body!,
         resourcePath: pr.resourcePath!,
         permalink: pr.permalink!,
         branchName: headRef.name!,
@@ -192,6 +206,7 @@ export function Dashboard({
         branchName: defaultBranchName,
       },
       title: original.title,
+      body: original.body,
     });
 
     return mirrored ? (
@@ -264,6 +279,7 @@ export function Dashboard({
               branchName: defaultBranchName,
             },
             title: branchName,
+            body: "",
           });
 
           return (
