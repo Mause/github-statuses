@@ -71,7 +71,10 @@ export function StandardHeader({
             </Header.Item>
           </>
         ) : (
-          settings
+          <>
+            <Header.Item full />
+            {settings}
+          </>
         )}
       </Header>
       <Breadcrumbs>
