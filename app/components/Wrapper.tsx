@@ -76,7 +76,7 @@ export function StandardHeader({
       </Header>
       <Breadcrumbs>
         {matches
-          .filter(({ id }) => id !== "routes/index" && !id.endsWith("/"))
+          .filter(({ id }) => !id.endsWith("/index"))
           .map((match) => (
             <Breadcrumbs.Item
               key={match.id}
