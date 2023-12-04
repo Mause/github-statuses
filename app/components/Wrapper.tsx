@@ -26,6 +26,14 @@ export function StandardHeader({
   const user = root?.user;
   const { state } = useRevalidator();
 
+  const settings = (
+    <Header.Item>
+      <Header.Link as={Link} to="/settings">
+        <IconButton aria-label="Settings page link" icon={GearIcon} />
+      </Header.Link>
+    </Header.Item>
+  );
+
   return (
     <PageLayout.Header divider="line">
       <Header
@@ -55,18 +63,16 @@ export function StandardHeader({
                 My PRs
               </Header.Link>
             </Header.Item>
-            <Header.Item>
-              <Header.Link as={Link} to="/settings">
-                <IconButton aria-label="Settings page link" icon={GearIcon} />
-              </Header.Link>
-            </Header.Item>
+            {settings}
             <Header.Item>
               <Header.Link as={Link} to="/auth/logout">
                 Logout
               </Header.Link>
             </Header.Item>
           </>
-        ) : undefined}
+        ) : (
+          settings
+        )}
       </Header>
       <Breadcrumbs>
         {matches
