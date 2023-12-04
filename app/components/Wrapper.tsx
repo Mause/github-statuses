@@ -48,7 +48,7 @@ export function StandardHeader({
           </Header.Link>
         </Header.Item>
         {children}
-        {user ? (
+        {user?.login ? (
           <>
             <Header.Item full>
               <Header.Link as={Link} to={`/${user?.login}/pulls`}>
