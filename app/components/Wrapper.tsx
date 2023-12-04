@@ -70,7 +70,7 @@ export function StandardHeader({
       </Header>
       <Breadcrumbs>
         {matches
-          .filter(({ id }) => id !== "routes/index")
+          .filter(({ id }) => id !== "routes/index" && !id.endsWith("/"))
           .map((match) => (
             <Breadcrumbs.Item
               key={match.id}
@@ -91,13 +91,10 @@ function getName(match: RouteMatch): ReactNode {
     return "Home";
   }
 
-  const parts = match.pathname.split("/");
-  let segment = _.last(parts)!;
+  let segment = _.last(match.pathname.split("/"))!;
 
   if (match.data && "name" in match.data) {
     return `${match.data.name} (${segment})`;
-  } else if (segment === "") {
-    segment = _.nth(parts, -2)!;
   }
 
   return titleCase(segment);
