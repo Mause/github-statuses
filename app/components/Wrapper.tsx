@@ -87,7 +87,7 @@ export function StandardHeader({
 }
 
 function getName(match: RouteMatch): ReactNode {
-  if (match.id === "routes/index") {
+  if (match.id === "root") {
     return "Home";
   }
 
