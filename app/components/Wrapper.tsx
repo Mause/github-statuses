@@ -91,12 +91,13 @@ function getName(match: RouteMatch): ReactNode {
     return "Home";
   }
 
-  let segment = _.last(match.pathname.split("/"))!;
+  const parts = match.pathname.split("/");
+  let segment = _.last(parts)!;
 
   if (match.data && "name" in match.data) {
     return `${match.data.name} (${segment})`;
   } else if (segment === "") {
-    return "Unknown";
+    segment = _.nth(parts, -2)!;
   }
 
   return titleCase(segment);
