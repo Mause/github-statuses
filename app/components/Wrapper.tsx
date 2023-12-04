@@ -89,6 +89,10 @@ export function StandardHeader({
 function getName(match: RouteMatch): ReactNode {
   let segment = _.last(match.pathname.split("/"))!;
 
+  if (match.data && "name" in match.data) {
+    return `${match.data.name} (${segment})`;
+  }
+
   if (segment == "") {
     segment = "home";
   }
