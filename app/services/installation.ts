@@ -24,16 +24,20 @@ export async function getInstallationOctokit(request: Request) {
   return octokitFromToken(installationAccessToken.data.token);
 }
 
+export async function getCachedInstallationId() {
+  const session = await sessionStorage.getSession();
+
+  return session.get(INSTALLATION_ID);
+}
+
 async function getInstallationId(
   request: Request,
   appOctokit: Octokit,
 ): Promise<number | undefined> {
-  const user = await getUser(request);
-
-  const session = await sessionStorage.getSession();
-
-  const installation_id = session.get(INSTALLATION_ID);
+  let installation_id = await getCachedInstallationId();
   if (installation_id) return installation_id;
+
+  const user = await getUser(request);
 
   const { data: installations } = await appOctokit.apps.listInstallations();
 
@@ -41,6 +45,7 @@ async function getInstallationId(
     (installation) => installation?.account?.login === user.login,
   );
 
+  const session = await sessionStorage.getSession();
   if (installation) {
     session.set(INSTALLATION_ID, installation.id);
     await sessionStorage.commitSession(session);

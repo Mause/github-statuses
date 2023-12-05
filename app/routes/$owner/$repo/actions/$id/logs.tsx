@@ -2,7 +2,10 @@ import type { DataFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getLogsForUrl, Job } from "~/services/archive.server";
-import { getInstallationOctokit } from "~/services/installation";
+import {
+  getInstallationOctokit,
+  getCachedInstallationId,
+} from "~/services/installation";
 import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
@@ -36,7 +39,18 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
   try {
     logs = await getLogsForUrl(octokit, attempt.data.logs_url);
   } catch (e) {
-    throw json({ message: "Logs not found" }, { status: 404 });
+    const installationId = await getCachedInstallationId();
+
+    const url = `https://github.com/apps/action-statuses/installations/${installationId}`;
+
+    throw json(
+      {
+        message:
+          "Logs not found. This installation probably doesn't have access",
+        url,
+      },
+      { status: 404 },
+    );
   }
 
   return { logs };
