@@ -217,9 +217,11 @@ const COLUMNS = [
   columnHelper.display({
     cell(props) {
       const { original } = props.row;
-      const to = `/${original.repository.nameWithOwner}/actions/${
-        original.checkSuite!.workflowRun!.databaseId
-      }/logs`;
+      const workflowRun = original.checkSuite!.workflowRun;
+      if (!workflowRun) {
+        return undefined;
+      }
+      const to = `/${original.repository.nameWithOwner}/actions/${workflowRun.databaseId}/logs`;
 
       return (
         <IconButton
