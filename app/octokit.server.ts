@@ -1,13 +1,13 @@
 import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
 import type { SessionShape } from "~/services/auth.server";
-import { DUMMY_TOKEN, authenticator } from "~/services/auth.server";
-import { GitHubStrategy } from "remix-auth-github";
+import { authenticator } from "~/services/auth.server";
 import type { Request as RemixRequest } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
 import { RequestError } from "@octokit/request-error";
+import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -25,9 +25,6 @@ export async function getUser(request: Requests): Promise<SessionShape> {
 
 export const getOctokit = async (request: Requests) => {
   const user = await getUser(request);
-  if (user.accessToken === DUMMY_TOKEN) {
-    throw new Error("Please add dev access token to .env");
-  }
   return octokitFromToken(user.accessToken);
 };
 
@@ -93,10 +90,10 @@ export function getRootURL() {
 export const gitHubStrategy = () => {
   const callbackURL = `${getRootURL()}/auth/github/callback`;
 
-  return new GitHubStrategy(
+  return new GitHubAppAuthStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+      clientID: process.env.GITHUB_APP_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_APP_CLIENT_SECRET!,
       callbackURL,
       scope: ["user", "read:user"],
     },
@@ -106,9 +103,8 @@ export const gitHubStrategy = () => {
         login: profile._json.login,
         accessToken,
         refreshToken,
-        accessTokenExpiry: extraParams.accessTokenExpiresIn
-          ? Date.now() + extraParams.accessTokenExpiresIn
-          : null,
+        accessTokenExpiry: extraParams.accessTokenExpiresAt,
+        refreshTokenExpiry: extraParams.refreshTokenExpiresAt,
       };
     },
   );

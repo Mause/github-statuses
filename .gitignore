@@ -114,3 +114,4 @@ app/components/graphql
 tsconfig.*.json
 api
 build
+.env*.local

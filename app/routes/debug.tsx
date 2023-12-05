@@ -19,7 +19,7 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   return {
     rootURL: getRootURL(),
     user: userObject
-      ? _.pick(userObject, ["login", "accessTokenExpiry"])
+      ? _.pick(userObject, ["login", "accessTokenExpiry", "refreshTokenExpiry"])
       : null,
     userExtra: user,
     kv: await pingKv(),
