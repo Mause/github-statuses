@@ -1,4 +1,4 @@
-import type { LoaderFunction, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
 import { Dialog } from "@primer/react/drafts";
@@ -42,7 +42,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
 };
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
   { name: "charset", content: "utf-8" },
   { title: "Action Statuses" },
   { name: "viewport", content: "width=device-width,initial-scale=1" },

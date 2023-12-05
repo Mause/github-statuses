@@ -8,8 +8,8 @@ import {
   Octicon,
   IconButton,
 } from "@primer/react";
+import type { UIMatch} from "@remix-run/react";
 import { Link, useMatches, useRevalidator } from "@remix-run/react";
-import type { RouteMatch } from "@remix-run/react";
 import { GearIcon, MarkGithubIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";
 import type { SessionShape } from "~/services/auth.server";
@@ -95,15 +95,16 @@ export function StandardHeader({
   );
 }
 
-function getName(match: RouteMatch): ReactNode {
+function getName(match: UIMatch): ReactNode {
   if (match.id === "root") {
     return "Home";
   }
 
   let segment = _.last(match.pathname.split("/"))!;
 
-  if (match.data && "name" in match.data) {
-    return `${match.data.name} (${segment})`;
+  let data = match.data as { name: string } | undefined;
+  if (data && "name" in data) {
+    return `${data.name} (${segment})`;
   }
 
   return titleCase(segment);

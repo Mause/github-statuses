@@ -33,7 +33,11 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Settings() {
   const [open, setOpen] = useState(false);
-  const { data } = useMatches()[0];
+  const { data } = useMatches()[0] as {
+    data: {
+      colorMode: string;
+    };
+  };
   const fetcher = useFetcher();
 
   const colorMode = data?.colorMode;
