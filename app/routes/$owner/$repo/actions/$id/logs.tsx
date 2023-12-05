@@ -1,12 +1,19 @@
 import type { DataFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getLogsForUrl, Job } from "~/services/archive.server";
 import {
   getInstallationOctokit,
   getCachedInstallationId,
 } from "~/services/installation";
-import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
+import { GearIcon } from "@primer/octicons-react";
+import {
+  Flash,
+  IconButton,
+  Details,
+  ToggleSwitch,
+  FormControl,
+  useDetails,
+} from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -43,14 +50,10 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
 
     const url = `https://github.com/apps/action-statuses/installations/${installationId}`;
 
-    throw json(
-      {
-        message:
-          "Logs not found. This installation probably doesn't have access",
-        url,
-      },
-      { status: 404 },
-    );
+    return {
+      message: "Logs not found. This installation probably doesn't have access",
+      url,
+    };
   }
 
   return { logs };
@@ -150,10 +153,11 @@ function extractErrors(data: string[]) {
 }
 
 export default function Logs() {
-  const { logs } = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
   const [onlyErrors, setOnlyErrors] = useState(true);
   const [showTimestamps, setShowTimestamps] = useState(false);
   const [extracted, setExtracted] = useState<AllSteps>([]);
+  const logs = "logs" in data ? data.logs : {};
 
   useEffect(() => {
     setExtracted(
@@ -179,6 +183,19 @@ export default function Logs() {
 
   return (
     <>
+      {"message" in data ? (
+        <Flash variant="danger">
+          {data.message}
+          <br />
+          <IconButton
+            icon={GearIcon}
+            as="a"
+            href={data.url}
+            aria-label="installation settings"
+          />
+          Fix this in your installation setting
+        </Flash>
+      ) : undefined}
       <FormControl>
         <FormControl.Label>Only show errors</FormControl.Label>
         <ToggleSwitch defaultChecked={onlyErrors} onChange={setOnlyErrors} />
