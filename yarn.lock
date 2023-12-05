@@ -3618,6 +3618,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/auth-oauth-app@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@octokit/auth-oauth-app@npm:7.0.1"
+  dependencies:
+    "@octokit/auth-oauth-device": "npm:^6.0.0"
+    "@octokit/auth-oauth-user": "npm:^4.0.0"
+    "@octokit/request": "npm:^8.0.2"
+    "@octokit/types": "npm:^12.0.0"
+    "@types/btoa-lite": "npm:^1.0.0"
+    btoa-lite: "npm:^1.0.0"
+    universal-user-agent: "npm:^6.0.0"
+  checksum: 721bc0bfe31263f68a2f8c6d9d19e55853535f8d08efd2460e33f33b8a0c40ece943018b180635ffad34006fa45e6721b2dbc644675d4a3a8fb0222b0775e831
+  languageName: node
+  linkType: hard
+
 "@octokit/auth-oauth-device@npm:^6.0.0":
   version: 6.0.0
   resolution: "@octokit/auth-oauth-device@npm:6.0.0"
@@ -4905,6 +4920,15 @@ __metadata:
   version: 0.4.1
   resolution: "@types/cookie@npm:0.4.1"
   checksum: f96afe12bd51be1ec61410b0641243d93fa3a494702407c787a4c872b5c8bcd39b224471452055e44a9ce42af1a636e87d161994226eaf4c2be9c30f60418409
+  languageName: node
+  linkType: hard
+
+"@types/debug@npm:^4":
+  version: 4.1.12
+  resolution: "@types/debug@npm:4.1.12"
+  dependencies:
+    "@types/ms": "npm:*"
+  checksum: 5dcd465edbb5a7f226e9a5efd1f399c6172407ef5840686b73e3608ce135eeca54ae8037dcd9f16bdb2768ac74925b820a8b9ecc588a58ca09eca6acabe33e2f
   languageName: node
   linkType: hard
 
@@ -10080,6 +10104,7 @@ __metadata:
     "@graphql-codegen/cli": "npm:^5.0.0"
     "@graphql-codegen/client-preset": "npm:^4.0.0"
     "@octokit/auth-app": "npm:^6.0.0"
+    "@octokit/auth-oauth-app": "npm:^7.0.1"
     "@octokit/plugin-throttling": "npm:^8.0.0"
     "@octokit/rest": "npm:^20.0.0"
     "@primer/octicons-react": "npm:^19.0.0"
@@ -10096,6 +10121,7 @@ __metadata:
     "@tanstack/react-table": "npm:^8.7.9"
     "@types/adm-zip": "npm:^0.5.4"
     "@types/async": "npm:^3.2.18"
+    "@types/debug": "npm:^4"
     "@types/humanize-duration": "npm:^3.27.1"
     "@types/jest": "npm:^29.5.8"
     "@types/lodash": "npm:^4.14.191"
@@ -10109,6 +10135,7 @@ __metadata:
     "@vercel/node": "npm:^3.0.0"
     adm-zip: "npm:^0.5.10"
     async: "npm:^3.2.4"
+    debug: "npm:^4.3.4"
     eslint: "npm:^8.0.1"
     eslint-config-standard-with-typescript: "npm:^40.0.0"
     eslint-plugin-import: "npm:^2.25.2"
@@ -10129,8 +10156,9 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-interval-hook: "npm:^1.1.3"
     react-table: "npm:^7.8.0"
-    remix-auth: "npm:^3.4.0"
+    remix-auth: "npm:^3.6.0"
     remix-auth-github: "npm:^1.3.0"
+    remix-auth-oauth2: "npm:^1.11.0"
     remix-island: "npm:^0.1.2"
     styled-components: "npm:^5.0.0"
     ts-jest: "npm:^29.1.1"
@@ -15247,6 +15275,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"remix-auth-oauth2@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "remix-auth-oauth2@npm:1.11.0"
+  dependencies:
+    debug: "npm:^4.3.4"
+  peerDependencies:
+    "@remix-run/server-runtime": ^1.0.0 || ^2.0.0
+    remix-auth: ^3.6.0
+  checksum: e3dae4a579482e98d088fef46097e364c469941789eddda95a8bcb1781a0548293a9d5cc322bd0610f7d102d789c212b96bcebbfd62e5f467e1de9dbb3f47472
+  languageName: node
+  linkType: hard
+
 "remix-auth-oauth2@npm:^1.8.0":
   version: 1.8.0
   resolution: "remix-auth-oauth2@npm:1.8.0"
@@ -15261,7 +15301,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remix-auth@npm:^3.4.0":
+"remix-auth@npm:^3.4.0, remix-auth@npm:^3.6.0":
   version: 3.6.0
   resolution: "remix-auth@npm:3.6.0"
   dependencies:
