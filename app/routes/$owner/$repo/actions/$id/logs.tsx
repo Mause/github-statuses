@@ -1,7 +1,7 @@
 import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getOctokit } from "~/octokit.server";
-import { getLogs } from "./archive.server";
+import { getLogs } from "~/services/archive.server";
 import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
