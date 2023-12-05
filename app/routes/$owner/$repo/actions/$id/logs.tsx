@@ -1,7 +1,7 @@
 import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getOctokit } from "~/octokit.server";
-import { getLogs } from "~/services/archive.server";
+import { getLogsForUrl } from "~/services/archive.server";
 import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
@@ -31,15 +31,7 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
     run_id: Number(id!),
   });
 
-  const datum = attempt.data;
-
-  const req = await octokit.request(datum.logs_url, {
-    mediaType: {
-      format: "raw",
-    },
-  });
-
-  return { logs: getLogs(req.data as ArrayBuffer) };
+  return { logs: await getLogsForUrl(octokit, attempt.data.logs_url) };
 };
 
 const Summary = styled.summary<{ open: boolean }>`
