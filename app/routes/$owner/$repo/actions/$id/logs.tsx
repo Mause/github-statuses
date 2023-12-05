@@ -1,6 +1,7 @@
 import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getLogsForUrl, Job } from "~/services/archive.server";
+import type { Job as JobShape } from "~/services/archive.server";
+import { getLogsForUrl } from "~/services/archive.server";
 import {
   getInstallationOctokit,
   getCachedInstallationId,
@@ -42,7 +43,7 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
     run_id: Number(id!),
   });
 
-  let logs: Job;
+  let logs: JobShape;
   try {
     logs = await getLogsForUrl(octokit, attempt.data.logs_url);
   } catch (e) {

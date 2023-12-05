@@ -15,5 +15,10 @@ module.exports = {
   },
   routes(defineRoutes) {
     return createRoutesFromFolders(defineRoutes);
+  },
+  browserNodeBuiltinsPolyfill: {
+    modules: {
+      url: true,
+    }
   }
 };
