@@ -11,7 +11,7 @@ import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
 const Throttled = Octokit.plugin(throttling);
 
 type NodeRequest = globalThis.Request;
-export type Requests = RemixRequest | NodeRequest;
+export type Requests = NodeRequest;
 
 const toNodeRequest = (input: Requests): NodeRequest =>
   input as unknown as NodeRequest;

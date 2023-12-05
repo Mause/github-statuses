@@ -1,7 +1,7 @@
 import type {
+  MetaFunction,
   SerializeFrom,
   TypedResponse,
-  V2_MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
@@ -46,7 +46,7 @@ import type { loader as parentLoader } from "~/root";
 import { ActionProgress } from "~/components/ActionProgress";
 import { captureMessage } from "@sentry/remix";
 
-export const meta: V2_MetaFunction<
+export const meta: MetaFunction<
   typeof loader,
   {
     "/": typeof parentLoader;
