@@ -26,6 +26,14 @@ export function StandardHeader({
   const user = root?.user;
   const { state } = useRevalidator();
 
+  const settings = (
+    <Header.Item>
+      <Header.Link as={Link} to="/settings">
+        <IconButton aria-label="Settings page link" icon={GearIcon} />
+      </Header.Link>
+    </Header.Item>
+  );
+
   return (
     <PageLayout.Header divider="line">
       <Header
@@ -48,29 +56,30 @@ export function StandardHeader({
           </Header.Link>
         </Header.Item>
         {children}
-        {user ? (
+        {user?.login ? (
           <>
             <Header.Item full>
               <Header.Link as={Link} to={`/${user?.login}/pulls`}>
                 My PRs
               </Header.Link>
             </Header.Item>
-            <Header.Item>
-              <Header.Link as={Link} to="/settings">
-                <IconButton aria-label="Settings page link" icon={GearIcon} />
-              </Header.Link>
-            </Header.Item>
+            {settings}
             <Header.Item>
               <Header.Link as={Link} to="/auth/logout">
                 Logout
               </Header.Link>
             </Header.Item>
           </>
-        ) : undefined}
+        ) : (
+          <>
+            <Header.Item full />
+            {settings}
+          </>
+        )}
       </Header>
       <Breadcrumbs>
         {matches
-          .filter(({ id }) => id !== "routes/index")
+          .filter(({ id }) => !id.endsWith("/index"))
           .map((match) => (
             <Breadcrumbs.Item
               key={match.id}
@@ -87,14 +96,14 @@ export function StandardHeader({
 }
 
 function getName(match: RouteMatch): ReactNode {
+  if (match.id === "root") {
+    return "Home";
+  }
+
   let segment = _.last(match.pathname.split("/"))!;
 
   if (match.data && "name" in match.data) {
     return `${match.data.name} (${segment})`;
-  }
-
-  if (segment == "") {
-    segment = "home";
   }
 
   return titleCase(segment);
