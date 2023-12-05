@@ -1,6 +1,7 @@
 import type { DataFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getLogsForUrl } from "~/services/archive.server";
+import { getLogsForUrl, Job } from "~/services/archive.server";
 import { getInstallationOctokit } from "~/services/installation";
 import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
@@ -31,7 +32,14 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
     run_id: Number(id!),
   });
 
-  return { logs: await getLogsForUrl(octokit, attempt.data.logs_url) };
+  let logs: Job;
+  try {
+    logs = await getLogsForUrl(octokit, attempt.data.logs_url);
+  } catch (e) {
+    throw json({ message: "Logs not found" }, { status: 404 });
+  }
+
+  return { logs };
 };
 
 const Summary = styled.summary<{ open: boolean }>`
