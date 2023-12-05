@@ -1,7 +1,7 @@
 import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { getOctokit } from "~/octokit.server";
 import { getLogsForUrl } from "~/services/archive.server";
+import { getInstallationOctokit } from "~/services/installation";
 import { Details, ToggleSwitch, FormControl, useDetails } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
@@ -21,7 +21,7 @@ interface SingleJob {
 type AllSteps = SingleJob[];
 
 export const loader = async ({ request, params }: DataFunctionArgs) => {
-  const octokit = await getOctokit(request);
+  const octokit = await getInstallationOctokit(request);
 
   const { owner, repo, id } = params;
 
