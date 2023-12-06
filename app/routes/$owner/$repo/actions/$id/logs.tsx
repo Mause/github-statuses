@@ -2,6 +2,7 @@ import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Job as JobShape } from "~/services/archive.server";
 import { getLogsForUrl } from "~/services/archive.server";
+import ansicolor from "ansicolor";
 import {
   getInstallationOctokit,
   getCachedInstallationId,
@@ -77,11 +78,13 @@ const paleBlue = "#0074D9";
  *
  * I guess GitHub Actions translates to the Azure syntax under the hood
  */
-export function constructLine(original: string) {
-  if (!original.startsWith("##[")) {
-    return original;
+export function constructLine(line: string) {
+  let directive: string = "";
+  if (line.startsWith("##[")) {
+    const parts = matchDirective(line);
+    line = parts.line;
+    directive = parts.directive;
   }
-  const { directive, line } = matchDirective(original);
 
   switch (directive) {
     case "error":
@@ -92,11 +95,31 @@ export function constructLine(original: string) {
       return <span style={{ color: paleBlue }}>{line}</span>;
     case "section":
     case "group":
+    case "command":
     case "endgroup":
-      return line;
-  }
+    default: {
+      const { spans } = ansicolor.parse(line!);
 
-  return JSON.stringify({ directive, line, original });
+      return (
+        <>
+          {spans.map((dat) => (
+            <span key={dat.text} style={parseCss(dat.css)}>
+              {dat.text}
+            </span>
+          ))}
+        </>
+      );
+    }
+  }
+}
+
+function parseCss(css: string): Record<string, string> {
+  return Object.fromEntries(
+    css
+      .split(";")
+      .filter((rule) => rule.trim())
+      .map((rule) => rule.split(":").map((rule) => rule.trim())),
+  );
 }
 
 function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
@@ -140,11 +163,10 @@ function Step({ name, lines }: { name: string; lines: string[] }) {
 }
 
 function matchDirective(line: string) {
-  const res = line.match(/##(vso)?\[([^\[]*)\](.*)/);
+  const res = line.match(/##\[([^\[]*)\](.*)/);
   return {
-    isVSO: !!res![1],
-    directive: res![2],
-    line: res![3],
+    directive: res![1],
+    line: res![2],
     original: line,
   };
 }
