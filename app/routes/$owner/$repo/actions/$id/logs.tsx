@@ -76,10 +76,10 @@ const paleRed = "#ff5353";
  * I guess GitHub Actions translates to the Azure syntax under the hood
  */
 export function constructLine(original: string) {
-  if (!(original.startsWith("##[") || original.startsWith("##vso["))) {
+  if (!original.startsWith("##[")) {
     return original;
   }
-  const { isVSO, directive, line } = matchDirective(original);
+  const { directive, line } = matchDirective(original);
 
   switch (directive) {
     case "error":
@@ -92,7 +92,7 @@ export function constructLine(original: string) {
       return line;
   }
 
-  return JSON.stringify({ isVSO, directive, line, original });
+  return JSON.stringify({ directive, line, original });
 }
 
 function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
@@ -170,6 +170,8 @@ export default function Logs() {
           if (!showTimestamps) {
             lines = lines.map((line) => line.substring(TIMESTAMP_LENGTH + 1));
           }
+
+          lines = lines.filter((line) => !line.includes("##vso["));
 
           // TODO: move this filtering to the backend
           if (onlyErrors) {
