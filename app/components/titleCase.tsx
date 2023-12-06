@@ -1,5 +1,5 @@
 const splitSentence = (sentence: string) =>
-  sentence.toLowerCase().split(/[_- ]/);
+  sentence.toLowerCase().split(/[_\- ]/);
 
 const uppercase = (word: string) =>
   word.slice(0, 1).toUpperCase() + word.slice(1);
