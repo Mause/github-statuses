@@ -69,6 +69,8 @@ const Summary = styled.summary<{ open: boolean }>`
 `;
 
 const paleRed = "#ff5353";
+const paleYellow = "#FFDC00";
+const paleBlue = "#0074D9";
 
 /**
  * See https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash
@@ -85,7 +87,9 @@ export function constructLine(original: string) {
     case "error":
       return <span style={{ color: paleRed }}>{line}</span>;
     case "warning":
+      return <span style={{ color: paleYellow }}>{line}</span>;
     case "debug":
+      return <span style={{ color: paleBlue }}>{line}</span>;
     case "section":
     case "group":
     case "endgroup":
