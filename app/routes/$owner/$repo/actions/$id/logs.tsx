@@ -2,6 +2,7 @@ import type { DataFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Job as JobShape } from "~/services/archive.server";
 import { getLogsForUrl } from "~/services/archive.server";
+import ansicolor from "ansicolor";
 import {
   getInstallationOctokit,
   getCachedInstallationId,
@@ -78,10 +79,26 @@ const paleBlue = "#0074D9";
  * I guess GitHub Actions translates to the Azure syntax under the hood
  */
 export function constructLine(original: string) {
+  let line, directive: string;
   if (!original.startsWith("##[")) {
-    return original;
+    const parts = matchDirective(original);
+    line = parts.line;
+    directive = parts.directive;
+  } else {
+    line = original;
   }
-  const { directive, line } = matchDirective(original);
+
+  const { spans } = ansicolor.parse(line!);
+
+  return (
+    <>
+      {spans.map((dat) => (
+        <span key={dat.text} style={parseCss(dat.css)}>
+          {dat.text}
+        </span>
+      ))}
+    </>
+  );
 
   switch (directive) {
     case "error":
@@ -97,6 +114,10 @@ export function constructLine(original: string) {
   }
 
   return JSON.stringify({ directive, line, original });
+}
+
+function parseCss(css: string) {
+  return Object.fromEntries(css.split(";").map((l) => l.split(":")));
 }
 
 function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
