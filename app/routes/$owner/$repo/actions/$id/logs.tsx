@@ -109,6 +109,7 @@ export function constructLine(original: string) {
       return <span style={{ color: paleBlue }}>{line}</span>;
     case "section":
     case "group":
+    case "command":
     case "endgroup":
       return line;
   }
