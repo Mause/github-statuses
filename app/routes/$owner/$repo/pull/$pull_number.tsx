@@ -267,10 +267,15 @@ export default function Index() {
   return (
     <>
       <Heading>
-        <PrimerLink target="_blank" href={pr!.permalink}>
-          {pr!.title}&nbsp;
-          <LinkExternalIcon />
-        </PrimerLink>
+        {pr!.title}
+        <IconButton
+          as={PrimerLink}
+          target="_blank"
+          href={pr!.permalink}
+          aria-label="Link to pull request"
+          variant="invisible"
+          icon={LinkExternalIcon}
+        />
       </Heading>
       {statuses.length ? (
         <ActionProgress counts={counts} progress={progress} />
