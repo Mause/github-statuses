@@ -105,6 +105,7 @@ export const loader = async ({
   );
 
   return json({
+    name: pr.title,
     statuses: filteredStatuses,
     totalStatuses: augmentedStatuses.length,
     pr,
