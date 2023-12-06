@@ -8,7 +8,7 @@ import {
   Octicon,
   IconButton,
 } from "@primer/react";
-import type { UIMatch} from "@remix-run/react";
+import type { UIMatch } from "@remix-run/react";
 import { Link, useMatches, useRevalidator } from "@remix-run/react";
 import { GearIcon, MarkGithubIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";
@@ -116,15 +116,27 @@ export default function Wrapper({
   children: [ReactNode, ReactNode] | [ReactNode, ReactNode, ReactNode];
 }) {
   return (
-    <PageLayout sx={{ overflowY: "auto" }} containerWidth="full">
+    <PageLayout
+      sx={{ overflowY: "auto" }}
+      padding="condensed"
+      rowGap="condensed"
+      columnGap="condensed"
+      containerWidth="full"
+    >
       <StandardHeader children={header} />
-      <PageLayout.Content>{body}</PageLayout.Content>
+      <PageLayout.Content padding="none">{body}</PageLayout.Content>
       {sidebar ? (
-        <PageLayout.Pane divider="line" position="start">
+        <PageLayout.Pane
+          divider="line"
+          position="start"
+          width="small"
+          sticky
+          padding="none"
+        >
           {sidebar}
         </PageLayout.Pane>
       ) : undefined}
-      <PageLayout.Footer divider="line">
+      <PageLayout.Footer divider="line" padding="none">
         <Text as="p" sx={{ color: "fg.primary", p: 2 }}>
           By Elliana (
           <PrimerLink
