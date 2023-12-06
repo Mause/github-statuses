@@ -113,8 +113,13 @@ export function constructLine(line: string) {
   }
 }
 
-function parseCss(css: string) {
-  return Object.fromEntries(css.split(";").map((l) => l.split(":")));
+function parseCss(css: string): Record<string, string> {
+  return Object.fromEntries(
+    css
+      .split(";")
+      .filter((rule) => rule.trim())
+      .map((rule) => rule.split(":").map((rule) => rule.trim())),
+  );
 }
 
 function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
