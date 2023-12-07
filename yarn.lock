@@ -3328,16 +3328,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/primitives@npm:^7.11.11":
-  version: 7.13.0
-  resolution: "@primer/primitives@npm:7.13.0"
-  checksum: d95fad68c223b84b7be3f26f02e610b08e0545bad2c01adbb3548a110bf98efe53e32a2dc5f2aee11b279140681b7ad1da81f53872bc90aa131be54ef6036448
+"@primer/primitives@npm:7.15.3":
+  version: 7.15.3
+  resolution: "@primer/primitives@npm:7.15.3"
+  checksum: be41f2a505e78c99b91a056a4be2b975a3267bb1b554962b4e551c25389c883addd56bd1add8eafd9056d1c56f2d183d772d274f5f219ba7a6bc78b69ea3245c
   languageName: node
   linkType: hard
 
 "@primer/react@npm:^36.0.0":
-  version: 36.3.1
-  resolution: "@primer/react@npm:36.3.1"
+  version: 36.4.0
+  resolution: "@primer/react@npm:36.4.0"
   dependencies:
     "@github/combobox-nav": "npm:^2.1.5"
     "@github/markdown-toolbar-element": "npm:^2.1.0"
@@ -3347,7 +3347,7 @@ __metadata:
     "@oddbird/popover-polyfill": "npm:^0.3.1"
     "@primer/behaviors": "npm:^1.5.1"
     "@primer/octicons-react": "npm:^19.8.0"
-    "@primer/primitives": "npm:^7.11.11"
+    "@primer/primitives": "npm:7.15.3"
     "@react-aria/ssr": "npm:^3.5.0"
     "@styled-system/css": "npm:^5.1.5"
     "@styled-system/props": "npm:^5.1.5"
@@ -3382,7 +3382,7 @@ __metadata:
       optional: true
     "@types/styled-components":
       optional: true
-  checksum: 1f3143ef2ea012e6a37cfc7049a32bd4e8cd896181b4e38df42ac9f30ed3b5ee4223c5921175b1aeaf440f1226849e783cad7efc9553a9c667728bb568481cd7
+  checksum: 91849f4617193b1bc8ddec8ce000b3924f991713ef26977cf98c4fab7267a7284d95289322c8edbac5ff70f0d322b4086c486a95d30927f165a2c7304783fb53
   languageName: node
   linkType: hard
 
