@@ -48,6 +48,7 @@ export default function Repo() {
       <TabNav>
         <TabNavLink to="./dashboard">Dashboard</TabNavLink>
         <TabNavLink to="./pulls">Pulls</TabNavLink>
+        <TabNavLink to="./branches">Branches</TabNavLink>
       </TabNav>
       <Outlet />
     </>
