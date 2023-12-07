@@ -2,9 +2,7 @@ import type { Octokit } from "@octokit/rest";
 import { Button, Details, useDetails } from "@primer/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import _ from "lodash";
-import type { DataLoaderParams } from "~/components";
-import { Wrapper } from "~/components";
-import { StandardTable } from "~/components";
+import { type DataLoaderParams, Wrapper, StandardTable } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getOctokit, getUser } from "~/octokit.server";
 
