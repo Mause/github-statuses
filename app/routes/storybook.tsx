@@ -16,6 +16,7 @@ export default function Storybook() {
           "boundary",
           "timeout",
           "dashboard",
+          "branches",
           "live_logs",
           "logs",
         ].map((route) => (
