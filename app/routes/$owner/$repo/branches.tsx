@@ -9,6 +9,7 @@ import { GetUserRepoBranchesDocument } from "~/components/graphql/graphql";
 import { LinkButton } from "@primer/react";
 import _ from "lodash";
 import { createUrl } from "./dashboard";
+import { sentenceCase } from "~/components/titleCase";
 
 export const Query = gql`
   query GetUserRepoBranches($owner: String!, $repo: String!) {
@@ -99,7 +100,7 @@ export function Dashboard({
               ...selectedRepo,
               branchName: defaultBranchName,
             },
-            title: branchName,
+            title: sentenceCase(branchName),
             body: "",
           });
 
