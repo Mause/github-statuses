@@ -47,16 +47,6 @@ export const Query = gql`
           name
         }
 
-        refs(refPrefix: "refs/heads/", first: 100) {
-          nodes {
-            name
-
-            associatedPullRequests(states: OPEN) {
-              totalCount
-            }
-          }
-        }
-
         pullRequests(first: 50, orderBy: $order, states: OPEN) {
           nodes {
             number
@@ -95,9 +85,6 @@ export interface MirroredPullRequest {
   branchName: string;
   mirrored?: string;
   body: string;
-}
-interface Ref {
-  name: string;
 }
 
 export function createUrl({
@@ -155,18 +142,9 @@ export async function loader({
       };
     });
 
-  const defaultBranchRef = repo.defaultBranchRef!.name;
-
   return json({
     pulls,
     repo: _.pick(repo, ["name", "owner", "parent", "defaultBranchRef"]),
-    refs: repo
-      .refs!.nodes!.filter(
-        (node) =>
-          node!.associatedPullRequests.totalCount === 0 &&
-          node!.name !== defaultBranchRef,
-      )
-      .map((node) => node!),
   });
 }
 
@@ -181,7 +159,6 @@ function externalLink(mirrored: string) {
 export function Dashboard({
   pulls,
   repo,
-  refs,
 }: ReturnType<typeof useLoaderDataReloading<typeof loader>>) {
   const { parent } = repo;
   const selectedRepo = {
@@ -256,50 +233,10 @@ export function Dashboard({
     );
   }
 
-  const refTableOptions: StandardTableOptions<Ref> = {
-    data: refs,
-    columns: [
-      {
-        accessorKey: "name",
-        header: "Name",
-      },
-      {
-        id: "create",
-        header: "Create PR",
-        cell: (props) => {
-          const branchName = props.row.original.name;
-
-          const create = createUrl({
-            source: {
-              ...selectedRepo,
-              branchName,
-            },
-            target: {
-              ...selectedRepo,
-              branchName: defaultBranchName,
-            },
-            title: branchName,
-            body: "",
-          });
-
-          return (
-            <LinkButton target="_blank" href={create}>
-              Create fork pr
-            </LinkButton>
-          );
-        },
-      },
-    ],
-  };
-
   return (
     <>
       <StandardTable tableOptions={tableOptions}>
         No pull requests found
-      </StandardTable>
-      <hr />
-      <StandardTable tableOptions={refTableOptions}>
-        No refs found
       </StandardTable>
     </>
   );

@@ -21,19 +21,10 @@ export default function DashboardStory() {
       body: "Licenses are important",
     },
   ] satisfies MirroredPullRequest[];
-  const refs = [
-    {
-      name: "c-api-functions",
-      associatedPullRequests: {
-        totalCount: 0,
-      },
-    },
-  ];
 
   return (
     <Dashboard
       pulls={pulls}
-      refs={refs}
       repo={{
         owner: { login: "Mause" },
         name: "duckdb",
