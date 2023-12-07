@@ -1,25 +1,15 @@
-import { Dashboard } from "~/routes/$owner/$repo/branches";
+import { TabNav } from "@primer/react";
+import { Outlet } from "@remix-run/react";
+import { TabNavLink } from "~/components/TabNavLink";
 
-export default function DashboardStory() {
-  const refs = [
-    {
-      name: "c-api-functions",
-      associatedPullRequests: {
-        totalCount: 0,
-      },
-    },
-  ];
-
+export default function DashboardStorySelector() {
   return (
-    <Dashboard
-      refs={refs}
-      repo={{
-        owner: { login: "Mause" },
-        name: "duckdb",
-        defaultBranchRef: {
-          name: "main",
-        },
-      }}
-    />
+    <>
+      <TabNav aria-label="Main">
+        <TabNavLink to="branches">Branches</TabNavLink>
+        <TabNavLink to="empty">Empty</TabNavLink>
+      </TabNav>
+      <Outlet />
+    </>
   );
 }
