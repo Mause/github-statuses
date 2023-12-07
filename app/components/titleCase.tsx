@@ -6,7 +6,16 @@ const splitSentence = (
     ? sentence
         .toLowerCase()
         .split(/[_\- ]/)
-        .map((word, i) => (word === "duckdb" ? "DuckDB" : transform(word, i)))
+        .map((word, i) => {
+          switch (word) {
+            case "duckdb":
+              return "DuckDB";
+            case "github":
+              return "GitHub";
+            default:
+              return transform(word, i);
+          }
+        })
         .join(" ")
     : sentence;
 
