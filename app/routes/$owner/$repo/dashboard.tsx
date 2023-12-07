@@ -148,11 +148,15 @@ export async function loader({
   });
 }
 
-function externalLink(mirrored: string) {
+function externalLink(label: string, mirrored: string) {
   return (
-    <PrimerLink as={Link} to={mirrored} target="_blank">
-      <IconButton aria-labelledby="" icon={LinkExternalIcon} />
-    </PrimerLink>
+    <IconButton
+      as={Link}
+      to={mirrored}
+      target="_blank"
+      aria-label={label}
+      icon={LinkExternalIcon}
+    />
   );
 }
 
@@ -187,7 +191,7 @@ export function Dashboard({
     });
 
     return mirrored ? (
-      externalLink(mirrored)
+      externalLink("Upstream PR", mirrored)
     ) : (
       <LinkButton target="_blank" href={create}>
         Create upstream pr
@@ -215,7 +219,7 @@ export function Dashboard({
       {
         accessorKey: "permalink",
         header: "Fork PR",
-        cell: (props) => externalLink(props.getValue()),
+        cell: (props) => externalLink("Fork PR", props.getValue()),
       },
       {
         accessorKey: "mirrored",
