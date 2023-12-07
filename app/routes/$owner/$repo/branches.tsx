@@ -72,8 +72,8 @@ export function Dashboard({
   refs,
 }: ReturnType<typeof useLoaderDataReloading<typeof loader>>) {
   const selectedRepo = {
-    repo: repo.name,
-    owner: repo.owner.login,
+    repo: repo.name!,
+    owner: repo.owner!.login,
   };
   const defaultBranchName = repo.defaultBranchRef!.name!;
 
