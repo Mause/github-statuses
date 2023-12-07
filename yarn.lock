@@ -8215,6 +8215,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-primer-react@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "eslint-plugin-primer-react@npm:4.0.4"
+  dependencies:
+    "@styled-system/props": "npm:^5.1.5"
+    eslint-plugin-jsx-a11y: "npm:^6.7.1"
+    eslint-traverse: "npm:^1.0.0"
+    lodash: "npm:^4.17.21"
+    styled-system: "npm:^5.1.5"
+  peerDependencies:
+    "@primer/primitives": ">=4.6.2"
+    eslint: ^8.42.0
+  checksum: c768b8a5b70337463e59d5d9d3225ec1d4ff8ec8d54a668c0ce0d554b105088bbbcc4a97c1033c5643eeb5f22582e79573e4d9f9f451108190eaa49158963bac
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-promise@npm:^6.0.0":
   version: 6.1.1
   resolution: "eslint-plugin-promise@npm:6.1.1"
@@ -8287,6 +8303,13 @@ __metadata:
     esrecurse: "npm:^4.3.0"
     estraverse: "npm:^5.2.0"
   checksum: 5c660fb905d5883ad018a6fea2b49f3cb5b1cbf2cd4bd08e98646e9864f9bc2c74c0839bed2d292e90a4a328833accc197c8f0baed89cbe8d605d6f918465491
+  languageName: node
+  linkType: hard
+
+"eslint-traverse@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "eslint-traverse@npm:1.0.0"
+  checksum: 2322bd4d4856edfcfdade873f3893522e6d50626da51d8abd18b70af8e19f78141d44f8b3a8aa52a98944bafc328f6263c607879696a002fb093ff8854f088e3
   languageName: node
   linkType: hard
 
@@ -9289,6 +9312,7 @@ __metadata:
     eslint-config-standard-with-typescript: "npm:^40.0.0"
     eslint-plugin-import: "npm:^2.25.2"
     eslint-plugin-n: "npm:^16.0.0"
+    eslint-plugin-primer-react: "npm:^4.0.4"
     eslint-plugin-promise: "npm:^6.0.0"
     eslint-plugin-react: "npm:^7.32.2"
     github-syntax-dark: "npm:^0.5.0"
