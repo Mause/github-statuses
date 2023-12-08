@@ -1,20 +1,25 @@
 import deasync from "deasync";
 import { kv } from "@vercel/kv";
+import type { StrategyOptions } from "@octokit/auth-app";
+import type { SetCommandOptions } from "@upstash/redis";
+import _ from "lodash";
 
-interface SetCommandOptions {}
+type Cache = StrategyOptions["cache"];
 
-const syncGet = deasync<string, string>(kv.get.bind(kv));
-const syncSet = deasync<string, string, SetCommandOptions | undefined, void>(
-  kv.set.bind(kv),
-);
+function getCache(): Cache {
+  const syncGet = deasync<string, string>(kv.get.bind(kv));
+  const syncSet = deasync<string, string, SetCommandOptions | undefined, void>(
+    kv.set.bind(kv),
+  );
 
-const redisCache = {
-  get(key: string): string {
-    return syncGet(key);
-  },
-  set(key: string, value: string) {
-    syncSet(key, value, undefined);
-  },
-};
+  return {
+    get(key: string): string {
+      return syncGet(key);
+    },
+    set(key: string, value: string) {
+      syncSet(key, value, undefined);
+    },
+  };
+}
 
-export default redisCache;
+export default _.memoize(getCache);

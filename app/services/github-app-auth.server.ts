@@ -17,7 +17,7 @@ import { randomBytes } from "crypto";
 import createDebug from "debug";
 import { octokitFromToken } from "~/octokit.server";
 import _ from "lodash";
-import redisCache from "~/services/cache";
+import getCache from "~/services/cache";
 
 function checkNonNull(name: string): NonNullable<string> {
   const value = process.env[name];
@@ -33,7 +33,7 @@ export const appAuth = _.memoize(() =>
     clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
     clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
     privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
-    cache: redisCache,
+    cache: getCache(),
   }),
 );
 
