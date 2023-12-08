@@ -17,6 +17,8 @@ import { randomBytes } from "crypto";
 import createDebug from "debug";
 import { octokitFromToken } from "~/octokit.server";
 import _ from "lodash";
+import { kv } from "@vercel/kv";
+import deasync from "deasync";
 
 function checkNonNull(name: string): NonNullable<string> {
   const value = process.env[name];
@@ -26,12 +28,23 @@ function checkNonNull(name: string): NonNullable<string> {
   return value;
 }
 
+const syncGet = deasync<string, string>(kv.get.bind(kv));
+
+const redisCache = {
+  get(key: string): string {
+    return syncGet(key);
+  },
+  set(key: string, value: string) {
+    return kv.set(key, value);
+  },
+};
 export const appAuth = _.memoize(() =>
   createAppAuth({
     appId: checkNonNull("GITHUB_APP_ID"),
     clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
     clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
     privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
+    cache: redisCache,
   }),
 );
 
