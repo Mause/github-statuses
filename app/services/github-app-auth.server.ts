@@ -28,14 +28,19 @@ function checkNonNull(name: string): NonNullable<string> {
   return value;
 }
 
+interface SetCommandOptions {}
+
 const syncGet = deasync<string, string>(kv.get.bind(kv));
+const syncSet = deasync<string, string, SetCommandOptions | undefined, void>(
+  kv.set.bind(kv),
+);
 
 const redisCache = {
   get(key: string): string {
     return syncGet(key);
   },
   set(key: string, value: string) {
-    return kv.set(key, value);
+    syncSet(key, value, undefined);
   },
 };
 export const appAuth = _.memoize(() =>
