@@ -4953,12 +4953,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upstash/redis@npm:1.24.3":
-  version: 1.24.3
-  resolution: "@upstash/redis@npm:1.24.3"
+"@upstash/redis@npm:1.25.1":
+  version: 1.25.1
+  resolution: "@upstash/redis@npm:1.25.1"
   dependencies:
     crypto-js: "npm:^4.2.0"
-  checksum: 3478dd5de7166267c1d40d6a2488569b08cbbe72a5068c2f3d92ecc169724a94f9c287c2c6998a857916f6209a143ecb4bed46ac3c055533ad4183123513ff68
+  checksum: ecd3a972fa46ddffa0353c10e2b7a8f135c228af866c195adc5a753f294e8c207bf20a3a83bb8283ecd223cd67f31a24971393b4cc7cfe85efad348fb03915f1
   languageName: node
   linkType: hard
 
@@ -5110,11 +5110,11 @@ __metadata:
   linkType: hard
 
 "@vercel/kv@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@vercel/kv@npm:1.0.0"
+  version: 1.0.1
+  resolution: "@vercel/kv@npm:1.0.1"
   dependencies:
-    "@upstash/redis": "npm:1.24.3"
-  checksum: cd3d653731b0e25c3bb9ada4347ede4400639181fe3a806397545a2d0158141c0489e5ccdcd3ee36d63aecaa5a6be7df34497ef532bb5de71c7b47f7f0c8add0
+    "@upstash/redis": "npm:1.25.1"
+  checksum: 90e159d4231ff48a5b9f6bcf667cf9992b007eb3f5e75fe95996f07845b9c862b7933a8bb01fdf656711cb248ea6d335ad7bb78150f3e2e87096b903e715f4f3
   languageName: node
   linkType: hard
 
