@@ -65,6 +65,35 @@ describe("auth", () => {
       message: "State doesn't match.",
     });
   });
+  it("missing code", async () => {
+    expect.assertions(1);
+    const strategy = mk();
+    const prom = strategy.authenticate(
+      makeRequest("?state=state"),
+      makeSessionStorage({
+        [sessionKey]: undefined,
+        [sessionStateKey]: "state",
+      }),
+      options,
+    );
+    (await expectFailure(prom)).toMatchObject({
+      message: "Missing code.",
+    });
+  });
+  it("missing state on session", async () => {
+    expect.assertions(1);
+    const strategy = mk();
+    const prom = strategy.authenticate(
+      makeRequest("?state=state&code=code"),
+      makeSessionStorage({
+        [sessionKey]: undefined,
+      }),
+      options,
+    );
+    (await expectFailure(prom)).toMatchObject({
+      message: "Missing state on session.",
+    });
+  });
 });
 
 class DummySession implements Session {
