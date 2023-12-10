@@ -1,4 +1,4 @@
-import type { SessionStorage } from "@remix-run/node";
+import type { Session, SessionStorage } from "@remix-run/node";
 import { GitHubAppAuthStrategy } from "~/services/github-app-auth.server";
 import type { RequestInterface } from "@octokit/types";
 import type { AuthenticateOptions } from "remix-auth";
@@ -95,7 +95,36 @@ describe("auth", () => {
       message: "Missing state on session.",
     });
   });
+  it("make login request", async () => {
+    expect.assertions(5);
+    const strategy = mk();
+
+    try {
+      await strategy.authenticate(
+        makeNonCallback(),
+        makeSessionStorage({}),
+        options,
+      );
+    } catch (e) {
+      expect(isResponse(e)).toBeTruthy();
+      if (isResponse(e)) {
+        let location = new URL(e.headers.get("location")!);
+        expect(location.host).toEqual("github.com");
+        let sp = location.searchParams;
+        expect(sp.has("state")).toBeTruthy();
+        sp.delete("state");
+        expect(sp).toMatchSnapshot();
+        expect(location).toMatchSnapshot();
+      }
+    }
+  });
 });
+
+const makeNonCallback = (): Request =>
+  ({
+    url: "http://localhost/login",
+    headers: new Headers(),
+  }) as unknown as Request;
 
 const makeRequest = (extra?: string): Request =>
   ({
@@ -107,9 +136,12 @@ const makeSessionStorage = (bucket: Record<string, any>) =>
     async getSession(_cookieHeader, _options) {
       return new DummySession(bucket);
     },
+    async commitSession(session: Session, options): Promise<string> {
+      return "serialized cookie session";
+    },
   }) satisfies Pick<
     SessionStorage<{}>,
-    "getSession"
+    "getSession" | "commitSession"
   > as unknown as SessionStorage<{}>;
 
 function expectFailure(

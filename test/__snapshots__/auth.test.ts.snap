@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`auth make login request 1`] = `
+URLSearchParams {
+  Symbol(query): [
+    "response_type",
+    "code",
+    "client_id",
+    "clientId",
+    "redirect_uri",
+    "http://localhost:3000/callback",
+  ],
+  Symbol(context): "https://github.com/login/oauth/authorize?response_type=code&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback",
+}
+`;
+
+exports[`auth make login request 2`] = `"https://github.com/login/oauth/authorize?response_type=code&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"`;
+
 exports[`auth not logged in 1`] = `
 {
   "accessToken": "fake-token",
