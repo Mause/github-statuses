@@ -154,8 +154,12 @@ function expectFailure(
   ).resolves;
 }
 
+function isResponse(e: unknown): e is Response {
+  return e instanceof Response;
+}
+
 async function getBody(e: unknown): Promise<unknown> {
-  if (!(e instanceof Response)) {
+  if (!isResponse(e)) {
     throw new Error("not a response: " + JSON.stringify(e));
   }
   return await e.json();
