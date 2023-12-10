@@ -2,6 +2,7 @@ import type { Session, SessionStorage } from "@remix-run/node";
 import { GitHubAppAuthStrategy } from "~/services/github-app-auth.server";
 import type { RequestInterface } from "@octokit/types";
 import type { AuthenticateOptions } from "remix-auth";
+import _ from "lodash";
 
 const sessionKey = "oauth2:session";
 const sessionStateKey = "oauth2:state";
@@ -104,8 +105,8 @@ async function request(url: string) {
         access_token: "fake-token",
         refresh_token: "fake-refresh-token",
         scope: "api",
-        expires_in: 28800,
-        refresh_token_expires_in: 15897600,
+        expires_in: 3600,
+        refresh_token_expires_in: 3600,
       },
     };
   } else if (url.includes("user")) {
@@ -142,8 +143,8 @@ const mk = () => {
       callbackURL: "http://localhost:3000/callback",
       scope: "scope",
     },
-    async (...args) => {
-      return args;
+    async (params) => {
+      return _.omit(params, ["request", "extraParams"]);
     },
     request as unknown as RequestInterface,
   );
