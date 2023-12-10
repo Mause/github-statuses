@@ -1,5 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`auth not logged in 1`] = `
+[
+  {
+    "accessToken": "fake-token",
+    "context": undefined,
+    "extraParams": {
+      "accessTokenExpiresIn": 74879019472,
+      "refreshTokenExpiresIn": 59010219472,
+      "tokenType": "oauth",
+    },
+    "profile": {
+      "_json": {
+        "id": 690,
+        "login": "Mause",
+        "name": "Elli",
+      },
+      "displayName": "Mause",
+      "emails": [
+        {
+          "value": undefined,
+        },
+      ],
+      "id": "690",
+      "name": {
+        "familyName": "Elli",
+        "givenName": "Elli",
+        "middleName": "Elli",
+      },
+      "photos": [
+        {
+          "value": undefined,
+        },
+      ],
+      "provider": "github",
+    },
+    "refreshToken": "fake-refresh-token",
+    "request": {
+      "headers": Headers {
+        Symbol(headers list): HeadersList {
+          "cookies": null,
+          Symbol(headers map): Map {},
+          Symbol(headers map sorted): null,
+        },
+        Symbol(guard): "none",
+      },
+      "url": "http://localhost:3000/callback?state=state&code=code",
+    },
+  },
+]
+`;
+
 exports[`auth should be able to call strategy.authenticate 1`] = `
 {
   "login": "login",

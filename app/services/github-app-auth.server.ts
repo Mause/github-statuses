@@ -4,6 +4,7 @@ import {createAppAuth, createOAuthUserAuth} from "@octokit/auth-app";
 // import createDebug from "debug";
 import {octokitFromConfig} from "~/octokit.server";
 import _ from "lodash";
+import type { RequestInterface } from "@octokit/types";
 import getCache from "~/services/cache";
 
 function checkNonNull(name: string): NonNullable<string> {
@@ -14,7 +15,7 @@ function checkNonNull(name: string): NonNullable<string> {
   return value;
 }
 
-export const appAuth = _.memoize(() => createAppAuth(getAuthConfig()));
+export const appAuth = _.memoize((requestOverride?: RequestInterface) => createAppAuth(getAuthConfig()));
 
 export const getConfig = _.memoize(() => {
   return {
@@ -30,7 +31,7 @@ export const getConfig = _.memoize(() => {
   };
 });
 
-function getAuthConfig() {
+function getAuthConfig(requestOverride?: RequestInterface) {
   return {
     appId: checkNonNull("GITHUB_APP_ID"),
     clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
@@ -44,8 +45,9 @@ function getAuthConfig() {
       info: console.info.bind(console),
     },
     cache: getCache(),
+    request: requestOverride,
   };
-}
+};
 
 export async function getAppOctokit() {
   return octokitFromConfig({
@@ -55,6 +57,8 @@ export async function getAppOctokit() {
 }
 
 export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
+  requestOverride?: RequestInterface;
+
   async fetchAccessToken(
     code: string,
     params: URLSearchParams,
@@ -63,7 +67,7 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
     extraParams: GitHubExtraParams;
     refreshToken: string;
   }> {
-    const authentication = await appAuth()({
+    const authentication = await appAuth(this.requestOverride)({
       type: "oauth-user",
       code: code,
       redirectUrl: params.get("redirect_uri")! as string,
@@ -88,7 +92,7 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
     });
 
     if (!("expiresAt" in token)) {
-      throw new Error("invalid response from GitHub");
+      throw new Error("invalid response from GitHub: " + JSON.stringify(token));
     }
 
     const now = Date.now();

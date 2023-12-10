@@ -1,14 +1,15 @@
 import type { Session, SessionStorage } from "@remix-run/node";
 import { GitHubAppAuthStrategy } from "~/services/github-app-auth.server";
+import type { RequestInterface } from "@octokit/types";
+import type { AuthenticateOptions } from "remix-auth";
 
 const sessionKey = "oauth2:session";
 const sessionStateKey = "oauth2:state";
-const options = {
+const options: AuthenticateOptions = {
   sessionKey,
-  sessionStateKey,
-  sessionErrorKey: "",
-  sessionStrategyKey: "",
-  name: "",
+  sessionErrorKey: "sessionErrorKey",
+  sessionStrategyKey: "sessionStrategyKey",
+  name: "github-app-auth",
 };
 
 Object.assign(process.env, {
@@ -51,21 +52,27 @@ describe("auth", () => {
 
 class DummySession implements Session {
   id = "0";
+
   constructor(public data: Record<string, any>) {
     this.data = data;
   }
+
   get(key: string) {
     return this.data[key];
   }
+
   unset(key: string) {
     delete this.data[key];
   }
+
   set(name: string, value: any) {
     this.data[name] = value;
   }
+
   has(name: string) {
     return name in this.data;
   }
+
   flash(name: string, value: any) {
     this.data[name] = value;
   }
@@ -86,6 +93,47 @@ const makeSessionStorage = (bucket: Record<string, any>) =>
     "getSession"
   > as unknown as SessionStorage<{}>;
 
+async function request(url: string) {
+  if (url.includes("oauth")) {
+    return {
+      status: 200,
+      headers: {
+        date: "Mon, 26 Jul 2021 15:49:05 GMT",
+      },
+      data: {
+        access_token: "fake-token",
+        refresh_token: "fake-refresh-token",
+        scope: "api",
+        expires_in: 28800,
+        refresh_token_expires_in: 15897600,
+      },
+    };
+  } else if (url.includes("user")) {
+    return {
+      status: 200,
+      data: {
+        id: 690,
+        login: "Mause",
+        name: "Elli",
+      },
+    };
+  }
+  throw new Error("unknown request: " + JSON.stringify({ url }));
+}
+
+function merge() {}
+
+function parse() {}
+
+let defaults = {
+  baseUrl: "https://api.github.com",
+};
+request.endpoint = {
+  DEFAULTS: defaults,
+  merge,
+  parse,
+};
+
 const mk = () => {
   return new GitHubAppAuthStrategy(
     {
@@ -94,8 +142,9 @@ const mk = () => {
       callbackURL: "http://localhost:3000/callback",
       scope: "scope",
     },
-    async (_params) => {
-      return {};
+    async (...args) => {
+      return args;
     },
+    request as unknown as RequestInterface,
   );
 };
