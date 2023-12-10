@@ -61,7 +61,7 @@ describe("auth", () => {
       }),
       options,
     );
-    (await expectFailure(prom)).toMatchObject({
+    await expectFailure(prom).toMatchObject({
       message: "State doesn't match.",
     });
   });
@@ -76,7 +76,7 @@ describe("auth", () => {
       }),
       options,
     );
-    (await expectFailure(prom)).toMatchObject({
+    await expectFailure(prom).toMatchObject({
       message: "Missing code.",
     });
   });
@@ -90,7 +90,7 @@ describe("auth", () => {
       }),
       options,
     );
-    (await expectFailure(prom)).toMatchObject({
+    await expectFailure(prom).toMatchObject({
       message: "Missing state on session.",
     });
   });
@@ -139,15 +139,19 @@ const makeSessionStorage = (bucket: Record<string, any>) =>
     "getSession"
   > as unknown as SessionStorage<{}>;
 
-async function expectFailure(
+function expectFailure(
   prom: Promise<unknown>,
-): Promise<jest.JestMatchers<unknown>> {
-  try {
-    await prom;
-  } catch (e) {
-    return expect(await getBody(e));
-  }
-  throw new Error("expected failure");
+): jest.AndNot<jest.Matchers<Promise<void>, Promise<unknown>>> {
+  return expect(
+    (async () => {
+      try {
+        await prom;
+      } catch (e) {
+        return getBody(e);
+      }
+      throw new Error("expected failure");
+    })(),
+  ).resolves;
 }
 
 async function getBody(e: unknown): Promise<unknown> {
