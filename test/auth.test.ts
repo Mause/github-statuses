@@ -49,6 +49,22 @@ describe("auth", () => {
     );
     expect(result).toMatchSnapshot();
   });
+
+  it("non matching state", async () => {
+    expect.assertions(1);
+    const strategy = mk();
+    const prom = strategy.authenticate(
+      makeRequest("?state=state&code=code"),
+      makeSessionStorage({
+        [sessionKey]: undefined,
+        [sessionStateKey]: "state2",
+      }),
+      options,
+    );
+    (await expectFailure(prom)).toMatchObject({
+      message: "State doesn't match.",
+    });
+  });
 });
 
 class DummySession implements Session {
@@ -93,6 +109,24 @@ const makeSessionStorage = (bucket: Record<string, any>) =>
     SessionStorage<{}>,
     "getSession"
   > as unknown as SessionStorage<{}>;
+
+async function expectFailure(
+  prom: Promise<unknown>,
+): Promise<jest.JestMatchers<unknown>> {
+  try {
+    await prom;
+  } catch (e) {
+    return expect(await getBody(e));
+  }
+  throw new Error("expected failure");
+}
+
+async function getBody(e: unknown): Promise<unknown> {
+  if (!(e instanceof Response)) {
+    throw new Error("not a response: " + JSON.stringify(e));
+  }
+  return await e.json();
+}
 
 async function request(url: string) {
   if (url.includes("oauth")) {
