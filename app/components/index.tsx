@@ -9,6 +9,7 @@ export { titleCase } from "./titleCase";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { ActionProgress } from "./ActionProgress";
 export { ExternalLink } from "./ExternalLink";
+export { TabNavLink } from "./TabNavLink";
 
 export interface DataLoaderParams<T extends string> {
   params: Params<T>;
