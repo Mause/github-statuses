@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import gql from "graphql-tag";
 
 import type { DataLoaderParams, StandardTableOptions } from "~/components";
-import { StandardTable , ExternalLink } from "~/components";
+import { StandardTable, ExternalLink } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { call } from "~/octokit.server";
 import {

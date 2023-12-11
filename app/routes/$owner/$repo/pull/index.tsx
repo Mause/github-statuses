@@ -1,1 +1,1 @@
-export default () => 'This space intentionally left blank.'
+export default () => "This space intentionally left blank.";
