@@ -4,7 +4,7 @@ import type { LoaderFunction } from "@remix-run/node";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import { GetBasicRepositoryDocument } from "~/components/graphql/graphql";
-import { GlobeIcon } from "@primer/octicons-react";
+import { LinkExternalIcon } from "@primer/octicons-react";
 import { TabNavLink } from "../../components/TabNavLink";
 
 export const GetBasicRepository = gql`
@@ -37,7 +37,7 @@ export default function Repo() {
       <Heading>
         {nameWithOwner}
         <IconButton
-          icon={GlobeIcon}
+          icon={LinkExternalIcon}
           as="a"
           target="_blank"
           href={url}
