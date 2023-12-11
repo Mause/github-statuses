@@ -1,6 +1,6 @@
 import {
-  Strategy,
   type AuthenticateOptions,
+  Strategy,
   type StrategyVerifyCallback,
 } from "remix-auth";
 import type {
@@ -10,8 +10,7 @@ import type {
 } from "remix-auth-github";
 import { createAppAuth, createOAuthUserAuth } from "@octokit/auth-app";
 import type { OAuth2StrategyVerifyParams } from "remix-auth-oauth2";
-import type { WebFlowAuthOptions } from "@octokit/auth-oauth-app";
-import type { SessionStorage, SessionData } from "@remix-run/node";
+import type { SessionData, SessionStorage } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { randomBytes } from "crypto";
 import createDebug from "debug";
@@ -304,14 +303,11 @@ export class GitHubAppAuthStrategy<User> extends Strategy<
     extraParams: GitHubExtraParams;
     refreshToken?: string;
   }> {
-    const oo: WebFlowAuthOptions = {
+    const authentication = await appAuth()({
       type: "oauth-user",
       code: code,
       redirectUrl: this.callbackURL,
       state,
-    };
-    const authentication = await appAuth()({
-      ...oo,
       factory: createOAuthUserAuth,
     });
 
