@@ -1,11 +1,11 @@
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { Heading, IconButton, TabNav } from "@primer/react";
+import { Heading, TabNav } from "@primer/react";
 import type { LoaderFunction } from "@remix-run/node";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import { GetBasicRepositoryDocument } from "~/components/graphql/graphql";
-import { LinkExternalIcon } from "@primer/octicons-react";
 import { TabNavLink } from "../../components/TabNavLink";
+import { ExternalLink } from "./$repo/dashboard";
 
 export const GetBasicRepository = gql`
   query GetBasicRepository($owner: String!, $repo: String!) {
@@ -36,14 +36,7 @@ export default function Repo() {
     <>
       <Heading>
         {nameWithOwner}
-        <IconButton
-          icon={LinkExternalIcon}
-          as="a"
-          target="_blank"
-          href={url}
-          aria-labelledby="Heading"
-          variant="invisible"
-        />
+        <ExternalLink href={url}>Heading</ExternalLink>
       </Heading>
       <TabNav>
         <TabNavLink to="./dashboard">Dashboard</TabNavLink>
