@@ -36,7 +36,7 @@ export default function Repo() {
     <>
       <Heading>
         {nameWithOwner}
-        <ExternalLink href={url}>Heading</ExternalLink>
+        <ExternalLink href={url}>{nameWithOwner}</ExternalLink>
       </Heading>
       <TabNav>
         <TabNavLink to="./dashboard">Dashboard</TabNavLink>

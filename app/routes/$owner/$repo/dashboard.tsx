@@ -12,15 +12,10 @@ import {
 } from "~/components/graphql/graphql";
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
-import { LinkExternalIcon } from "@primer/octicons-react";
-import {
-  Flash,
-  IconButton,
-  LinkButton,
-  Link as PrimerLink,
-} from "@primer/react";
+import { Flash, LinkButton, Link as PrimerLink } from "@primer/react";
 import _ from "lodash";
 import { URL } from "url";
+import { ExternalLink } from "~/components/ExternalLink";
 
 export const Query = gql`
   query GetUserRepoPullRequests(
@@ -146,24 +141,6 @@ export async function loader({
     pulls,
     repo: _.pick(repo, ["name", "owner", "parent", "defaultBranchRef"]),
   });
-}
-
-export function ExternalLink({
-  children,
-  href,
-}: {
-  children: string;
-  href: string;
-}) {
-  return (
-    <IconButton
-      as={Link}
-      to={href}
-      target="_blank"
-      aria-label={children}
-      icon={LinkExternalIcon}
-    />
-  );
 }
 
 export function Dashboard({
