@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import gql from "graphql-tag";
 
 import type { DataLoaderParams, StandardTableOptions } from "~/components";
-import { StandardTable } from "~/components";
+import { StandardTable , ExternalLink } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { call } from "~/octokit.server";
 import {
@@ -15,7 +15,6 @@ import { Link } from "@remix-run/react";
 import { Flash, LinkButton, Link as PrimerLink } from "@primer/react";
 import _ from "lodash";
 import { URL } from "url";
-import { ExternalLink } from "~/components/ExternalLink";
 
 export const Query = gql`
   query GetUserRepoPullRequests(

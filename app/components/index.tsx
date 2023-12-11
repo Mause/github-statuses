@@ -8,6 +8,7 @@ export { dedentBlock, dedent } from "./dedentBlock";
 export { titleCase } from "./titleCase";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { ActionProgress } from "./ActionProgress";
+export { ExternalLink } from "./ExternalLink";
 
 export interface DataLoaderParams<T extends string> {
   params: Params<T>;

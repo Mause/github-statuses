@@ -4,8 +4,8 @@ import type { LoaderFunction } from "@remix-run/node";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import { GetBasicRepositoryDocument } from "~/components/graphql/graphql";
-import { TabNavLink } from "../../components/TabNavLink";
-import { ExternalLink } from "./$repo/dashboard";
+import { TabNavLink } from "~/components/TabNavLink";
+import { ExternalLink } from "~/components";
 
 export const GetBasicRepository = gql`
   query GetBasicRepository($owner: String!, $repo: String!) {
