@@ -4,9 +4,11 @@ import { LinkExternalIcon } from "@primer/octicons-react";
 export function ExternalLink({
   children,
   href,
+  variant,
 }: {
   children: string;
   href: string;
+  variant?: "invisible";
 }) {
   return (
     <IconButton
@@ -15,6 +17,7 @@ export function ExternalLink({
       target="_blank"
       aria-label={children}
       icon={LinkExternalIcon}
+      variant={variant}
     />
   );
 }
