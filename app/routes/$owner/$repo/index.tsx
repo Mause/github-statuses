@@ -1,1 +1,3 @@
-export default () => "Find what you're looking for, pal?";
+import { DefaultMessage } from "~/components";
+
+export default () => <DefaultMessage />;

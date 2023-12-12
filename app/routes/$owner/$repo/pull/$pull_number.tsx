@@ -18,7 +18,6 @@ import {
   ClockIcon,
   HourglassIcon,
   DotIcon,
-  LinkExternalIcon,
   LogIcon,
 } from "@primer/octicons-react";
 import {
@@ -30,7 +29,7 @@ import {
 } from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, titleCase } from "~/components";
+import { StandardTable, ExternalLink, titleCase } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import type { Dictionary } from "lodash";
 import { countBy } from "lodash";
@@ -268,14 +267,9 @@ export default function Index() {
     <>
       <Heading>
         {pr!.title}
-        <IconButton
-          as={PrimerLink}
-          target="_blank"
-          href={pr!.permalink}
-          aria-label="Link to pull request"
-          variant="invisible"
-          icon={LinkExternalIcon}
-        />
+        <ExternalLink href={pr!.permalink} variant="invisible">
+          Link to pull request
+        </ExternalLink>
       </Heading>
       {statuses.length ? (
         <ActionProgress counts={counts} progress={progress} />

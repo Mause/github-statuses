@@ -1,1 +1,3 @@
-export default () => 'This space intentionally left blank.'
+import { DefaultMessage } from "~/components";
+
+export default () => <DefaultMessage />;

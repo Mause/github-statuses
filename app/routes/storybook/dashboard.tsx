@@ -1,6 +1,6 @@
 import { TabNav } from "@primer/react";
 import { Outlet } from "@remix-run/react";
-import { TabNavLink } from "~/components/TabNavLink";
+import { TabNavLink } from "~/components";
 
 export default function DashboardStorySelector() {
   return (

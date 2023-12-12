@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import gql from "graphql-tag";
 
 import type { DataLoaderParams, StandardTableOptions } from "~/components";
-import { StandardTable } from "~/components";
+import { StandardTable, ExternalLink } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { call } from "~/octokit.server";
 import {
@@ -12,13 +12,7 @@ import {
 } from "~/components/graphql/graphql";
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
-import { LinkExternalIcon } from "@primer/octicons-react";
-import {
-  Flash,
-  IconButton,
-  LinkButton,
-  Link as PrimerLink,
-} from "@primer/react";
+import { Flash, LinkButton, Link as PrimerLink } from "@primer/react";
 import _ from "lodash";
 import { URL } from "url";
 
@@ -148,18 +142,6 @@ export async function loader({
   });
 }
 
-function externalLink(label: string, mirrored: string) {
-  return (
-    <IconButton
-      as={Link}
-      to={mirrored}
-      target="_blank"
-      aria-label={label}
-      icon={LinkExternalIcon}
-    />
-  );
-}
-
 export function Dashboard({
   pulls,
   repo,
@@ -191,7 +173,7 @@ export function Dashboard({
     });
 
     return mirrored ? (
-      externalLink("Upstream PR", mirrored)
+      <ExternalLink href={mirrored}>Upstream PR</ExternalLink>
     ) : (
       <LinkButton target="_blank" href={create}>
         Create upstream pr
@@ -219,7 +201,9 @@ export function Dashboard({
       {
         accessorKey: "permalink",
         header: "Fork PR",
-        cell: (props) => externalLink("Fork PR", props.getValue()),
+        cell: (props) => (
+          <ExternalLink href={props.getValue()}>Fork PR</ExternalLink>
+        ),
       },
       {
         accessorKey: "mirrored",
