@@ -4332,13 +4332,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/deasync@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@types/deasync@npm:0.1.5"
-  checksum: 5a8fec89572abc6fbcce7b4f5b5357ba58b2d6d6860b640eb452eb9e87a8d44f787a40450e456b6e2d7fa12cf52bac2ab0d2f9be431dd51bd40584e316ffaa2c
-  languageName: node
-  linkType: hard
-
 "@types/debug@npm:^4":
   version: 4.1.12
   resolution: "@types/debug@npm:4.1.12"
@@ -4960,7 +4953,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upstash/redis@npm:1.25.1, @upstash/redis@npm:^1.25.1":
+"@upstash/redis@npm:1.25.1":
   version: 1.25.1
   resolution: "@upstash/redis@npm:1.25.1"
   dependencies:
@@ -6023,7 +6016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bindings@npm:^1.4.0, bindings@npm:^1.5.0":
+"bindings@npm:^1.4.0":
   version: 1.5.0
   resolution: "bindings@npm:1.5.0"
   dependencies:
@@ -6958,16 +6951,6 @@ __metadata:
   version: 2.2.2
   resolution: "dataloader@npm:2.2.2"
   checksum: 9c7a1f02cfa6391ab8bc21ebd0ef60b03832bd3beafdfecf48b111fba14090f98d33965f8e268045ba3c289f801b6a9000a9e61a41188363bdee2344811f64f1
-  languageName: node
-  linkType: hard
-
-"deasync@npm:^0.1.29":
-  version: 0.1.29
-  resolution: "deasync@npm:0.1.29"
-  dependencies:
-    bindings: "npm:^1.5.0"
-    node-addon-api: "npm:^1.7.1"
-  checksum: b90ee9f60259c5eec90ab2ad0459ad38528ab3729ce0593f420aea333bf03a991064c3d07d2277e71eb8c37bbf4148aad260f85d0a58dd14683809b8adf2929f
   languageName: node
   linkType: hard
 
@@ -9319,7 +9302,6 @@ __metadata:
     "@tanstack/react-table": "npm:^8.7.9"
     "@types/adm-zip": "npm:^0.5.4"
     "@types/async": "npm:^3.2.18"
-    "@types/deasync": "npm:^0.1.5"
     "@types/debug": "npm:^4"
     "@types/humanize-duration": "npm:^3.27.1"
     "@types/jest": "npm:^29.5.8"
@@ -9329,14 +9311,12 @@ __metadata:
     "@types/react-dom": "npm:^18.0.8"
     "@types/styled-components": "npm:^5.1.29"
     "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
-    "@upstash/redis": "npm:^1.25.1"
     "@vercel/analytics": "npm:^1.0.0"
     "@vercel/kv": "npm:^1.0.0"
     "@vercel/node": "npm:^3.0.0"
     adm-zip: "npm:^0.5.10"
     ansicolor: "npm:^2.0.1"
     async: "npm:^3.2.4"
-    deasync: "npm:^0.1.29"
     debug: "npm:^4.3.4"
     eslint: "npm:^8.0.1"
     eslint-config-standard-with-typescript: "npm:^42.0.0"
@@ -12732,15 +12712,6 @@ __metadata:
   dependencies:
     semver: "npm:^7.3.5"
   checksum: 7ab89e7ecfee46cfa33b5687e57d55d25472af46f0df79876fa6b0a00ba4d72cd66519462ca269d42d19a789f177f5d0b17c1d0f201572704e63bcc7de9a75c4
-  languageName: node
-  linkType: hard
-
-"node-addon-api@npm:^1.7.1":
-  version: 1.7.2
-  resolution: "node-addon-api@npm:1.7.2"
-  dependencies:
-    node-gyp: "npm:latest"
-  checksum: 6bf8217a8cd8148f4bbfd319b46d33587e9fb2e63e3c856ded67a76715167f7a6b17e1d9b8bbf3b8508befeb6a4adb10d92b8998ed5c19ca8448343f4cea11d6
   languageName: node
   linkType: hard
 

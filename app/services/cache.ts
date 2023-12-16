@@ -1,23 +1,17 @@
-import deasync from "deasync";
 import { kv } from "@vercel/kv";
 import type { StrategyOptions } from "@octokit/auth-app";
-import type { SetCommandOptions } from "@upstash/redis";
 import _ from "lodash";
 
 type Cache = StrategyOptions["cache"];
 
 function getCache(): Cache {
-  const syncGet = deasync<string, string>(kv.get.bind(kv));
-  const syncSet = deasync<string, string, SetCommandOptions | undefined, void>(
-    kv.set.bind(kv),
-  );
-
   return {
-    get(key: string): string {
-      return syncGet(key);
+    // @ts-expect-error
+    async get(key: string): Promise<string | undefined> {
+      return (await kv.get<string>(key)) ?? undefined;
     },
-    set(key: string, value: string) {
-      syncSet(key, value, undefined);
+    async set(key: string, value: string) {
+      await kv.set(key, value);
     },
   };
 }
