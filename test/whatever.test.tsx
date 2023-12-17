@@ -15,10 +15,11 @@ test("hello", async () => {
   const Stub = createRemixStub([
     {
       Component: () => <BasePage asChildRoute={false} />,
+      loader: () => Promise.resolve({}),
     },
   ]);
 
   render(<Stub />);
 
-  await screen.findByText("hello");
+  await screen.findByText("Unexpected Application Error!");
 });
