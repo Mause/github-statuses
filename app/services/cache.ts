@@ -5,13 +5,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-type Cache = StrategyOptions["cache"];
-
 export function throwError(msg: string): never {
   throw new Error(msg);
 }
 
-interface XCache extends Cache {
+interface XCache extends StrategyOptions["cache"] {
   stat(): Promise<string>;
 }
 
