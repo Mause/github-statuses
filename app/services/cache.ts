@@ -7,7 +7,7 @@ dotenv.config();
 
 type Cache = StrategyOptions["cache"];
 
-function throwError(msg: string): never {
+export function throwError(msg: string): never {
   throw new Error(msg);
 }
 

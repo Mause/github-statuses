@@ -1,9 +1,9 @@
-import getCache from "~/services/cache";
+import getCache, { throwError } from "~/services/cache";
 import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 export const loader: LoaderFunction = async () => {
-  const cache = await getCache();
+  const cache = getCache() ?? throwError("Cache not found");
   await cache.set("foo", "bar");
   return await cache.get("foo");
 };
