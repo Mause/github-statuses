@@ -81,7 +81,7 @@
     "vercel": "^32.0.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": "^18.16.1"
   },
   "name": "github-statuses",
   "version": "1.0.0",
