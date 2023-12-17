@@ -2,6 +2,7 @@ import type { GitHubExtraParams } from "remix-auth-github";
 import { createAppAuth, createOAuthUserAuth } from "@octokit/auth-app";
 import { octokitFromToken } from "~/octokit.server";
 import _ from "lodash";
+import getCache from "~/services/cache";
 import { GitHubStrategy } from "remix-auth-github";
 
 function checkNonNull(name: string): NonNullable<string> {
@@ -18,6 +19,7 @@ export const appAuth = _.memoize(() =>
     clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
     clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
     privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
+    cache: getCache(),
   }),
 );
 

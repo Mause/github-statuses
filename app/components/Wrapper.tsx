@@ -103,7 +103,7 @@ function getName(match: UIMatch): ReactNode {
   let segment = _.last(match.pathname.split("/"))!;
 
   let data = match.data as { name: string } | undefined;
-  if (data && "name" in data) {
+  if (_.isObject(data) && "name" in data) {
     return `${data.name} (${segment})`;
   }
 
