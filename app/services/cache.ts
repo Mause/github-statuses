@@ -9,9 +9,9 @@ export function throwError(msg: string): never {
   throw new Error(msg);
 }
 
-interface XCache extends StrategyOptions["cache"] {
-  stat(): Promise<string>;
-}
+type XCache = StrategyOptions["cache"] & {
+  stat(): Promise<number>;
+};
 
 function getCache(): XCache {
   const { env } = process;
