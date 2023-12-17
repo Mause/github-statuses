@@ -11,7 +11,11 @@ export function throwError(msg: string): never {
   throw new Error(msg);
 }
 
-function getCache(): Cache {
+interface XCache extends Cache {
+  stat(): Promise<string>;
+}
+
+function getCache(): XCache {
   const { env } = process;
   const kv = createClient({
     url:
@@ -28,6 +32,9 @@ function getCache(): Cache {
     },
     async set(key: string, value: string) {
       await kv.set(key, value);
+    },
+    async stat() {
+      return await kv.dbsize();
     },
   };
 }

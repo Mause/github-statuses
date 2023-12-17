@@ -5,10 +5,10 @@ import { useLoaderData } from "@remix-run/react";
 export const loader: LoaderFunction = async () => {
   const cache = getCache() ?? throwError("Cache not found");
   await cache.set("foo", "bar");
-  return await cache.get("foo");
+  return { foo: await cache.get("foo"), stat: await cache.stat() };
 };
 
 export default function Cache() {
   const data = useLoaderData<typeof loader>();
-  return <>Ok: {data}</>;
+  return <>Ok: {JSON.stringify(data)}</>;
 }
