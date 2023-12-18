@@ -1,7 +1,6 @@
 import { screen, render } from "@testing-library/react";
 import { unstable_createRemixStub as createRemixStub } from "@remix-run/testing";
 
-import { UNSAFE_RemixContext } from "@remix-run/react";
 import type {
   DataRouteObject,
   IndexRouteObject,
@@ -9,7 +8,6 @@ import type {
 } from "react-router-dom";
 import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
 import { json } from "@remix-run/node";
-import { useContext } from "react";
 
 interface StubIndexRouteObject
   extends Omit<IndexRouteObject, "loader" | "action"> {
@@ -40,7 +38,6 @@ test("hello", async () => {
     {
       // Component: () => <BasePage asChildRoute={false} />,
       Component: () => {
-        useContext(UNSAFE_RemixContext);
         return <div>hello</div>;
       },
       loader: async () => json({ repos: [] }),
