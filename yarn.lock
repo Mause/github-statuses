@@ -6210,6 +6210,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bezier-easing@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "bezier-easing@npm:2.1.0"
+  checksum: 086dfd042ccf91c3a9de811b635381aa6580e9f83d1951ed4ce4d4007645d8f3cebd491cb6259719ce9320df213316b99dd8e39e78997944b1c252a1d4b424b5
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
@@ -7087,6 +7094,13 @@ __metadata:
   version: 1.0.0
   resolution: "css-color-keywords@npm:1.0.0"
   checksum: 8f125e3ad477bd03c77b533044bd9e8a6f7c0da52d49bbc0bbe38327b3829d6ba04d368ca49dd9ff3b667d2fc8f1698d891c198bbf8feade1a5501bf5a296408
+  languageName: node
+  linkType: hard
+
+"css-mediaquery@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "css-mediaquery@npm:0.1.2"
+  checksum: f2f7512daa015f98b82bd65bbdd7c2100b16dddf22784bde2a8085f10f11e8775da57108016fe767f5e400afe64581c15d4e649c47725af7eac5f4094fa7ae43
   languageName: node
   linkType: hard
 
@@ -9639,6 +9653,7 @@ __metadata:
     husky: "npm:>=6"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
+    jsdom-testing-mocks: "npm:^1.11.0"
     lint-staged: "npm:>=10"
     lodash: "npm:^4.17.21"
     prettier: "npm:^3.0.0"
@@ -11472,6 +11487,16 @@ __metadata:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: c138a34a3fd0d08ebaf71273ad4465569a483b8a639e0b118ff65698d257c2791d3199e3f303631f2cb98213fa7b5f5d6a4621fd0fff819421b990d30d967140
+  languageName: node
+  linkType: hard
+
+"jsdom-testing-mocks@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "jsdom-testing-mocks@npm:1.11.0"
+  dependencies:
+    bezier-easing: "npm:^2.1.0"
+    css-mediaquery: "npm:^0.1.2"
+  checksum: 868ad763f702705dec6d3a06855b28669d4b5564cbb506c24e2f8c36026308677a273c959d9584565e129ebb8d32be8dc4f62a4e47865563a1d978231e50e35a
   languageName: node
   linkType: hard
 

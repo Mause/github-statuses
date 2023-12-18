@@ -1,52 +1,44 @@
+import {
+  configMocks,
+  mockIntersectionObserver,
+  mockResizeObserver,
+} from "jsdom-testing-mocks";
+import { act } from "react-dom/test-utils";
 import { screen, render } from "@testing-library/react";
-import { unstable_createRemixStub as createRemixStub } from "@remix-run/testing";
+import { createRemixStub } from "@remix-run/testing";
 
-import type {
-  DataRouteObject,
-  IndexRouteObject,
-  NonIndexRouteObject,
-} from "react-router-dom";
-import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
-import { json } from "@remix-run/node";
+import primer from "@primer/react";
+const { BaseStyles, ThemeProvider } = primer;
 
-interface StubIndexRouteObject
-  extends Omit<IndexRouteObject, "loader" | "action"> {
-  loader?: LoaderFunction;
-  action?: ActionFunction;
-}
-interface StubNonIndexRouteObject
-  extends Omit<NonIndexRouteObject, "loader" | "action"> {
-  loader?: LoaderFunction;
-  action?: ActionFunction;
-}
-type StubRouteObject = StubIndexRouteObject | StubNonIndexRouteObject;
-type StubDataRouteObject = StubRouteObject & {
-  children?: DataRouteObject[];
-  id: string;
-};
+configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
+mockIntersectionObserver();
+mockResizeObserver();
 
 test("hello", async () => {
-  // let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
-  // try {
-  //   BasePage = (await import("~/routes/index")).default;
-  // } catch (e) {
-  //   console.error(e);
-  //   throw e;
-  // }
+  let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
+  try {
+    BasePage = (await import("~/routes/index")).default;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 
   const Stub = createRemixStub([
     {
-      // Component: () => <BasePage asChildRoute={false} />,
-      Component: () => {
-        return <div>hello</div>;
-      },
-      loader: async () => json({ repos: [] }),
+      Component: () => (
+        <ThemeProvider>
+          <BaseStyles>
+            <BasePage asChildRoute={false} />
+          </BaseStyles>
+        </ThemeProvider>
+      ),
+      loader: async () => ({ repos: [] }),
       path: "/",
       id: "root",
-    } satisfies StubDataRouteObject,
+    },
   ]);
 
-  render(<Stub initialEntries={["/"]} />);
+  render(<Stub />);
 
-  await screen.findByText("hello");
+  await screen.findByText("Action Statuses");
 });
