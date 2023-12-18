@@ -105,6 +105,8 @@ dist
 .tern-port
 
 *.js
+!jest.setup.js
+!jest.config.js
 *.js.map
 !.eslintrc.js
 public/build
