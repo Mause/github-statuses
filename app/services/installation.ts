@@ -28,8 +28,10 @@ export async function getInstallationOctokit(request: Request) {
   });
 }
 
-export async function getCachedInstallationId() {
-  const session = await sessionStorage.getSession();
+export async function getCachedInstallationId(request: Request) {
+  const session = await sessionStorage.getSession(
+    request.headers.get("Cookie"),
+  );
 
   return session.get(INSTALLATION_ID);
 }
@@ -38,7 +40,7 @@ async function getInstallationId(
   request: Request,
   appOctokit: Octokit,
 ): Promise<number | undefined> {
-  let installation_id = await getCachedInstallationId();
+  let installation_id = await getCachedInstallationId(request);
   if (installation_id) return installation_id;
 
   const user = await getUser(request);
