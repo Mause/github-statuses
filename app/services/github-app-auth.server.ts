@@ -19,6 +19,13 @@ export const appAuth = _.memoize(() =>
     clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
     clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
     privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
+    log: {
+      error: console.error.bind(console),
+      warn: console.warn.bind(console),
+      log: console.log.bind(console),
+      debug: () => {},
+      info: console.info.bind(console),
+    },
     cache: getCache(),
   }),
 );
