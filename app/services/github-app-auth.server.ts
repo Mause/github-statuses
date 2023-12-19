@@ -29,6 +29,16 @@ export const getConfig = _.memoize(() => {
   };
 });
 
+function getAuthConfig() {
+  return {
+    appId: checkNonNull("GITHUB_APP_ID"),
+    clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
+    clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
+    privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
+    cache: getCache(),
+  };
+}
+
 export async function getAppOctokit() {
   return octokitFromConfig({
     authStrategy: createAppAuth,
