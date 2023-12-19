@@ -38,8 +38,13 @@ export async function tryGetOctokit(request: Request) {
 const SECOND = 1000;
 
 export const octokitFromToken = (token: string) =>
+  octokitFromConfig({ auth: token });
+
+export const octokitFromConfig = (
+  config: Partial<ConstructorParameters<typeof Throttled>[0]>,
+) =>
   new Throttled({
-    auth: token,
+    ...config,
     previews: ["merge-info"],
     request: {
       timeout: 7 * SECOND,

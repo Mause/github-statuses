@@ -1,6 +1,6 @@
 import type { GitHubExtraParams } from "remix-auth-github";
 import { createAppAuth, createOAuthUserAuth } from "@octokit/auth-app";
-import { octokitFromToken } from "~/octokit.server";
+import { octokitFromConfig } from "~/octokit.server";
 import _ from "lodash";
 import getCache from "~/services/cache";
 import { GitHubStrategy } from "remix-auth-github";
@@ -24,13 +24,11 @@ export const appAuth = _.memoize(() =>
 );
 
 export async function getAppOctokit() {
-  return octokitFromToken(
-    (
-      await appAuth()({
-        type: "app",
-      })
-    ).token,
-  );
+  return octokitFromConfig({
+    auth: await appAuth()({
+      type: "app",
+    }),
+  });
 }
 
 export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {

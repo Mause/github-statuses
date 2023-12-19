@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
-import { getAppOctokit } from "../services/github-app-auth.server";
-import { getUser, octokitFromToken } from "~/octokit.server";
-import { sessionStorage } from "~/services/session.server";
+import { appAuth, getAppOctokit } from "./github-app-auth.server";
+import { getUser, octokitFromConfig } from "~/octokit.server";
+import { sessionStorage } from "./session.server";
 import type { Octokit } from "@octokit/rest";
 
 const INSTALLATION_ID = "installation_id";
@@ -16,12 +16,16 @@ export async function getInstallationOctokit(request: Request) {
     });
   }
 
-  const installationAccessToken =
-    await appOctokit.apps.createInstallationAccessToken({
-      installation_id: installationId,
-    });
+  const authInterface = appAuth();
 
-  return octokitFromToken(installationAccessToken.data.token);
+  const installationAccessTokenAuthentication = await authInterface({
+    type: "installation",
+    installationId,
+  });
+
+  return octokitFromConfig({
+    auth: installationAccessTokenAuthentication,
+  });
 }
 
 export async function getCachedInstallationId() {
