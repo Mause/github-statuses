@@ -25,9 +25,11 @@ function getCache(): XCache {
   });
   return {
     async get(key: string): Promise<string> {
+      console.log(`retrieving from cache: ${key}`);
       return (await kv.get<string>(key))!;
     },
     async set(key: string, value: string) {
+      console.log(`setting cache: ${key}`);
       await kv.set(key, value);
     },
     async stat() {

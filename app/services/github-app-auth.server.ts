@@ -17,14 +17,15 @@ export const appAuth = _.memoize(() => createAppAuth(getAuthConfig()));
 
 export const getConfig = _.memoize(() => {
   return {
-    auth: {
-      appId: checkNonNull("GITHUB_APP_ID"),
-      privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
-      clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
-      clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
-      cache,
+    auth: getAuthConfig(),
+    log: {
+      error: console.error.bind(console),
+      warn: console.warn.bind(console),
+      log: console.log.bind(console),
+      debug: () => {},
+      info: console.info.bind(console),
     },
-    cache,
+    cache: getCache(),
   };
 });
 
