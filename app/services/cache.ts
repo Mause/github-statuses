@@ -24,11 +24,12 @@ function getCache(): XCache {
       throwError("Missing env var: UPSTASH_REDIS_REST_TOKEN"),
   });
   return {
-    // @ts-expect-error
-    async get(key: string): Promise<string | undefined> {
-      return (await kv.get<string>(key)) ?? undefined;
+    async get(key: string): Promise<string> {
+      console.log(`retrieving from cache: ${key}`);
+      return (await kv.get<string>(key))!;
     },
     async set(key: string, value: string) {
+      console.log(`setting cache: ${key}`);
       await kv.set(key, value);
     },
     async stat() {
