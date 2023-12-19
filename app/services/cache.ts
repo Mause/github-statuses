@@ -10,7 +10,7 @@ export function throwError(msg: string): never {
 }
 
 type XCache = StrategyOptions["cache"] & {
-  stat(): Promise<number>;
+  stat(): Promise<{ dbsize: number; keys: string[] }>;
 };
 
 function getCache(): XCache {
@@ -32,7 +32,12 @@ function getCache(): XCache {
       await kv.set(key, value);
     },
     async stat() {
-      return await kv.dbsize();
+      const keys = [];
+      for await (const key of kv.scanIterator({ match: "*" })) {
+        keys.push(key);
+      }
+
+      return { dbsize: await kv.dbsize(), keys };
     },
   };
 }
