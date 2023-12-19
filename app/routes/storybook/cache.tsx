@@ -10,5 +10,12 @@ export const loader: LoaderFunction = async () => {
 
 export default function Cache() {
   const data = useLoaderData<typeof loader>();
-  return <>Ok: {JSON.stringify(data)}</>;
+  return (
+    <>
+      Ok:
+      <pre>
+        <code>{JSON.stringify(data, undefined, 2)}</code>
+      </pre>
+    </>
+  );
 }
