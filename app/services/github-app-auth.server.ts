@@ -13,21 +13,25 @@ function checkNonNull(name: string): NonNullable<string> {
   return value;
 }
 
-export const appAuth = _.memoize(() =>
-  createAppAuth({
-    appId: checkNonNull("GITHUB_APP_ID"),
-    clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
-    clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
-    privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
-    cache: getCache(),
-  }),
-);
+export const appAuth = _.memoize(() => createAppAuth(getAuthConfig()));
+
+export const getConfig = _.memoize(() => {
+  return {
+    auth: {
+      appId: checkNonNull("GITHUB_APP_ID"),
+      privateKey: checkNonNull("GITHUB_APP_PRIVATE_KEY"),
+      clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
+      clientSecret: checkNonNull("GITHUB_APP_CLIENT_SECRET"),
+      cache,
+    },
+    cache,
+  };
+});
 
 export async function getAppOctokit() {
   return octokitFromConfig({
-    auth: await appAuth()({
-      type: "app",
-    }),
+    authStrategy: createAppAuth,
+    ...getConfig(),
   });
 }
 
