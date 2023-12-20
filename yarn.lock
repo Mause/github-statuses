@@ -14041,33 +14041,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remix-auth-oauth2@npm:^1.11.0":
-  version: 1.11.0
-  resolution: "remix-auth-oauth2@npm:1.11.0"
+"remix-auth-oauth2@npm:^1.11.0, remix-auth-oauth2@npm:^1.8.0":
+  version: 1.11.1
+  resolution: "remix-auth-oauth2@npm:1.11.1"
   dependencies:
     debug: "npm:^4.3.4"
   peerDependencies:
     "@remix-run/server-runtime": ^1.0.0 || ^2.0.0
     remix-auth: ^3.6.0
-  checksum: 8adc6ca68371a679ed52dd540c11c2799b8660bfbe49be75619edac6b30e1a88f367261cff2dba39491911e3521c69260d9865a7d9e38a6235bb761ee5f2b241
+  checksum: 0550e07c99235fbdc84df958dcecf693cb1b6ea904b0020db5891ad12372c12e601a335b1c5c5b87ae5cd1381e13935d59e03997aea6f6ad073735605b71db6b
   languageName: node
   linkType: hard
 
-"remix-auth-oauth2@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "remix-auth-oauth2@npm:1.8.0"
-  dependencies:
-    debug: "npm:^4.3.4"
-    remix-auth: "npm:^3.4.0"
-    uuid: "npm:^8.3.2"
-  peerDependencies:
-    "@remix-run/server-runtime": ^1.0.0
-    remix-auth: ^3.2.2
-  checksum: e8d453358ba7e87e4dee6bcbdd779e36f9c80d072f2f31f4b989831d1b8a29c876de348777c90928b34a10118681e06c74dfddb2f41c2f0a82ef0af80a1bdd6e
-  languageName: node
-  linkType: hard
-
-"remix-auth@npm:^3.4.0, remix-auth@npm:^3.6.0":
+"remix-auth@npm:^3.6.0":
   version: 3.6.0
   resolution: "remix-auth@npm:3.6.0"
   dependencies:
