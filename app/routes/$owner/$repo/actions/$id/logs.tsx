@@ -15,11 +15,13 @@ import {
   ToggleSwitch,
   FormControl,
   useDetails,
+  Box,
 } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import _ from "lodash";
+import { getOctokit } from "~/octokit.server";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 interface SingleStep {
@@ -34,7 +36,7 @@ interface SingleJob {
 type AllSteps = SingleJob[];
 
 export const loader = async ({ request, params }: DataFunctionArgs) => {
-  const octokit = await getInstallationOctokit(request);
+  const octokit = await getOctokit(request);
 
   const { owner, repo, id } = params;
 
@@ -44,9 +46,11 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
     run_id: Number(id!),
   });
 
+  const installationOctokit = await getInstallationOctokit(request);
+
   let logs: JobShape;
   try {
-    logs = await getLogsForUrl(octokit, attempt.data.logs_url);
+    logs = await getLogsForUrl(installationOctokit, attempt.data.logs_url);
   } catch (e) {
     const installationId = await getCachedInstallationId(request);
 
@@ -236,15 +240,21 @@ export default function Logs() {
           onChange={setShowTimestamps}
         />
       </FormControl>
-      <ul>
-        {extracted
-          .filter(({ steps }) => steps.length)
-          .map(({ name, steps }) => (
-            <li key={name}>
-              <Job name={name} steps={steps} />
-            </li>
-          ))}
-      </ul>
+      {extracted.length ? (
+        <ul>
+          {extracted
+            .filter(({ steps }) => steps.length)
+            .map(({ name, steps }) => (
+              <li key={name}>
+                <Job name={name} steps={steps} />
+              </li>
+            ))}
+        </ul>
+      ) : (
+        <Box padding={2}>
+          <Flash variant="warning">No logs to display</Flash>
+        </Box>
+      )}
     </>
   );
 }
