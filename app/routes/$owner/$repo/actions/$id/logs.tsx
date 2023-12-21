@@ -15,6 +15,7 @@ import {
   ToggleSwitch,
   FormControl,
   useDetails,
+  Box,
 } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
@@ -239,15 +240,21 @@ export default function Logs() {
           onChange={setShowTimestamps}
         />
       </FormControl>
-      <ul>
-        {extracted
-          .filter(({ steps }) => steps.length)
-          .map(({ name, steps }) => (
-            <li key={name}>
-              <Job name={name} steps={steps} />
-            </li>
-          ))}
-      </ul>
+      {extracted.length ? (
+        <ul>
+          {extracted
+            .filter(({ steps }) => steps.length)
+            .map(({ name, steps }) => (
+              <li key={name}>
+                <Job name={name} steps={steps} />
+              </li>
+            ))}
+        </ul>
+      ) : (
+        <Box padding={2}>
+          <Flash variant="warning">No logs to display</Flash>
+        </Box>
+      )}
     </>
   );
 }
