@@ -3309,8 +3309,8 @@ __metadata:
   linkType: hard
 
 "@primer/react@npm:^36.0.0":
-  version: 36.4.0
-  resolution: "@primer/react@npm:36.4.0"
+  version: 36.5.0
+  resolution: "@primer/react@npm:36.5.0"
   dependencies:
     "@github/combobox-nav": "npm:^2.1.5"
     "@github/markdown-toolbar-element": "npm:^2.1.0"
@@ -3330,7 +3330,7 @@ __metadata:
     "@types/styled-system__css": "npm:^5.0.16"
     "@types/styled-system__theme-get": "npm:^5.0.1"
     clsx: "npm:^1.2.1"
-    color2k: "npm:^2.0.0"
+    color2k: "npm:^2.0.3"
     deepmerge: "npm:^4.2.2"
     focus-visible: "npm:^5.2.0"
     fzy.js: "npm:^0.4.1"
@@ -3355,7 +3355,7 @@ __metadata:
       optional: true
     "@types/styled-components":
       optional: true
-  checksum: 91849f4617193b1bc8ddec8ce000b3924f991713ef26977cf98c4fab7267a7284d95289322c8edbac5ff70f0d322b4086c486a95d30927f165a2c7304783fb53
+  checksum: 9b613c28049db63f91533eab761fdbe9961bc2e938a84c27ebe251286a57b6b5fd248b8fc4526d4aaa40c44443779f8f985033246b276903528a6fdda537fe4a
   languageName: node
   linkType: hard
 
@@ -6554,10 +6554,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color2k@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "color2k@npm:2.0.2"
-  checksum: 408a132ed8132ed60320d77c53143a09321f11dfe302c128e7ca533316ff930aad88fa1a25d8761ebdd9cfef060de81a45044111a864553d82a30c45c35eb858
+"color2k@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "color2k@npm:2.0.3"
+  checksum: 63385b3c43749a96a4edfd5f4d30103f850e5a4ab01ad39ec70bebd940a237ab79cbd2d7b2bf4eede6ef6122a1b904877f628500fdc5521310e39d3572370d6c
   languageName: node
   linkType: hard
 
