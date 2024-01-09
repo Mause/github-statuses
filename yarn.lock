@@ -8118,8 +8118,8 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-primer-react@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "eslint-plugin-primer-react@npm:4.0.4"
+  version: 4.1.0
+  resolution: "eslint-plugin-primer-react@npm:4.1.0"
   dependencies:
     "@styled-system/props": "npm:^5.1.5"
     eslint-plugin-jsx-a11y: "npm:^6.7.1"
@@ -8129,7 +8129,7 @@ __metadata:
   peerDependencies:
     "@primer/primitives": ">=4.6.2"
     eslint: ^8.42.0
-  checksum: c768b8a5b70337463e59d5d9d3225ec1d4ff8ec8d54a668c0ce0d554b105088bbbcc4a97c1033c5643eeb5f22582e79573e4d9f9f451108190eaa49158963bac
+  checksum: cade6a33ac70676280f644b0ed6bbc95957df1e0e7dd10543355ce1b92722c6488f60f4ceb74c3fc80e57bafc2f875c4935f7e228cdb6021510c52ffcc5cc96c
   languageName: node
   linkType: hard
 
