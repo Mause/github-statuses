@@ -23,11 +23,12 @@ export const redirectCookie = createCookie("redirect", {
 
 export async function getUser(request: Requests): Promise<SessionShape> {
   const res = await authenticator().isAuthenticated(toNodeRequest(request), {});
-  console.log({ res });
+  console.log({ res, url: request.url });
   if (!res) {
+    const set_cookie = await redirectCookie.serialize(request.url);
     throw redirect("/login", {
       headers: {
-        "Set-Cookie": await redirectCookie.serialize(request.url),
+        "Set-Cookie": set_cookie,
       },
     });
   }
