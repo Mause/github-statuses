@@ -31,6 +31,8 @@ export async function getUser(request: Requests): Promise<SessionShape> {
         "Set-Cookie": set_cookie,
       },
     });
+  } else {
+    console.log({ user: res });
   }
   return res;
 }
