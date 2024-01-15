@@ -4,6 +4,7 @@ import { octokitFromConfig } from "~/octokit.server";
 import _ from "lodash";
 import getCache from "~/services/cache";
 import { GitHubStrategy } from "remix-auth-github";
+import { urlWithRedirectUrl, REDIRECT_URL } from "~/components/queryParams";
 
 function checkNonNull(name: string): NonNullable<string> {
   const value = process.env[name];
@@ -62,10 +63,13 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
     extraParams: GitHubExtraParams;
     refreshToken: string;
   }> {
+    if (!params.has(REDIRECT_URL)) {
+      throw new Error("missing redirect url");
+    }
     const authentication = await appAuth()({
       type: "oauth-user",
       code: code,
-      redirectUrl: this.callbackURL,
+      redirectUrl: urlWithRedirectUrl(this.callbackURL, params),
       factory: createOAuthUserAuth,
     });
 
