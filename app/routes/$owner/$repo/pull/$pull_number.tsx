@@ -1,11 +1,11 @@
 import type {
+  MetaFunction,
   SerializeFrom,
   TypedResponse,
-  V2_MetaFunction,
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 
-import { useRevalidator } from "@remix-run/react";
+import { Link, useRevalidator } from "@remix-run/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useInterval } from "react-interval-hook";
 import type { Icon } from "@primer/octicons-react";
@@ -18,12 +18,18 @@ import {
   ClockIcon,
   HourglassIcon,
   DotIcon,
-  LinkExternalIcon,
+  LogIcon,
 } from "@primer/octicons-react";
-import { Heading, Link, StyledOcticon, Flash } from "@primer/react";
+import {
+  Heading,
+  Link as PrimerLink,
+  Octicon,
+  Flash,
+  IconButton,
+} from "@primer/react";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable, titleCase } from "~/components";
+import { StandardTable, ExternalLink, titleCase } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import type { Dictionary } from "lodash";
 import { countBy } from "lodash";
@@ -31,12 +37,15 @@ import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
-import { CheckStatusState , CheckConclusionState } from "~/components/graphql/graphql";
+import {
+  CheckStatusState,
+  CheckConclusionState,
+} from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
 import { ActionProgress } from "~/components/ActionProgress";
 import { captureMessage } from "@sentry/remix";
 
-export const meta: V2_MetaFunction<
+export const meta: MetaFunction<
   typeof loader,
   {
     "/": typeof parentLoader;
@@ -95,6 +104,7 @@ export const loader = async ({
   );
 
   return json({
+    name: pr.title,
     statuses: filteredStatuses,
     totalStatuses: augmentedStatuses.length,
     pr,
@@ -133,7 +143,7 @@ const color =
       | "attention.fg"
       | "neutral.emphasis" = "neutral.emphasis",
   ) =>
-  () => <StyledOcticon icon={component} color={color} />;
+  () => <Octicon icon={component} color={color} />;
 
 const iconMap: Record<NonNullable<Conclusion | Status>, Icon> = {
   SUCCESS: color(CheckIcon, "success.fg"),
@@ -164,9 +174,13 @@ const COLUMNS = [
   columnHelper.accessor("name", {
     header: "Job Name",
     cell: (props) => (
-      <a target="_blank" href={props.row.original.permalink!} rel="noreferrer">
+      <PrimerLink
+        target="_blank"
+        href={props.row.original.permalink!}
+        rel="noreferrer"
+      >
         {props.getValue()}
-      </a>
+      </PrimerLink>
     ),
   }),
   columnHelper.accessor("conclusion", {
@@ -200,6 +214,26 @@ const COLUMNS = [
     },
     header: "Status",
   }),
+  columnHelper.display({
+    cell(props) {
+      const { original } = props.row;
+      const workflowRun = original.checkSuite!.workflowRun;
+      if (!workflowRun) {
+        return undefined;
+      }
+      const to = `/${original.repository.nameWithOwner}/actions/${workflowRun.databaseId}/logs`;
+
+      return (
+        <IconButton
+          icon={LogIcon}
+          as={Link}
+          aria-label="Logs"
+          to={to}
+        ></IconButton>
+      );
+    },
+    header: "Logs",
+  }),
   /*
   columnHelper.accessor("startedAt", {
     header: "Started At",
@@ -232,10 +266,10 @@ export default function Index() {
   return (
     <>
       <Heading>
-        <Link target="_blank" href={pr!.permalink}>
-          {pr!.title}&nbsp;
-          <LinkExternalIcon />
-        </Link>
+        {pr!.title}
+        <ExternalLink href={pr!.permalink} variant="invisible">
+          Link to pull request
+        </ExternalLink>
       </Heading>
       {statuses.length ? (
         <ActionProgress counts={counts} progress={progress} />
@@ -243,12 +277,12 @@ export default function Index() {
       <StandardTable tableOptions={table}>
         {totalStatuses === 0 ? (
           <Flash variant="warning">
-            <StyledOcticon icon={QuestionIcon} />
+            <Octicon icon={QuestionIcon} />
             No jobs found
           </Flash>
         ) : (
           <Flash variant="success">
-            <StyledOcticon icon={CheckIcon} />
+            <Octicon icon={CheckIcon} />
             Success! All jobs have successfully completed!
           </Flash>
         )}

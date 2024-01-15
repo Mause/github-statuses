@@ -10,7 +10,10 @@ import type {
   GetRepositoryActionsQuery,
   GetRepositoryActionsQueryVariables,
 } from "~/components/graphql/graphql";
-import { CheckStatusState , GetRepositoryActionsDocument } from "~/components/graphql/graphql";
+import {
+  CheckStatusState,
+  GetRepositoryActionsDocument,
+} from "~/components/graphql/graphql";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { call } from "~/octokit.server";
 

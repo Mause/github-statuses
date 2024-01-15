@@ -1,5 +1,5 @@
 import { Button } from "@primer/react";
-import type { DataFunctionArgs } from "@remix-run/node";
+import { type DataFunctionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { Wrapper } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";

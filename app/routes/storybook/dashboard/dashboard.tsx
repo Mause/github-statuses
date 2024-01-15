@@ -1,3 +1,4 @@
+import type { MirroredPullRequest } from "~/routes/$owner/$repo/dashboard";
 import { Dashboard } from "~/routes/$owner/$repo/dashboard";
 
 export default function DashboardStory() {
@@ -8,6 +9,7 @@ export default function DashboardStory() {
       resourcePath: "/Mause/duckdb/pull/1",
       permalink: "https://github.com/Mause/duckdb/pull/1",
       branchName: "readme",
+      body: "READMEs are important",
     },
     {
       number: 2,
@@ -16,24 +18,19 @@ export default function DashboardStory() {
       permalink: "https://github.com/Mause/duckdb/pull/2",
       branchName: "add-license-1",
       mirrored: "https://github.com/duckdb/duckdb/pull/2",
+      body: "Licenses are important",
     },
-  ];
-  const refs = [
-    {
-      name: "c-api-functions",
-      associatedPullRequests: {
-        totalCount: 0,
-      },
-    },
-  ];
+  ] satisfies MirroredPullRequest[];
 
   return (
     <Dashboard
       pulls={pulls}
-      refs={refs}
       repo={{
         owner: { login: "Mause" },
         name: "duckdb",
+        defaultBranchRef: {
+          name: "main",
+        },
         parent: {
           name: "duckdb",
           nameWithOwner: "Mause/duckdb",

@@ -1,3 +1,4 @@
+import { NavList } from "@primer/react";
 import { Link, Outlet } from "@remix-run/react";
 import { Wrapper, titleCase } from "~/components";
 export { ErrorBoundary } from "~/root";
@@ -7,7 +8,7 @@ export default function Storybook() {
     <Wrapper>
       <></>
       <Outlet />
-      <ul>
+      <NavList>
         {[
           "table",
           "markdown",
@@ -15,13 +16,16 @@ export default function Storybook() {
           "boundary",
           "timeout",
           "dashboard",
+          "branches",
           "live_logs",
+          "logs",
+          "cache",
         ].map((route) => (
-          <li key={route}>
-            <Link to={route}>{titleCase(route)}</Link>
-          </li>
+          <NavList.Item as={Link} to={route} key={route}>
+            {titleCase(route)}
+          </NavList.Item>
         ))}
-      </ul>
+      </NavList>
     </Wrapper>
   );
 }

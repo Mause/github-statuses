@@ -6,12 +6,19 @@ import { StandardTable } from "~/components";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { GetUserPullRequestsQueryVariables } from "~/components/graphql/graphql";
-import { GetUserPullRequestsDocument } from "~/components/graphql/graphql";
-import { IssueOrderField, OrderDirection } from "~/components/graphql/graphql";
-import { Heading } from "@primer/react";
+import {
+  GetUserPullRequestsDocument,
+  IssueOrderField,
+  OrderDirection,
+} from "~/components/graphql/graphql";
+import { Heading, Link as PrimerLink } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { buildMergeableColumn, buildRollupColumn } from "./$repo/pulls";
+import {
+  buildMergeableColumn,
+  buildRollupColumn,
+  buildTitleColumn,
+} from "./$repo/pulls";
 
 export const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -62,22 +69,16 @@ export default function Owner() {
   const table: StandardTableOptions<PullRequest> = {
     data: pulls,
     columns: [
-      columnHelper.accessor("title", {
-        header: "Title",
-        cell: (props) => {
-          const { number, repository } = props.row.original!;
-          return (
-            <Link to={`/${repository.nameWithOwner}/pull/${number}`}>
-              {props.renderValue()}
-            </Link>
-          );
-        },
-      }),
+      buildTitleColumn(),
       columnHelper.accessor("repository.nameWithOwner", {
         header: "Repository",
         cell: (props) => {
           const name = props.getValue();
-          return <Link to={`/${name}/pulls`}>{name}</Link>;
+          return (
+            <PrimerLink as={Link} to={`/${name}/pulls`}>
+              {name}
+            </PrimerLink>
+          );
         },
       }),
       buildMergeableColumn<PullRequest>(),
@@ -88,7 +89,7 @@ export default function Owner() {
   return (
     <>
       <Heading>
-        <Link to={user!.url}>{user!.login}</Link>
+        <PrimerLink href={user!.url}>{user!.login}</PrimerLink>
       </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
     </>

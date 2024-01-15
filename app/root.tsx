@@ -1,5 +1,7 @@
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
+import { Dialog } from "@primer/react/drafts";
 import {
   Links,
   LiveReload,
@@ -7,38 +9,44 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { Spinner, ThemeProvider } from "@primer/react";
-// @ts-ignore
-import styles from "bulma/css/bulma.min.css";
-import { Modal } from "react-bulma-components";
+import { BaseStyles, Spinner, ThemeProvider, themeGet } from "@primer/react";
 import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
-import { Wrapper, ErrorBoundary as ErrorDisplay } from "./components";
+import {
+  Wrapper,
+  ErrorBoundary as ErrorDisplay,
+  titleCase,
+} from "./components";
 import { authenticator } from "./services/auth.server";
 import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
+import type { ReactNode } from "react";
+import type { ColorModeWithAuto } from "@primer/react/lib/ThemeProvider";
+import { colorModeCookie } from "./components/cookies";
 
-export async function loader({ request }: DataFunctionArgs) {
+export const loader: LoaderFunction = async ({ request }) => {
+  const colorMode = (await colorModeCookie.parse(
+    request.headers.get("cookie"),
+  )) as ColorModeWithAuto;
+
   return json({
     ENV: {
       SENTRY_DSN: process.env.SENTRY_DSN,
     },
     user: _.pick(await authenticator().isAuthenticated(request), ["login"]),
+    colorMode: colorMode ?? "auto",
   });
-}
+};
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
   { name: "charset", content: "utf-8" },
   { title: "Action Statuses" },
   { name: "viewport", content: "width=device-width,initial-scale=1" },
 ];
-
-export function links() {
-  return [{ rel: "stylesheet", href: styles }];
-}
 
 export const Head = createHead(() => (
   <>
@@ -48,56 +56,75 @@ export const Head = createHead(() => (
 ));
 
 export function ErrorBoundary() {
-  const navigation = useNavigation();
-
   return (
-    <ThemeProvider>
+    <AddTheme>
       <Meta />
       <Links />
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
       <Wrapper>
         <></>
         <ErrorDisplay />
       </Wrapper>
-      <Modal
-        show={navigation.state !== "idle"}
-        closeOnEsc={false}
-        showClose={false}
-      >
-        <Spinner size="large" sx={{ color: "whitesmoke" }} />
-      </Modal>
+    </AddTheme>
+  );
+}
+
+function Loading() {
+  const navigation = useNavigation();
+
+  if (navigation.state === "idle") {
+    return undefined;
+  }
+
+  return (
+    <Dialog
+      title={`${titleCase(navigation.state)}...`}
+      width="medium"
+      height="auto"
+      onClose={() => {}}
+    >
+      On your way to <code>{navigation.location.pathname}</code>
+      <br />
+      <Spinner size="large" sx={{ alignContent: "center" }} />
+    </Dialog>
+  );
+}
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${themeGet("colors.canvas.default")}};
+  }
+`;
+
+function AddTheme({ children }: { children: ReactNode[] | ReactNode }) {
+  const data = useLoaderData<typeof loader>();
+
+  return (
+    <ThemeProvider colorMode={data?.colorMode ?? "auto"}>
+      <BaseStyles>
+        <Analytics />
+        <GlobalStyle></GlobalStyle>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+        <Loading />
+        {children}
+      </BaseStyles>
     </ThemeProvider>
   );
 }
 
 function App() {
   const data = useLoaderDataReloading<typeof loader>();
-  const navigation = useNavigation();
 
   return (
-    <>
-      <ThemeProvider>
-        <Analytics />
-        <Outlet />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-          }}
-        />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-        <Modal
-          show={navigation.state !== "idle"}
-          closeOnEsc={false}
-          showClose={false}
-        >
-          <Spinner size="large" sx={{ color: "whitesmoke" }} />
-        </Modal>
-      </ThemeProvider>
-    </>
+    <AddTheme>
+      <Outlet />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+        }}
+      />
+    </AddTheme>
   );
 }
 

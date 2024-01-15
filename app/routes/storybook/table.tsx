@@ -1,6 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import _ from "lodash";
-import { StandardTable, Wrapper } from "~/components";
+import { StandardTable } from "~/components";
 
 type Item = { hello: string };
 const columnHelper = createColumnHelper<Item>();

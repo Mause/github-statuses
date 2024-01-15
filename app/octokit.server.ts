@@ -1,37 +1,53 @@
 import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
 import type { SessionShape } from "~/services/auth.server";
-import { DUMMY_TOKEN, authenticator } from "~/services/auth.server";
-import { GitHubStrategy } from "remix-auth-github";
-import type { Request as RemixRequest } from "@remix-run/node";
+import { authenticator } from "~/services/auth.server";
+import { redirect, createCookie } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
 import { RequestError } from "@octokit/request-error";
+import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
 
 const Throttled = Octokit.plugin(throttling);
 
 type NodeRequest = globalThis.Request;
-export type Requests = RemixRequest | NodeRequest;
+export type Requests = NodeRequest;
 
 const toNodeRequest = (input: Requests): NodeRequest =>
   input as unknown as NodeRequest;
 
+export const redirectCookie = createCookie("redirect", {
+  maxAge: 60 * 30, // half an hour
+});
+
 export async function getUser(request: Requests): Promise<SessionShape> {
-  return await authenticator().isAuthenticated(toNodeRequest(request), {
-    failureRedirect: "/login",
-  });
+  const res = await authenticator().isAuthenticated(toNodeRequest(request), {});
+  console.log({ res, url: request.url });
+  if (!res) {
+    const set_cookie = await redirectCookie.serialize(request.url);
+    throw redirect("/login", {
+      headers: {
+        "Set-Cookie": set_cookie,
+      },
+    });
+  } else {
+    console.log({ user: res });
+  }
+  return res;
 }
 
-export const getOctokit = async (request: Requests) => {
+export async function getRedirect(request: Request): Promise<string> {
+  const cookieHeader = request.headers.get("Cookie");
+  return (await redirectCookie.parse(cookieHeader)) || "/";
+}
+
+export const getOctokit = async (request: Request) => {
   const user = await getUser(request);
-  if (user.accessToken === DUMMY_TOKEN) {
-    throw new Error("Please add dev access token to .env");
-  }
   return octokitFromToken(user.accessToken);
 };
 
-export async function tryGetOctokit(request: Requests) {
+export async function tryGetOctokit(request: Request) {
   try {
     return await getOctokit(request);
   } catch (e) {
@@ -42,8 +58,13 @@ export async function tryGetOctokit(request: Requests) {
 const SECOND = 1000;
 
 export const octokitFromToken = (token: string) =>
+  octokitFromConfig({ auth: token });
+
+export const octokitFromConfig = (
+  config: Partial<ConstructorParameters<typeof Throttled>[0]>,
+) =>
   new Throttled({
-    auth: token,
+    ...config,
     previews: ["merge-info"],
     request: {
       timeout: 7 * SECOND,
@@ -93,10 +114,10 @@ export function getRootURL() {
 export const gitHubStrategy = () => {
   const callbackURL = `${getRootURL()}/auth/github/callback`;
 
-  return new GitHubStrategy(
+  return new GitHubAppAuthStrategy(
     {
-      clientID: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+      clientID: process.env.GITHUB_APP_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_APP_CLIENT_SECRET!,
       callbackURL,
       scope: ["user", "read:user"],
     },
@@ -106,21 +127,20 @@ export const gitHubStrategy = () => {
         login: profile._json.login,
         accessToken,
         refreshToken,
-        accessTokenExpiry: extraParams.accessTokenExpiresIn
-          ? Date.now() + extraParams.accessTokenExpiresIn
-          : null,
+        accessTokenExpiry: extraParams.accessTokenExpiresAt,
+        refreshTokenExpiry: extraParams.refreshTokenExpiresAt,
       };
     },
   );
 };
 
 export async function call<Result, Variables extends RequestParameters>(
-  request: Requests,
+  request: Request,
   query: TypedDocumentString<Result, Variables>,
   variables?: Variables,
   fragments?: TypedDocumentString<any, any>[],
 ): Promise<Result> {
-  const octokit = await getOctokit(toNodeRequest(request));
+  const octokit = await getOctokit(request);
 
   const match = /query ([^ ]?)/.exec(query.toString());
   const transaction = Sentry.startTransaction({
@@ -138,7 +158,7 @@ export async function call<Result, Variables extends RequestParameters>(
     console.error(e);
     if (e instanceof RequestError) {
       if (e.message === "Bad credentials") {
-        await authenticator().logout(toNodeRequest(request), {
+        await authenticator().logout(request, {
           redirectTo: "/",
         });
       }
