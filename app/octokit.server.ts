@@ -23,6 +23,7 @@ export const redirectCookie = createCookie("redirect", {
 
 export async function getUser(request: Requests): Promise<SessionShape> {
   const res = await authenticator().isAuthenticated(toNodeRequest(request), {});
+  console.log({ res });
   if (!res) {
     throw redirect("/login", {
       headers: {
