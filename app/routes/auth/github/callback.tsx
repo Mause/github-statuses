@@ -1,6 +1,5 @@
 // app/routes/auth/github/callback.tsx
 import { json, type LoaderFunction } from "@remix-run/node";
-import { REDIRECT_URL } from "~/components/queryParams";
 import { authenticator } from "~/services/auth.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -19,10 +18,8 @@ export const loader: LoaderFunction = async ({ request }) => {
     );
   }
 
-  const successRedirect = searchParams.get(REDIRECT_URL) ?? "/";
-
   return authenticator().authenticate("github", request, {
-    successRedirect,
+    successRedirect: "/",
     failureRedirect: "/login",
   });
 };
