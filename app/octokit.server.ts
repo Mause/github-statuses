@@ -7,6 +7,7 @@ import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
 import { RequestError } from "@octokit/request-error";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
+import { queryParams, REDIRECT_URL } from "./components/queryParams";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -18,7 +19,7 @@ const toNodeRequest = (input: Requests): NodeRequest =>
 
 export async function getUser(request: Requests): Promise<SessionShape> {
   return await authenticator().isAuthenticated(toNodeRequest(request), {
-    failureRedirect: "/login",
+    failureRedirect: queryParams("/login", { [REDIRECT_URL]: request.url }),
   });
 }
 
