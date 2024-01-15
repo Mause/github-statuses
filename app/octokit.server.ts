@@ -2,6 +2,7 @@ import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
 import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
+import { redirect, createCookie } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
@@ -16,10 +17,29 @@ export type Requests = NodeRequest;
 const toNodeRequest = (input: Requests): NodeRequest =>
   input as unknown as NodeRequest;
 
+export const redirectCookie = createCookie("redirect", {
+  maxAge: 60 * 30, // half an hour
+});
+
 export async function getUser(request: Requests): Promise<SessionShape> {
-  return await authenticator().isAuthenticated(toNodeRequest(request), {
-    failureRedirect: "/login",
-  });
+  const res = await authenticator().isAuthenticated(toNodeRequest(request), {});
+  console.log({ res, url: request.url });
+  if (!res) {
+    const set_cookie = await redirectCookie.serialize(request.url);
+    throw redirect("/login", {
+      headers: {
+        "Set-Cookie": set_cookie,
+      },
+    });
+  } else {
+    console.log({ user: res });
+  }
+  return res;
+}
+
+export async function getRedirect(request: Request): Promise<string> {
+  const cookieHeader = request.headers.get("Cookie");
+  return (await redirectCookie.parse(cookieHeader)) || "/";
 }
 
 export const getOctokit = async (request: Request) => {

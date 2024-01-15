@@ -5,11 +5,10 @@ import { Wrapper } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { authenticator } from "~/services/auth.server";
 
-export const loader = async ({ request }: DataFunctionArgs) => {
+export const loader = async ({ request }: DataFunctionArgs) =>
   await authenticator().isAuthenticated(request, {
     successRedirect: "/",
   });
-};
 
 export default function Login() {
   useLoaderDataReloading<typeof loader>();
