@@ -54,7 +54,16 @@ export async function getAppOctokit() {
   });
 }
 
+// @ts-expect-error
 export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
+  private getCallbackURL(request: Request) {
+    // @ts-expect-error
+    const parentCallbackURL = super.getCallbackURL(request);
+    return urlWithRedirectUrl(
+      parentCallbackURL,
+      new URLSearchParams({ [REDIRECT_URL]: request.url }),
+    );
+  }
   async fetchAccessToken(
     code: string,
     params: URLSearchParams,
@@ -63,13 +72,13 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
     extraParams: GitHubExtraParams;
     refreshToken: string;
   }> {
-    if (!params.has(REDIRECT_URL)) {
+    if (!params.has("redirect_uri")) {
       throw new Error("missing redirect url");
     }
     const authentication = await appAuth()({
       type: "oauth-user",
       code: code,
-      redirectUrl: urlWithRedirectUrl(this.callbackURL, params),
+      redirectUrl: params.get("redirect_uri")! as string,
       factory: createOAuthUserAuth,
     });
 
