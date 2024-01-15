@@ -16,7 +16,8 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
- flexRender } from "@tanstack/react-table";
+  flexRender,
+} from "@tanstack/react-table";
 import { SearchIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";

@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import gql from "graphql-tag";
 
 import type { DataLoaderParams, StandardTableOptions } from "~/components";
-import { StandardTable } from "~/components";
+import { StandardTable, ExternalLink } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { call } from "~/octokit.server";
 import {
@@ -12,9 +12,9 @@ import {
 } from "~/components/graphql/graphql";
 import { createColumnHelper, type CellContext } from "@tanstack/react-table";
 import { Link } from "@remix-run/react";
-import { LinkExternalIcon } from "@primer/octicons-react";
-import { IconButton, LinkButton } from "@primer/react";
+import { Flash, LinkButton, Link as PrimerLink } from "@primer/react";
 import _ from "lodash";
+import { URL } from "url";
 
 export const Query = gql`
   query GetUserRepoPullRequests(
@@ -37,15 +37,8 @@ export const Query = gql`
           }
           nameWithOwner
         }
-
-        refs(refPrefix: "refs/heads/", first: 100) {
-          nodes {
-            name
-
-            associatedPullRequests {
-              totalCount
-            }
-          }
+        defaultBranchRef {
+          name
         }
 
         pullRequests(first: 50, orderBy: $order, states: OPEN) {
@@ -54,9 +47,10 @@ export const Query = gql`
             resourcePath
             permalink
             title
+            body
             headRef {
               name
-              associatedPullRequests(first: 5) {
+              associatedPullRequests(first: 5, states: OPEN) {
                 nodes {
                   baseRepository {
                     nameWithOwner
@@ -77,28 +71,36 @@ interface Repo {
   repo: string;
   branchName: string;
 }
-type MirroredPullRequest = {
+export interface MirroredPullRequest {
   number: number;
   resourcePath: string;
   permalink: string;
   title: string;
   branchName: string;
   mirrored?: string;
-};
-interface Ref {
-  name: string;
+  body: string;
 }
 
-function createUrl({
+export function createUrl({
   source,
   target,
   title,
+  body,
 }: {
   source: Repo;
   target: Repo;
   title: string;
+  body: string;
 }) {
-  return `https://github.com/${target.owner}/${target.repo}/compare/${target.branchName}...${source.owner}:${source.repo}:${source.branchName}?quick_pull=1&title=${title}`;
+  const url = new URL("https://github.com/");
+  url.pathname += `${target.owner}/${target.repo}/compare/`;
+  url.pathname += `${target.branchName}...${source.owner}:${source.repo}:${source.branchName}`;
+  url.search = new URLSearchParams({
+    quick_pull: "1",
+    title,
+    body,
+  }).toString();
+  return url.toString();
 }
 
 export async function loader({
@@ -123,52 +125,38 @@ export async function loader({
       return {
         number: pr.number,
         title: pr.title!,
+        body: pr.body!,
         resourcePath: pr.resourcePath!,
         permalink: pr.permalink!,
         branchName: headRef.name!,
         mirrored: headRef.associatedPullRequests.nodes?.find(
           (node) =>
-            node?.baseRepository?.nameWithOwner == repo.parent!.nameWithOwner,
+            node?.baseRepository?.nameWithOwner == repo.parent?.nameWithOwner,
         )?.permalink,
       };
     });
 
   return json({
     pulls,
-    repo: _.pick(repo, ["name", "owner", "parent"]),
-    refs: repo
-      .refs!.nodes!.filter(
-        (node) =>
-          node!.associatedPullRequests.totalCount === 0 &&
-          node!.name !== "main", // TODO: unhardcode
-      )
-      .map((node) => node!),
+    repo: _.pick(repo, ["name", "owner", "parent", "defaultBranchRef"]),
   });
-}
-
-function externalLink(mirrored: string) {
-  return (
-    <Link to={mirrored} target="_blank">
-      <IconButton aria-labelledby="" icon={LinkExternalIcon} />
-    </Link>
-  );
 }
 
 export function Dashboard({
   pulls,
   repo,
-  refs,
 }: ReturnType<typeof useLoaderDataReloading<typeof loader>>) {
-  const parent = repo.parent!;
+  const { parent } = repo;
   const selectedRepo = {
     repo: repo.name,
     owner: repo.owner.login,
   };
+  const defaultBranchName = repo.defaultBranchRef!.name!;
 
   function call(props: CellContext<MirroredPullRequest, any>) {
     const mirrored = props.getValue();
 
-    const original = props.row.original;
+    const { original } = props.row;
 
     const create = createUrl({
       source: {
@@ -176,15 +164,16 @@ export function Dashboard({
         branchName: original.branchName,
       },
       target: {
-        owner: parent.owner.login,
-        repo: parent.name,
-        branchName: "main", // TODO: unhardcode
+        owner: parent!.owner.login,
+        repo: parent!.name,
+        branchName: defaultBranchName,
       },
       title: original.title,
+      body: original.body,
     });
 
     return mirrored ? (
-      externalLink(mirrored)
+      <ExternalLink href={mirrored}>Upstream PR</ExternalLink>
     ) : (
       <LinkButton target="_blank" href={create}>
         Create upstream pr
@@ -204,13 +193,17 @@ export function Dashboard({
       columnHelper.accessor("title", {
         header: "Title",
         cell: (props) => (
-          <Link to={props.row.original.resourcePath}>{props.getValue()}</Link>
+          <PrimerLink as={Link} to={props.row.original.resourcePath}>
+            {props.getValue()}
+          </PrimerLink>
         ),
       }),
       {
         accessorKey: "permalink",
         header: "Fork PR",
-        cell: (props) => externalLink(props.getValue()),
+        cell: (props) => (
+          <ExternalLink href={props.getValue()}>Fork PR</ExternalLink>
+        ),
       },
       {
         accessorKey: "mirrored",
@@ -220,49 +213,18 @@ export function Dashboard({
     ],
   };
 
-  const refTableOptions: StandardTableOptions<Ref> = {
-    data: refs,
-    columns: [
-      {
-        accessorKey: "name",
-        header: "Name",
-      },
-      {
-        id: "create",
-        header: "Create PR",
-        cell: (props) => {
-          const branchName = props.row.original.name;
-
-          const create = createUrl({
-            source: {
-              ...selectedRepo,
-              branchName,
-            },
-            target: {
-              ...selectedRepo,
-              branchName: "main",
-            },
-            title: branchName,
-          });
-
-          return (
-            <LinkButton target="_blank" href={create}>
-              Create fork pr
-            </LinkButton>
-          );
-        },
-      },
-    ],
-  };
+  if (!parent) {
+    return (
+      <Flash variant="warning">
+        This repository is not a fork, so this page cannot be used.
+      </Flash>
+    );
+  }
 
   return (
     <>
       <StandardTable tableOptions={tableOptions}>
         No pull requests found
-      </StandardTable>
-      <hr />
-      <StandardTable tableOptions={refTableOptions}>
-        No refs found
       </StandardTable>
     </>
   );

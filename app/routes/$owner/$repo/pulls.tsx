@@ -1,4 +1,4 @@
-import { Heading, Label, Octicon } from "@primer/react";
+import { Label, Link as PrimerLink } from "@primer/react";
 import type { SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link } from "@remix-run/react";
@@ -20,7 +20,6 @@ import type {
 import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
 import type { LabelColorOptions } from "@primer/react/lib/Label";
-import { GlobeIcon } from "@primer/octicons-react";
 
 export const loader = async ({
   params,
@@ -37,31 +36,23 @@ export const loader = async ({
 const columnHelper = createColumnHelper<SerializeFrom<PullRequest>>();
 
 export default function Pulls() {
-  const { pulls, isFork, title, url } = useLoaderDataReloading<typeof loader>();
+  const { pulls } = useLoaderDataReloading<typeof loader>();
 
   const table: StandardTableOptions<SerializeFrom<PullRequest>> = {
     data: pulls,
     columns: [
-      columnHelper.accessor("number", {
-        header: "#",
-        cell: (props) => `#${props.getValue()}`,
-      }),
-      columnHelper.accessor("title", {
-        header: "Title",
-        cell: (props) => (
-          <Link to={props.row.original.resourcePath}>{props.getValue()}</Link>
-        ),
-      }),
+      buildNumberColumn(),
+      buildTitleColumn(),
       columnHelper.accessor("author.login", {
         header: "By",
         cell: (props) => (
-          <a
+          <PrimerLink
             target="_blank"
             href={props.row.original.author?.url}
             rel="noreferrer"
           >
             {props.getValue()}
-          </a>
+          </PrimerLink>
         ),
       }),
       buildMergeableColumn<PullRequest>(),
@@ -70,21 +61,47 @@ export default function Pulls() {
   };
 
   return (
-    <>
-      <Heading>
-        <Link to={url}>{title}</Link>
-        {isFork ? (
-          <>
-            &nbsp;
-            <Link to="../dashboard" relative="path">
-              <Octicon icon={GlobeIcon} />
-            </Link>
-          </>
-        ) : undefined}
-      </Heading>
-      <StandardTable tableOptions={table}>No pull requests found</StandardTable>
-    </>
+    <StandardTable tableOptions={table}>No pull requests found</StandardTable>
   );
+}
+
+export function buildNumberColumn<
+  T extends FragmentType<
+    DocumentTypeDecoration<StatusCheckRollupFragment, any>
+  >,
+>(): AccessorFnColumnDef<SerializeFrom<T>, number> {
+  return {
+    accessorFn: (props: SerializeFrom<T>) =>
+      getFragment(StatusCheckRollupFragmentDoc, props as T).number,
+    header: "#",
+    cell: (props) => `#${props.getValue()}`,
+  };
+}
+
+export function buildTitleColumn<
+  T extends FragmentType<
+    DocumentTypeDecoration<StatusCheckRollupFragment, any>
+  >,
+>(): AccessorFnColumnDef<SerializeFrom<T>, string> {
+  return {
+    accessorFn: (props: SerializeFrom<T>) =>
+      getFragment(StatusCheckRollupFragmentDoc, props as T).title,
+    header: "Title",
+    cell: (props) => {
+      const { number, repository } = getFragment(
+        StatusCheckRollupFragmentDoc,
+        props.row.original! as T,
+      );
+      return (
+        <PrimerLink
+          as={Link}
+          to={`/${repository.nameWithOwner}/pull/${number}`}
+        >
+          {props.renderValue()}
+        </PrimerLink>
+      );
+    },
+  };
 }
 
 export function buildMergeableColumn<

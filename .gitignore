@@ -105,6 +105,8 @@ dist
 .tern-port
 
 *.js
+!jest.setup.js
+!jest.config.js
 *.js.map
 !.eslintrc.js
 public/build
@@ -114,3 +116,4 @@ app/components/graphql
 tsconfig.*.json
 api
 build
+.env*.local

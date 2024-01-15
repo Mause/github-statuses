@@ -28,7 +28,7 @@ export function ActionProgress({
   const total = _.sum(Object.values(counts));
   return (
     <>
-      <ProgressBar sx={{ height: "20px" }}>
+      <ProgressBar sx={{ height: "20px" }} aria-valuetext={`${progress}%`}>
         {Object.entries(counts).map(([key, value]) => {
           const colour = colourMap[key] || `neutral.${style}`;
           const progress = (value / total) * 100;

@@ -19,10 +19,18 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   return {
     rootURL: getRootURL(),
     user: userObject
-      ? _.pick(userObject, ["login", "accessTokenExpiry"])
+      ? _.pick(userObject, ["login", "accessTokenExpiry", "refreshTokenExpiry"])
       : null,
     userExtra: user,
-    kv: await kv.ping(),
+    kv: await pingKv(),
     env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
   };
 };
+
+async function pingKv() {
+  try {
+    return await kv.ping();
+  } catch (e) {
+    return e;
+  }
+}
