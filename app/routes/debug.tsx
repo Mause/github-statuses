@@ -18,7 +18,7 @@ export const loader = async ({ request }: DataFunctionArgs) => {
   const userObject = await authenticator().isAuthenticated(request);
   return {
     rootURL: getRootURL(),
-    redirect: getRedirect(request),
+    redirect: await getRedirect(request),
     user: userObject
       ? _.pick(userObject, ["login", "accessTokenExpiry", "refreshTokenExpiry"])
       : null,
