@@ -77,7 +77,14 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
       console.error(e);
       throw e;
     }
-    console.log("called authentication", Object.keys(token));
+    console.log("called authentication", {
+      keys: Object.keys(token),
+      values: _.pick(token, [
+        "tokenType",
+        "expiresAt",
+        "refreshTokenExpiresAt",
+      ]),
+    });
 
     if (!("expiresAt" in token)) {
       throw new Error("invalid response from GitHub");
