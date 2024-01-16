@@ -90,14 +90,15 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
       throw new Error("invalid response from GitHub");
     }
 
+    const now = Date.now();
+
     return {
       accessToken: token.token,
       refreshToken: token.refreshToken,
       extraParams: {
         tokenType: token.tokenType,
-        accessTokenExpiresIn: Date.now() - Date.parse(token.expiresAt),
-        refreshTokenExpiresIn:
-          Date.now() - Date.parse(token.refreshTokenExpiresAt),
+        accessTokenExpiresIn: Date.parse(token.expiresAt) - now,
+        refreshTokenExpiresIn: Date.parse(token.refreshTokenExpiresAt) - now,
       },
     };
   }
