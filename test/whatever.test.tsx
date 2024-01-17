@@ -7,7 +7,7 @@ import { act } from "react-dom/test-utils";
 import { screen, render } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
 
-import primer from "@primer/react";
+import * as primer from "@primer/react";
 const { BaseStyles, ThemeProvider } = primer;
 
 configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
