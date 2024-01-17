@@ -6,9 +6,7 @@ import {
 import { act } from "react-dom/test-utils";
 import { screen, render } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
-
-import * as primer from "@primer/react";
-const { BaseStyles, ThemeProvider } = primer;
+import { BaseStyles, ThemeProvider } from "@primer/react";
 
 configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
 mockIntersectionObserver();
