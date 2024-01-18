@@ -3,8 +3,8 @@
   "sideEffects": false,
   "scripts": {
     "prebuild": "graphql-codegen",
-    "build": "yarn prebuild && remix build --sourcemap",
-    "dev": "remix dev",
+    "build": "yarn prebuild && vite build --sourcemap true",
+    "dev": "vite dev",
     "typecheck": "tsc",
     "test": "yarn node --experimental-modules node_modules/.bin/vitest",
     "test:e2e": "yarn playwright test",
