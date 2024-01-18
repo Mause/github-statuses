@@ -20,11 +20,6 @@ export default defineConfig({
       routes(defineRoutes) {
         return createRoutesFromFolders(defineRoutes);
       },
-      browserNodeBuiltinsPolyfill: {
-        modules: {
-          url: true,
-        },
-      },
     }),
     tsconfigPaths(),
   ],
