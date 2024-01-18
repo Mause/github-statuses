@@ -1,8 +1,8 @@
 import { MarkdownViewer } from "@primer/react/drafts";
 //  @ts-ignore
-import * as darkStyle from "github-syntax-dark/lib/github-dark.css?url";
+import darkStyle from "github-syntax-dark/lib/github-dark.css?url";
 //  @ts-ignore
-import * as lightStyle from "github-syntax-light/lib/github-light.css?url";
+import lightStyle from "github-syntax-light/lib/github-light.css?url";
 import { themeGet, useTheme } from "@primer/react";
 import styled from "styled-components";
 
