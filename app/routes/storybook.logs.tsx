@@ -1,6 +1,6 @@
 import type { DataFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import Logs from "../$owner/$repo/actions/$id/logs";
+import Logs from "~/routes/$owner.$repo.actions.$id.logs";
 import type { Job } from "~/services/archive.server";
 
 const logs = {

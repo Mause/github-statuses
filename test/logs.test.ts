@@ -1,4 +1,4 @@
-import { constructLine } from "~/routes/$owner/$repo/actions/$id/logs";
+import { constructLine } from "~/routes/$owner.$repo.actions.$id.logs";
 
 describe("constructLine", () => {
   it("error", () => {

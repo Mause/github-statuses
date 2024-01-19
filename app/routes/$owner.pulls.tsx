@@ -18,7 +18,7 @@ import {
   buildMergeableColumn,
   buildRollupColumn,
   buildTitleColumn,
-} from "./$repo/pulls";
+} from "./$owner.$repo.pulls";
 
 export const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {

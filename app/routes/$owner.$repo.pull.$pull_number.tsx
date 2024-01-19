@@ -34,7 +34,7 @@ import type { StandardTableOptions } from "~/components/StandardTable";
 import type { Dictionary } from "lodash";
 import { countBy } from "lodash";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { getActions } from "./pullNumberQuery";
+import { getActions } from "~/routes/$owner.$repo.pull.pullNumberQuery";
 import type { Get } from "type-fest";
 import type { PullRequestsFragment } from "~/components/graphql/graphql";
 import {

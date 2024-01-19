@@ -8,7 +8,7 @@ import { call } from "~/octokit.server";
 import { GetUserRepoBranchesDocument } from "~/components/graphql/graphql";
 import { LinkButton } from "@primer/react";
 import _ from "lodash";
-import { createUrl } from "./dashboard";
+import { createUrl } from "~/routes/$owner.$repo.dashboard";
 import { sentenceCase } from "~/components/titleCase";
 
 export const Query = gql`

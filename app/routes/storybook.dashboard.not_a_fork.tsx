@@ -1,4 +1,4 @@
-import { Dashboard } from "~/routes/$owner/$repo/dashboard";
+import { Dashboard } from "~/routes/$owner.$repo.dashboard";
 
 export default function DashboardEmptyStory() {
   return (
