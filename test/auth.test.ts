@@ -113,7 +113,7 @@ describe("auth", () => {
         let sp = location.searchParams;
         expect(sp.has("state")).toBeTruthy();
         sp.delete("state");
-        expect(sp).toMatchSnapshot();
+        expect(Array.from(sp.entries())).toMatchSnapshot();
         expect(location).toMatchSnapshot();
       }
     }
