@@ -31,11 +31,9 @@ export async function getInstallationId(
 
 export async function getInstallationForLogin(user: { login: string }) {
   const appOctokit = await getAppOctokit();
-  const { data: installations } = await appOctokit.apps.listInstallations();
-
-  const installation = installations.find(
-    (installation) => installation?.account?.login === user.login,
-  );
+  const { data: installation } = await appOctokit.apps.getUserInstallation({
+    username: user.login,
+  });
 
   return installation?.id;
 }
