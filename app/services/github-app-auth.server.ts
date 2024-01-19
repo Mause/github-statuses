@@ -1,11 +1,18 @@
-import type {GitHubExtraParams} from "remix-auth-github";
-import {GitHubStrategy} from "remix-auth-github";
-import {createAppAuth, createOAuthUserAuth} from "@octokit/auth-app";
+import type {
+  GitHubExtraParams,
+  GitHubProfile,
+  GitHubStrategyOptions} from "remix-auth-github";
+import {
+  GitHubStrategy
+} from "remix-auth-github";
+import { createAppAuth, createOAuthUserAuth } from "@octokit/auth-app";
 // import createDebug from "debug";
-import {octokitFromConfig} from "~/octokit.server";
+import { octokitFromConfig } from "~/octokit.server";
 import _ from "lodash";
 import type { RequestInterface } from "@octokit/types";
 import getCache from "~/services/cache";
+import type { StrategyVerifyCallback } from "remix-auth";
+import type { OAuth2StrategyVerifyParams } from "remix-auth-oauth2";
 
 function checkNonNull(name: string): NonNullable<string> {
   const value = process.env[name];
@@ -15,7 +22,9 @@ function checkNonNull(name: string): NonNullable<string> {
   return value;
 }
 
-export const appAuth = _.memoize((requestOverride?: RequestInterface) => createAppAuth(getAuthConfig()));
+export const appAuth = _.memoize((requestOverride?: RequestInterface) =>
+  createAppAuth(getAuthConfig(requestOverride)),
+);
 
 export const getConfig = _.memoize(() => {
   return {
@@ -47,7 +56,7 @@ function getAuthConfig(requestOverride?: RequestInterface) {
     cache: getCache(),
     request: requestOverride,
   };
-};
+}
 
 export async function getAppOctokit() {
   return octokitFromConfig({
@@ -58,6 +67,18 @@ export async function getAppOctokit() {
 
 export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
   requestOverride?: RequestInterface;
+
+  constructor(
+    options: GitHubStrategyOptions,
+    verify: StrategyVerifyCallback<
+      User,
+      OAuth2StrategyVerifyParams<GitHubProfile, GitHubExtraParams>
+    >,
+    requestOverride?: RequestInterface,
+  ) {
+    super(options, verify);
+    this.requestOverride = requestOverride;
+  }
 
   async fetchAccessToken(
     code: string,
