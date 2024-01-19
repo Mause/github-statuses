@@ -13,6 +13,8 @@ type XCache = StrategyOptions["cache"] & {
   stat(): Promise<{ dbsize: number; keys: string[] }>;
 };
 
+const ONE_HOUR_IN_SECONDS = 60 * 60;
+
 function getCache(): XCache {
   const { env } = process;
   const kv = createClient({
@@ -30,7 +32,9 @@ function getCache(): XCache {
     },
     async set(key: string, value: string) {
       console.log(`setting cache: ${key}`);
-      await kv.set(key, value);
+      await kv.set(key, value, {
+        ex: ONE_HOUR_IN_SECONDS,
+      });
     },
     async stat() {
       const keys = [];

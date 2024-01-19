@@ -18,10 +18,19 @@ export async function getLogsForUrl(
       },
     });
   } catch (e) {
-    throw new Error(`Failed to get logs for ${url}: ${e}`);
+    throw new CausedError(`Failed to get logs for ${url}`, e as Error);
   }
 
   return await getLogs(log_zip.data as ArrayBuffer);
+}
+
+class CausedError extends Error {
+  constructor(
+    message: string,
+    public cause: Error,
+  ) {
+    super(message);
+  }
 }
 
 export function getLogs(arrayBuffer: ArrayBuffer): Job {
