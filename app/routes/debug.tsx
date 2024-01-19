@@ -1,9 +1,9 @@
 import type { DataFunctionArgs } from "@remix-run/node";
-import { kv } from "@vercel/kv";
 import _ from "lodash";
 import { getOctokit, getRootURL, getRedirect } from "~/octokit.server";
 import { authenticator } from "~/services/auth.server";
 import { splatObject } from "~/components/ErrorBoundary";
+import getCache from "~/services/cache";
 
 function pick<T>(obj: T, keys: (keyof T)[]) {
   return _.pick(obj, keys);
@@ -39,8 +39,8 @@ export const loader = async ({ request }: DataFunctionArgs) => {
 
 async function pingKv() {
   try {
-    return await kv.ping();
+    return await getCache().stat();
   } catch (e) {
-    return e;
+    return splatObject(e);
   }
 }
