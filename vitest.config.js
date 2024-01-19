@@ -7,6 +7,11 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  resolve: {
+    alias: {
+      'node-fetch': 'isomorphic-fetch',
+    },
+  },
   test: {
     testTimeout: 50000,
     globals: true,
