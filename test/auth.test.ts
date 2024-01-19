@@ -173,10 +173,11 @@ async function getBody(e: unknown): Promise<unknown> {
 async function request(url: string) {
   if (url.includes("oauth")) {
     return {
+      url,
       status: 200,
-      headers: {
+      headers: new Headers({
         date: "Mon, 26 Jul 2021 15:49:05 GMT",
-      },
+      }),
       data: {
         access_token: "fake-token",
         refresh_token: "fake-refresh-token",
@@ -184,14 +185,22 @@ async function request(url: string) {
         expires_in: 3600,
         refresh_token_expires_in: 3600,
       },
+      text: function () {
+        return JSON.stringify(this.data);
+      },
     };
   } else if (url.includes("user")) {
     return {
+      url,
       status: 200,
+      headers: new Headers({}),
       data: {
         id: 690,
         login: "Mause",
         name: "Elli",
+      },
+      text: function () {
+        return JSON.stringify(this.data);
       },
     };
   }
