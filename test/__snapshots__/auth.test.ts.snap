@@ -25,7 +25,7 @@ exports[`auth > make login request 1`] = `
 ]
 `;
 
-exports[`auth > make login request 2`] = `"https://github.com/login/oauth/authorize?response_type=code&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"`;
+exports[`auth > make login request 2`] = `"https://github.com/login/oauth/authorize?scope=scope&allow_signup=true&response_type=code&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"`;
 
 exports[`auth > should be able to call strategy.authenticate 1`] = `
 {
