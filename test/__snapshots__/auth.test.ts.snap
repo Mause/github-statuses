@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`auth make login request 1`] = `
+exports[`auth > make login request 1`] = `
 URLSearchParams {
   Symbol(query): [
     "response_type",
@@ -14,7 +14,13 @@ URLSearchParams {
 }
 `;
 
-exports[`auth make login request 2`] = `"https://github.com/login/oauth/authorize?response_type=code&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"`;
+exports[`auth > make login request 2`] = `"https://github.com/login/oauth/authorize?response_type=code&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback"`;
+
+exports[`auth > should be able to call strategy.authenticate 1`] = `
+{
+  "login": "login",
+}
+`;
 
 exports[`auth not logged in 1`] = `
 {
@@ -46,11 +52,5 @@ exports[`auth not logged in 1`] = `
     "provider": "github",
   },
   "refreshToken": "fake-refresh-token",
-}
-`;
-
-exports[`auth should be able to call strategy.authenticate 1`] = `
-{
-  "login": "login",
 }
 `;
