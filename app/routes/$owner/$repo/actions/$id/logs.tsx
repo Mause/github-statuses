@@ -52,6 +52,7 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
   try {
     logs = await getLogsForUrl(installationOctokit, attempt.data.logs_url);
   } catch (e) {
+    console.error(e);
     const installationId = await getInstallationId(request);
 
     const url = `https://github.com/apps/action-statuses/installations/${installationId}`;
