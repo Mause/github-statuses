@@ -8,6 +8,7 @@ import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
 import { RequestError } from "@octokit/request-error";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
+import { getInstallationForLogin } from "~/services/installation";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -119,9 +120,11 @@ export const gitHubStrategy = () => {
       scope: ["user", "read:user"],
     },
     async ({ accessToken, profile, extraParams, refreshToken }) => {
+      const installationId = await getInstallationForLogin(profile._json);
       console.log({ extraParams });
       return {
         login: profile._json.login,
+        installationId,
         accessToken,
         refreshToken,
         accessTokenExpiry: extraParams.accessTokenExpiresAt,
