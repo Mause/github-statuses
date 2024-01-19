@@ -1,4 +1,4 @@
-import { Dashboard } from "~/routes/$owner/$repo/branches";
+import { Dashboard } from "~/routes/$owner.$repo.branches";
 
 export default function DashboardStory() {
   const refs = [

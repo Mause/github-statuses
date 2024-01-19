@@ -3540,17 +3540,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/v1-route-convention@npm:^0.1.3":
-  version: 0.1.4
-  resolution: "@remix-run/v1-route-convention@npm:0.1.4"
-  dependencies:
-    minimatch: "npm:^7.4.3"
-  peerDependencies:
-    "@remix-run/dev": ^1.15.0 || ^2.0.0
-  checksum: 68a9b72da16d9ae6369ead0edf2063cfdf0c323e99b3fabe0e2a90e0f1f8d51a42f6fd3ed67f5e3f4ba2e1eed2dd16134b20ac4cc3b369bce3d33a16aa8f2d4a
-  languageName: node
-  linkType: hard
-
 "@remix-run/web-blob@npm:^3.1.0":
   version: 3.1.0
   resolution: "@remix-run/web-blob@npm:3.1.0"
@@ -9479,7 +9468,6 @@ __metadata:
     "@remix-run/react": "npm:^2.0.0"
     "@remix-run/serve": "npm:^2.0.0"
     "@remix-run/testing": "npm:2.5.1"
-    "@remix-run/v1-route-convention": "npm:^0.1.3"
     "@sentry/profiling-node": "npm:^1.2.6"
     "@sentry/remix": "npm:^7.47.0"
     "@tanstack/match-sorter-utils": "npm:^8.7.6"
@@ -12229,15 +12217,6 @@ __metadata:
   dependencies:
     brace-expansion: "npm:^1.1.7"
   checksum: 02bacb187448c6aeeed5a794a64799fb1d1dd0274694da97272a9d3b919c7dfba6987d2089f6465191450d36d767c47fd7958227610b919121ccaed7de7f8924
-  languageName: node
-  linkType: hard
-
-"minimatch@npm:^7.4.3":
-  version: 7.4.6
-  resolution: "minimatch@npm:7.4.6"
-  dependencies:
-    brace-expansion: "npm:^2.0.1"
-  checksum: 0046ba1161ac6414bde1b07c440792ebcdb2ed93e6714c85c73974332b709b7e692801550bc9da22028a8613407b3f13861e17dd0dd44f4babdeacd44950430b
   languageName: node
   linkType: hard
 

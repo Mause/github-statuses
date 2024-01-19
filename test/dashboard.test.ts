@@ -1,4 +1,4 @@
-import { createUrl } from "~/routes/$owner/$repo/dashboard";
+import { createUrl } from "~/routes/$owner.$repo.dashboard";
 
 describe("createUrl", () => {
   it("should generate the correct URL with query parameters", () => {

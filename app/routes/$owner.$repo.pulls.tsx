@@ -9,8 +9,11 @@ import { StandardTable } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { titleCase } from "~/components/titleCase";
-import type { PullRequest } from "./pullsQuery";
-import { getChecksStatus, getPullRequests } from "./pullsQuery";
+import type { PullRequest } from "~/routes/$owner.$repo.pullsQuery";
+import {
+  getChecksStatus,
+  getPullRequests,
+} from "~/routes/$owner.$repo.pullsQuery";
 import type { FragmentType } from "~/components/graphql/fragment-masking";
 import { getFragment } from "~/components/graphql/fragment-masking";
 import type {
