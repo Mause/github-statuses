@@ -169,15 +169,17 @@ async function getBody(e: unknown): Promise<unknown> {
   }
   return await e.json();
 }
+const now = new Date().toUTCString();
 
-async function request(url: string) {
+export async function request(url: string) {
+  console.warn({ url });
   if (url.includes("oauth")) {
     return {
       url,
       status: 200,
-      headers: new Headers({
-        date: "Mon, 26 Jul 2021 15:49:05 GMT",
-      }),
+      headers: {
+        date: now,
+      },
       data: {
         access_token: "fake-token",
         refresh_token: "fake-refresh-token",
@@ -193,18 +195,19 @@ async function request(url: string) {
     return {
       url,
       status: 200,
-      headers: new Headers({}),
+      headers: {
+        date: now,
+      },
       data: {
         id: 690,
         login: "Mause",
         name: "Elli",
       },
-      text: function () {
-        return JSON.stringify(this.data);
-      },
     };
   }
-  throw new Error("unknown request: " + JSON.stringify({ url }));
+  const msg = "unknown request: " + JSON.stringify({ url });
+  console.warn(msg);
+  throw new Error(msg);
 }
 
 function merge() {}
