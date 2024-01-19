@@ -22,7 +22,6 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
-import { getAppOctokit } from "~/services/github-app-auth.server";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 interface SingleStep {
@@ -53,9 +52,7 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
   try {
     logs = await getLogsForUrl(installationOctokit, attempt.data.logs_url);
   } catch (e) {
-    const appOctokit = await getAppOctokit();
-
-    const installationId = await getInstallationId(request, appOctokit);
+    const installationId = await getInstallationId(request);
 
     const url = `https://github.com/apps/action-statuses/installations/${installationId}`;
 

@@ -11,6 +11,7 @@ export type SessionShape = Pick<
 > & {
   accessToken: string;
   refreshToken?: string;
+  installationId?: number;
   accessTokenExpiry: string | number | null;
   refreshTokenExpiry: string | number | null;
 };
