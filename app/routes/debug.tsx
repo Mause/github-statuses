@@ -5,6 +5,10 @@ import { getOctokit, getRootURL, getRedirect } from "~/octokit.server";
 import { authenticator } from "~/services/auth.server";
 import { splatObject } from "~/components/ErrorBoundary";
 
+function pick<T>(obj: T, keys: (keyof T)[]) {
+  return _.pick(obj, keys);
+}
+
 export const loader = async ({ request }: DataFunctionArgs) => {
   let user;
   try {
@@ -20,7 +24,12 @@ export const loader = async ({ request }: DataFunctionArgs) => {
     rootURL: getRootURL(),
     redirect: await getRedirect(request),
     user: userObject
-      ? _.pick(userObject, ["login", "accessTokenExpiry", "refreshTokenExpiry"])
+      ? pick(userObject, [
+          "login",
+          "installationId",
+          "accessTokenExpiry",
+          "refreshTokenExpiry",
+        ])
       : null,
     userExtra: user,
     kv: await pingKv(),
