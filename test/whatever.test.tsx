@@ -15,7 +15,7 @@ mockResizeObserver();
 test("hello", async () => {
   let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
   try {
-    BasePage = (await import("~/routes/index")).default;
+    BasePage = (await import("~/routes/_index")).default;
   } catch (e) {
     console.error(e);
     throw e;
