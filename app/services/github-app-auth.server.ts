@@ -1,9 +1,18 @@
-import type { GitHubExtraParams } from "remix-auth-github";
+import type {
+  GitHubExtraParams,
+  GitHubProfile,
+  GitHubStrategyOptions} from "remix-auth-github";
+import {
+  GitHubStrategy
+} from "remix-auth-github";
 import { createAppAuth, createOAuthUserAuth } from "@octokit/auth-app";
+// import createDebug from "debug";
 import { octokitFromConfig } from "~/octokit.server";
 import _ from "lodash";
+import type { RequestInterface } from "@octokit/types";
 import getCache from "~/services/cache";
-import { GitHubStrategy } from "remix-auth-github";
+import type { StrategyVerifyCallback } from "remix-auth";
+import type { OAuth2StrategyVerifyParams } from "remix-auth-oauth2";
 
 function checkNonNull(name: string): NonNullable<string> {
   const value = process.env[name];
@@ -13,7 +22,9 @@ function checkNonNull(name: string): NonNullable<string> {
   return value;
 }
 
-export const appAuth = _.memoize(() => createAppAuth(getAuthConfig()));
+export const appAuth = _.memoize((requestOverride?: RequestInterface) =>
+  createAppAuth(getAuthConfig(requestOverride)),
+);
 
 export const getConfig = _.memoize(() => {
   return {
@@ -29,7 +40,7 @@ export const getConfig = _.memoize(() => {
   };
 });
 
-function getAuthConfig() {
+function getAuthConfig(requestOverride?: RequestInterface) {
   return {
     appId: checkNonNull("GITHUB_APP_ID"),
     clientId: checkNonNull("GITHUB_APP_CLIENT_ID"),
@@ -43,6 +54,7 @@ function getAuthConfig() {
       info: console.info.bind(console),
     },
     cache: getCache(),
+    request: requestOverride,
   };
 }
 
@@ -54,6 +66,20 @@ export async function getAppOctokit() {
 }
 
 export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
+  requestOverride?: RequestInterface;
+
+  constructor(
+    options: GitHubStrategyOptions,
+    verify: StrategyVerifyCallback<
+      User,
+      OAuth2StrategyVerifyParams<GitHubProfile, GitHubExtraParams>
+    >,
+    requestOverride?: RequestInterface,
+  ) {
+    super(options, verify);
+    this.requestOverride = requestOverride;
+  }
+
   async fetchAccessToken(
     code: string,
     params: URLSearchParams,
@@ -62,7 +88,7 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
     extraParams: GitHubExtraParams;
     refreshToken: string;
   }> {
-    const authentication = await appAuth()({
+    const authentication = await appAuth(this.requestOverride)({
       type: "oauth-user",
       code: code,
       redirectUrl: params.get("redirect_uri")! as string,
@@ -87,7 +113,7 @@ export class GitHubAppAuthStrategy<User> extends GitHubStrategy<User> {
     });
 
     if (!("expiresAt" in token)) {
-      throw new Error("invalid response from GitHub");
+      throw new Error("invalid response from GitHub: " + JSON.stringify(token));
     }
 
     const now = Date.now();
