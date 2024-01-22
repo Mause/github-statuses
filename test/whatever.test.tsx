@@ -7,20 +7,13 @@ import { act } from "react-dom/test-utils";
 import { screen, render } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
 import { BaseStyles, ThemeProvider } from "@primer/react";
+import BasePage from "~/routes/index";
 
 configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
 mockIntersectionObserver();
 mockResizeObserver();
 
 test("hello", async () => {
-  let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
-  try {
-    BasePage = (await import("~/routes/index")).default;
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
-
   const Stub = createRemixStub([
     {
       Component: () => (
