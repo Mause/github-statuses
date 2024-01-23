@@ -24,13 +24,26 @@ export async function getLogsForUrl(
   return await getLogs(log_zip.data as ArrayBuffer);
 }
 
-class CausedError extends Error {
+export class CausedError extends Error {
   constructor(
     message: string,
     public cause: Error,
   ) {
     super(message);
+    this.name = "CausedError";
   }
+}
+export interface HttpError extends Error {
+  request: Request;
+  response: Response;
+}
+const isWhat = (name: string, e: unknown) =>
+  (typeof e === "object" && e && "name" in e && e.name == name) ?? false;
+export function isCausedError(e: unknown): e is CausedError {
+  return isWhat("CausedError", e);
+}
+export function isHttpError(e: unknown): e is HttpError {
+  return isWhat("HttpError", e);
 }
 
 export function getLogs(arrayBuffer: ArrayBuffer): Job {
