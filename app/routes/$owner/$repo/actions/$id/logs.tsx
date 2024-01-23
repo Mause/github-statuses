@@ -83,15 +83,24 @@ const paleRed = "#ff5353";
 const paleYellow = "#FFDC00";
 const paleBlue = "#0074D9";
 
-export function LineWithTimestamp({line: {line, timestamp}, showTimestamps}: {line: Line, showTimestamps: boolean}){
+export function LineWithTimestamp({
+  line: { line, timestamp },
+  showTimestamps,
+}: {
+  line: Line;
+  showTimestamps: boolean;
+}) {
   if (showTimestamps) {
-    return <span><span>
-        <time dateTime={timestamp}>{timestamp}</time>
+    return (
+      <span>
+        <span>
+          <time dateTime={timestamp}>{timestamp}</time>
+        </span>
+        <ConstructLine line={line} />
       </span>
-      <ConstructLine line={line} />
-      </span>
+    );
   } else {
-      return       <ConstructLine line={line} />
+    return <ConstructLine line={line} />;
   }
 }
 
@@ -196,7 +205,10 @@ function Step({
           <code>
             {lines.map((line, i) => (
               <span key={i}>
-                <LineWithTimestamp line={line} showTimestamps={showTimestamps} />
+                <LineWithTimestamp
+                  line={line}
+                  showTimestamps={showTimestamps}
+                />
                 <br />
               </span>
             ))}

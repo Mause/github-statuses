@@ -1,5 +1,8 @@
 import { render } from "@testing-library/react";
-import { ConstructLine, LineWithTimestamp } from "~/routes/$owner/$repo/actions/$id/logs";
+import {
+  ConstructLine,
+  LineWithTimestamp,
+} from "~/routes/$owner/$repo/actions/$id/logs";
 
 describe("constructLine", () => {
   it("error", () => {
@@ -16,14 +19,15 @@ describe("constructLine", () => {
   });
 
   it("lineWithTimestamp", () => {
-    const el = render(<LineWithTimestamp line={
-      {
-        line: "hello world",
-        timestamp: "2022-01-01T22:00",
-      }
-    }
-    showTimestamps={true}
-    />);
+    const el = render(
+      <LineWithTimestamp
+        line={{
+          line: "hello world",
+          timestamp: "2022-01-01T22:00",
+        }}
+        showTimestamps={true}
+      />,
+    );
     expect(el.container).toMatchSnapshot();
   });
 });
