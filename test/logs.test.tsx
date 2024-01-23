@@ -19,13 +19,24 @@ describe("constructLine", () => {
   });
 
   it("lineWithTimestamp", () => {
-    const el = render(
+    let el = render(
       <LineWithTimestamp
         line={{
           line: "hello world",
           timestamp: "2022-01-01T22:00",
         }}
         showTimestamps={true}
+      />,
+    );
+    expect(el.container).toMatchSnapshot();
+
+    el = render(
+      <LineWithTimestamp
+        line={{
+          line: "hello world",
+          timestamp: "2022-01-01T22:00",
+        }}
+        showTimestamps={false}
       />,
     );
     expect(el.container).toMatchSnapshot();

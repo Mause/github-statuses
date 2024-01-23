@@ -36,3 +36,11 @@ exports[`constructLine > lineWithTimestamp 1`] = `
   </span>
 </div>
 `;
+
+exports[`constructLine > lineWithTimestamp 2`] = `
+<div>
+  <span>
+    hello world
+  </span>
+</div>
+`;
