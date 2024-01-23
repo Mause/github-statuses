@@ -20,7 +20,7 @@ exports[`constructLine > error 1`] = `
 </div>
 `;
 
-exports[`constructLine > lineWithTimestamp(false) 1`] = `
+exports[`constructLine > lineWithTimestamp > false 1`] = `
 <div>
   <span>
     hello world
@@ -28,7 +28,7 @@ exports[`constructLine > lineWithTimestamp(false) 1`] = `
 </div>
 `;
 
-exports[`constructLine > lineWithTimestamp(true) 1`] = `
+exports[`constructLine > lineWithTimestamp > true 1`] = `
 <div>
   <span>
     <time

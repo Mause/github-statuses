@@ -19,34 +19,21 @@ describe("constructLine", () => {
     expect(el.container).toMatchSnapshot();
   });
 
-  it("lineWithTimestamp(true)", () => {
-    const el = render(
-      <ConfigContext.Provider
-        value={{
-          showTimestamps: true,
-        }}
-      >
-        <LineWithTimestamp
-          line={{
-            line: "hello world",
-            timestamp: "2022-01-01T22:00",
-          }}
-        />
-      </ConfigContext.Provider>,
-    );
-    expect(el.container).toMatchSnapshot();
-  });
-  it("lineWithTimestamp(false)", () => {
-    const el = render(
-      <ConfigContext.Provider value={{ showTimestamps: false }}>
-        <LineWithTimestamp
-          line={{
-            line: "hello world",
-            timestamp: "2022-01-01T22:00",
-          }}
-        />
-      </ConfigContext.Provider>,
-    );
-    expect(el.container).toMatchSnapshot();
+  describe("lineWithTimestamp", () => {
+    for (const showTimestamps of [true, false]) {
+      it(showTimestamps.toString(), () => {
+        const el = render(
+          <ConfigContext.Provider value={{ showTimestamps }}>
+            <LineWithTimestamp
+              line={{
+                line: "hello world",
+                timestamp: "2022-01-01T22:00",
+              }}
+            />
+          </ConfigContext.Provider>,
+        );
+        expect(el.container).toMatchSnapshot();
+      });
+    }
   });
 });
