@@ -83,10 +83,10 @@ const paleRed = "#ff5353";
 const paleYellow = "#FFDC00";
 const paleBlue = "#0074D9";
 
-function LineWithTimestamp({line: {line, timestamp}, showTimestamps}: {line: Line, showTimestamps: boolean}){
+export function LineWithTimestamp({line: {line, timestamp}, showTimestamps}: {line: Line, showTimestamps: boolean}){
   if (showTimestamps) {
     return <span><span>
-      {timestamp}
+        <time dateTime={timestamp}>{timestamp}</time>
       </span>
       <ConstructLine line={line} />
       </span>
@@ -151,7 +151,15 @@ function parseCss(css: string): Record<string, string> {
   );
 }
 
-function Job({ name, steps, showTimestamps }: { name: string; steps: SingleStep[], showTimestamps: boolean }) {
+function Job({
+  name,
+  steps,
+  showTimestamps,
+}: {
+  name: string;
+  steps: SingleStep[];
+  showTimestamps: boolean;
+}) {
   const { open, getDetailsProps } = useDetails({});
   return (
     <Details {...getDetailsProps()}>
@@ -169,7 +177,15 @@ function Job({ name, steps, showTimestamps }: { name: string; steps: SingleStep[
   );
 }
 
-function Step({ name, lines, showTimestamps }: { name: string; lines: Line[], showTimestamps: boolean }) {
+function Step({
+  name,
+  lines,
+  showTimestamps,
+}: {
+  name: string;
+  lines: Line[];
+  showTimestamps: boolean;
+}) {
   const { open, getDetailsProps } = useDetails({});
 
   return (
@@ -200,10 +216,9 @@ function matchDirective(line: string) {
   };
 }
 
-
 function extractErrors(data: Line[]) {
   return data.filter(
-    ({line}) =>
+    ({ line }) =>
       line.toLocaleLowerCase().includes("error") &&
       line !== "Evaluating continue on error",
   );
@@ -221,12 +236,12 @@ export default function Logs() {
       _.map(logs, (data, name) => ({
         name,
         steps: data.map((step) => {
-          let lines = step.contents.map(line => {
+          let lines = step.contents.map((line) => {
             const timestamp = line.substring(0, TIMESTAMP_LENGTH);
             return {
               timestamp,
-              line: line.substring(TIMESTAMP_LENGTH + 1)
-            }
+              line: line.substring(TIMESTAMP_LENGTH + 1),
+            };
           });
 
           lines = lines.filter((line) => !line.line.includes("##vso["));
@@ -274,7 +289,11 @@ export default function Logs() {
             .filter(({ steps }) => steps.length)
             .map(({ name, steps }) => (
               <li key={name}>
-                <Job name={name} steps={steps} showTimestamps={showTimestamps} />
+                <Job
+                  name={name}
+                  steps={steps}
+                  showTimestamps={showTimestamps}
+                />
               </li>
             ))}
         </ul>
