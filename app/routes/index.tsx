@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { TreeView, Link as PrimerLink, Avatar } from "@primer/react";
 import { Wrapper } from "~/components";
 
-import type { DataFunctionArgs, SerializeFrom } from "@remix-run/node";
+import type { LoaderFunctionArgs, SerializeFrom } from "@remix-run/node";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import type { ReposFragment } from "~/components/graphql/graphql";
@@ -44,7 +44,7 @@ export const GetAllRepos = gql`
   }
 `;
 
-export const loader = async ({ request }: DataFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const res = await call(request, GetAllReposDocument, {
     orderBy: {
       field: RepositoryOrderField.PushedAt,

@@ -1,4 +1,4 @@
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import _ from "lodash";
 import { getOctokit, getRootURL, getRedirect } from "~/octokit.server";
 import { authenticator } from "~/services/auth.server";
@@ -9,7 +9,7 @@ function pick<T>(obj: T, keys: (keyof T)[]) {
   return _.pick(obj, keys);
 }
 
-export const loader = async ({ request }: DataFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   let user;
   try {
     const octokit = await getOctokit(request);

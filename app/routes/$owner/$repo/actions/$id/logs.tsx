@@ -1,4 +1,4 @@
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Job as JobShape } from "~/services/archive.server";
 import { getLogsForUrl } from "~/services/archive.server";
@@ -40,7 +40,7 @@ interface SingleJob {
 }
 type AllSteps = SingleJob[];
 
-export const loader = async ({ request, params }: DataFunctionArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const octokit = await getOctokit(request);
 
   const { owner, repo, id } = params;

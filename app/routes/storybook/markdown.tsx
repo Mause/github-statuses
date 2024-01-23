@@ -1,10 +1,10 @@
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Markdown, dedentBlock } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { tryGetOctokit } from "~/octokit.server";
 
-export async function loader({ request }: DataFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const octokit = await tryGetOctokit(request);
   const res = await octokit.markdown.render({
     text: source,

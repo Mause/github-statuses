@@ -1,11 +1,11 @@
 import { Button } from "@primer/react";
-import { type DataFunctionArgs } from "@remix-run/node";
+import { type LoaderFunctionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { Wrapper } from "~/components";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
 import { authenticator } from "~/services/auth.server";
 
-export const loader = async ({ request }: DataFunctionArgs) =>
+export const loader = async ({ request }: LoaderFunctionArgs) =>
   await authenticator().isAuthenticated(request, {
     successRedirect: "/",
   });
