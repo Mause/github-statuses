@@ -22,7 +22,7 @@ import styled from "styled-components";
 import { createContext, useContext, useEffect, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
-import { titleCase } from "~/components";
+import { titleCase, splatObject } from "~/components";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 interface Line {
@@ -65,6 +65,7 @@ export const loader = async ({ request, params }: DataFunctionArgs) => {
     return {
       message: "Logs not found. This installation probably doesn't have access",
       url,
+      error: splatObject(e),
     };
   }
 

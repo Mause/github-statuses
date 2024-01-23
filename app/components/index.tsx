@@ -8,7 +8,7 @@ export { default as Wrapper } from "./Wrapper";
 export { Markdown } from "./Markdown";
 export { dedentBlock, dedent } from "./dedentBlock";
 export { titleCase } from "./titleCase";
-export { ErrorBoundary } from "./ErrorBoundary";
+export { ErrorBoundary, splatObject } from "./ErrorBoundary";
 export { ActionProgress } from "./ActionProgress";
 export { ExternalLink } from "./ExternalLink";
 export { TabNavLink } from "./TabNavLink";
