@@ -2,7 +2,9 @@
 
 exports[`constructLine > ansi colors 1`] = `
 <div>
-  <span style="color: rgb(0, 204, 255);">
+  <span
+    style="font-weight: bold; color: rgb(0, 204, 255);"
+  >
     options(crayon.enabled = TRUE)
   </span>
 </div>

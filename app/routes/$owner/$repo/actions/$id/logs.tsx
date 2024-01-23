@@ -22,6 +22,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
+import { titleCase } from "~/components";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 interface SingleStep {
@@ -123,7 +124,14 @@ function parseCss(css: string): Record<string, string> {
     css
       .split(";")
       .filter((rule) => rule.trim())
-      .map((rule) => rule.split(":").map((rule) => rule.trim())),
+      .map((rule) => {
+        const [key, value] = rule.split(":").map((rule) => rule.trim());
+
+        const parts = key.split("-");
+        const endKey = parts[0] + parts.slice(1).map(titleCase).join("");
+
+        return [endKey, value];
+      }),
   );
 }
 
