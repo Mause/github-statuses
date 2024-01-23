@@ -22,6 +22,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
+import { titleCase } from "~/components";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 interface SingleStep {
@@ -83,7 +84,7 @@ const paleBlue = "#0074D9";
  *
  * I guess GitHub Actions translates to the Azure syntax under the hood
  */
-export function constructLine(line: string) {
+export function ConstructLine({ line }: { line: string }) {
   let directive: string = "";
   if (line.startsWith("##[")) {
     const parts = matchDirective(line);
@@ -123,7 +124,14 @@ function parseCss(css: string): Record<string, string> {
     css
       .split(";")
       .filter((rule) => rule.trim())
-      .map((rule) => rule.split(":").map((rule) => rule.trim())),
+      .map((rule) => {
+        const [key, value] = rule.split(":").map((rule) => rule.trim());
+
+        const parts = key.split("-");
+        const endKey = parts[0] + parts.slice(1).map(titleCase).join("");
+
+        return [endKey, value];
+      }),
   );
 }
 
@@ -156,7 +164,7 @@ function Step({ name, lines }: { name: string; lines: string[] }) {
           <code>
             {lines.map((line, i) => (
               <span key={i}>
-                {constructLine(line)}
+                <ConstructLine line={line} />
                 <br />
               </span>
             ))}
