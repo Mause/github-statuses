@@ -1,7 +1,11 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Job as JobShape } from "~/services/archive.server";
-import { getLogsForUrl } from "~/services/archive.server";
+import {
+  getLogsForUrl,
+  isCausedError,
+  isHttpError,
+} from "~/services/archive.server";
 import ansicolor from "ansicolor";
 import {
   getInstallationOctokit,
@@ -62,8 +66,13 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
     const url = `https://github.com/apps/action-statuses/installations/${installationId}`;
 
+    let status = "unknown";
+    if (isCausedError(e) && isHttpError(e.cause)) {
+      status = e.cause.response.statusText;
+    }
+
     return {
-      message: "Logs not found. This installation probably doesn't have access",
+      message: `Logs not found (${status}). This installation probably doesn't have access`,
       url,
       error: splatObject(e),
     };

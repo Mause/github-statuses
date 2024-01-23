@@ -4,6 +4,13 @@ import {
   ConstructLine,
   LineWithTimestamp,
 } from "~/routes/$owner/$repo/actions/$id/logs";
+import { RequestError } from "@octokit/request-error";
+import {
+  CausedError,
+  isCausedError,
+  isHttpError,
+} from "~/services/archive.server";
+import type { OctokitResponse } from "@octokit/types";
 
 describe("constructLine", () => {
   it("error", () => {
@@ -35,5 +42,23 @@ describe("constructLine", () => {
         expect(el.container).toMatchSnapshot();
       });
     }
+  });
+
+  it("CausedError and HttpError", () => {
+    let response = {} as OctokitResponse<unknown>;
+    const hello = new CausedError(
+      "hello",
+      new RequestError("message", 404, {
+        request: {
+          method: "GET",
+          headers: {},
+          url: "",
+        },
+        response,
+      }),
+    );
+
+    expect(isCausedError(hello)).toEqual(true);
+    expect(isHttpError(hello.cause)).toEqual(true);
   });
 });
