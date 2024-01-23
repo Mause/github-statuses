@@ -19,7 +19,7 @@ import {
 } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
 import { titleCase } from "~/components";
@@ -83,13 +83,16 @@ const paleRed = "#ff5353";
 const paleYellow = "#FFDC00";
 const paleBlue = "#0074D9";
 
+export const ConfigContext = createContext({ showTimestamps: false });
+ConfigContext.displayName = "ConfigContext";
+
 export function LineWithTimestamp({
   line: { line, timestamp },
-  showTimestamps,
 }: {
   line: Line;
-  showTimestamps: boolean;
 }) {
+  const showTimestamps = useContext(ConfigContext);
+
   if (showTimestamps) {
     return (
       <span>
@@ -160,15 +163,7 @@ function parseCss(css: string): Record<string, string> {
   );
 }
 
-function Job({
-  name,
-  steps,
-  showTimestamps,
-}: {
-  name: string;
-  steps: SingleStep[];
-  showTimestamps: boolean;
-}) {
+function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
   const { open, getDetailsProps } = useDetails({});
   return (
     <Details {...getDetailsProps()}>
@@ -178,7 +173,7 @@ function Job({
           .filter(({ lines }) => lines.length)
           .map(({ name, lines, index }) => (
             <li key={name} value={index}>
-              <Step name={name} lines={lines} showTimestamps={showTimestamps} />
+              <Step name={name} lines={lines} />
             </li>
           ))}
       </ol>
@@ -186,15 +181,7 @@ function Job({
   );
 }
 
-function Step({
-  name,
-  lines,
-  showTimestamps,
-}: {
-  name: string;
-  lines: Line[];
-  showTimestamps: boolean;
-}) {
+function Step({ name, lines }: { name: string; lines: Line[] }) {
   const { open, getDetailsProps } = useDetails({});
 
   return (
@@ -205,10 +192,7 @@ function Step({
           <code>
             {lines.map((line, i) => (
               <span key={i}>
-                <LineWithTimestamp
-                  line={line}
-                  showTimestamps={showTimestamps}
-                />
+                <LineWithTimestamp line={line} />
                 <br />
               </span>
             ))}
@@ -295,25 +279,23 @@ export default function Logs() {
           onChange={setShowTimestamps}
         />
       </FormControl>
-      {extracted.length ? (
-        <ul>
-          {extracted
-            .filter(({ steps }) => steps.length)
-            .map(({ name, steps }) => (
-              <li key={name}>
-                <Job
-                  name={name}
-                  steps={steps}
-                  showTimestamps={showTimestamps}
-                />
-              </li>
-            ))}
-        </ul>
-      ) : (
-        <Box padding={2}>
-          <Flash variant="warning">No logs to display</Flash>
-        </Box>
-      )}
+      <ConfigContext.Provider value={{ showTimestamps }}>
+        {extracted.length ? (
+          <ul>
+            {extracted
+              .filter(({ steps }) => steps.length)
+              .map(({ name, steps }) => (
+                <li key={name}>
+                  <Job name={name} steps={steps} />
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <Box padding={2}>
+            <Flash variant="warning">No logs to display</Flash>
+          </Box>
+        )}
+      </ConfigContext.Provider>
     </>
   );
 }

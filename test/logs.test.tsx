@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import {
+  ConfigContext,
   ConstructLine,
   LineWithTimestamp,
 } from "~/routes/$owner/$repo/actions/$id/logs";
@@ -20,24 +21,30 @@ describe("constructLine", () => {
 
   it("lineWithTimestamp", () => {
     let el = render(
-      <LineWithTimestamp
-        line={{
-          line: "hello world",
-          timestamp: "2022-01-01T22:00",
+      <ConfigContext.Provider
+        value={{
+          showTimestamps: true,
         }}
-        showTimestamps={true}
-      />,
+      >
+        <LineWithTimestamp
+          line={{
+            line: "hello world",
+            timestamp: "2022-01-01T22:00",
+          }}
+        />
+      </ConfigContext.Provider>,
     );
     expect(el.container).toMatchSnapshot();
 
     el = render(
-      <LineWithTimestamp
-        line={{
-          line: "hello world",
-          timestamp: "2022-01-01T22:00",
-        }}
-        showTimestamps={false}
-      />,
+      <ConfigContext.Provider value={{ showTimestamps: false }}>
+        <LineWithTimestamp
+          line={{
+            line: "hello world",
+            timestamp: "2022-01-01T22:00",
+          }}
+        />
+      </ConfigContext.Provider>,
     );
     expect(el.container).toMatchSnapshot();
   });
