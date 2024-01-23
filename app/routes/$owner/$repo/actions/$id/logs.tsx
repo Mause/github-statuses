@@ -83,7 +83,7 @@ const paleBlue = "#0074D9";
  *
  * I guess GitHub Actions translates to the Azure syntax under the hood
  */
-export function constructLine(line: string) {
+export function ConstructLine({ line }: { line: string }) {
   let directive: string = "";
   if (line.startsWith("##[")) {
     const parts = matchDirective(line);
@@ -156,7 +156,7 @@ function Step({ name, lines }: { name: string; lines: string[] }) {
           <code>
             {lines.map((line, i) => (
               <span key={i}>
-                {constructLine(line)}
+                <ConstructLine line={line} />
                 <br />
               </span>
             ))}
