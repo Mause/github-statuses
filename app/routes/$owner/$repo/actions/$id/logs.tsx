@@ -240,7 +240,7 @@ export default function Logs() {
             };
           });
 
-          lines = lines.filter((line) => !line.line.includes("##vso["));
+          lines = lines.filter(({ line }) => !line.includes("##vso["));
 
           // TODO: move this filtering to the backend
           if (onlyErrors) {
