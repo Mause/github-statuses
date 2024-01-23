@@ -25,10 +25,14 @@ import { getOctokit } from "~/octokit.server";
 import { titleCase } from "~/components";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
+interface Line {
+  line: string;
+  timestamp: string;
+}
 interface SingleStep {
   name: string;
   index: number;
-  lines: string[];
+  lines: Line[];
 }
 interface SingleJob {
   name: string;
@@ -78,6 +82,18 @@ const Summary = styled.summary<{ open: boolean }>`
 const paleRed = "#ff5353";
 const paleYellow = "#FFDC00";
 const paleBlue = "#0074D9";
+
+function LineWithTimestamp({line: {line, timestamp}, showTimestamps}: {line: Line, showTimestamps: boolean}){
+  if (showTimestamps) {
+    return <span><span>
+      {timestamp}
+      </span>
+      <ConstructLine line={line} />
+      </span>
+  } else {
+      return       <ConstructLine line={line} />
+  }
+}
 
 /**
  * See https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash
@@ -135,7 +151,7 @@ function parseCss(css: string): Record<string, string> {
   );
 }
 
-function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
+function Job({ name, steps, showTimestamps }: { name: string; steps: SingleStep[], showTimestamps: boolean }) {
   const { open, getDetailsProps } = useDetails({});
   return (
     <Details {...getDetailsProps()}>
@@ -145,7 +161,7 @@ function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
           .filter(({ lines }) => lines.length)
           .map(({ name, lines, index }) => (
             <li key={name} value={index}>
-              <Step name={name} lines={lines} />
+              <Step name={name} lines={lines} showTimestamps={showTimestamps} />
             </li>
           ))}
       </ol>
@@ -153,7 +169,7 @@ function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
   );
 }
 
-function Step({ name, lines }: { name: string; lines: string[] }) {
+function Step({ name, lines, showTimestamps }: { name: string; lines: Line[], showTimestamps: boolean }) {
   const { open, getDetailsProps } = useDetails({});
 
   return (
@@ -164,7 +180,7 @@ function Step({ name, lines }: { name: string; lines: string[] }) {
           <code>
             {lines.map((line, i) => (
               <span key={i}>
-                <ConstructLine line={line} />
+                <LineWithTimestamp line={line} showTimestamps={showTimestamps} />
                 <br />
               </span>
             ))}
@@ -184,9 +200,10 @@ function matchDirective(line: string) {
   };
 }
 
-function extractErrors(data: string[]) {
+
+function extractErrors(data: Line[]) {
   return data.filter(
-    (line) =>
+    ({line}) =>
       line.toLocaleLowerCase().includes("error") &&
       line !== "Evaluating continue on error",
   );
@@ -204,13 +221,15 @@ export default function Logs() {
       _.map(logs, (data, name) => ({
         name,
         steps: data.map((step) => {
-          let lines = step.contents;
+          let lines = step.contents.map(line => {
+            const timestamp = line.substring(0, TIMESTAMP_LENGTH);
+            return {
+              timestamp,
+              line: line.substring(TIMESTAMP_LENGTH + 1)
+            }
+          });
 
-          if (!showTimestamps) {
-            lines = lines.map((line) => line.substring(TIMESTAMP_LENGTH + 1));
-          }
-
-          lines = lines.filter((line) => !line.includes("##vso["));
+          lines = lines.filter((line) => !line.line.includes("##vso["));
 
           // TODO: move this filtering to the backend
           if (onlyErrors) {
@@ -221,7 +240,7 @@ export default function Logs() {
         }),
       })),
     );
-  }, [logs, onlyErrors, showTimestamps]);
+  }, [logs, onlyErrors]);
 
   return (
     <>
@@ -255,7 +274,7 @@ export default function Logs() {
             .filter(({ steps }) => steps.length)
             .map(({ name, steps }) => (
               <li key={name}>
-                <Job name={name} steps={steps} />
+                <Job name={name} steps={steps} showTimestamps={showTimestamps} />
               </li>
             ))}
         </ul>
