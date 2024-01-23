@@ -31,13 +31,12 @@ exports[`constructLine > lineWithTimestamp(false) 1`] = `
 exports[`constructLine > lineWithTimestamp(true) 1`] = `
 <div>
   <span>
-    <span>
-      <time
-        datetime="2022-01-01T22:00"
-      >
-        2022-01-01T22:00
-      </time>
-    </span>
+    <time
+      datetime="2022-01-01T22:00"
+    >
+      2022-01-01T22:00
+    </time>
+     
     <span>
       hello world
     </span>

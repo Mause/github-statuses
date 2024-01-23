@@ -96,9 +96,8 @@ export function LineWithTimestamp({
   if (showTimestamps) {
     return (
       <span>
-        <span>
-          <time dateTime={timestamp}>{timestamp}</time>
-        </span>
+        <time dateTime={timestamp}>{timestamp}</time>
+        &nbsp;
         <ConstructLine line={line} />
       </span>
     );
