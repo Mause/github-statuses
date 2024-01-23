@@ -91,7 +91,7 @@ export function LineWithTimestamp({
 }: {
   line: Line;
 }) {
-  const showTimestamps = useContext(ConfigContext);
+  const { showTimestamps } = useContext(ConfigContext);
 
   if (showTimestamps) {
     return (

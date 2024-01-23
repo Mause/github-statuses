@@ -19,8 +19,8 @@ describe("constructLine", () => {
     expect(el.container).toMatchSnapshot();
   });
 
-  it("lineWithTimestamp", () => {
-    let el = render(
+  it("lineWithTimestamp(true)", () => {
+    const el = render(
       <ConfigContext.Provider
         value={{
           showTimestamps: true,
@@ -35,8 +35,9 @@ describe("constructLine", () => {
       </ConfigContext.Provider>,
     );
     expect(el.container).toMatchSnapshot();
-
-    el = render(
+  });
+  it("lineWithTimestamp(false)", () => {
+    const el = render(
       <ConfigContext.Provider value={{ showTimestamps: false }}>
         <LineWithTimestamp
           line={{

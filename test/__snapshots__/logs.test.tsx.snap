@@ -20,7 +20,15 @@ exports[`constructLine > error 1`] = `
 </div>
 `;
 
-exports[`constructLine > lineWithTimestamp 1`] = `
+exports[`constructLine > lineWithTimestamp(false) 1`] = `
+<div>
+  <span>
+    hello world
+  </span>
+</div>
+`;
+
+exports[`constructLine > lineWithTimestamp(true) 1`] = `
 <div>
   <span>
     <span>
@@ -33,14 +41,6 @@ exports[`constructLine > lineWithTimestamp 1`] = `
     <span>
       hello world
     </span>
-  </span>
-</div>
-`;
-
-exports[`constructLine > lineWithTimestamp 2`] = `
-<div>
-  <span>
-    hello world
   </span>
 </div>
 `;
