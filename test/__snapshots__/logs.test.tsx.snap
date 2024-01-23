@@ -19,3 +19,27 @@ exports[`constructLine > error 1`] = `
   </span>
 </div>
 `;
+
+exports[`constructLine > lineWithTimestamp > false 1`] = `
+<div>
+  <span>
+    hello world
+  </span>
+</div>
+`;
+
+exports[`constructLine > lineWithTimestamp > true 1`] = `
+<div>
+  <span>
+    <time
+      datetime="2022-01-01T22:00"
+    >
+      2022-01-01T22:00
+    </time>
+     
+    <span>
+      hello world
+    </span>
+  </span>
+</div>
+`;

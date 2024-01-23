@@ -19,16 +19,20 @@ import {
 } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
 import { titleCase } from "~/components";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
+interface Line {
+  line: string;
+  timestamp: string;
+}
 interface SingleStep {
   name: string;
   index: number;
-  lines: string[];
+  lines: Line[];
 }
 interface SingleJob {
   name: string;
@@ -78,6 +82,29 @@ const Summary = styled.summary<{ open: boolean }>`
 const paleRed = "#ff5353";
 const paleYellow = "#FFDC00";
 const paleBlue = "#0074D9";
+
+export const ConfigContext = createContext({ showTimestamps: false });
+ConfigContext.displayName = "ConfigContext";
+
+export function LineWithTimestamp({
+  line: { line, timestamp },
+}: {
+  line: Line;
+}) {
+  const { showTimestamps } = useContext(ConfigContext);
+
+  if (showTimestamps) {
+    return (
+      <span>
+        <time dateTime={timestamp}>{timestamp}</time>
+        &nbsp;
+        <ConstructLine line={line} />
+      </span>
+    );
+  } else {
+    return <ConstructLine line={line} />;
+  }
+}
 
 /**
  * See https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash
@@ -153,7 +180,7 @@ function Job({ name, steps }: { name: string; steps: SingleStep[] }) {
   );
 }
 
-function Step({ name, lines }: { name: string; lines: string[] }) {
+function Step({ name, lines }: { name: string; lines: Line[] }) {
   const { open, getDetailsProps } = useDetails({});
 
   return (
@@ -164,7 +191,7 @@ function Step({ name, lines }: { name: string; lines: string[] }) {
           <code>
             {lines.map((line, i) => (
               <span key={i}>
-                <ConstructLine line={line} />
+                <LineWithTimestamp line={line} />
                 <br />
               </span>
             ))}
@@ -184,9 +211,9 @@ function matchDirective(line: string) {
   };
 }
 
-function extractErrors(data: string[]) {
+function extractErrors(data: Line[]) {
   return data.filter(
-    (line) =>
+    ({ line }) =>
       line.toLocaleLowerCase().includes("error") &&
       line !== "Evaluating continue on error",
   );
@@ -204,13 +231,15 @@ export default function Logs() {
       _.map(logs, (data, name) => ({
         name,
         steps: data.map((step) => {
-          let lines = step.contents;
+          let lines = step.contents.map((line) => {
+            const timestamp = line.substring(0, TIMESTAMP_LENGTH);
+            return {
+              timestamp,
+              line: line.substring(TIMESTAMP_LENGTH + 1),
+            };
+          });
 
-          if (!showTimestamps) {
-            lines = lines.map((line) => line.substring(TIMESTAMP_LENGTH + 1));
-          }
-
-          lines = lines.filter((line) => !line.includes("##vso["));
+          lines = lines.filter(({ line }) => !line.includes("##vso["));
 
           // TODO: move this filtering to the backend
           if (onlyErrors) {
@@ -221,7 +250,7 @@ export default function Logs() {
         }),
       })),
     );
-  }, [logs, onlyErrors, showTimestamps]);
+  }, [logs, onlyErrors]);
 
   return (
     <>
@@ -249,21 +278,23 @@ export default function Logs() {
           onChange={setShowTimestamps}
         />
       </FormControl>
-      {extracted.length ? (
-        <ul>
-          {extracted
-            .filter(({ steps }) => steps.length)
-            .map(({ name, steps }) => (
-              <li key={name}>
-                <Job name={name} steps={steps} />
-              </li>
-            ))}
-        </ul>
-      ) : (
-        <Box padding={2}>
-          <Flash variant="warning">No logs to display</Flash>
-        </Box>
-      )}
+      <ConfigContext.Provider value={{ showTimestamps }}>
+        {extracted.length ? (
+          <ul>
+            {extracted
+              .filter(({ steps }) => steps.length)
+              .map(({ name, steps }) => (
+                <li key={name}>
+                  <Job name={name} steps={steps} />
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <Box padding={2}>
+            <Flash variant="warning">No logs to display</Flash>
+          </Box>
+        )}
+      </ConfigContext.Provider>
     </>
   );
 }
