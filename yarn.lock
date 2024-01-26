@@ -3273,8 +3273,8 @@ __metadata:
   linkType: hard
 
 "@primer/react@npm:^36.0.0":
-  version: 36.5.0
-  resolution: "@primer/react@npm:36.5.0"
+  version: 36.6.0
+  resolution: "@primer/react@npm:36.6.0"
   dependencies:
     "@github/combobox-nav": "npm:^2.1.5"
     "@github/markdown-toolbar-element": "npm:^2.1.0"
@@ -3319,7 +3319,7 @@ __metadata:
       optional: true
     "@types/styled-components":
       optional: true
-  checksum: 9b613c28049db63f91533eab761fdbe9961bc2e938a84c27ebe251286a57b6b5fd248b8fc4526d4aaa40c44443779f8f985033246b276903528a6fdda537fe4a
+  checksum: 26f81382ebad3b98b1d1d1620dddf3bcca7c8e2015193a4ba796857177daea9896001011cc87a71c588a9f9658d7426085d10189c1e54da283b29da8317459cd
   languageName: node
   linkType: hard
 
