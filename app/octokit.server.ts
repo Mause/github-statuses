@@ -161,7 +161,11 @@ export async function call<Result, Variables extends RequestParameters>(
         await authenticator().logout(request, {
           redirectTo: "/",
         });
+      } else {
+        console.log("Not a bad credentials error", e);
       }
+    } else {
+      console.log("Not a request error", e);
     }
     throw e;
   } finally {
