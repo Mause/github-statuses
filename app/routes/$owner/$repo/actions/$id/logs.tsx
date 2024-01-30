@@ -6,11 +6,11 @@ import {
   isCausedError,
   isHttpError,
 } from "~/services/archive.server";
-import ansicolor from "ansicolor";
 import {
   getInstallationOctokit,
   getInstallationId,
 } from "~/services/installation";
+import * as asc from "ansi-sequence-parser";
 import { GearIcon } from "@primer/octicons-react";
 import {
   Flash,
@@ -23,10 +23,11 @@ import {
 } from "@primer/react";
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
+import type { CSSProperties } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
-import { titleCase, splatObject } from "~/components";
+import { splatObject } from "~/components";
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 interface Line {
@@ -141,13 +142,13 @@ export function ConstructLine({ line }: { line: string }) {
     case "command":
     case "endgroup":
     default: {
-      const { spans } = ansicolor.parse(line!);
+      const spans = asc.parseAnsiSequences(line!);
 
       return (
         <>
           {spans.map((dat) => (
-            <span key={dat.text} style={parseCss(dat.css)}>
-              {dat.text}
+            <span key={dat.value} style={parseCss(dat)}>
+              {dat.value}
             </span>
           ))}
         </>
@@ -156,20 +157,39 @@ export function ConstructLine({ line }: { line: string }) {
   }
 }
 
-function parseCss(css: string): Record<string, string> {
-  return Object.fromEntries(
-    css
-      .split(";")
-      .filter((rule) => rule.trim())
-      .map((rule) => {
-        const [key, value] = rule.split(":").map((rule) => rule.trim());
+const colorPalette = asc.createColorPalette();
 
-        const parts = key.split("-");
-        const endKey = parts[0] + parts.slice(1).map(titleCase).join("");
+function parseCss(css: asc.ParseToken): CSSProperties {
+  const toColor = (color: asc.Color | null) => {
+    return color ? colorPalette.value(color) : undefined;
+  };
 
-        return [endKey, value];
-      }),
-  );
+  const outCss: CSSProperties = {
+    color: toColor(css.foreground),
+    backgroundColor: toColor(css.background),
+  };
+
+  for (const deco of css.decorations) {
+    switch (deco) {
+      case "bold":
+        outCss.fontWeight = "bolder";
+        break;
+      case "italic":
+        outCss.fontStyle = "italic";
+        break;
+      case "underline":
+        outCss.textDecoration = "underline";
+        break;
+      case "strikethrough":
+        outCss.textDecoration = "line-through";
+        break;
+      case "dim":
+        outCss.opacity = 0.5;
+        break;
+    }
+  }
+
+  return outCss;
 }
 
 function Job({ name, steps }: { name: string; steps: SingleStep[] }) {

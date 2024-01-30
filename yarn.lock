@@ -5631,6 +5631,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ansi-sequence-parser@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "ansi-sequence-parser@npm:1.1.1"
+  checksum: 9ce30f257badc2ef62cac8028a7e26c368d22bf26650427192e8ffd102da42e377e3affe90fae58062eecc963b0b055f510dde3b677c7e0c433c67069b5a8ee5
+  languageName: node
+  linkType: hard
+
 "ansi-styles@npm:^3.2.1":
   version: 3.2.1
   resolution: "ansi-styles@npm:3.2.1"
@@ -5660,13 +5667,6 @@ __metadata:
   version: 6.2.1
   resolution: "ansi-styles@npm:6.2.1"
   checksum: 70fdf883b704d17a5dfc9cde206e698c16bcd74e7f196ab821511651aee4f9f76c9514bdfa6ca3a27b5e49138b89cb222a28caf3afe4567570139577f991df32
-  languageName: node
-  linkType: hard
-
-"ansicolor@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "ansicolor@npm:2.0.1"
-  checksum: 71a553fde28462985e78e3af091858c2b6d06e9eb51cb88a5440b0fe70f38901156a9b80b345cead744d9dc3e23497a233019d205d248ffaa72226781b88722a
   languageName: node
   linkType: hard
 
@@ -9517,7 +9517,7 @@ __metadata:
     "@vercel/node": "npm:^3.0.0"
     "@vitejs/plugin-react": "npm:^4.2.1"
     adm-zip: "npm:^0.5.10"
-    ansicolor: "npm:^2.0.1"
+    ansi-sequence-parser: "npm:^1.1.1"
     async: "npm:^3.2.4"
     debug: "npm:^4.3.4"
     eslint: "npm:^8.0.1"
