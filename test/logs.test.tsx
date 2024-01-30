@@ -61,4 +61,11 @@ describe("constructLine", () => {
     expect(isCausedError(hello)).toEqual(true);
     expect(isHttpError(hello.cause)).toEqual(true);
   });
+
+  it("ansi 256 colors", () => {
+    const line = "\u001b[38;5;244mtest_selector:";
+    const el = render(<ConstructLine line={line} />);
+
+    expect(el.container).toMatchSnapshot();
+  });
 });

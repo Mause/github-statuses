@@ -1,9 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`constructLine > ansi 256 colors 1`] = `
+<div>
+  <span
+    style="color: rgb(128, 128, 128);"
+  >
+    test_selector:
+  </span>
+</div>
+`;
+
 exports[`constructLine > ansi colors 1`] = `
 <div>
   <span
-    style="font-weight: bold; color: rgb(0, 204, 255);"
+    style="color: rgb(0, 187, 187); font-weight: bolder;"
   >
     options(crayon.enabled = TRUE)
   </span>
