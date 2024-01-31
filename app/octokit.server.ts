@@ -6,7 +6,7 @@ import { redirect, createCookie } from "@remix-run/node";
 import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
-import { RequestError } from "@octokit/request-error";
+import type { RequestError } from "@octokit/request-error";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
 import { getInstallationForLogin } from "~/services/installation";
 
@@ -156,11 +156,16 @@ export async function call<Result, Variables extends RequestParameters>(
     );
   } catch (e) {
     console.error(e);
-    if (e instanceof RequestError) {
+    if (isRequestError(e)) {
       if (e.message === "Bad credentials") {
+        throw new Response(
+          'Your session has expired. Please <a href="/login">login again</a>.',
+        );
+        /*
         await authenticator().logout(request, {
           redirectTo: "/",
         });
+        */
       } else {
         console.log("Not a bad credentials error", e);
       }
@@ -171,4 +176,11 @@ export async function call<Result, Variables extends RequestParameters>(
   } finally {
     transaction.finish();
   }
+}
+
+function isError(e: any): e is Error {
+  return e && e.stack && e.message;
+}
+function isRequestError(e: any): e is RequestError {
+  return isError(e) && e.name === "RequestError";
 }
