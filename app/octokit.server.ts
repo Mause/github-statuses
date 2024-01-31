@@ -170,7 +170,7 @@ export async function call<Result, Variables extends RequestParameters>(
         console.log("Not a bad credentials error", e);
       }
     } else {
-      console.log("Not a request error", e);
+      console.log("Not a request error", { name: identity(e) }, e);
     }
     throw e;
   } finally {
@@ -183,4 +183,7 @@ function isError(e: any): e is Error {
 }
 function isRequestError(e: any): e is RequestError {
   return isError(e) && e.name === "RequestError";
+}
+function identity(e: any): string | undefined {
+  return isError(e) ? e.name : undefined;
 }
