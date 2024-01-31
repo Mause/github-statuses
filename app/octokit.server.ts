@@ -182,7 +182,7 @@ function isError(e: any): e is Error {
   return e && e.stack && e.message;
 }
 function isRequestError(e: any): e is RequestError {
-  return isError(e) && e.name === "RequestError";
+  return isError(e) && e.name === "HttpError";
 }
 function identity(e: any): string | undefined {
   return isError(e) ? e.name : undefined;
