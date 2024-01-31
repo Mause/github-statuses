@@ -143,39 +143,42 @@ export async function call<Result, Variables extends RequestParameters>(
   const octokit = await getOctokit(request);
 
   const match = /query ([^ ]?)/.exec(query.toString());
-  const transaction = Sentry.startTransaction({
-    op: "graphql",
-    name:
-      (match ? match[1] : undefined) ?? query.__meta__!.hash! ?? "unknown name",
-  });
-
-  try {
-    return await octokit.graphql(
-      [query.toString(), ...(fragments || [])].join("\n"),
-      variables,
-    );
-  } catch (e) {
-    console.error(e);
-    if (isRequestError(e)) {
-      if (e.message === "Bad credentials") {
-        throw new Response(
-          'Your session has expired. Please <a href="/login">login again</a>.',
+  return await Sentry.startSpan(
+    {
+      op: "graphql",
+      name:
+        (match ? match[1] : undefined) ??
+        query.__meta__!.hash! ??
+        "unknown name",
+    },
+    async () => {
+      try {
+        return await octokit.graphql(
+          [query.toString(), ...(fragments || [])].join("\n"),
+          variables,
         );
-        /*
-        await authenticator().logout(request, {
-          redirectTo: "/",
-        });
-        */
-      } else {
-        console.log("Not a bad credentials error", e);
+      } catch (e) {
+        console.error(e);
+        if (isRequestError(e)) {
+          if (e.message === "Bad credentials") {
+            throw new Response(
+              'Your session has expired. Please <a href="/login">login again</a>.',
+            );
+            /*
+          await authenticator().logout(request, {
+            redirectTo: "/",
+          });
+          */
+          } else {
+            console.log("Not a bad credentials error", e);
+          }
+        } else {
+          console.log("Not a request error", { name: identity(e) }, e);
+        }
+        throw e;
       }
-    } else {
-      console.log("Not a request error", { name: identity(e) }, e);
-    }
-    throw e;
-  } finally {
-    transaction.finish();
-  }
+    },
+  );
 }
 
 function isError(e: any): e is Error {
