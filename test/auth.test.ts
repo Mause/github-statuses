@@ -1,3 +1,4 @@
+import { catchError } from "~/components";
 import { logoutAndRedirect } from "~/octokit.server";
 import { commitSession, getSession } from "~/services/session.server";
 
@@ -21,12 +22,3 @@ describe("auth", () => {
     });
   });
 });
-
-async function catchError<T>(fn: Promise<unknown>) {
-  try {
-    await fn;
-  } catch (e) {
-    return e as T;
-  }
-  throw new Error("Expected an error to be thrown.");
-}
