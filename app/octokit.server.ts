@@ -9,6 +9,7 @@ import * as Sentry from "@sentry/remix";
 import type { RequestError } from "@octokit/request-error";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
 import { getInstallationForLogin } from "~/services/installation";
+import { commitSession, getSession } from "./services/session.server";
 
 const Throttled = Octokit.plugin(throttling);
 
@@ -161,14 +162,7 @@ export async function call<Result, Variables extends RequestParameters>(
         console.error(e);
         if (isRequestError(e)) {
           if (e.message === "Bad credentials") {
-            throw new Response(
-              'Your session has expired. Please <a href="/login">login again</a>.',
-            );
-            /*
-          await authenticator().logout(request, {
-            redirectTo: "/",
-          });
-          */
+            await logoutAndRedirect(request);
           } else {
             console.log("Not a bad credentials error", e);
           }
@@ -179,6 +173,20 @@ export async function call<Result, Variables extends RequestParameters>(
       }
     },
   );
+}
+
+export async function logoutAndRedirect(request: Request) {
+  try {
+    await authenticator().logout(request, {
+      redirectTo: "/",
+    });
+  } catch (e) {
+    const res = e as Response;
+    const session = await getSession(request.headers.get("Cookie"));
+    session.flash("error", "Your session has expired");
+    res.headers.set("Set-Cookie", await commitSession(session));
+    throw e;
+  }
 }
 
 function isError(e: any): e is Error {
