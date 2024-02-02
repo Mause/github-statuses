@@ -4130,11 +4130,11 @@ __metadata:
   linkType: hard
 
 "@tanstack/match-sorter-utils@npm:^8.7.6":
-  version: 8.11.7
-  resolution: "@tanstack/match-sorter-utils@npm:8.11.7"
+  version: 8.11.8
+  resolution: "@tanstack/match-sorter-utils@npm:8.11.8"
   dependencies:
     remove-accents: "npm:0.4.2"
-  checksum: 10/af1f9e120db9cdd6585281ac332edf94087923b1cd78ef538acf0e781355372bab43accebe7d32c1da772d20372b631b27631f8db1e9c92c1a0b9525bd70d575
+  checksum: 10/a74863bca3302a06cb3869bcea99c8091d1ccd023b8be7dded9e5e9d2695f7fe9c4ae65562b8e2ebdaf33554057d41bba2bf04a709b6af9940fefcee8ffc5c41
   languageName: node
   linkType: hard
 
