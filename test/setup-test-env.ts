@@ -1,5 +1,11 @@
 import "@testing-library/jest-dom";
+import { act } from "@testing-library/react";
 import { JSDOM } from "jsdom";
+import {
+  configMocks,
+  mockIntersectionObserver,
+  mockResizeObserver,
+} from "jsdom-testing-mocks";
 
 // Workaround: For some reason FormData is not set to jsdom's by default
 const jsdom = new JSDOM(`<!doctype html>`);
@@ -18,3 +24,7 @@ global.matchMedia ??= (() => ({
   addEventListener: () => {},
   removeEventListener: () => {},
 })) as unknown as typeof window.matchMedia;
+
+configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
+mockIntersectionObserver();
+mockResizeObserver();

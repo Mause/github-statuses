@@ -1,19 +1,9 @@
-import {
-  configMocks,
-  mockIntersectionObserver,
-  mockResizeObserver,
-} from "jsdom-testing-mocks";
-import { act } from "react-dom/test-utils";
 import { screen } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
 import { call } from "~/octokit.server";
 import type { TypedDocumentString } from "~/components/graphql/graphql";
 import { catchError } from "~/components";
 import { renderPrimer } from "./util";
-
-configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
-mockIntersectionObserver();
-mockResizeObserver();
 
 test("hello", async () => {
   let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
