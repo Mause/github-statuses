@@ -1,19 +1,9 @@
-import {
-  configMocks,
-  mockIntersectionObserver,
-  mockResizeObserver,
-} from "jsdom-testing-mocks";
-import { act } from "react-dom/test-utils";
-import { screen, render } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
-import { BaseStyles, ThemeProvider } from "@primer/react";
 import { call } from "~/octokit.server";
 import type { TypedDocumentString } from "~/components/graphql/graphql";
 import { catchError } from "~/components";
-
-configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
-mockIntersectionObserver();
-mockResizeObserver();
+import { renderPrimer } from "./util";
 
 test("hello", async () => {
   let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
@@ -26,20 +16,14 @@ test("hello", async () => {
 
   const Stub = createRemixStub([
     {
-      Component: () => (
-        <ThemeProvider>
-          <BaseStyles>
-            <BasePage asChildRoute={false} />
-          </BaseStyles>
-        </ThemeProvider>
-      ),
+      Component: () => <BasePage asChildRoute={false} />,
       loader: async () => ({ repos: [] }),
       path: "/",
       id: "root",
     },
   ]);
 
-  render(<Stub />);
+  await renderPrimer(<Stub />);
 
   await screen.findByText("Action Statuses");
 });
