@@ -9,6 +9,7 @@ import { createRemixStub } from "@remix-run/testing";
 import { BaseStyles, ThemeProvider } from "@primer/react";
 import { call } from "~/octokit.server";
 import type { TypedDocumentString } from "~/components/graphql/graphql";
+import { catchError } from "~/components";
 
 configMocks({ act, beforeAll, beforeEach, afterEach, afterAll });
 mockIntersectionObserver();
@@ -49,7 +50,7 @@ test("RequestError instanceof", async () => {
       Cookie: "session=123",
     }),
   } as unknown as Request;
-  const res = await shouldError(
+  const res = await catchError<Response>(
     call(
       request,
       "viewer { login }" as unknown as TypedDocumentString<
@@ -62,12 +63,3 @@ test("RequestError instanceof", async () => {
   expect(res.status).toEqual(302);
   expect(res.headers.get("location")).toEqual("/login");
 });
-
-async function shouldError(res: Promise<unknown>) {
-  try {
-    await res;
-    throw new Error("should not reach here");
-  } catch (e) {
-    return e as Response;
-  }
-}

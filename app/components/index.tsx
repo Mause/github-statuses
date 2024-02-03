@@ -13,6 +13,7 @@ export { ActionProgress } from "./ActionProgress";
 export { ExternalLink } from "./ExternalLink";
 export { TabNavLink } from "./TabNavLink";
 export { DefaultMessage } from "./DefaultMessage";
+export { catchError } from "./errors";
 
 export interface DataLoaderParams<T extends string> {
   params: Params<T>;
