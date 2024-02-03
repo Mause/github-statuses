@@ -1,6 +1,7 @@
 import { RemixBrowser, useLocation, useMatches } from "@remix-run/react";
 import { startTransition, StrictMode, useEffect } from "react";
 import { hydrateRoot } from "react-dom/client";
+import { HydrationOverlay } from "@builder.io/react-hydration-overlay";
 
 import * as Sentry from "@sentry/remix";
 
@@ -22,9 +23,11 @@ function hydrate() {
   startTransition(() => {
     hydrateRoot(
       document.getElementById("root")!,
-      <StrictMode>
-        <RemixBrowser />
-      </StrictMode>,
+      <HydrationOverlay>
+        <StrictMode>
+          <RemixBrowser />
+        </StrictMode>
+      </HydrationOverlay>,
     );
   });
 }
