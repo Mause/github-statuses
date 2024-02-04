@@ -1,6 +1,12 @@
 import { json } from "@remix-run/node";
-import type { DataLoaderParams} from "~/components";
-import { buildNameWithOwner , StandardTable } from "~/components";
+import type { DataLoaderParams } from "~/components";
+import {
+  buildNameWithOwner,
+  buildMergeableColumn,
+  buildRollupColumn,
+  buildTitleColumn,
+  StandardTable,
+} from "~/components";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
 import {
@@ -12,11 +18,6 @@ import {
 import { Heading, Link as PrimerLink } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import {
-  buildMergeableColumn,
-  buildRollupColumn,
-  buildTitleColumn,
-} from "./$repo/pulls";
 
 export const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
