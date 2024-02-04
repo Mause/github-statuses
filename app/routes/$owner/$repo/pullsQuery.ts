@@ -11,7 +11,7 @@ import type { Get } from "type-fest";
 import gql from "graphql-tag";
 
 export const query = gql`
-  fragment StatusCheckRollup on PullRequest {
+  fragment PrDetails on PullRequest {
     title
     number
     repository {
@@ -19,6 +19,9 @@ export const query = gql`
     }
     mergeable
     mergeStateStatus
+  }
+
+  fragment StatusCheckRollup on PullRequest {
     statusCheckRollup: commits(last: 1) {
       nodes {
         commit {
@@ -71,14 +74,12 @@ export const query = gql`
         totalCount
         edges {
           node {
-            number
-            title
-            state
             url
             isDraft
             isCrossRepository
             headRefName
             resourcePath
+            ...PrDetails
             author {
               login
               url
@@ -90,9 +91,7 @@ export const query = gql`
                 name
               }
             }
-            mergeStateStatus
             ...StatusCheckRollup
-            mergeable
           }
         }
       }

@@ -16,8 +16,12 @@ import { getFragment } from "~/components/graphql/fragment-masking";
 import type {
   MergeableState,
   StatusCheckRollupFragment,
+  PrDetailsFragment,
 } from "~/components/graphql/graphql";
-import { StatusCheckRollupFragmentDoc } from "~/components/graphql/graphql";
+import {
+  PrDetailsFragmentDoc,
+  StatusCheckRollupFragmentDoc,
+} from "~/components/graphql/graphql";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
 import type { LabelColorOptions } from "@primer/react/lib/Label";
 
@@ -66,30 +70,26 @@ export default function Pulls() {
 }
 
 export function buildNumberColumn<
-  T extends FragmentType<
-    DocumentTypeDecoration<StatusCheckRollupFragment, any>
-  >,
+  T extends FragmentType<DocumentTypeDecoration<PrDetailsFragment, any>>,
 >(): AccessorFnColumnDef<SerializeFrom<T>, number> {
   return {
     accessorFn: (props: SerializeFrom<T>) =>
-      getFragment(StatusCheckRollupFragmentDoc, props as T).number,
+      getFragment(PrDetailsFragmentDoc, props as T).number,
     header: "#",
     cell: (props) => `#${props.getValue()}`,
   };
 }
 
 export function buildTitleColumn<
-  T extends FragmentType<
-    DocumentTypeDecoration<StatusCheckRollupFragment, any>
-  >,
+  T extends FragmentType<DocumentTypeDecoration<PrDetailsFragment, any>>,
 >(): AccessorFnColumnDef<SerializeFrom<T>, string> {
   return {
     accessorFn: (props: SerializeFrom<T>) =>
-      getFragment(StatusCheckRollupFragmentDoc, props as T).title,
+      getFragment(PrDetailsFragmentDoc, props as T).title,
     header: "Title",
     cell: (props) => {
       const { number, repository } = getFragment(
-        StatusCheckRollupFragmentDoc,
+        PrDetailsFragmentDoc,
         props.row.original! as T,
       );
       return (
@@ -105,16 +105,11 @@ export function buildTitleColumn<
 }
 
 export function buildMergeableColumn<
-  T extends FragmentType<
-    DocumentTypeDecoration<StatusCheckRollupFragment, any>
-  >,
->(): AccessorFnColumnDef<
-  SerializeFrom<T>,
-  StatusCheckRollupFragment["mergeable"]
-> {
+  T extends FragmentType<DocumentTypeDecoration<PrDetailsFragment, any>>,
+>(): AccessorFnColumnDef<SerializeFrom<T>, PrDetailsFragment["mergeable"]> {
   return {
     accessorFn: (props: SerializeFrom<T>) =>
-      getFragment(StatusCheckRollupFragmentDoc, props as T).mergeable,
+      getFragment(PrDetailsFragmentDoc, props as T).mergeable,
     header: "Mergeability",
     cell: (props) => {
       const value: { [key in MergeableState]: LabelColorOptions } = {
