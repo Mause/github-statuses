@@ -10,12 +10,8 @@ import { catchError } from "~/components";
 
 describe("auth", () => {
   it("logs out and redirects", async () => {
-    const request = {
-      headers: new Headers({
-        Cookie: await commitSession(await getSession()),
-      }),
-      url: new URL("http://localhost"),
-    } as unknown as Request;
+    const request = new Request("http://localhost");
+    request.headers.set("Cookie", await commitSession(await getSession()));
     expect(request.headers.get("Cookie")).toMatch(/_session/);
 
     const response = await logoutAndRedirect(request);
@@ -33,13 +29,11 @@ describe("auth", () => {
 
     session.set(authenticator().sessionKey, { id: 1, login: "octocat" });
 
+    const request = new Request("http://localhost");
+    request.headers.set("Cookie", await commitSession(session));
     const res = await catchError<Response>(
       loginPage.loader({
-        request: {
-          headers: new Headers({
-            Cookie: await commitSession(session),
-          }),
-        } as unknown as Request,
+        request,
         params: {},
         context: {},
       }),
