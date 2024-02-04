@@ -163,7 +163,7 @@ export async function call<Result, Variables extends RequestParameters>(
         console.error(e);
         if (isRequestError(e)) {
           if (e.message === "Bad credentials") {
-            await logoutAndRedirect(request);
+            throw await logoutAndRedirect(request);
           } else {
             console.log("Not a bad credentials error", e);
           }
@@ -185,7 +185,7 @@ export async function logoutAndRedirect(request: Request) {
   const session = await getSession(request.headers.get("Cookie"));
   session.flash("error", "Your session has expired");
   res.headers.set("Set-Cookie", await commitSession(session));
-  throw res;
+  return res;
 }
 
 function isError(e: any): e is Error {

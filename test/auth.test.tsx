@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
 import { screen } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
-import { catchError } from "~/components";
 import { logoutAndRedirect } from "~/octokit.server";
 import { commitSession, getSession } from "~/services/session.server";
 import * as loginPage from "~/routes/login";
@@ -17,7 +16,7 @@ describe("auth", () => {
     } as unknown as Request;
     expect(request.headers.get("Cookie")).toMatch(/_session/);
 
-    const response = await catchError<Response>(logoutAndRedirect(request));
+    const response = await logoutAndRedirect(request);
     expect(response.status).toBe(302);
     expect(response.headers.get("Location")).toBe("/");
 
