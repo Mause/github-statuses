@@ -5,6 +5,8 @@ import { logoutAndRedirect } from "~/octokit.server";
 import { commitSession, getSession } from "~/services/session.server";
 import * as loginPage from "~/routes/login";
 import { renderPrimer } from "./util";
+import { authenticator } from "~/services/auth.server";
+import { catchError } from "~/components";
 
 describe("auth", () => {
   it("logs out and redirects", async () => {
@@ -24,6 +26,27 @@ describe("auth", () => {
     expect(session.data).toEqual({
       __flash_error__: "Your session has expired",
     });
+  });
+
+  it("logged in redirects", async () => {
+    const session = await getSession();
+
+    session.set(authenticator().sessionKey, { id: 1, login: "octocat" });
+
+    const res = await catchError<Response>(
+      loginPage.loader({
+        request: {
+          headers: new Headers({
+            Cookie: await commitSession(session),
+          }),
+        } as unknown as Request,
+        params: {},
+        context: {},
+      }),
+    );
+
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe("/");
   });
 
   it("test login page with error", async () => {
