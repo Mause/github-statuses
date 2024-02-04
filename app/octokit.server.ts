@@ -182,7 +182,7 @@ export async function logoutAndRedirect(request: Request) {
       redirectTo: "/",
     }),
   );
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await getSession(res.headers.get("Cookie"));
   session.flash("error", "Your session has expired");
   res.headers.set("Set-Cookie", await commitSession(session));
   return res;
