@@ -1,12 +1,16 @@
 import { json } from "@remix-run/node";
-import { Link } from "@remix-run/react";
-import { createColumnHelper } from "@tanstack/react-table";
 import type { DataLoaderParams } from "~/components";
-import { StandardTable } from "~/components";
+import {
+  buildNameWithOwner,
+  buildMergeableColumn,
+  buildRollupColumn,
+  buildTitleColumn,
+  StandardTable,
+} from "~/components";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";
-import type { GetUserPullRequestsQueryVariables } from "~/components/graphql/graphql";
 import {
+  type GetUserPullRequestsQueryVariables,
   GetUserPullRequestsDocument,
   IssueOrderField,
   OrderDirection,
@@ -14,11 +18,6 @@ import {
 import { Heading, Link as PrimerLink } from "@primer/react";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import {
-  buildMergeableColumn,
-  buildRollupColumn,
-  buildTitleColumn,
-} from "./$repo/pulls";
 
 export const Query = gql`
   query GetUserPullRequests($owner: String!, $order: IssueOrder!) {
@@ -28,13 +27,9 @@ export const Query = gql`
       pullRequests(first: 10, orderBy: $order, states: OPEN) {
         edges {
           node {
-            number
-            title
             url
-            repository {
-              nameWithOwner
-            }
             ...StatusCheckRollup
+            ...PrDetails
           }
         }
       }
@@ -65,22 +60,11 @@ export default function Owner() {
 
   type PullRequest = (typeof pulls)[0];
 
-  const columnHelper = createColumnHelper<PullRequest>();
   const table: StandardTableOptions<PullRequest> = {
     data: pulls,
     columns: [
       buildTitleColumn(),
-      columnHelper.accessor("repository.nameWithOwner", {
-        header: "Repository",
-        cell: (props) => {
-          const name = props.getValue();
-          return (
-            <PrimerLink as={Link} to={`/${name}/pulls`}>
-              {name}
-            </PrimerLink>
-          );
-        },
-      }),
+      buildNameWithOwner<PullRequest>(),
       buildMergeableColumn<PullRequest>(),
       buildRollupColumn<PullRequest>(),
     ],
