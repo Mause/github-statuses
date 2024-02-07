@@ -136,6 +136,19 @@ export const gitHubStrategy = () => {
   );
 };
 
+export function getQueryName(query: TypedDocumentString<any, any> | string) {
+  const match = /query ([^ (]+)/.exec(query.toString());
+  if (match) {
+    return match[1];
+  }
+
+  if (typeof query === "object" && "__meta__" in query) {
+    return query.__meta__!.hash!;
+  }
+
+  return "unknown name";
+}
+
 export async function call<Result, Variables extends RequestParameters>(
   request: Request,
   query: TypedDocumentString<Result, Variables>,
@@ -144,14 +157,10 @@ export async function call<Result, Variables extends RequestParameters>(
 ): Promise<Result> {
   const octokit = await getOctokit(request);
 
-  const match = /query ([^ ]?)/.exec(query.toString());
   return await Sentry.startSpan(
     {
       op: "graphql",
-      name:
-        (match ? match[1] : undefined) ??
-        query.__meta__!.hash! ??
-        "unknown name",
+      name: getQueryName(query),
     },
     async () => {
       try {
