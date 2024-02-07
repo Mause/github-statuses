@@ -1,4 +1,4 @@
-import type { LoaderFunction} from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { defer } from "@remix-run/node";
 import { Await, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
@@ -19,12 +19,16 @@ export function Deferred() {
 
   return (
     <div>
-      <p>Immediate: {immediate}</p>
+      <p>
+        Immediate: <span data-testid="immediate">{immediate}</span>
+      </p>
       <p>
         Deferred:
-        <Suspense fallback="...">
-          <Await resolve={deferred}>{(data) => data}</Await>
-        </Suspense>
+        <span data-testid="deferred">
+          <Suspense fallback="...">
+            <Await resolve={deferred}>{(data) => data}</Await>
+          </Suspense>
+        </span>
       </p>
     </div>
   );
