@@ -3895,18 +3895,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/profiling-node@npm:^1.2.6":
-  version: 1.3.5
-  resolution: "@sentry/profiling-node@npm:1.3.5"
+"@sentry/profiling-node@npm:^7.0.0":
+  version: 7.100.0
+  resolution: "@sentry/profiling-node@npm:7.100.0"
   dependencies:
     detect-libc: "npm:^2.0.2"
     node-abi: "npm:^3.52.0"
     node-gyp: "npm:latest"
-  peerDependencies:
-    "@sentry/node": ^7.44.1
   bin:
-    sentry-prune-profiler-binaries: scripts/prune-profiler-binaries.mjs
-  checksum: 10/d83525fa19c73f7c28065e130e11942d6a43879651b4b8c8852bfb85efb10ead8a7803d7da337a7eab076f9f399f003520859026b04956b361d08ecf5ec9804b
+    sentry-prune-profiler-binaries: scripts/prune-profiler-binaries.js
+  checksum: 10/ed536837f29cc34b5e288ef7a239b873cf39437c938ccb2443810c49d3367758d56589fe4b1444f70a102f056364bf8f496b0d514a1a7e6e8deeb060cd4b1441
   languageName: node
   linkType: hard
 
@@ -9497,7 +9495,7 @@ __metadata:
     "@remix-run/serve": "npm:^2.0.0"
     "@remix-run/testing": "npm:2.6.0"
     "@remix-run/v1-route-convention": "npm:^0.1.3"
-    "@sentry/profiling-node": "npm:^1.2.6"
+    "@sentry/profiling-node": "npm:^7.0.0"
     "@sentry/remix": "npm:^7.47.0"
     "@tanstack/match-sorter-utils": "npm:^8.7.6"
     "@tanstack/react-table": "npm:^8.7.9"
