@@ -1,10 +1,9 @@
-import type { EntryContext } from "@remix-run/node";
-import { RemixServer } from "@remix-run/react";
-import { renderToString } from "react-dom/server";
-import { ServerStyleSheet } from "styled-components";
-import { renderHeadToString } from "remix-island";
-import { Head } from "./root";
+import { PassThrough } from "node:stream";
 
+import type { AppLoadContext, EntryContext } from "@remix-run/node";
+import { createReadableStreamFromReadable } from "@remix-run/node";
+import { RemixServer } from "@remix-run/react";
+import { renderToPipeableStream } from "react-dom/server";
 import * as Sentry from "@sentry/remix";
 import { ProfilingIntegration } from "@sentry/profiling-node";
 
@@ -23,39 +22,48 @@ export default function handleRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
+  loadContext: AppLoadContext,
 ) {
-  const head = renderHeadToString({ request, remixContext, Head });
-  const sheet = new ServerStyleSheet();
-
-  let markup = renderToString(
-    sheet.collectStyles(
+  return new Promise((resolve, reject) => {
+    let shellRendered = false;
+    const { pipe, abort } = renderToPipeableStream(
       <RemixServer
         context={remixContext}
         url={request.url}
         abortDelay={ABORT_DELAY}
       />,
-    ),
-  );
-  const styles = sheet.getStyleTags();
+      {
+        onShellReady() {
+          shellRendered = true;
+          const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
 
-  responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set("Content-Type", "text/html");
 
-  return new Response(
-    `<!DOCTYPE html>
-      <html>
-        <head>
-          ${styles}
-          ${head}
-        </head>
-        <body>
-          <div id="root">
-            ${markup}
-          </div>
-        </body>
-      </html>`,
-    {
-      headers: responseHeaders,
-      status: responseStatusCode,
-    },
-  );
+          resolve(
+            new Response(stream, {
+              headers: responseHeaders,
+              status: responseStatusCode,
+            }),
+          );
+
+          pipe(body);
+        },
+        onShellError(error: unknown) {
+          reject(error);
+        },
+        onError(error: unknown) {
+          responseStatusCode = 500;
+          // Log streaming rendering errors from inside the shell.  Don't log
+          // errors encountered during initial shell rendering since they'll
+          // reject and get logged in handleDocumentRequest.
+          if (shellRendered) {
+            console.error(error);
+          }
+        },
+      },
+    );
+
+    setTimeout(abort, ABORT_DELAY);
+  });
 }
