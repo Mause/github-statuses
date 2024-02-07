@@ -43,8 +43,14 @@ export async function getRedirect(request: Request): Promise<string> {
 }
 
 export const getOctokit = async (request: Request) => {
+  if ("octokit" in request) {
+    return request.octokit as Octokit;
+  }
+
   const user = await getUser(request);
-  return octokitFromToken(user.accessToken);
+  const octokit = octokitFromToken(user.accessToken);
+  (request as unknown as { octokit: Octokit }).octokit = octokit;
+  return octokit;
 };
 
 export async function tryGetOctokit(request: Request) {
