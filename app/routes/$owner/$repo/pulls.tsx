@@ -12,8 +12,7 @@ import {
 } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import type { PullRequest } from "./pullsQuery";
-import { getPullRequests } from "./pullsQuery";
+import { getPullRequests, type PullRequest } from "./pullsQuery.server";
 
 export const loader = async ({
   params,

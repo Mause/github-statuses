@@ -13,7 +13,6 @@ import {
 import { Label, Link as PrimerLink } from "@primer/react";
 import { getFragment, type FragmentType } from "~/components/graphql";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-import { getChecksStatus } from "~/routes/$owner/$repo/pullsQuery";
 import { titleCase } from "./titleCase";
 type LabelColorOptions = Parameters<typeof Label>[0]["variant"];
 
@@ -116,4 +115,63 @@ export function buildRollupColumn<
         .join(", ");
     },
   };
+}
+interface PullRequestChecksStatus {
+  pending: number;
+  failing: number;
+  passing: number;
+  total: number;
+}
+
+export function getChecksStatus(
+  pr: StatusCheckRollupFragment["statusCheckRollup"],
+): PullRequestChecksStatus {
+  const summary: PullRequestChecksStatus = {
+    failing: 0,
+    passing: 0,
+    pending: 0,
+    total: 0,
+  };
+
+  const nodes = pr!.nodes!;
+
+  if (nodes.length == 0) {
+    return summary;
+  }
+  let { commit } = nodes[0]!;
+  if (!commit?.statusCheckRollup) {
+    return summary;
+  }
+  for (const c of commit!.statusCheckRollup!.contexts!.nodes!) {
+    if (!(c?.__typename === "CheckRun")) {
+      continue;
+    }
+
+    let state;
+    // CheckRun
+    if (c!.status! == "COMPLETED") {
+      state = c!.conclusion!;
+    } else {
+      state = c!.status!;
+    }
+    switch (state) {
+      case "SUCCESS":
+      case "NEUTRAL":
+      case "SKIPPED":
+        summary.passing++;
+        break;
+      // case "ERROR":
+      case "FAILURE":
+      case "CANCELLED":
+      case "TIMED_OUT":
+      case "ACTION_REQUIRED":
+        summary.failing++;
+        break;
+      default: // "EXPECTED", "REQUESTED", "WAITING", "QUEUED", "PENDING", "IN_PROGRESS", "STALE"
+        summary.pending++;
+    }
+    summary.total++;
+  }
+
+  return summary;
 }
