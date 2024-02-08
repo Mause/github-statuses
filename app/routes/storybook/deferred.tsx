@@ -14,7 +14,7 @@ export const loader: LoaderFunction = () => {
   });
 };
 
-export function Deferred() {
+export default function Deferred() {
   const { immediate, deferred } = useLoaderData<typeof loader>();
 
   return (
