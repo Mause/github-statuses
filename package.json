@@ -7,6 +7,7 @@
     "dev": "remix dev",
     "typecheck": "tsc",
     "test": "yarn node --experimental-modules node_modules/.bin/vitest",
+    "test:e2e": "yarn playwright test",
     "test:debug": "yarn node --inspect-brk=0.0.0.0 --experimental-modules node_modules/.bin/vitest --runInBand",
     "prepare": "husky install && yarn pull",
     "pull": "vc env pull .env"
