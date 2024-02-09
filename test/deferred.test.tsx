@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { createRemixStub } from "@remix-run/testing";
 import { act, render, waitFor } from "@testing-library/react";
-import { Deferred, loader } from "~/routes/storybook/deferred";
+import Deferred, { loader } from "~/routes/storybook/deferred";
 
 describe("Deferred", () => {
   it("renders the deferred data after 3 seconds", async () => {
