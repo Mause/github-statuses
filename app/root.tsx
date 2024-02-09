@@ -25,8 +25,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { useLoaderDataReloading } from "./components/useRevalidateOnFocus";
 import _ from "lodash";
 import type { ReactNode } from "react";
-import type { ColorModeWithAuto } from "@primer/react/lib/ThemeProvider";
 import { colorModeCookie } from "./components/cookies";
+type ColorModeWithAuto = Parameters<typeof ThemeProvider>[0]["colorMode"];
 
 export const loader: LoaderFunction = async ({ request }) => {
   const colorMode = (await colorModeCookie.parse(
