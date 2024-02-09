@@ -1,8 +1,10 @@
-import { PassThrough } from "node:stream";
-
-import type { AppLoadContext, EntryContext } from "@remix-run/node";
-import { createReadableStreamFromReadable } from "@remix-run/node";
+import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
+import { renderHeadToString } from "remix-island";
+import { ServerStyleSheet } from "styled-components";
+import { Head } from "./root";
+import { PassThrough } from "node:stream";
+import { createReadableStreamFromReadable } from "@remix-run/node";
 import { renderToPipeableStream } from "react-dom/server";
 import * as Sentry from "@sentry/remix";
 import { ProfilingIntegration } from "@sentry/profiling-node";
@@ -22,18 +24,23 @@ export default function handleRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  loadContext: AppLoadContext,
 ) {
+  const sheet = new ServerStyleSheet();
+
   return new Promise((resolve, reject) => {
     let shellRendered = false;
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      sheet.collectStyles(
+        <RemixServer
+          context={remixContext}
+          url={request.url}
+          abortDelay={ABORT_DELAY}
+        />,
+      ),
       {
         onShellReady() {
+          const head = renderHeadToString({ request, remixContext, Head });
+
           shellRendered = true;
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
@@ -47,7 +54,23 @@ export default function handleRequest(
             }),
           );
 
+          const styles = sheet.getStyleTags();
+
+          body.write(
+            `<!DOCTYPE html>
+              <html>
+                <head>
+                  ${styles}
+                  ${head}
+                </head>
+                <body>
+                  <div id="root">`,
+          );
           pipe(body);
+          body.write(`
+                  </div>
+                </body>
+              </html>`);
         },
         onShellError(error: unknown) {
           reject(error);
