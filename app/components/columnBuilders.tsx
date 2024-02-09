@@ -11,12 +11,11 @@ import {
   StatusCheckRollupFragmentDoc,
 } from "~/components/graphql/graphql";
 import { Label, Link as PrimerLink } from "@primer/react";
-import type { FragmentType } from "~/components/graphql";
-import { getFragment } from "~/components/graphql";
+import { getFragment, type FragmentType } from "~/components/graphql";
 import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
-import type { LabelColorOptions } from "@primer/react/lib/Label";
 import { getChecksStatus } from "~/routes/$owner/$repo/pullsQuery";
 import { titleCase } from "./titleCase";
+type LabelColorOptions = Parameters<typeof Label>[0]["variant"];
 
 export function buildNameWithOwner<
   T extends FragmentType<DocumentTypeDecoration<PrDetailsFragment, any>>,

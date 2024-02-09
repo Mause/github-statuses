@@ -6,15 +6,18 @@ import {
   Radio,
   Button,
   Heading,
+  type ThemeProvider,
   Flash,
   useSafeTimeout,
 } from "@primer/react";
 import { useFetcher, useMatches } from "@remix-run/react";
 import { useState } from "react";
-import type { ColorModeWithAuto } from "@primer/react/lib/ThemeProvider";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { colorModeCookie } from "~/components/cookies";
+type ColorModeWithAuto = NonNullable<
+  Parameters<typeof ThemeProvider>[0]["colorMode"]
+>;
 
 export const action: ActionFunction = async ({ request }) => {
   const colorMode = (await request.formData()).get("colorMode");
