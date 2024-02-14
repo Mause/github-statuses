@@ -24,7 +24,7 @@ import {
 import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
 import type { CSSProperties } from "react";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useMemo, createContext, useContext, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
 import { splatObject } from "~/components";
@@ -39,11 +39,6 @@ interface SingleStep {
   index: number;
   lines: Line[];
 }
-interface SingleJob {
-  name: string;
-  steps: SingleStep[];
-}
-type AllSteps = SingleJob[];
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const octokit = await getOctokit(request);
@@ -253,11 +248,10 @@ export default function Logs() {
   const data = useLoaderData<typeof loader>();
   const [onlyErrors, setOnlyErrors] = useState(true);
   const [showTimestamps, setShowTimestamps] = useState(false);
-  const [extracted, setExtracted] = useState<AllSteps>([]);
   const logs = "logs" in data ? data.logs : {};
 
-  useEffect(() => {
-    setExtracted(
+  const extracted = useMemo(
+    () =>
       _.map(logs, (data, name) => ({
         name,
         steps: data.map((step) => {
@@ -279,8 +273,8 @@ export default function Logs() {
           return { name: step.name, lines, index: step.index };
         }),
       })),
-    );
-  }, [logs, onlyErrors]);
+    [logs, onlyErrors],
+  );
 
   return (
     <>
