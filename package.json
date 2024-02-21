@@ -55,7 +55,7 @@
     "remix-island": "^0.2.0",
     "styled-components": "^5.0.0",
     "type-fest": "^4.0.0",
-    "vite": "^5.0.11"
+    "vite": "^5.1.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
