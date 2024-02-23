@@ -7,6 +7,7 @@ import type { TypedDocumentString } from "./components/graphql/graphql";
 import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
 import type { RequestError } from "@octokit/request-error";
+import type { GraphqlResponseError } from "@octokit/graphql";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
 import { getInstallationForLogin } from "~/services/installation";
 import { commitSession, getSession } from "./services/session.server";
@@ -176,7 +177,7 @@ export async function call<Result, Variables extends RequestParameters>(
         );
       } catch (e) {
         console.error(e);
-        if (isRequestError(e)) {
+        if (isRequestError(e) || isGraphQLError(e)) {
           if (e.message === "Bad credentials") {
             throw await logoutAndRedirect(request);
           } else {
@@ -208,6 +209,9 @@ function isError(e: any): e is Error {
 }
 function isRequestError(e: any): e is RequestError {
   return isError(e) && e.name === "HttpError";
+}
+export function isGraphQLError(e: any): e is GraphqlResponseError<unknown> {
+  return isError(e) && e.name === "GraphqlResponseError";
 }
 function identity(e: any): string | undefined {
   return isError(e) ? e.name : undefined;
