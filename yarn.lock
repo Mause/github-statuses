@@ -3111,7 +3111,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/request-error@npm:^5.0.0":
+"@octokit/request-error@npm:5.0.0, @octokit/request-error@npm:^5.0.0":
   version: 5.0.0
   resolution: "@octokit/request-error@npm:5.0.0"
   dependencies:
@@ -3119,17 +3119,6 @@ __metadata:
     deprecation: "npm:^2.0.0"
     once: "npm:^1.4.0"
   checksum: 10/de7ed2934035650c67b619130c407c6eec7fc80c9c47c27131feaace76fa01c64e35338cb19d4b3838f5f53f3d174a5f0933e1dc7921b952411b0457b599dc71
-  languageName: node
-  linkType: hard
-
-"@octokit/request-error@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "@octokit/request-error@npm:5.0.1"
-  dependencies:
-    "@octokit/types": "npm:^12.0.0"
-    deprecation: "npm:^2.0.0"
-    once: "npm:^1.4.0"
-  checksum: 10/a21a4614c46cb173e4ba73fa048576204f1ddc541dee3e7c938ef36088566e3b25e04ca1f96f375ec2e3cc29b7ba970b3b078a89a20bc50cdcdbed879db94573
   languageName: node
   linkType: hard
 
@@ -9523,7 +9512,7 @@ __metadata:
     "@octokit/auth-app": "npm:^6.0.0"
     "@octokit/auth-oauth-app": "npm:^7.0.1"
     "@octokit/plugin-throttling": "npm:^8.0.0"
-    "@octokit/request-error": "npm:^5.0.1"
+    "@octokit/request-error": "npm:5.0.0"
     "@octokit/rest": "npm:^20.0.0"
     "@octokit/types": "npm:^12.4.0"
     "@playwright/test": "npm:^1.41.2"

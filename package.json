@@ -16,7 +16,7 @@
     "@octokit/auth-app": "^6.0.0",
     "@octokit/auth-oauth-app": "^7.0.1",
     "@octokit/plugin-throttling": "^8.0.0",
-    "@octokit/request-error": "^5.0.1",
+    "@octokit/request-error": "5.0.0",
     "@octokit/rest": "^20.0.0",
     "@octokit/types": "^12.4.0",
     "@primer/octicons-react": "^19.0.0",
