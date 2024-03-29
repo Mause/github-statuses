@@ -2112,8 +2112,8 @@ __metadata:
   linkType: hard
 
 "@graphql-codegen/client-preset@npm:^4.0.0, @graphql-codegen/client-preset@npm:^4.2.2":
-  version: 4.2.4
-  resolution: "@graphql-codegen/client-preset@npm:4.2.4"
+  version: 4.2.5
+  resolution: "@graphql-codegen/client-preset@npm:4.2.5"
   dependencies:
     "@babel/helper-plugin-utils": "npm:^7.20.2"
     "@babel/template": "npm:^7.20.7"
@@ -2130,7 +2130,7 @@ __metadata:
     tslib: "npm:~2.6.0"
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: 10/dd4b16fb5fdd8dd4165d70531c48a90efa547452643e4b69a23b2426e268d62638682f7452ef1989eabb4b8efb4efcbd34e35d8c928976572ef7dccd4424d8bf
+  checksum: 10/9990caa88787410254d242913eb64c34e086e8096c7cfcca6c9f72cea247f400f27908fc9dd386f91ae5313c05086080ff04e4b255ec7717dd7226ff5187dc8a
   languageName: node
   linkType: hard
 
