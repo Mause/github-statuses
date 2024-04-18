@@ -3267,11 +3267,11 @@ __metadata:
   linkType: hard
 
 "@primer/octicons-react@npm:^19.0.0, @primer/octicons-react@npm:^19.8.0":
-  version: 19.8.0
-  resolution: "@primer/octicons-react@npm:19.8.0"
+  version: 19.9.0
+  resolution: "@primer/octicons-react@npm:19.9.0"
   peerDependencies:
     react: ">=16.3"
-  checksum: 10/8691a7b72331a80338aee89458cb26849ee192c1876a860452d3cf909c977baf6f9e9bad48bb853e59661d90c1317f1db82ebfc1b7e411dae26d8d5a5dbbea03
+  checksum: 10/0cf248f95646c0aa5f199d220887b7ee22a3ccab48f71a50f0c874a99da964d95d190dec040aff416592852e155e217009e9d96fe8bb9b650b2360efa965e497
   languageName: node
   linkType: hard
 
