@@ -65,7 +65,7 @@
     "@remix-run/serve": "^2.7.1",
     "@remix-run/testing": "2.8.1",
     "@testing-library/jest-dom": "^6.2.0",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/react": "^15.0.0",
     "@types/debug": "^4",
     "@types/jest": "^29.5.11",
     "@types/jsdom": "^21.1.6",
