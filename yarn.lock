@@ -4156,11 +4156,11 @@ __metadata:
   linkType: hard
 
 "@tanstack/match-sorter-utils@npm:^8.7.6":
-  version: 8.11.8
-  resolution: "@tanstack/match-sorter-utils@npm:8.11.8"
+  version: 8.15.1
+  resolution: "@tanstack/match-sorter-utils@npm:8.15.1"
   dependencies:
-    remove-accents: "npm:0.4.2"
-  checksum: 10/a74863bca3302a06cb3869bcea99c8091d1ccd023b8be7dded9e5e9d2695f7fe9c4ae65562b8e2ebdaf33554057d41bba2bf04a709b6af9940fefcee8ffc5c41
+    remove-accents: "npm:0.5.0"
+  checksum: 10/5a42964a6b45ec1cbc43720953156070751ce589c95825df2d3cb392978e37b1bbcd418853426902e18470b29939076255b3239241133d77f220c3be693a60b1
   languageName: node
   linkType: hard
 
@@ -14584,10 +14584,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remove-accents@npm:0.4.2":
-  version: 0.4.2
-  resolution: "remove-accents@npm:0.4.2"
-  checksum: 10/25d5c84f1355be60b42f8ad8a1ba29c2413dead138a9e2a88633e4fc94a1b953afe306dd27479125aef231d267482c54d292e558b04ec100fb9adf063ccbf75a
+"remove-accents@npm:0.5.0":
+  version: 0.5.0
+  resolution: "remove-accents@npm:0.5.0"
+  checksum: 10/4aa1a9d0c18468515a33c6760b0f8e28dfbceddcb846fac90b2189445445b27b11cc1df9fbceb97b4449438bc13250d77b27d4ab325b2d69933acc156d6c5b50
   languageName: node
   linkType: hard
 
