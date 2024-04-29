@@ -4396,15 +4396,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/debug@npm:^4":
-  version: 4.1.12
-  resolution: "@types/debug@npm:4.1.12"
-  dependencies:
-    "@types/ms": "npm:*"
-  checksum: 10/47876a852de8240bfdaf7481357af2b88cb660d30c72e73789abf00c499d6bc7cd5e52f41c915d1b9cd8ec9fef5b05688d7b7aef17f7f272c2d04679508d1053
-  languageName: node
-  linkType: hard
-
 "@types/debug@npm:^4.0.0":
   version: 4.1.8
   resolution: "@types/debug@npm:4.1.8"
@@ -9742,7 +9733,6 @@ __metadata:
     "@testing-library/react": "npm:^15.0.0"
     "@types/adm-zip": "npm:^0.5.4"
     "@types/async": "npm:^3.2.18"
-    "@types/debug": "npm:^4"
     "@types/humanize-duration": "npm:^3.27.1"
     "@types/jest": "npm:^29.5.11"
     "@types/jsdom": "npm:^21.1.6"
@@ -9759,7 +9749,6 @@ __metadata:
     adm-zip: "npm:^0.5.10"
     ansi-sequence-parser: "npm:^1.1.1"
     async: "npm:^3.2.4"
-    debug: "npm:^4.3.4"
     eslint: "npm:^8.0.1"
     eslint-config-standard-with-typescript: "npm:^43.0.0"
     eslint-plugin-import: "npm:^2.25.2"
