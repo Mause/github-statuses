@@ -4179,14 +4179,14 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-table@npm:^8.7.9":
-  version: 8.16.0
-  resolution: "@tanstack/react-table@npm:8.16.0"
+  version: 8.17.0
+  resolution: "@tanstack/react-table@npm:8.17.0"
   dependencies:
     "@tanstack/table-core": "npm:8.16.0"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 10/c67b928f0a5ac21a3ac939594ac27e4548a4227997483a6598094cd7250154c5029fc2fadafb4bfb8297ad484c5fa48e2be6068ce65951679b96cf9995941e8c
+  checksum: 10/eb0ec253778a4edd9854cba5328492f60f59dac998b88b24684768cbddc088b887f6c1dca80747d698ef826b3d1e39bcb31cff724cd801e3f83bee6ddbf3db82
   languageName: node
   linkType: hard
 
