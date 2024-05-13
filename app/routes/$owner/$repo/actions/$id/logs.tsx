@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import { type LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { Job as JobShape } from "~/services/archive.server";
 import {
@@ -67,14 +67,14 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       status = e.cause.response.statusText;
     }
 
-    return {
+    return json({
       message: `Logs not found (${status}). This installation probably doesn't have access`,
       url,
       error: splatObject(e),
-    };
+    });
   }
 
-  return { logs };
+  return json({ logs });
 };
 
 const Summary = styled.summary<{ open: boolean }>`
