@@ -3669,6 +3669,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@oslojs/binary@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@oslojs/binary@npm:0.2.0"
+  checksum: 10/e845a86f4b626f685e7acd28210205378ac997aa03ea52afa78ca76421eb5fd46b0c814fde38b09665d35696a8fb6d530f789d499ca7619e1ce14730e80a65c5
+  languageName: node
+  linkType: hard
+
+"@oslojs/crypto@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@oslojs/crypto@npm:0.2.0"
+  dependencies:
+    "@oslojs/binary": "npm:0.2.0"
+  checksum: 10/913f9d9e06cb9bfce7b754d7c348d32e721e3559f74083f23153f04429a9579135002f5bb20e65e7373b946ee77a412b629165b7fb72de9fe90305f3f62e184c
+  languageName: node
+  linkType: hard
+
+"@oslojs/encoding@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@oslojs/encoding@npm:0.2.0"
+  checksum: 10/0bf28e91a1dab03545d8b3626fab0b9bafe20335d35b2d2dc41cb86546034d461252cbbadcc1a4f858c12455b691d5f0c7eaaa812621a471a2ee3d81d6162328
+  languageName: node
+  linkType: hard
+
+"@oslojs/oauth2@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@oslojs/oauth2@npm:0.1.0"
+  dependencies:
+    "@oslojs/crypto": "npm:0.2.0"
+    "@oslojs/encoding": "npm:0.2.0"
+  checksum: 10/b72a21e77ddc07d52d29f0656acd170ab16d5db01c92ae6ace4b2979bec1e33a689bc214a2323210a8635e40feb65b4adf4b894dcad1c165d357e02df0eb31d0
+  languageName: node
+  linkType: hard
+
 "@peculiar/asn1-schema@npm:^2.3.6":
   version: 2.3.6
   resolution: "@peculiar/asn1-schema@npm:2.3.6"
@@ -10814,7 +10847,7 @@ __metadata:
     react-table: "npm:^7.8.0"
     remix-auth: "npm:^3.6.0"
     remix-auth-github: "npm:^1.3.0"
-    remix-auth-oauth2: "npm:^1.11.0"
+    remix-auth-oauth2: "npm:^2.0.0"
     remix-island: "npm:^0.2.0"
     styled-components: "npm:^5.0.0"
     tsc-files: "npm:^1.1.3"
@@ -15748,7 +15781,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remix-auth-oauth2@npm:^1.11.0, remix-auth-oauth2@npm:^1.11.2":
+"remix-auth-oauth2@npm:^1.11.2":
   version: 1.11.2
   resolution: "remix-auth-oauth2@npm:1.11.2"
   dependencies:
@@ -15758,6 +15791,28 @@ __metadata:
     "@remix-run/server-runtime": ^1.0.0 || ^2.0.0
     remix-auth: ^3.6.0
   checksum: 10/e1bfcceb6b6126cfa74126e26693c98bf5e4c248213b971353a34ce4974bd2d6708b1053d3bd047d98506e88b64026622ca879ebc6bb7f0b85f531195bcf76a7
+  languageName: node
+  linkType: hard
+
+"remix-auth-oauth2@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "remix-auth-oauth2@npm:2.0.0"
+  dependencies:
+    "@oslojs/oauth2": "npm:^0.1.0"
+    debug: "npm:^4.3.4"
+  peerDependencies:
+    "@remix-run/cloudflare": ^1.0.0 || ^2.0.0
+    "@remix-run/deno": ^1.0.0 || ^2.0.0
+    "@remix-run/node": ^1.0.0 || ^2.0.0
+    remix-auth: ^3.6.0
+  peerDependenciesMeta:
+    "@remix-run/cloudflare":
+      optional: true
+    "@remix-run/deno":
+      optional: true
+    "@remix-run/node":
+      optional: true
+  checksum: 10/eb669804c5e54fa6811d4ae41238c0b06910ce93e868769c462baa205a17c8433771b64139e5ac7570065fec54460b8af9b9a9e794284e73b18a7b2153d592e1
   languageName: node
   linkType: hard
 
