@@ -12,6 +12,7 @@ import { getInstallationForLogin } from "~/services/installation";
 import { commitSession, getSession } from "./services/session.server";
 import { catchError } from "./components";
 
+// @ts-expect-error
 const Throttled = Octokit.plugin(throttling);
 
 type NodeRequest = globalThis.Request;
