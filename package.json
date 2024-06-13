@@ -33,7 +33,7 @@
     "@types/humanize-duration": "^3.27.1",
     "@types/lodash": "^4.14.191",
     "@vercel/analytics": "^1.0.0",
-    "@vercel/kv": "^1.0.0",
+    "@vercel/kv": "^2.0.0",
     "@vercel/node": "^3.0.0",
     "adm-zip": "^0.5.10",
     "ansi-sequence-parser": "^1.1.1",

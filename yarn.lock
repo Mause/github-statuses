@@ -5996,12 +5996,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upstash/redis@npm:1.25.1":
-  version: 1.25.1
-  resolution: "@upstash/redis@npm:1.25.1"
+"@upstash/redis@npm:^1.31.3":
+  version: 1.31.3
+  resolution: "@upstash/redis@npm:1.31.3"
   dependencies:
     crypto-js: "npm:^4.2.0"
-  checksum: 10/ecd3a972fa46ddffa0353c10e2b7a8f135c228af866c195adc5a753f294e8c207bf20a3a83bb8283ecd223cd67f31a24971393b4cc7cfe85efad348fb03915f1
+  checksum: 10/ac0fd73ff60e5155bbdd6a700ad72e2f9036840d470d31e402ae4c99484fadd9110049004c05b81171e09d4f4e46353a2378f1589fa3c68353805e4017dddc14
   languageName: node
   linkType: hard
 
@@ -6160,12 +6160,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/kv@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "@vercel/kv@npm:1.0.1"
+"@vercel/kv@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@vercel/kv@npm:2.0.0"
   dependencies:
-    "@upstash/redis": "npm:1.25.1"
-  checksum: 10/90e159d4231ff48a5b9f6bcf667cf9992b007eb3f5e75fe95996f07845b9c862b7933a8bb01fdf656711cb248ea6d335ad7bb78150f3e2e87096b903e715f4f3
+    "@upstash/redis": "npm:^1.31.3"
+  checksum: 10/e9731d0fb63750f0290ede2a2cef58b6f9c0a6fcafe34915cade02b2a2f15f38a7e9f6290b83f3a4e81e2d0a3c9f976de764620770226994ffe6f89cde94ed28
   languageName: node
   linkType: hard
 
@@ -10905,7 +10905,7 @@ __metadata:
     "@types/styled-components": "npm:^5.1.29"
     "@typescript-eslint/eslint-plugin": "npm:^7.0.0"
     "@vercel/analytics": "npm:^1.0.0"
-    "@vercel/kv": "npm:^1.0.0"
+    "@vercel/kv": "npm:^2.0.0"
     "@vercel/node": "npm:^3.0.0"
     "@vitejs/plugin-react": "npm:^4.2.1"
     adm-zip: "npm:^0.5.10"
