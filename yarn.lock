@@ -2126,10 +2126,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@github/relative-time-element@npm:^4.1.2":
-  version: 4.3.0
-  resolution: "@github/relative-time-element@npm:4.3.0"
-  checksum: 10/bf897f00c63660d2f77858cafdbbff595fa7ed5eddc66490851318584f8ca0292ace4f43db3e01eaf63faa733ff158d4b90f17f4e41c696e040c11f498e07b7a
+"@github/relative-time-element@npm:^4.4.1":
+  version: 4.4.2
+  resolution: "@github/relative-time-element@npm:4.4.2"
+  checksum: 10/75f5bcb825fdbfeb6552989f6e8cb52c36d45cad09a378f105565354a4a2bdab14ee010f183a5997449d1a8db5ecb8e5e73b26273438b2d651a0d379a870dd26
   languageName: node
   linkType: hard
 
@@ -3881,13 +3881,13 @@ __metadata:
   linkType: hard
 
 "@primer/react@npm:^36.0.0":
-  version: 36.19.0
-  resolution: "@primer/react@npm:36.19.0"
+  version: 36.21.0
+  resolution: "@primer/react@npm:36.21.0"
   dependencies:
     "@github/combobox-nav": "npm:^2.1.5"
     "@github/markdown-toolbar-element": "npm:^2.1.0"
     "@github/paste-markdown": "npm:^1.4.0"
-    "@github/relative-time-element": "npm:^4.1.2"
+    "@github/relative-time-element": "npm:^4.4.1"
     "@github/tab-container-element": "npm:^4.8.0"
     "@lit-labs/react": "npm:1.2.1"
     "@oddbird/popover-polyfill": "npm:^0.3.1"
@@ -3928,7 +3928,7 @@ __metadata:
       optional: true
     "@types/styled-components":
       optional: true
-  checksum: 10/315bb624d689c42acd8a58002d1af0af45b1d772248d7e5c955698d4cd7bf61a7d36ab862259b24a589280092251ef4c0c1369c0e9ba070738e9397f80812225
+  checksum: 10/6c3cf797a7f22414eaddabebacfd1238963717204d33510e54c5f58ef1b5112c5fbb7d3173ae92f49cb9494db65540e0305f58bdb5edfcdb657759a98c1e68a4
   languageName: node
   linkType: hard
 
