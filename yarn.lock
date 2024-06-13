@@ -15798,8 +15798,8 @@ __metadata:
   linkType: hard
 
 "remix-auth-oauth2@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "remix-auth-oauth2@npm:2.0.0"
+  version: 2.1.0
+  resolution: "remix-auth-oauth2@npm:2.1.0"
   dependencies:
     "@oslojs/oauth2": "npm:^0.1.0"
     debug: "npm:^4.3.4"
@@ -15815,7 +15815,7 @@ __metadata:
       optional: true
     "@remix-run/node":
       optional: true
-  checksum: 10/eb669804c5e54fa6811d4ae41238c0b06910ce93e868769c462baa205a17c8433771b64139e5ac7570065fec54460b8af9b9a9e794284e73b18a7b2153d592e1
+  checksum: 10/f1e185d2ecfd560a9b773b15e9d650b6a7be99350dcfdb2e4580cf387afb4737b836b9c925bc9235e2704e0507c5d1889fc8273a23b98bf52e644ea01cabc9ed
   languageName: node
   linkType: hard
 
