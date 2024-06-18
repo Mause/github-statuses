@@ -57,6 +57,7 @@
     "type-fest": "^4.0.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.1.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.0.0",
     "@playwright/test": "^1.41.2",
