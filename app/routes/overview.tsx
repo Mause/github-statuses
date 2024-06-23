@@ -50,7 +50,7 @@ export const GetIssuesAndPullRequests = graphql`
     rust: repository(owner: "duckdb", name: "duckdb-rs") {
       ...GetOverviewThings
     }
-    engine: repository(owner: "Mause", name: "duckdb-engine") {
+    engine: repository(owner: "Mause", name: "duckdb_engine") {
       ...GetOverviewThings
     }
   }
