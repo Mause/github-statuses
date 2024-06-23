@@ -1,5 +1,4 @@
 import { Octokit } from "@octokit/rest";
-import { throttling } from "@octokit/plugin-throttling";
 import type { SessionShape } from "~/services/auth.server";
 import { authenticator } from "~/services/auth.server";
 import { redirect, createCookie } from "@remix-run/node";
@@ -12,6 +11,9 @@ import { getInstallationForLogin } from "~/services/installation";
 import { commitSession, getSession } from "./services/session.server";
 import { catchError } from "./components";
 
+const {throttling} = await import('@octokit/plugin-throttling');
+
+// @ts-expect-error
 const Throttled = Octokit.plugin(throttling);
 
 type NodeRequest = globalThis.Request;

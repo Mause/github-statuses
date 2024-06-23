@@ -16,7 +16,7 @@ export async function getLogsForUrl(
       mediaType: {
         format: "raw",
       },
-    });
+    }) as OctokitResponse<any>;
   } catch (e) {
     throw new CausedError(`Failed to get logs for ${url}`, e as Error);
   }
