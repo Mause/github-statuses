@@ -1,8 +1,8 @@
-import { call } from "~/services/octokit";
+import { call } from "~//octokit.server";
 import type { LoaderFunction } from "remix";
-import { useLoaderData } from "remix";
+import { useLoaderData } from "@remix-run/react";
 import graphql from "graphql-tag";
-import { GetIssuesAndPullRequestsQuery } from "~/generated/graphql";
+import { GetIssuesAndPullRequestsQuery } from "~/components/graphql";
 
 export const GetIssuesAndPullRequests = graphql`
   query GetIssuesAndPullRequests {
