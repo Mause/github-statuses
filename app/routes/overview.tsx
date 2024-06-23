@@ -71,7 +71,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return { items };
 };
 
-export function Overview({ items }: { items: NewType[] }) {
+export function Overview({ items }: { items: IssueOrPullRequest[] }) {
   return (
     <DataTable
       data={items}
@@ -113,7 +113,7 @@ export function Overview({ items }: { items: NewType[] }) {
   );
 }
 
-export interface NewType {
+export interface IssueOrPullRequest {
   __typename: "Issue" | "PullRequest";
   id: string;
   title: string;
@@ -124,7 +124,7 @@ export interface NewType {
   };
 }
 
-function convert(item: NewType): NewType {
+function convert(item: IssueOrPullRequest): IssueOrPullRequest {
   return {
     __typename: item.__typename!,
     number: item.number,
