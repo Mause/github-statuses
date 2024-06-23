@@ -10,6 +10,9 @@ const withSeed = (seed: number) => {
 };
 
 const factory = makeFactory<NewType>({
+  __typename: each((tick) =>
+    withSeed(tick).helpers.arrayElement(["Issue", "PullRequest"]),
+  ),
   id: each((tick) => `${tick}`),
   title: each((tick) => withSeed(tick).lorem.sentence()),
   url: new Derived<NewType, string>(

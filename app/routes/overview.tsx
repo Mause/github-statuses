@@ -9,12 +9,14 @@ import {
 import { Wrapper } from "~/components";
 import { getFragment } from "~/components/graphql";
 import { DataTable } from "@primer/react/drafts";
-import { Link } from "@primer/react";
+import { Link, Octicon } from "@primer/react";
+import { GitPullRequestIcon, IssueOpenedIcon } from "@primer/octicons-react";
 
 export const GetIssuesAndPullRequests = graphql`
   fragment GetOverviewThings on Repository {
     issues(states: [OPEN], first: 10) {
       nodes {
+        __typename
         id
         number
         title
@@ -26,6 +28,7 @@ export const GetIssuesAndPullRequests = graphql`
     }
     pullRequests(states: [OPEN], first: 10) {
       nodes {
+        __typename
         id
         number
         title
@@ -74,6 +77,17 @@ export function Overview({ items }: { items: NewType[] }) {
       data={items}
       columns={[
         {
+          id: "__typename",
+          header: "__typename",
+          renderCell({ __typename }) {
+            if (__typename == "Issue") {
+              return <Octicon icon={IssueOpenedIcon} />;
+            } else {
+              return <Octicon icon={GitPullRequestIcon} />;
+            }
+          },
+        },
+        {
           id: "number",
           header: "ID",
           field: "number",
@@ -100,6 +114,7 @@ export function Overview({ items }: { items: NewType[] }) {
 }
 
 export interface NewType {
+  __typename: "Issue" | "PullRequest";
   id: string;
   title: string;
   url: string;
@@ -111,6 +126,7 @@ export interface NewType {
 
 function convert(item: NewType): NewType {
   return {
+    __typename: item.__typename!,
     number: item.number,
     repository: {
       nameWithOwner: item.repository.nameWithOwner,
