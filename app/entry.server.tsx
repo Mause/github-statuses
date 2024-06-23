@@ -1,10 +1,11 @@
 import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import { renderToString } from "react-dom/server";
-import { ServerStyleSheet } from "styled-components";
 import { renderHeadToString } from "remix-island";
+import { ServerStyleSheet } from "styled-components";
 import { Head } from "./root";
-
+import { PassThrough } from "node:stream";
+import { createReadableStreamFromReadable } from "@remix-run/node";
+import { renderToPipeableStream } from "react-dom/server";
 import * as Sentry from "@sentry/remix";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
@@ -24,38 +25,68 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext,
 ) {
-  const head = renderHeadToString({ request, remixContext, Head });
   const sheet = new ServerStyleSheet();
 
-  let markup = renderToString(
-    sheet.collectStyles(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
-    ),
-  );
-  const styles = sheet.getStyleTags();
+  return new Promise((resolve, reject) => {
+    let shellRendered = false;
+    const { pipe, abort } = renderToPipeableStream(
+      sheet.collectStyles(
+        <RemixServer
+          context={remixContext}
+          url={request.url}
+          abortDelay={ABORT_DELAY}
+        />,
+      ),
+      {
+        onShellReady() {
+          const head = renderHeadToString({ request, remixContext, Head });
 
-  responseHeaders.set("Content-Type", "text/html");
+          shellRendered = true;
+          const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
 
-  return new Response(
-    `<!DOCTYPE html>
-      <html>
-        <head>
-          ${styles}
-          ${head}
-        </head>
-        <body>
-          <div id="root">
-            ${markup}
-          </div>
-        </body>
-      </html>`,
-    {
-      headers: responseHeaders,
-      status: responseStatusCode,
-    },
-  );
+          responseHeaders.set("Content-Type", "text/html");
+
+          resolve(
+            new Response(stream, {
+              headers: responseHeaders,
+              status: responseStatusCode,
+            }),
+          );
+
+          const styles = sheet.getStyleTags();
+
+          body.write(
+            `<!DOCTYPE html>
+              <html>
+                <head>
+                  ${styles}
+                  ${head}
+                </head>
+                <body>
+                  <div id="root">`,
+          );
+          pipe(body);
+          body.write(`
+                  </div>
+                </body>
+              </html>`);
+        },
+        onShellError(error: unknown) {
+          reject(error);
+        },
+        onError(error: unknown) {
+          responseStatusCode = 500;
+          // Log streaming rendering errors from inside the shell.  Don't log
+          // errors encountered during initial shell rendering since they'll
+          // reject and get logged in handleDocumentRequest.
+          if (shellRendered) {
+            console.error(error);
+          }
+        },
+      },
+    );
+
+    setTimeout(abort, ABORT_DELAY);
+  });
 }
