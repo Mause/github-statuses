@@ -2,7 +2,7 @@ import { call } from "~//octokit.server";
 import type { LoaderFunction } from "remix";
 import { useLoaderData } from "@remix-run/react";
 import graphql from "graphql-tag";
-import { GetIssuesAndPullRequestsQuery } from "~/components/graphql";
+import { GetIssuesAndPullRequestsDocument } from "~/components/graphql/graphql";
 
 export const GetIssuesAndPullRequests = graphql`
   query GetIssuesAndPullRequests {
@@ -24,7 +24,7 @@ export const GetIssuesAndPullRequests = graphql`
 `;
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const octokit = await call(request, GetIssuesAndPullRequestsQuery);
+  const octokit = await call(request, GetIssuesAndPullRequestsDocument);
 
   return {
     issues: octokit.issues,
