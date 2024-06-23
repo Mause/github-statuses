@@ -14,6 +14,7 @@ Sentry.init({
       useMatches,
     }),
   ],
+  autoInstrumentRemix: true,
 });
 
 function hydrate() {

@@ -16,6 +16,7 @@ Sentry.init({
   tracesSampleRate: 1,
   // Set sampling rate for profiling - this is relative to tracesSampleRate
   profilesSampleRate: 1.0,
+  autoInstrumentRemix: true,
 });
 
 export default function handleRequest(
