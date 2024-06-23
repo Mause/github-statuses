@@ -78,7 +78,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
       columns={[
         {
           id: "__typename",
-          header: "__typename",
+          header: "Type",
           renderCell({ __typename }) {
             if (__typename == "Issue") {
               return <Octicon icon={IssueOpenedIcon} />;
@@ -89,7 +89,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         },
         {
           id: "number",
-          header: "ID",
+          header: "#",
           field: "number",
         },
         {
