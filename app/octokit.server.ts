@@ -183,8 +183,9 @@ export async function call<Result, Variables extends RequestParameters>(
           } else {
             console.log("Not a bad credentials error", e);
           }
-        } else if (isGraphqlResponseError(e)) {
-          console.log("GraphqlResponseError", e);
+        } else if (isGraphqlResponseError<Result>(e)) {
+          console.error("GraphqlResponseError", e);
+          return e.data;
         } else {
           console.log("Not a request error", { name: identity(e) }, e);
         }
@@ -212,7 +213,7 @@ function isError(e: any): e is Error {
 function isRequestError(e: any): e is RequestError {
   return identity(e) === "HttpError";
 }
-function isGraphqlResponseError(e: any): e is GraphqlResponseError<unknown> {
+function isGraphqlResponseError<T>(e: any): e is GraphqlResponseError<T> {
   return identity(e) === "GraphqlResponseError";
 }
 function identity(e: any): string | undefined {

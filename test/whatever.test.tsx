@@ -1,9 +1,16 @@
 import { screen } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
 import { call } from "~/octokit.server";
-import type { TypedDocumentString } from "~/components/graphql/graphql";
+import {
+  GetUserPullRequestsDocument,
+  IssueOrderField,
+  OrderDirection,
+  type TypedDocumentString,
+} from "~/components/graphql/graphql";
 import { catchError } from "~/components";
 import { renderPrimer } from "./util";
+import { Octokit } from "@octokit/rest";
+import { vitest } from "vitest";
 
 test("hello", async () => {
   let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
@@ -46,4 +53,26 @@ test("RequestError instanceof", async () => {
   expect(res).toBeInstanceOf(Response);
   expect(res.status).toEqual(302);
   expect(res.headers.get("location")).toEqual("/login");
+});
+
+test("graphql", async () => {
+  const request = {
+    headers: new Headers({
+      Cookie: "session=123",
+    }),
+    octokit: new Octokit(),
+  } as unknown as Request;
+  const spy = vitest.spyOn(console, "error");
+  let res = await call(request, GetUserPullRequestsDocument, {
+    order: {
+      field: IssueOrderField.UpdatedAt,
+      direction: OrderDirection.Desc,
+    },
+    owner: "octocat",
+  });
+  expect(res).toMatchSnapshot();
+  expect(spy).toHaveBeenCalledTimes(2);
+  spy.mock.calls.forEach((args) => {
+    expect(args).toMatchSnapshot();
+  });
 });
