@@ -9,7 +9,7 @@ import {
 import { Wrapper } from "~/components";
 import { getFragment } from "~/components/graphql";
 import { DataTable } from "@primer/react/drafts";
-import { Link, Octicon } from "@primer/react";
+import { Link, Octicon, RelativeTime } from "@primer/react";
 import { GitPullRequestIcon, IssueOpenedIcon } from "@primer/octicons-react";
 import _ from "lodash";
 
@@ -111,6 +111,11 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
               </Link>
             );
           },
+        },
+        {
+          id: "updatedAt",
+          header: "Updated",
+          renderCell: (data) => <RelativeTime datetime={data.updatedAt} />,
         },
       ]}
     ></DataTable>
