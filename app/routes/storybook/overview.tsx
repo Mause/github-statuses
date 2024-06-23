@@ -27,6 +27,7 @@ const factory = makeFactory<IssueOrPullRequest>({
         faker.internet.userName() + "/" + faker.internet.domainWord(),
     };
   }),
+  updatedAt: each((tick) => withSeed(tick).date.past().toISOString()),
 });
 
 const items = factory.buildList(10);

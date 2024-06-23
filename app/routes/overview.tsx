@@ -11,6 +11,7 @@ import { getFragment } from "~/components/graphql";
 import { DataTable } from "@primer/react/drafts";
 import { Link, Octicon } from "@primer/react";
 import { GitPullRequestIcon, IssueOpenedIcon } from "@primer/octicons-react";
+import _ from "lodash";
 
 export const GetIssuesAndPullRequests = graphql`
   fragment GetOverviewThings on Repository {
@@ -21,6 +22,7 @@ export const GetIssuesAndPullRequests = graphql`
         number
         title
         url
+        updatedAt
         repository {
           nameWithOwner
         }
@@ -33,6 +35,7 @@ export const GetIssuesAndPullRequests = graphql`
         number
         title
         url
+        updatedAt
         repository {
           nameWithOwner
         }
@@ -72,6 +75,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export function Overview({ items }: { items: IssueOrPullRequest[] }) {
+  items = _.sortBy(items, (item) => item.updatedAt);
   return (
     <DataTable
       data={items}
@@ -116,6 +120,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
 export interface IssueOrPullRequest {
   __typename: "Issue" | "PullRequest";
   id: string;
+  updatedAt: string;
   title: string;
   url: string;
   number: number;
@@ -131,6 +136,7 @@ function convert(item: IssueOrPullRequest): IssueOrPullRequest {
     repository: {
       nameWithOwner: item.repository.nameWithOwner,
     },
+    updatedAt: item.updatedAt,
     id: item.id,
     title: item.title,
     url: item.url,
