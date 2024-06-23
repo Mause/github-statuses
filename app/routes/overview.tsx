@@ -1,5 +1,5 @@
 import { call } from "~//octokit.server";
-import type { LoaderFunction } from "remix";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import graphql from "graphql-tag";
 import { GetIssuesAndPullRequestsDocument } from "~/components/graphql/graphql";
@@ -23,12 +23,12 @@ export const GetIssuesAndPullRequests = graphql`
   }
 `;
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const octokit = await call(request, GetIssuesAndPullRequestsDocument);
 
   return {
-    issues: octokit.issues,
-    pullRequests: octokit.pullRequests,
+    issues: octokit.repository!.issues!.nodes!,
+    pullRequests: octokit.repository!.pullRequests!.nodes!,
   };
 };
 
