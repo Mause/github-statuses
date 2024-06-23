@@ -58,6 +58,11 @@ export function StandardHeader({
         {children}
         {user?.login ? (
           <>
+            <Header.Item>
+              <Header.Link as={Link} to="/overview">
+                Overview
+              </Header.Link>
+            </Header.Item>
             <Header.Item full>
               <Header.Link as={Link} to={`/${user?.login}/pulls`}>
                 My PRs

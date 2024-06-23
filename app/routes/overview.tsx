@@ -9,12 +9,14 @@ import {
 import { Wrapper } from "~/components";
 import { getFragment } from "~/components/graphql";
 import { DataTable } from "@primer/react/drafts";
-import { Link } from "@primer/react";
+import { Link, Octicon } from "@primer/react";
+import { GitPullRequestIcon, IssueOpenedIcon } from "@primer/octicons-react";
 
 export const GetIssuesAndPullRequests = graphql`
   fragment GetOverviewThings on Repository {
     issues(states: [OPEN], first: 10) {
       nodes {
+        __typename
         id
         number
         title
@@ -26,6 +28,7 @@ export const GetIssuesAndPullRequests = graphql`
     }
     pullRequests(states: [OPEN], first: 10) {
       nodes {
+        __typename
         id
         number
         title
@@ -47,7 +50,7 @@ export const GetIssuesAndPullRequests = graphql`
     rust: repository(owner: "duckdb", name: "duckdb-rs") {
       ...GetOverviewThings
     }
-    engine: repository(owner: "Mause", name: "duckdb-engine") {
+    engine: repository(owner: "Mause", name: "duckdb_engine") {
       ...GetOverviewThings
     }
   }
@@ -68,14 +71,25 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return { items };
 };
 
-export function Overview({ items }: { items: NewType[] }) {
+export function Overview({ items }: { items: IssueOrPullRequest[] }) {
   return (
     <DataTable
       data={items}
       columns={[
         {
+          id: "__typename",
+          header: "Type",
+          renderCell({ __typename }) {
+            if (__typename == "Issue") {
+              return <Octicon icon={IssueOpenedIcon} />;
+            } else {
+              return <Octicon icon={GitPullRequestIcon} />;
+            }
+          },
+        },
+        {
           id: "number",
-          header: "ID",
+          header: "#",
           field: "number",
         },
         {
@@ -99,7 +113,8 @@ export function Overview({ items }: { items: NewType[] }) {
   );
 }
 
-export interface NewType {
+export interface IssueOrPullRequest {
+  __typename: "Issue" | "PullRequest";
   id: string;
   title: string;
   url: string;
@@ -109,8 +124,9 @@ export interface NewType {
   };
 }
 
-function convert(item: NewType): NewType {
+function convert(item: IssueOrPullRequest): IssueOrPullRequest {
   return {
+    __typename: item.__typename!,
     number: item.number,
     repository: {
       nameWithOwner: item.repository.nameWithOwner,
