@@ -75,7 +75,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export function Overview({ items }: { items: IssueOrPullRequest[] }) {
-  items = _.sortBy(items, (item) => item.updatedAt);
+  items = _.orderBy(items, (item) => item.updatedAt, "desc");
   return (
     <DataTable
       data={items}
