@@ -9525,9 +9525,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-github@npm:^4.10.1":
-  version: 4.10.2
-  resolution: "eslint-plugin-github@npm:4.10.2"
+"eslint-plugin-github@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "eslint-plugin-github@npm:5.0.1"
   dependencies:
     "@github/browserslist-config": "npm:^1.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^7.0.1"
@@ -9550,7 +9550,7 @@ __metadata:
     eslint: ^8.0.1
   bin:
     eslint-ignore-errors: bin/eslint-ignore-errors.js
-  checksum: 10/ec6413c41ba638d3b893e5dcfb6eb2e4a071de85b921e0bbba55b23283a53ca3ac44c4c28e4e7bb2a22f64ed2a4a5bebf5dc383368040b19e6ed3b06e2f24ad7
+  checksum: 10/f75745668a3ae87071ac76b8ed0e7f1182cee7d1d822ab47e27431f8e0517ef53acdfd23397e0e7b65cc6e5f3613f372ed788e66a1b0e2c98843e576611c3944
   languageName: node
   linkType: hard
 
@@ -9708,18 +9708,18 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-primer-react@npm:^5.0.0":
-  version: 5.1.0
-  resolution: "eslint-plugin-primer-react@npm:5.1.0"
+  version: 5.3.0
+  resolution: "eslint-plugin-primer-react@npm:5.3.0"
   dependencies:
     "@styled-system/props": "npm:^5.1.5"
-    eslint-plugin-github: "npm:^4.10.1"
+    eslint-plugin-github: "npm:^5.0.1"
     eslint-plugin-jsx-a11y: "npm:^6.7.1"
     eslint-traverse: "npm:^1.0.0"
     lodash: "npm:^4.17.21"
     styled-system: "npm:^5.1.5"
   peerDependencies:
     eslint: ^8.42.0
-  checksum: 10/b3aefb64f74d9fc3710fb69b5a2cc507aec59126800f45ac28c462aa8eaf602b4ff6bd3636209360483ac7439deb9f9c50f3babd175af66c4050787efbc97b45
+  checksum: 10/6bebd6e30d5af3ec7abf0f2bbea9dc634c005273f021598ef96a07ede1b8547559e9e772036accba76e0d3fb1ba6f7d76e3f5e1aaf8c269a56aead033741afc9
   languageName: node
   linkType: hard
 
