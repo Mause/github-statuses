@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`graphql 1`] = `
+{
+  "__typename": "Query",
+  "engine": null,
+  "java": null,
+  "nodejs": null,
+  "rust": null,
+}
+`;
+
+exports[`graphql 2`] = `
+[
+  [GraphqlResponseError: Request failed due to following response errors:
+ - Not Found],
+]
+`;
+
+exports[`graphql 3`] = `
+[
+  "GraphqlResponseError",
+  [GraphqlResponseError: Request failed due to following response errors:
+ - Not Found],
+]
+`;

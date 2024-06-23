@@ -6,6 +6,19 @@ import {
   mockIntersectionObserver,
   mockResizeObserver,
 } from "jsdom-testing-mocks";
+import { setupServer } from "msw/node";
+import { handlers } from "~/mocks/handlers";
+
+const server = setupServer(...handlers);
+
+// Start server before all tests
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+
+//  Close server after all tests
+afterAll(() => server.close());
+
+// Reset handlers after each test `important for test isolation`
+afterEach(() => server.resetHandlers());
 
 // Workaround: For some reason FormData is not set to jsdom's by default
 const jsdom = new JSDOM(`<!doctype html>`);
