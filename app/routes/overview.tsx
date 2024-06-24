@@ -62,7 +62,7 @@ export const GetIssuesAndPullRequests = graphql`
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const octokit = await call(request, GetIssuesAndPullRequestsDocument);
 
-  const items = [];
+  let items = [];
   for (const value of Object.values(octokit)) {
     if (typeof value !== "string") {
       const res = getFragment(GetOverviewThingsFragmentDoc, value);
@@ -70,12 +70,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       items.push(...res!.pullRequests!.nodes!.map((pr) => convert(pr!)));
     }
   }
+  items = items.filter((item) => item.title !== "Dependency Dashboard");
+  items = _.orderBy(items, (item) => item.updatedAt, "desc");
 
   return { items };
 };
 
 export function Overview({ items }: { items: IssueOrPullRequest[] }) {
-  items = _.orderBy(items, (item) => item.updatedAt, "desc");
   return (
     <DataTable
       data={items}
