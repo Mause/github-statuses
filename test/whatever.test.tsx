@@ -28,6 +28,34 @@ test("hello", async () => {
   await screen.findByText("Action Statuses");
 });
 
+test('Displays error correctly', async () => {
+  let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
+  let ErrorBoundary: React.FunctionComponent;
+  try {
+    BasePage = (await import("~/routes/index")).default;
+    ErrorBoundary = (await import("~/root")).ErrorBoundary;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+
+  const Stub = createRemixStub([
+    {
+      Component: () => <BasePage asChildRoute={false} />,
+      loader: async () => {
+        throw new Error("This is an error");
+      },
+      path: "/",
+      id: "root",
+      ErrorBoundary
+    },
+  ]);
+
+  await renderPrimer(<Stub />);
+
+  expect((await screen.findByText("This is an error"))).toBeVisible();
+});
+
 test("RequestError instanceof", async () => {
   const request = {
     headers: new Headers({
