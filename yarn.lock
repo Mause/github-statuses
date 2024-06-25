@@ -3963,12 +3963,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/live-region-element@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "@primer/live-region-element@npm:0.6.1"
+"@primer/live-region-element@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@primer/live-region-element@npm:0.7.0"
   dependencies:
     "@lit-labs/ssr-dom-shim": "npm:^1.2.0"
-  checksum: 10/3b4c45709bcac91996aa9d7e3634dca89c9b30a733475c91a31fd3383f7a2a55f712b07f857d2c32910dfc00a36078de119ce9a0883685466b0c15d9d254b3b2
+  checksum: 10/bc2ec2aac9bb57aace8ff71e0d84dccd4bb58964a74fbf05b6a09ac31eefa28f008941f1657614a532945349d39f6607df3a5a709b599e75380880ce7e806d01
   languageName: node
   linkType: hard
 
@@ -3989,8 +3989,8 @@ __metadata:
   linkType: hard
 
 "@primer/react@npm:^36.0.0":
-  version: 36.22.0
-  resolution: "@primer/react@npm:36.22.0"
+  version: 36.23.0
+  resolution: "@primer/react@npm:36.23.0"
   dependencies:
     "@github/combobox-nav": "npm:^2.1.5"
     "@github/markdown-toolbar-element": "npm:^2.1.0"
@@ -4000,7 +4000,7 @@ __metadata:
     "@lit-labs/react": "npm:1.2.1"
     "@oddbird/popover-polyfill": "npm:^0.3.1"
     "@primer/behaviors": "npm:^1.5.1"
-    "@primer/live-region-element": "npm:^0.6.1"
+    "@primer/live-region-element": "npm:^0.7.0"
     "@primer/octicons-react": "npm:^19.9.0"
     "@primer/primitives": "npm:^7.16.0"
     "@styled-system/css": "npm:^5.1.5"
@@ -4036,7 +4036,7 @@ __metadata:
       optional: true
     "@types/styled-components":
       optional: true
-  checksum: 10/38ef308aa9f5fea689d426b04c91d5970f9356069cbf9ca3f900f3a449e677bcd5c9685ba2b5f0b789c39c2814bcff0cb6154135982593b3dd53cd473e292b91
+  checksum: 10/e62a57415681651c7c4894a16de778b319a908eb1c3ebe471ade849066cdc6375ffd05083e6daf7b0605a80705d38382c3c41ffbb8bb1dadf81126bda9c24236
   languageName: node
   linkType: hard
 
