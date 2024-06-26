@@ -95,7 +95,13 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "number",
           header: "#",
-          field: "number",
+          renderCell(data) {
+            return (
+              <Link target="_blank" href={data.url}>
+                #{data.number}
+              </Link>
+            );
+          },
         },
         {
           id: "title",
@@ -107,8 +113,8 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
           header: "URL",
           renderCell(data) {
             return (
-              <Link target="_blank" href={data.url}>
-                {data.repository.nameWithOwner}#{data.number}
+              <Link target="_blank" href={`https://github.com/${data.url}`}>
+                {data.repository.nameWithOwner}
               </Link>
             );
           },
