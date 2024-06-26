@@ -113,7 +113,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
           header: "URL",
           renderCell(data) {
             return (
-              <Link target="_blank" href={`https://github.com/${data.url}`}>
+              <Link target="_blank" href={`https://github.com/${data.repository.nameWithOwner}`}>
                 {data.repository.nameWithOwner}
               </Link>
             );
