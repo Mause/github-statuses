@@ -5,11 +5,14 @@ import {
   useNavigate,
   useRouteError,
 } from "@remix-run/react";
+import { captureRemixErrorBoundaryError } from "@sentry/remix";
 
 export function ErrorBoundary() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const error = useRouteError();
+
+  captureRemixErrorBoundaryError(error);
 
   if (isRouteErrorResponse(error)) {
     return (
