@@ -12,15 +12,19 @@ exports[`graphql 1`] = `
 
 exports[`graphql 2`] = `
 [
-  [GraphqlResponseError: Request failed due to following response errors:
+  [
+    [GraphqlResponseError: Request failed due to following response errors:
  - Not Found],
+  ],
 ]
 `;
 
 exports[`graphql 3`] = `
 [
-  "GraphqlResponseError",
-  [GraphqlResponseError: Request failed due to following response errors:
- - Not Found],
+  [
+    "GraphqlResponseError",
+    "Request failed due to following response errors:
+ - Not Found",
+  ],
 ]
 `;

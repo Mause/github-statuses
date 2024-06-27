@@ -90,7 +90,8 @@ test("graphql", async () => {
     }),
     octokit: new Octokit(),
   } as unknown as Request;
-  const spy = vitest.spyOn(console, "error");
+  const error = vitest.spyOn(console, "error");
+  const warn = vitest.spyOn(console, "warn");
   let res = await call(request, GetUserPullRequestsDocument, {
     order: {
       field: IssueOrderField.UpdatedAt,
@@ -99,8 +100,8 @@ test("graphql", async () => {
     owner: "octocat",
   });
   expect(res).toMatchSnapshot();
-  expect(spy).toHaveBeenCalledTimes(2);
-  spy.mock.calls.forEach((args) => {
-    expect(args).toMatchSnapshot();
-  });
+  expect(error).toHaveBeenCalledTimes(1);
+  expect(warn).toHaveBeenCalledTimes(1);
+  expect(error.mock.calls).toMatchSnapshot();
+  expect(warn.mock.calls).toMatchSnapshot();
 });
