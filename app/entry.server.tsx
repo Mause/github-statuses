@@ -1,4 +1,4 @@
-import "instrumentation.server";
+import "./instrumentation.server";
 
 import { wrapHandleErrorWithSentry } from "@sentry/remix";
 import type { EntryContext } from "@remix-run/node";
