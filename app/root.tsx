@@ -1,4 +1,8 @@
-import type { LoaderFunction, MetaFunction, SerializeFrom } from "@remix-run/node";
+import type {
+  LoaderFunction,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
 import { Dialog } from "@primer/react/drafts";
