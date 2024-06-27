@@ -1,6 +1,6 @@
 import "./instrumentation.server";
 
-import { wrapHandleErrorWithSentry } from "@sentry/remix";
+import { sentryHandleError } from "@sentry/remix";
 import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
@@ -8,7 +8,7 @@ import { ServerStyleSheet } from "styled-components";
 import { renderHeadToString } from "remix-island";
 import { Head } from "./root";
 
-export const handleError = wrapHandleErrorWithSentry;
+export const handleError = sentryHandleError;
 
 const ABORT_DELAY = 7000;
 
