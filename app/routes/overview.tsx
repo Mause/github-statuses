@@ -5,6 +5,7 @@ import graphql from "graphql-tag";
 import {
   GetIssuesAndPullRequestsDocument,
   GetOverviewThingsFragmentDoc,
+  IssueOverviewFragmentDoc,
 } from "~/components/graphql/graphql";
 import { Wrapper } from "~/components";
 import { getFragment } from "~/components/graphql";
@@ -14,18 +15,21 @@ import { GitPullRequestIcon, IssueOpenedIcon } from "@primer/octicons-react";
 import _ from "lodash";
 
 export const GetIssuesAndPullRequests = graphql`
+  fragment IssueOverview on Issue {
+    __typename
+    id
+    number
+    title
+    url
+    updatedAt
+    repository {
+      nameWithOwner
+    }
+  }
   fragment GetOverviewThings on Repository {
     issues(states: [OPEN], first: 10) {
       nodes {
-        __typename
-        id
-        number
-        title
-        url
-        updatedAt
-        repository {
-          nameWithOwner
-        }
+        ...IssueOverview
       }
     }
     pullRequests(states: [OPEN], first: 10) {
@@ -43,7 +47,19 @@ export const GetIssuesAndPullRequests = graphql`
     }
   }
 
-  query GetIssuesAndPullRequests {
+  query GetIssuesAndPullRequests($query: String!) {
+    search(first: 100, type: ISSUE, query: $query) {
+      issueCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          ...IssueOverview
+        }
+      }
+    }
     java: repository(owner: "duckdb", name: "duckdb-java") {
       ...GetOverviewThings
     }
@@ -70,6 +86,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       items.push(...res!.pullRequests!.nodes!.map((pr) => convert(pr!)));
     }
   }
+  items.push(
+    ...octokit.search.nodes!.map((issue) =>
+      convert(getFragment(IssueOverviewFragmentDoc, issue)),
+    ),
+  );
   items = items.filter((item) => item.title !== "Dependency Dashboard");
   items = _.orderBy(items, (item) => item.updatedAt, "desc");
 
