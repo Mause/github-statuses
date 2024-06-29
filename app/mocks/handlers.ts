@@ -24,6 +24,7 @@ export const handlers = [
       ],
       data: {
         __typename: "Query",
+        search: {},
         engine: null,
         java: null,
         nodejs: null,

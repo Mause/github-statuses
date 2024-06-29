@@ -49,6 +49,7 @@ export const GetIssuesAndPullRequests = graphql`
 
   query GetIssuesAndPullRequests($query: String!) {
     search(first: 100, type: ISSUE, query: $query) {
+      __typename
       issueCount
       pageInfo {
         hasNextPage
@@ -56,20 +57,25 @@ export const GetIssuesAndPullRequests = graphql`
       }
       edges {
         node {
+          __typename
           ...IssueOverview
         }
       }
     }
     java: repository(owner: "duckdb", name: "duckdb-java") {
+      __typename
       ...GetOverviewThings
     }
     nodejs: repository(owner: "duckdb", name: "duckdb-node") {
+      __typename
       ...GetOverviewThings
     }
     rust: repository(owner: "duckdb", name: "duckdb-rs") {
+      __typename
       ...GetOverviewThings
     }
     engine: repository(owner: "Mause", name: "duckdb_engine") {
+      __typename
       ...GetOverviewThings
     }
   }
@@ -80,16 +86,25 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   let items = [];
   for (const value of Object.values(octokit)) {
-    if (typeof value !== "string") {
+    if (typeof value !== "string" && value!.__typename === "Repository") {
       const res = getFragment(GetOverviewThingsFragmentDoc, value);
-      items.push(...res!.issues!.nodes!.map((issue) => convert(issue!)));
+      items.push(
+        ...res!.issues!.nodes!.map((issue) => {
+          const no = getFragment(IssueOverviewFragmentDoc, issue!);
+          return convert(no);
+        }),
+      );
       items.push(...res!.pullRequests!.nodes!.map((pr) => convert(pr!)));
     }
   }
   items.push(
-    ...octokit.search.nodes!.map((issue) =>
-      convert(getFragment(IssueOverviewFragmentDoc, issue)),
-    ),
+    ...octokit.search.edges!.map((edge) => {
+      const node = edge!.node!;
+      if (node.__typename !== "Issue") {
+        throw new Error("Expected issue");
+      }
+      return convert(getFragment(IssueOverviewFragmentDoc, node));
+    }),
   );
   items = items.filter((item) => item.title !== "Dependency Dashboard");
   items = _.orderBy(items, (item) => item.updatedAt, "desc");
@@ -134,7 +149,10 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
           header: "URL",
           renderCell(data) {
             return (
-              <Link target="_blank" href={`https://github.com/${data.repository.nameWithOwner}`}>
+              <Link
+                target="_blank"
+                href={`https://github.com/${data.repository.nameWithOwner}`}
+              >
                 {data.repository.nameWithOwner}
               </Link>
             );
