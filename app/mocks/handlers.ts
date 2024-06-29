@@ -24,7 +24,16 @@ export const handlers = [
       ],
       data: {
         __typename: "Query",
-        search: {},
+        search: {
+          __typename: "SearchResultItemConnection",
+          issueCount: 0,
+          pageInfo: {
+            __typename: "PageInfo",
+            endCursor: null,
+            hasNextPage: false,
+          },
+          edges: [],
+        },
         engine: null,
         java: null,
         nodejs: null,
