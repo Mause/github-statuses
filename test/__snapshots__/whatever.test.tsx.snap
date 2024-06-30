@@ -7,6 +7,16 @@ exports[`graphql 1`] = `
   "java": null,
   "nodejs": null,
   "rust": null,
+  "search": {
+    "__typename": "SearchResultItemConnection",
+    "edges": [],
+    "issueCount": 0,
+    "pageInfo": {
+      "__typename": "PageInfo",
+      "endCursor": null,
+      "hasNextPage": false,
+    },
+  },
 }
 `;
 
