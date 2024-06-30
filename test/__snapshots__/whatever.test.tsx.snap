@@ -3,20 +3,7 @@
 exports[`graphql 1`] = `
 {
   "__typename": "Query",
-  "engine": null,
-  "java": null,
-  "nodejs": null,
-  "rust": null,
-  "search": {
-    "__typename": "SearchResultItemConnection",
-    "edges": [],
-    "issueCount": 0,
-    "pageInfo": {
-      "__typename": "PageInfo",
-      "endCursor": null,
-      "hasNextPage": false,
-    },
-  },
+  "user": null,
 }
 `;
 

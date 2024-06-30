@@ -1,45 +1,37 @@
 import { http, HttpResponse, graphql } from "msw";
 import type {
-  GetIssuesAndPullRequestsQuery,
-  GetIssuesAndPullRequestsQueryVariables,
+  GetUserPullRequestsQuery,
+  GetUserPullRequestsQueryVariables,
 } from "~/components/graphql/graphql";
 
 export const handlers = [
   graphql.query<
-    Required<GetIssuesAndPullRequestsQuery>,
-    GetIssuesAndPullRequestsQueryVariables
+    Required<GetUserPullRequestsQuery>,
+    GetUserPullRequestsQueryVariables
   >("GetUserPullRequests", ({ query, variables }) => {
-    return HttpResponse.json({
-      errors: [
-        {
-          message: "Not Found",
-          locations: [
-            {
-              line: 1,
-              column: 1,
-            },
-          ],
-          path: ["user"],
-        },
-      ],
-      data: {
-        __typename: "Query",
-        search: {
-          __typename: "SearchResultItemConnection",
-          issueCount: 0,
-          pageInfo: {
-            __typename: "PageInfo",
-            endCursor: null,
-            hasNextPage: false,
+    console.log({ variables });
+    if (variables.owner === "octocat") {
+      return HttpResponse.json({
+        errors: [
+          {
+            message: "Not Found",
+            locations: [
+              {
+                line: 1,
+                column: 1,
+              },
+            ],
+            path: ["user"],
           },
-          edges: [],
+        ],
+        data: {
+          __typename: "Query",
+          user: null,
         },
-        engine: null,
-        java: null,
-        nodejs: null,
-        rust: null,
-      },
-    });
+      });
+    } else {
+      throw new Error("No mock defined for this query");
+    }
   }),
   // Intercept "GET https://example.com/user" requests...
   http.get("https://example.com/user", () => {
