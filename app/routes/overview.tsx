@@ -24,6 +24,7 @@ export const GetIssuesAndPullRequests = graphql`
     updatedAt
     repository {
       nameWithOwner
+      url
     }
   }
   fragment GetOverviewThings on Repository {
@@ -42,6 +43,7 @@ export const GetIssuesAndPullRequests = graphql`
         updatedAt
         repository {
           nameWithOwner
+          url
         }
       }
     }
@@ -151,10 +153,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
           header: "URL",
           renderCell(data) {
             return (
-              <Link
-                target="_blank"
-                href={`https://github.com/${data.repository.nameWithOwner}`}
-              >
+              <Link target="_blank" href={data.repository.url}>
                 {data.repository.nameWithOwner}
               </Link>
             );
