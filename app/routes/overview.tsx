@@ -49,8 +49,8 @@ export const GetIssuesAndPullRequests = graphql`
     }
   }
 
-  query GetIssuesAndPullRequests($query: String!) {
-    search(first: 100, type: ISSUE, query: $query) {
+  query GetIssuesAndPullRequests($searchQuery: String!) {
+    search(first: 100, type: ISSUE, query: $searchQuery) {
       __typename
       issueCount
       pageInfo {
@@ -85,7 +85,7 @@ export const GetIssuesAndPullRequests = graphql`
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const octokit = await call(request, GetIssuesAndPullRequestsDocument, {
-    query: `assignee:me is:open sort:updated-desc`,
+    searchQuery: `assignee:me is:open sort:updated-desc`,
   });
 
   let items = [];
