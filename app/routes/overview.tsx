@@ -188,6 +188,7 @@ function convert(item: IssueOrPullRequest): IssueOrPullRequest {
     number: item.number,
     repository: {
       nameWithOwner: item.repository.nameWithOwner,
+      url: item.repository.url,
     },
     updatedAt: item.updatedAt,
     id: item.id,
