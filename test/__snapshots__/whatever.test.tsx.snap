@@ -3,10 +3,7 @@
 exports[`graphql 1`] = `
 {
   "__typename": "Query",
-  "engine": null,
-  "java": null,
-  "nodejs": null,
-  "rust": null,
+  "user": null,
 }
 `;
 
