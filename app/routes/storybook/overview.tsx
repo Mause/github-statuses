@@ -16,15 +16,16 @@ const factory = makeFactory<IssueOrPullRequest>({
   id: each((tick) => `${tick}`),
   title: each((tick) => withSeed(tick).lorem.sentence()),
   url: new Derived<IssueOrPullRequest, string>(
-    (parent) =>
-      `https://github.com/${parent.repository.nameWithOwner}/issues/${parent.number}`,
+    (parent) => `${parent.repository.url}/issues/${parent.number}`,
   ),
   number: each((tick) => tick),
   repository: each((tick) => {
     const faker = withSeed(tick);
+    const nameWithOwner =
+      faker.internet.userName() + "/" + faker.internet.domainWord();
     return {
-      nameWithOwner:
-        faker.internet.userName() + "/" + faker.internet.domainWord(),
+      nameWithOwner,
+      url: `https://github.com/${nameWithOwner}`,
     };
   }),
   updatedAt: each((tick) => withSeed(tick).date.past().toISOString()),
