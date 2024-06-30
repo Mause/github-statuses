@@ -82,7 +82,9 @@ export const GetIssuesAndPullRequests = graphql`
 `;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const octokit = await call(request, GetIssuesAndPullRequestsDocument);
+  const octokit = await call(request, GetIssuesAndPullRequestsDocument, {
+    query: `assignee:me is:open sort:updated-desc`,
+  });
 
   let items = [];
   for (const value of Object.values(octokit)) {
