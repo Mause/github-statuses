@@ -178,6 +178,7 @@ export interface IssueOrPullRequest {
   number: number;
   repository: {
     nameWithOwner: string;
+    url: string;
   };
 }
 
