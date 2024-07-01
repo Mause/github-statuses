@@ -53,7 +53,7 @@ export default function Settings() {
     <Wrapper>
       <></>
       <>
-        <Heading>Settings</Heading>
+        <Heading as="h1">Settings</Heading>
         {open ? <Flash>Settings saved</Flash> : undefined}
         <fetcher.Form
           onSubmit={() => {
