@@ -105,7 +105,7 @@ export default function StandardTable<T>({
       </Table.Actions>
       <Table
         style={{ overflowX: "auto", display: "block", whiteSpace: "nowrap" }}
-        sx={{ gridTemplateColumns: gridTemplateColumns }}
+        gridTemplateColumns={gridTemplateColumns}
       >
         <Table.Head>
           {table.getHeaderGroups().map((headerGroup) => (
