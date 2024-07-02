@@ -286,7 +286,7 @@ export default function Logs() {
             icon={GearIcon}
             as="a"
             href={data.url}
-            aria-label="installation settings"
+            aria-label="Installation settings"
           />
           Fix this in your installation setting
         </Flash>

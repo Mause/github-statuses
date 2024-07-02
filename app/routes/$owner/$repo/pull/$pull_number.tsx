@@ -265,7 +265,7 @@ export default function Index() {
 
   return (
     <>
-      <Heading>
+      <Heading as="h1">
         {pr!.title}
         <ExternalLink href={pr!.permalink} variant="invisible">
           Link to pull request

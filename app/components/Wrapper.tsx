@@ -35,6 +35,7 @@ export function StandardHeader({
   );
 
   return (
+    // eslint-disable-next-line primer-react/direct-slot-children
     <PageLayout.Header divider="line">
       <Header
         sx={{
@@ -128,7 +129,7 @@ export default function Wrapper({
       columnGap="condensed"
       containerWidth="full"
     >
-      <StandardHeader children={header} />
+      <StandardHeader>{header}</StandardHeader>
       <PageLayout.Content padding="none">{body}</PageLayout.Content>
       {sidebar ? (
         <PageLayout.Pane
