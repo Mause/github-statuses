@@ -1,9 +1,9 @@
 import { vitePlugin as remix } from "@remix-run/dev";
-import type { Plugin} from "vite";
+import type { Plugin } from "vite";
 import { defineConfig } from "vite";
 
 import tsconfigPaths from "vite-tsconfig-paths";
-// import { createRoutesFromFolders } from "@remix-run/v1-route-convention";
+import { createRoutesFromFolders } from "@remix-run/v1-route-convention";
 
 function op(): Plugin {
   return {
@@ -29,9 +29,9 @@ export default defineConfig({
       // publicPath: "/build/",
       serverModuleFormat: "cjs",
       future: {},
-      //      routes(defineRoutes) {
-      //      return createRoutesFromFolders(defineRoutes);
-      //  },
+      routes(defineRoutes) {
+        return createRoutesFromFolders(defineRoutes);
+      },
     }),
     tsconfigPaths(),
   ],
