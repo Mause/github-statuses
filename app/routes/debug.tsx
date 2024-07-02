@@ -3,6 +3,7 @@ import _ from "lodash";
 import { getOctokit, getRootURL, getRedirect } from "~/octokit.server";
 import { authenticator } from "~/services/auth.server";
 import { splatObject } from "~/components/ErrorBoundary";
+import Sentry from "@sentry/remix";
 import getCache from "~/services/cache";
 
 function pick<T>(obj: T, keys: (keyof T)[]) {
@@ -23,6 +24,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return {
     rootURL: getRootURL(),
     redirect: await getRedirect(request),
+    sentry: getSentryDsn(),
     user: userObject
       ? pick(userObject, [
           "login",
@@ -36,6 +38,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
   };
 };
+
+function getSentryDsn() {
+  try {
+    return Sentry.getCurrentScope().getClient()?.getDsn();
+  } catch (e) {
+    return `unable to get sentry: ${e}`;
+  }
+}
 
 async function pingKv() {
   try {
