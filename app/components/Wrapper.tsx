@@ -35,6 +35,7 @@ export function StandardHeader({
   );
 
   return (
+    // eslint-disable-next-line primer-react/direct-slot-children
     <PageLayout.Header divider="line">
       <Header
         sx={{
