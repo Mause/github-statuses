@@ -12,14 +12,20 @@ import {
 } from "~/components";
 import type { StandardTableOptions } from "~/components/StandardTable";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { getPullRequests, type PullRequest } from "./pullsQuery.server";
+import {
+  getPullRequests as getPullRequests$,
+  type PullRequest,
+} from "./pullsQuery.server";
+import { serverOnly$ } from "vite-env-only/macros";
+
+const getPullRequests = serverOnly$(getPullRequests$);
 
 export const loader = async ({
   params,
   request,
 }: DataLoaderParams<"repo" | "owner">) => {
   return json(
-    await getPullRequests(request, {
+    await getPullRequests!(request, {
       owner: params.owner!,
       repo: params.repo!,
     }),
