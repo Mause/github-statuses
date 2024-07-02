@@ -1,5 +1,3 @@
-import "./instrumentation.server";
-
 import { sentryHandleError } from "@sentry/remix";
 import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
@@ -7,6 +5,20 @@ import { renderToString } from "react-dom/server";
 import { ServerStyleSheet } from "styled-components";
 import { renderHeadToString } from "remix-island";
 import { Head } from "./root";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
+import * as Sentry from "@sentry/remix";
+
+if ("SENTRY_DSN" in process.env) {
+  console.log("Sentry is starting...");
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [nodeProfilingIntegration()],
+    tracesSampleRate: 1,
+    autoInstrumentRemix: true,
+  });
+} else {
+  console.log("No SENTRY_DSN found in process.env");
+}
 
 export const handleError = sentryHandleError;
 
