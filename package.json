@@ -56,9 +56,9 @@
     "remix-island": "^0.2.0",
     "styled-components": "^5.0.0",
     "type-fest": "^4.0.0",
+    "url-polyfill": "^1.1.12",
     "vite": "^5.1.4",
-    "vite-env-only": "^3.0.3",
-    "vite-plugin-node-polyfills": "^0.22.0"
+    "vite-env-only": "^3.0.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
