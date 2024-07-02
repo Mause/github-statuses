@@ -12,7 +12,8 @@ if ("SENTRY_DSN" in process.env) {
   console.log("Sentry is starting...");
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
-    integrations: [nodeProfilingIntegration()],
+    integrations: [nodeProfilingIntegration(), Sentry.debugIntegration()],
+    debug: true,
     tracesSampleRate: 1,
     autoInstrumentRemix: true,
   });
