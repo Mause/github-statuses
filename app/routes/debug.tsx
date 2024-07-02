@@ -61,6 +61,7 @@ function getSentryDsn() {
   try {
     return Sentry.getCurrentScope().getClient()?.getDsn();
   } catch (e) {
+    console.error("unable to get sentry", e);
     return `unable to get sentry: ${e}`;
   }
 }
