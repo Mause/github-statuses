@@ -128,7 +128,7 @@ export default function Wrapper({
       columnGap="condensed"
       containerWidth="full"
     >
-      <StandardHeader children={header} />
+      <StandardHeader>{header}</StandardHeader>
       <PageLayout.Content padding="none">{body}</PageLayout.Content>
       {sidebar ? (
         <PageLayout.Pane
