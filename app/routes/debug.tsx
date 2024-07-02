@@ -3,7 +3,7 @@ import _ from "lodash";
 import { getOctokit, getRootURL, getRedirect } from "~/octokit.server";
 import { authenticator } from "~/services/auth.server";
 import { splatObject } from "~/components/ErrorBoundary";
-import Sentry from "@sentry/remix";
+import * as Sentry from "@sentry/remix";
 import getCache from "~/services/cache";
 
 function pick<T>(obj: T, keys: (keyof T)[]) {
@@ -59,7 +59,7 @@ async function getGithubUser(request: Request) {
 
 function getSentryDsn() {
   try {
-    return Sentry.getCurrentScope().getClient()?.getDsn();
+    return Sentry.getCurrentScope().getClient()?.getDsn() ?? "no dsn found";
   } catch (e) {
     console.error("unable to get sentry", e);
     return `unable to get sentry: ${e}`;
