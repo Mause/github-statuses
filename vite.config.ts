@@ -2,6 +2,7 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";
 import { envOnlyMacros } from "vite-env-only";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 import tsconfigPaths from "vite-tsconfig-paths";
 import { createRoutesFromFolders } from "@remix-run/v1-route-convention";
@@ -19,6 +20,7 @@ function op(): Plugin {
 export default defineConfig({
   plugins: [
     op(),
+    nodePolyfills(),
     envOnlyMacros(),
     remix({
       // When running locally in development mode, we use the built in remix
