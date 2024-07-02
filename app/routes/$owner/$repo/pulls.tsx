@@ -38,13 +38,13 @@ export default function Pulls() {
       buildTitleColumn(),
       columnHelper.accessor("author.login", {
         header: "By",
-        cell: (props) => (
+        cell: (cell) => (
           <PrimerLink
             target="_blank"
-            href={props.row.original.author?.url}
+            href={cell.row.original.author?.url}
             rel="noreferrer"
           >
-            {props.getValue()}
+            {cell.getValue()}
           </PrimerLink>
         ),
       }),
