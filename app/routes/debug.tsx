@@ -10,7 +10,42 @@ function pick<T>(obj: T, keys: (keyof T)[]) {
   return _.pick(obj, keys);
 }
 
+async function timeout<T>(t: Promise<T>) {
+  return await Promise.race([
+    t,
+    new Promise((resolve) => {
+      setTimeout(() => resolve("timed out"), 5000);
+    }),
+  ]);
+}
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const userObject = await timeout(
+    authenticator()
+      .isAuthenticated(request)
+      .then((userObject) =>
+        userObject
+          ? pick(userObject, [
+              "login",
+              "installationId",
+              "accessTokenExpiry",
+              "refreshTokenExpiry",
+            ])
+          : null,
+      ),
+  );
+  return {
+    rootURL: getRootURL(),
+    redirect: await timeout(getRedirect(request)),
+    sentry: getSentryDsn(),
+    user: userObject,
+    userExtra: await timeout(getGithubUser(request)),
+    kv: await timeout(pingKv()),
+    env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
+  };
+};
+
+async function getGithubUser(request: Request) {
   let user;
   try {
     const octokit = await getOctokit(request);
@@ -19,25 +54,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   } catch (e) {
     user = splatObject(e as Error);
   }
-
-  const userObject = await authenticator().isAuthenticated(request);
-  return {
-    rootURL: getRootURL(),
-    redirect: await getRedirect(request),
-    sentry: getSentryDsn(),
-    user: userObject
-      ? pick(userObject, [
-          "login",
-          "installationId",
-          "accessTokenExpiry",
-          "refreshTokenExpiry",
-        ])
-      : null,
-    userExtra: user,
-    kv: await pingKv(),
-    env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
-  };
-};
+  return user;
+}
 
 function getSentryDsn() {
   try {
