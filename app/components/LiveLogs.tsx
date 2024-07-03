@@ -1,7 +1,10 @@
-import { getOctokit } from "~/octokit.server";
+import { getOctokit as getOctokit$ } from "~/octokit.server";
 import { Suspense, useEffect, useState } from "react";
 import { Await } from "@remix-run/react";
+import { serverOnly$ } from "vite-env-only/macros";
 export { ErrorBoundary } from "~/components";
+
+const getOctokit = serverOnly$(getOctokit$);
 
 interface LiveLogsResponse {
   success: boolean;
@@ -28,7 +31,7 @@ export async function getLiveLogs(
   console.log("getLiveLogs", args);
   let octokit;
   try {
-    octokit = await getOctokit(request);
+    octokit = await getOctokit!(request);
   } catch (e) {
     throw { error: "not logged in" };
   }
