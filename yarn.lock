@@ -3880,10 +3880,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/behaviors@npm:^1.5.1":
-  version: 1.5.1
-  resolution: "@primer/behaviors@npm:1.5.1"
-  checksum: 10/5707da691510ccd8c5fe7a2e3cecb12da8295b4577f3b710cbe35a0529fd201f3508157d98754a79af4ac7dc11ea9dab468eeeaac9785f1d0e68708e9d8f50ce
+"@primer/behaviors@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@primer/behaviors@npm:1.7.0"
+  dependencies:
+    "@rollup/rollup-linux-x64-gnu": "npm:^4.18.0"
+  dependenciesMeta:
+    "@rollup/rollup-linux-x64-gnu":
+      optional: true
+  checksum: 10/0fd62869a80170e456b45db8fed8f4df112dc56ea25ad2ed2e3e89291f6d4ec1c2af128846908baa33365cc5fd9268a37b919d571130c324195cb95e150c020e
   languageName: node
   linkType: hard
 
@@ -3913,8 +3918,8 @@ __metadata:
   linkType: hard
 
 "@primer/react@npm:^36.0.0":
-  version: 36.24.0
-  resolution: "@primer/react@npm:36.24.0"
+  version: 36.27.0
+  resolution: "@primer/react@npm:36.27.0"
   dependencies:
     "@github/combobox-nav": "npm:^2.1.5"
     "@github/markdown-toolbar-element": "npm:^2.1.0"
@@ -3923,7 +3928,7 @@ __metadata:
     "@github/tab-container-element": "npm:^4.8.0"
     "@lit-labs/react": "npm:1.2.1"
     "@oddbird/popover-polyfill": "npm:^0.3.1"
-    "@primer/behaviors": "npm:^1.5.1"
+    "@primer/behaviors": "npm:^1.7.0"
     "@primer/live-region-element": "npm:^0.7.0"
     "@primer/octicons-react": "npm:^19.9.0"
     "@primer/primitives": "npm:^7.16.0"
@@ -3960,7 +3965,7 @@ __metadata:
       optional: true
     "@types/styled-components":
       optional: true
-  checksum: 10/e719e55144669122f730553d8a6c15c8710ce3e67a0caba4793210251f295428adb958847b06d5f70da09c3c3af225df12e8d75c47655a0964a33ee7e78e8021
+  checksum: 10/eea2a1e1827cce6d85a761d4347ccf8836ff609d58771f5ac8ea3db43ee9f961400aef6a04ee46d058732896044f5df0d9db57b608cfd718039aa1cd1c4bf22a
   languageName: node
   linkType: hard
 
@@ -4349,6 +4354,13 @@ __metadata:
 "@rollup/rollup-linux-x64-gnu@npm:4.9.5":
   version: 4.9.5
   resolution: "@rollup/rollup-linux-x64-gnu@npm:4.9.5"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@rollup/rollup-linux-x64-gnu@npm:^4.18.0":
+  version: 4.19.0
+  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.19.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
