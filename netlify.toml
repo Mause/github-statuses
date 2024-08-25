@@ -1,6 +1,7 @@
 [build]
-command = "npm run build"
-publish = "build/client"
+install = "yarn install"
+command = "yarn run build"
+publish = "build/"
 
 [dev]
 command = "npm run dev"
