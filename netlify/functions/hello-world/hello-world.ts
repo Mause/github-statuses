@@ -1,4 +1,8 @@
-import type { Handler } from "@netlify/functions";
+import type { Config, Handler } from "@netlify/functions";
+
+export const config: Config = {
+  path: "/*"
+};
 
 export const handler: Handler = async (event, context) => {
   const { name = "stranger" } = event.queryStringParameters || {};
