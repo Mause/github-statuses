@@ -38,7 +38,7 @@
     "adm-zip": "^0.5.10",
     "ansi-sequence-parser": "^1.1.1",
     "async": "^3.2.4",
-    "debug": "^4.3.4",
+    "debug": "^4.3.6",
     "github-syntax-dark": "^0.5.0",
     "github-syntax-light": "^0.5.0",
     "graphql": "^16.6.0",
