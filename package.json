@@ -44,7 +44,7 @@
     "adm-zip": "^0.5.10",
     "ansi-sequence-parser": "^1.1.1",
     "async": "^3.2.4",
-    "debug": "^4.3.4",
+    "debug": "^4.3.6",
     "github-syntax-dark": "^0.5.0",
     "github-syntax-light": "^0.5.0",
     "graphql": "^16.6.0",
@@ -71,7 +71,7 @@
     "@remix-run/dev": "^2.7.1",
     "@remix-run/eslint-config": "^2.7.1",
     "@remix-run/serve": "^2.7.1",
-    "@remix-run/testing": "2.10.0",
+    "@remix-run/testing": "2.11.2",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^16.0.0",
     "@types/debug": "^4",
@@ -101,7 +101,7 @@
     "typescript": "^5.0.0",
     "vercel": "^34.0.0",
     "vite-tsconfig-paths": "^4.3.1",
-    "vitest": "^1.2.0"
+    "vitest": "^2.0.0"
   },
   "engines": {
     "node": "^18.16.1"
