@@ -177,7 +177,7 @@ export async function call<Result, Variables extends RequestParameters>(
         );
       } catch (e) {
         console.error(e);
-        if (isRequestError(e)) {
+        if (isRequestError(e) || isGraphQLError(e)) {
           if (e.message === "Bad credentials") {
             throw await logoutAndRedirect(request);
           } else {
@@ -216,6 +216,9 @@ function isRequestError(e: any): e is RequestError {
 }
 function isGraphqlResponseError<T>(e: any): e is GraphqlResponseError<T> {
   return identity(e) === "GraphqlResponseError";
+}
+export function isGraphQLError(e: any): e is GraphqlResponseError<unknown> {
+  return isError(e) && e.name === "GraphqlResponseError";
 }
 function identity(e: any): string | undefined {
   return isError(e) ? e.name : undefined;
