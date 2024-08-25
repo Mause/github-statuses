@@ -1,4 +1,8 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type {
+  LoaderFunction,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
 import { Dialog } from "@primer/react/drafts";
@@ -9,7 +13,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
+  useMatches,
   useNavigation,
 } from "@remix-run/react";
 import { BaseStyles, Spinner, ThemeProvider, themeGet } from "@primer/react";
@@ -92,7 +96,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export function Layout({ children }: { children: ReactNode[] | ReactNode }) {
-  const data = useLoaderData<typeof loader>();
+  const matches = useMatches();
+  const data = matches[0] as SerializeFrom<typeof loader>;
 
   return (
     <ThemeProvider colorMode={data?.colorMode ?? "auto"}>

@@ -20,6 +20,7 @@ export default function Storybook() {
           "live_logs",
           "logs",
           "cache",
+          "overview",
         ].map((route) => (
           <NavList.Item as={Link} to={route} key={route}>
             {titleCase(route)}

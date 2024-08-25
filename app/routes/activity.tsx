@@ -39,7 +39,7 @@ export default function Activity() {
       columnHelper.accessor("type", { header: "Event Type" }),
       columnHelper.accessor("payload", {
         header: "Event Payload",
-        cell: (props) => <EventPayload event={props.row.original} />,
+        cell: (cell) => <EventPayload event={cell.row.original} />,
       }),
     ],
   };

@@ -35,6 +35,7 @@ export function StandardHeader({
   );
 
   return (
+    // eslint-disable-next-line primer-react/direct-slot-children
     <PageLayout.Header divider="line">
       <Header
         sx={{
@@ -58,6 +59,11 @@ export function StandardHeader({
         {children}
         {user?.login ? (
           <>
+            <Header.Item>
+              <Header.Link as={Link} to="/overview">
+                Overview
+              </Header.Link>
+            </Header.Item>
             <Header.Item full>
               <Header.Link as={Link} to={`/${user?.login}/pulls`}>
                 My PRs
@@ -123,7 +129,7 @@ export default function Wrapper({
       columnGap="condensed"
       containerWidth="full"
     >
-      <StandardHeader children={header} />
+      <StandardHeader>{header}</StandardHeader>
       <PageLayout.Content padding="none">{body}</PageLayout.Content>
       {sidebar ? (
         <PageLayout.Pane

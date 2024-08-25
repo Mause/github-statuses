@@ -1,3 +1,6 @@
+import "./instrumentation.server";
+
+import { sentryHandleError } from "@sentry/remix";
 import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { renderToString } from "react-dom/server";
@@ -5,18 +8,9 @@ import { ServerStyleSheet } from "styled-components";
 import { renderHeadToString } from "remix-island";
 import { Head } from "./root";
 
-import * as Sentry from "@sentry/remix";
-import { ProfilingIntegration } from "@sentry/profiling-node";
+export const handleError = sentryHandleError;
 
 const ABORT_DELAY = 7000;
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [new ProfilingIntegration()],
-  tracesSampleRate: 1,
-  // Set sampling rate for profiling - this is relative to tracesSampleRate
-  profilesSampleRate: 1.0,
-});
 
 export default function handleRequest(
   request: Request,

@@ -121,3 +121,6 @@ build
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Sentry Config File
+.sentryclirc

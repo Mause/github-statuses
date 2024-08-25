@@ -17,7 +17,6 @@ export function TabNavLink({
       to={to}
       aria-current={current ? "page" : false}
       selected={current}
-      children={children}
-    />
+    >{children}</TabNav.Link>
   );
 }

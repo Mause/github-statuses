@@ -33,7 +33,7 @@ export default function Repo() {
   const { nameWithOwner, url } = useLoaderData<typeof loader>();
   return (
     <>
-      <Heading>
+      <Heading as="h1">
         {nameWithOwner}
         <ExternalLink href={url} variant="invisible">
           {nameWithOwner}

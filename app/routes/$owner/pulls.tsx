@@ -72,7 +72,7 @@ export default function Owner() {
 
   return (
     <>
-      <Heading>
+      <Heading as="h1">
         <PrimerLink href={user!.url}>{user!.login}</PrimerLink>
       </Heading>
       <StandardTable tableOptions={table}>No pull requests found</StandardTable>
