@@ -118,6 +118,9 @@
     "*.{ts,tsx,js,graphql,css,md}": "yarn prettier --write"
   },
   "packageManager": "yarn@4.3.1",
+  "workspaces": [
+    "netlify/functions/hello-world"
+  ],
   "msw": {
     "workerDirectory": [
       "public"
