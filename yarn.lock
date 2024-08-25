@@ -1435,6 +1435,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bundled-es-modules/tough-cookie@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "@bundled-es-modules/tough-cookie@npm:0.1.6"
+  dependencies:
+    "@types/tough-cookie": "npm:^4.0.5"
+    tough-cookie: "npm:^4.1.4"
+  checksum: 10/4f24a820f02c08c3ca0ff21272317357152093f76f9c8cc182517f61fa426ae53dadc4d68a3d6da5078e8d73f0ff8c0907a9f994c0be756162ba9c7358533e57
+  languageName: node
+  linkType: hard
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -2965,13 +2975,6 @@ __metadata:
     unist-util-visit: "npm:^4.0.0"
     vfile: "npm:^5.0.0"
   checksum: 10/3f56d25d7e410278881e8ff8ea9efef0b538aed7d4c3481f89790be832863236c3e582b4233a3d5a5f05491f23d2ba6df46c04deab268976013032c4603ccafe
-  languageName: node
-  linkType: hard
-
-"@mswjs/cookies@npm:^1.1.0":
-  version: 1.1.1
-  resolution: "@mswjs/cookies@npm:1.1.1"
-  checksum: 10/85ece5b3e6e480fb86e8970ef35a945fdbc9041cfa2414d9bc15ee407560a8b53175af91d36056bd7ec0b21c6af667dc12989a8f7ba2d59a13b3302e00a624c6
   languageName: node
   linkType: hard
 
@@ -5465,7 +5468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tough-cookie@npm:*":
+"@types/tough-cookie@npm:*, @types/tough-cookie@npm:^4.0.5":
   version: 4.0.5
   resolution: "@types/tough-cookie@npm:4.0.5"
   checksum: 10/01fd82efc8202670865928629697b62fe9bf0c0dcbc5b1c115831caeb073a2c0abb871ff393d7df1ae94ea41e256cb87d2a5a91fd03cdb1b0b4384e08d4ee482
@@ -14027,13 +14030,13 @@ __metadata:
   linkType: hard
 
 "msw@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "msw@npm:2.3.1"
+  version: 2.3.5
+  resolution: "msw@npm:2.3.5"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.0"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
+    "@bundled-es-modules/tough-cookie": "npm:^0.1.6"
     "@inquirer/confirm": "npm:^3.0.0"
-    "@mswjs/cookies": "npm:^1.1.0"
     "@mswjs/interceptors": "npm:^0.29.0"
     "@open-draft/until": "npm:^2.1.0"
     "@types/cookie": "npm:^0.6.0"
@@ -14054,7 +14057,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10/449df7c48f82eaa3de4b40ca106be232b09dcf7f736b1bb7410109702f803262016db35247b299c1ec378346678f48d1d50752ee18fc90329c2531326cec7ec4
+  checksum: 10/c7c14f517bf4011de4d8758212f84b355433ac8087840f94a605690a1f41ea8f4a4b6e07161f734f823b2563ba0a8ea168036f59a6ccdfc895817db6eed64418
   languageName: node
   linkType: hard
 
