@@ -7,11 +7,10 @@ export const config: Config = {
 const handler: Handler = async (event, context) => {
   const { name = "stranger" } = event.queryStringParameters || {};
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
+  return new Response(
+    JSON.stringify({
       message: `Hello, ${name}!`,
     }),
-  };
+  );
 };
 export default handler;
