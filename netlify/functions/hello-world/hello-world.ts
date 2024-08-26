@@ -13,6 +13,11 @@ const handler: Handler = async (event: Request, context) => {
       url: event.url,
       headers: Object.fromEntries(event.headers.entries()),
     }),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
   );
 };
 export default handler;
