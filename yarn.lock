@@ -4568,7 +4568,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/react@npm:^2.10.0":
+"@remix-run/react@npm:2.10.0, @remix-run/react@npm:^2.10.0":
   version: 2.10.0
   resolution: "@remix-run/react@npm:2.10.0"
   dependencies:
@@ -4637,6 +4637,24 @@ __metadata:
     typescript:
       optional: true
   checksum: 10/0626c75f0167385a2ac714b7f3fcfbb375816ba564005aacaa70d99d7ee8ee124aeef78a3d591588c455a8ab4c15c4bcf8bc8d3c9e004f8b0e60bdcf568ede5f
+  languageName: node
+  linkType: hard
+
+"@remix-run/testing@npm:2.10.0":
+  version: 2.10.0
+  resolution: "@remix-run/testing@npm:2.10.0"
+  dependencies:
+    "@remix-run/node": "npm:2.10.0"
+    "@remix-run/react": "npm:2.10.0"
+    "@remix-run/router": "npm:1.17.0"
+    react-router-dom: "npm:6.24.0"
+  peerDependencies:
+    react: ^18.0.0
+    typescript: ^5.1.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 10/e590e521d96860d605503de84545a998cddf0a4f32f692cfd3415da4400fc179add63d06ec73ceffa396044c69a272f19eac35ea1c248c03495560ee83a934e7
   languageName: node
   linkType: hard
 
@@ -11741,6 +11759,7 @@ __metadata:
     "@remix-run/node": "npm:^2.10.0"
     "@remix-run/react": "npm:^2.10.0"
     "@remix-run/serve": "npm:^2.10.0"
+    "@remix-run/testing": "npm:2.10.0"
     "@remix-run/v1-route-convention": "npm:^0.1.4"
     "@sentry/profiling-node": "npm:^8.0.0"
     "@sentry/remix": "npm:^8.0.0"

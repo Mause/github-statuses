@@ -68,6 +68,7 @@
     "@remix-run/dev": "^2.10.0",
     "@remix-run/eslint-config": "^2.10.0",
     "@remix-run/serve": "^2.10.0",
+    "@remix-run/testing": "2.10.0",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^16.0.0",
     "@types/debug": "^4",
