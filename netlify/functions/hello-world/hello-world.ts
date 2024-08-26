@@ -1,10 +1,10 @@
 import type { Config, Handler } from "@netlify/functions";
 
 export const config: Config = {
-  path: "/*"
+  path: "/*",
 };
 
-export const handler: Handler = async (event, context) => {
+const handler: Handler = async (event, context) => {
   const { name = "stranger" } = event.queryStringParameters || {};
 
   return {
@@ -14,3 +14,4 @@ export const handler: Handler = async (event, context) => {
     }),
   };
 };
+export default handler;
