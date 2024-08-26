@@ -21,6 +21,8 @@ const handler: Handler = async (event: Request, context) => {
       url: event.url,
       headers: Object.fromEntries(event.headers.entries()),
       files,
+      cwd: process.cwd(),
+      parentFiles: await fs.readdir(".."),
     }),
     {
       headers: {
