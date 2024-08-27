@@ -1,7 +1,7 @@
 import type { Config, Handler } from "@netlify/functions";
 import * as fs from "fs/promises";
 
-import index from "./../../public/index.js";
+import index from "./../../../build/index.js";
 
 export const config: Config = {
   path: "/*",
