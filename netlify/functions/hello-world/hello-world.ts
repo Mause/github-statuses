@@ -1,6 +1,8 @@
 import type { Config, Handler } from "@netlify/functions";
 import * as fs from "fs/promises";
 
+import index from "./../../public/index.js";
+
 export const config: Config = {
   path: "/*",
 };
@@ -15,6 +17,13 @@ const handler: Handler = async (event: Request, context) => {
     console.error(error);
   }
 
+  let indexRes;
+  try {
+    indexRes = index();
+  } catch (error) {
+    console.error(error);
+  }
+
   return new Response(
     JSON.stringify({
       message: `Hello, ${name}!`,
@@ -23,6 +32,7 @@ const handler: Handler = async (event: Request, context) => {
       files,
       cwd: process.cwd(),
       parentFiles: await fs.readdir(".."),
+      indexRes,
     }),
     {
       headers: {
