@@ -19,9 +19,9 @@ const handler: Handler = async (event: Request, context) => {
 
   let indexRes;
   try {
-    indexRes = index.default();
+    indexRes = index.default.toString();
   } catch (error) {
-    indexRes = error;
+    indexRes = error.toString();
     console.error(error);
   }
 
