@@ -13,6 +13,11 @@
     "pull": "vc env pull .env"
   },
   "dependencies": {
+    "@netlify/edge-functions": "^2.3.1",
+    "@netlify/functions": "^2.6.0",
+    "@netlify/remix-adapter": "^2.3.1",
+    "@netlify/remix-edge-adapter": "^3.2.1",
+    "@netlify/remix-runtime": "^2.2.0",
     "@octokit/auth-app": "^6.0.0",
     "@octokit/auth-oauth-app": "^7.0.1",
     "@octokit/plugin-throttling": "^8.0.0",
@@ -23,6 +28,7 @@
     "@primer/react": "^36.0.0",
     "@remix-run/node": "^2.7.1",
     "@remix-run/react": "^2.7.1",
+    "@remix-run/serve": "^2.0.0",
     "@remix-run/v1-route-convention": "^0.1.4",
     "@sentry/profiling-node": "^8.0.0",
     "@sentry/remix": "^8.0.0",
@@ -44,6 +50,7 @@
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "humanize-duration": "^3.28.0",
+    "isbot": "^4.1.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -111,6 +118,9 @@
     "*.{ts,tsx,js,graphql,css,md}": "yarn prettier --write"
   },
   "packageManager": "yarn@4.3.1",
+  "workspaces": [
+    "netlify/functions/hello-world"
+  ],
   "msw": {
     "workerDirectory": [
       "public"
