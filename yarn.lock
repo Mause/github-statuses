@@ -9741,8 +9741,8 @@ __metadata:
   linkType: hard
 
 "eslint-plugin-primer-react@npm:^5.0.0":
-  version: 5.3.0
-  resolution: "eslint-plugin-primer-react@npm:5.3.0"
+  version: 5.4.0
+  resolution: "eslint-plugin-primer-react@npm:5.4.0"
   dependencies:
     "@styled-system/props": "npm:^5.1.5"
     eslint-plugin-github: "npm:^5.0.1"
@@ -9752,7 +9752,7 @@ __metadata:
     styled-system: "npm:^5.1.5"
   peerDependencies:
     eslint: ^8.42.0
-  checksum: 10/6bebd6e30d5af3ec7abf0f2bbea9dc634c005273f021598ef96a07ede1b8547559e9e772036accba76e0d3fb1ba6f7d76e3f5e1aaf8c269a56aead033741afc9
+  checksum: 10/5c3ab084d43b4b7484d1eb0e1921748d3e458462a92c1be704e473b38f8a7849cd2f2b953c65b593369c03bbef86403e8ca3de1f5ae28401218adb3b36b39fce
   languageName: node
   linkType: hard
 
