@@ -61,14 +61,10 @@ export const Head = createHead(() => (
 
 export function ErrorBoundary() {
   return (
-    <AddTheme>
-      <Meta />
-      <Links />
-      <Wrapper>
-        <></>
-        <ErrorDisplay />
-      </Wrapper>
-    </AddTheme>
+    <Wrapper>
+      <></>
+      <ErrorDisplay />
+    </Wrapper>
   );
 }
 
@@ -99,7 +95,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function AddTheme({ children }: { children: ReactNode[] | ReactNode }) {
+export function Layout({ children }: { children: ReactNode[] | ReactNode }) {
   const matches = useMatches();
   const data = matches[0] as SerializeFrom<typeof loader>;
 
@@ -122,14 +118,14 @@ function App() {
   const data = useLoaderDataReloading<typeof loader>();
 
   return (
-    <AddTheme>
+    <>
       <Outlet />
       <script
         dangerouslySetInnerHTML={{
           __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
         }}
       />
-    </AddTheme>
+    </>
   );
 }
 
