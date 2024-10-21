@@ -28,12 +28,12 @@ export const GetIssuesAndPullRequests = graphql`
     }
   }
   fragment GetOverviewThings on Repository {
-    issues(states: [OPEN], first: 10) {
+    issues(states: [OPEN], first: 10, orderBy: [UPDATED]) {
       nodes {
         ...IssueOverview
       }
     }
-    pullRequests(states: [OPEN], first: 10) {
+    pullRequests(states: [OPEN], first: 10, orderBy: [UPDATED]) {
       nodes {
         __typename
         id
