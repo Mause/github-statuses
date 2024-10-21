@@ -28,12 +28,12 @@ export const GetIssuesAndPullRequests = graphql`
     }
   }
   fragment GetOverviewThings on Repository {
-    issues(states: [OPEN], first: 10, orderBy: [UPDATED]) {
+    issues(states: [OPEN], first: 10, orderBy: $order) {
       nodes {
         ...IssueOverview
       }
     }
-    pullRequests(states: [OPEN], first: 10, orderBy: [UPDATED]) {
+    pullRequests(states: [OPEN], first: 10, orderBy: $order) {
       nodes {
         __typename
         id
@@ -49,7 +49,7 @@ export const GetIssuesAndPullRequests = graphql`
     }
   }
 
-  query GetIssuesAndPullRequests($searchQuery: String!) {
+  query GetIssuesAndPullRequests($searchQuery: String!, $order: IssueOrder!) {
     search(first: 100, type: ISSUE, query: $searchQuery) {
       __typename
       issueCount
