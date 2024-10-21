@@ -5,7 +5,9 @@ import graphql from "graphql-tag";
 import {
   GetIssuesAndPullRequestsDocument,
   GetOverviewThingsFragmentDoc,
+  IssueOrderField,
   IssueOverviewFragmentDoc,
+  OrderDirection,
 } from "~/components/graphql/graphql";
 import { Wrapper } from "~/components";
 import { getFragment } from "~/components/graphql";
@@ -86,6 +88,10 @@ export const GetIssuesAndPullRequests = graphql`
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const octokit = await call(request, GetIssuesAndPullRequestsDocument, {
     searchQuery: `assignee:me is:open sort:updated-desc`,
+    order: {
+      field: IssueOrderField.UpdatedAt,
+      direction: OrderDirection.Desc
+    }
   });
 
   let items = [];
