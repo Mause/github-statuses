@@ -10209,12 +10209,12 @@ __metadata:
   linkType: hard
 
 "factory.ts@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "factory.ts@npm:1.4.1"
+  version: 1.4.2
+  resolution: "factory.ts@npm:1.4.2"
   dependencies:
     clone-deep: "npm:^4.0.1"
     source-map-support: "npm:^0.5.21"
-  checksum: 10/a62b42951f9a72fc54380dcedbec0dca002092a4d649e665282e1dec459a7bead3054520d0c8c0839094499bb825f7e2f07071f65f23df76dc13938b5024bdc3
+  checksum: 10/0afe339ac39a72ad669da240231743d49d631ce47e5a6f6d4c0720a68d8bd5e841b868d2c6f12bc4c819230b0a86f5b952da97157efa861c874bcaac5b13bb40
   languageName: node
   linkType: hard
 
