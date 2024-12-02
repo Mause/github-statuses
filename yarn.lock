@@ -3769,36 +3769,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oslojs/binary@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@oslojs/binary@npm:0.2.0"
-  checksum: 10/e845a86f4b626f685e7acd28210205378ac997aa03ea52afa78ca76421eb5fd46b0c814fde38b09665d35696a8fb6d530f789d499ca7619e1ce14730e80a65c5
-  languageName: node
-  linkType: hard
-
-"@oslojs/crypto@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@oslojs/crypto@npm:0.2.0"
+"@oslojs/asn1@npm:0.2.3":
+  version: 0.2.3
+  resolution: "@oslojs/asn1@npm:0.2.3"
   dependencies:
-    "@oslojs/binary": "npm:0.2.0"
-  checksum: 10/913f9d9e06cb9bfce7b754d7c348d32e721e3559f74083f23153f04429a9579135002f5bb20e65e7373b946ee77a412b629165b7fb72de9fe90305f3f62e184c
+    "@oslojs/binary": "npm:0.4.0"
+  checksum: 10/1ee422cecbff4802372d2574e7ffb2ddbdc7358f41a83f73fee1118ce9b7a9abf2c24410302c502dcae27be60c4e2769f211065b574029392221b361908e2580
   languageName: node
   linkType: hard
 
-"@oslojs/encoding@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@oslojs/encoding@npm:0.2.0"
-  checksum: 10/0bf28e91a1dab03545d8b3626fab0b9bafe20335d35b2d2dc41cb86546034d461252cbbadcc1a4f858c12455b691d5f0c7eaaa812621a471a2ee3d81d6162328
+"@oslojs/binary@npm:0.4.0":
+  version: 0.4.0
+  resolution: "@oslojs/binary@npm:0.4.0"
+  checksum: 10/e13d94683ff2c1ae8f7029afc4296f3b2c2cfac4d7c599af8fb1d3ba6b7258da18d7b0c5d8a8346a31d5aaf891e0558ddcd6e8b0c6a0a044665410b59530ee92
   languageName: node
   linkType: hard
 
-"@oslojs/oauth2@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@oslojs/oauth2@npm:0.1.0"
+"@oslojs/crypto@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "@oslojs/crypto@npm:0.6.2"
   dependencies:
-    "@oslojs/crypto": "npm:0.2.0"
-    "@oslojs/encoding": "npm:0.2.0"
-  checksum: 10/b72a21e77ddc07d52d29f0656acd170ab16d5db01c92ae6ace4b2979bec1e33a689bc214a2323210a8635e40feb65b4adf4b894dcad1c165d357e02df0eb31d0
+    "@oslojs/asn1": "npm:0.2.3"
+    "@oslojs/binary": "npm:0.4.0"
+  checksum: 10/ccb568aa0b44a045f44aacdca1176568212eebe5343554096071c105e564889b89086030b0f8172c53bede4c17bf31f9b15c656e4b31f1bd3377ade8f1e19c10
+  languageName: node
+  linkType: hard
+
+"@oslojs/encoding@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@oslojs/encoding@npm:1.1.0"
+  checksum: 10/9122ad5fa5c3557c1205825b11ea51facbaf08153a47c349c6b1a613b6797e9b22f290d31f5b6faaa45ece39a2437ecdb866815c73beb182e2b203d1f2201e98
+  languageName: node
+  linkType: hard
+
+"@oslojs/oauth2@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@oslojs/oauth2@npm:0.5.0"
+  checksum: 10/ea8fea61252d4b219dee8392f7e35f34715fc8645dcb6c209e768a9ed974823e026e3c01f6e1d243b40b96bca7a5ef0172ddc1549ecf0984a8b5aebc1c1f1606
   languageName: node
   linkType: hard
 
@@ -15970,10 +15977,12 @@ __metadata:
   linkType: hard
 
 "remix-auth-oauth2@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "remix-auth-oauth2@npm:2.1.0"
+  version: 2.4.0
+  resolution: "remix-auth-oauth2@npm:2.4.0"
   dependencies:
-    "@oslojs/oauth2": "npm:^0.1.0"
+    "@oslojs/crypto": "npm:^0.6.2"
+    "@oslojs/encoding": "npm:^1.0.0"
+    "@oslojs/oauth2": "npm:^0.5.0"
     debug: "npm:^4.3.4"
   peerDependencies:
     "@remix-run/cloudflare": ^1.0.0 || ^2.0.0
@@ -15987,7 +15996,7 @@ __metadata:
       optional: true
     "@remix-run/node":
       optional: true
-  checksum: 10/f1e185d2ecfd560a9b773b15e9d650b6a7be99350dcfdb2e4580cf387afb4737b836b9c925bc9235e2704e0507c5d1889fc8273a23b98bf52e644ea01cabc9ed
+  checksum: 10/72ffd0eb0fd16a8bf7f0cde473ddd719370e7ab27d9c6efc2ff269b1bb019ba4345a0eb98ee689c098c54a907de1c7cac286784a9fb0edfea1d28a788e7279a8
   languageName: node
   linkType: hard
 
