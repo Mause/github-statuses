@@ -97,7 +97,7 @@
     "vitest": "^2.0.0"
   },
   "engines": {
-    "node": "^18.16.1"
+    "node": "^22.0.0"
   },
   "name": "github-statuses",
   "version": "1.0.0",
