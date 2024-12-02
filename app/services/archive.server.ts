@@ -2,7 +2,6 @@ import AdmZip from "adm-zip";
 import _ from "lodash";
 import { extname } from "path";
 import type { Octokit } from "@octokit/rest";
-import type { OctokitResponse } from "@octokit/types";
 
 export type Job = { [jobName: string]: StepData[] };
 
@@ -10,7 +9,7 @@ export async function getLogsForUrl(
   octokit: Octokit,
   url: string,
 ): Promise<Job> {
-  let log_zip: OctokitResponse<ArrayBuffer>;
+  let log_zip;
   try {
     log_zip = await octokit.request(url, {
       mediaType: {
