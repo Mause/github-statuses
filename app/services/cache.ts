@@ -15,7 +15,7 @@ type XCache = StrategyOptions["cache"] & {
 
 const ONE_HOUR_IN_SECONDS = 60 * 60;
 
-function getCache(): XCache {
+function _getCache(): XCache {
   const { env } = process;
   const kv = createClient({
     url:
@@ -47,4 +47,4 @@ function getCache(): XCache {
   };
 }
 
-export default _.memoize(getCache);
+export const getCache = _.memoize(_getCache);

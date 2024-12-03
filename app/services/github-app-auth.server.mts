@@ -1,8 +1,8 @@
 import type { GitHubExtraParams } from "remix-auth-github";
 import { createAppAuth, createOAuthUserAuth } from "@octokit/auth-app";
-import { octokitFromConfig } from "~/octokit.server";
+import { octokitFromConfig } from "~/octokit.server.js";
 import _ from "lodash";
-import getCache from "~/services/cache";
+import {getCache} from "~/services/cache.js";
 import { GitHubStrategy } from "remix-auth-github";
 
 function checkNonNull(name: string): NonNullable<string> {
