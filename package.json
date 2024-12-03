@@ -1,6 +1,5 @@
 {
   "private": true,
-  "sideEffects": false,
   "scripts": {
     "prebuild": "graphql-codegen",
     "build": "yarn prebuild && remix build --sourcemap",
