@@ -41,7 +41,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     ENV: {
       SENTRY_DSN: process.env.SENTRY_DSN,
     },
-    user: _.pick(await authenticator().isAuthenticated(request), ["login"]),
+    user: _.pick(await (await authenticator()).isAuthenticated(request), [
+      "login",
+    ]),
     colorMode: colorMode ?? "auto",
   });
 };
