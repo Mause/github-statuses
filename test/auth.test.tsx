@@ -27,7 +27,10 @@ describe("auth", () => {
   it("logged in redirects", async () => {
     const session = await getSession();
 
-    session.set(authenticator().sessionKey, { id: 1, login: "octocat" });
+    session.set((await authenticator()).sessionKey, {
+      id: 1,
+      login: "octocat",
+    });
 
     const request = new Request("http://localhost");
     request.headers.set("Cookie", await commitSession(session));

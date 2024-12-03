@@ -11,7 +11,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const data = { error: session.get("error") };
 
   // this will redirect if we're actually already logged in
-  await authenticator().isAuthenticated(request, {
+  await (
+    await authenticator()
+  ).isAuthenticated(request, {
     successRedirect: "/",
   });
 

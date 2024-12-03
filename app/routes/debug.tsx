@@ -4,7 +4,7 @@ import { getOctokit, getRootURL, getRedirect } from "~/octokit.server";
 import { authenticator } from "~/services/auth.server";
 import { splatObject } from "~/components/ErrorBoundary";
 import * as Sentry from "@sentry/remix";
-import getCache from "~/services/cache";
+import { getCache } from "~/services/cache";
 
 function pick<T>(obj: T, keys: (keyof T)[]) {
   return _.pick(obj, keys);
@@ -21,7 +21,7 @@ async function timeout<T>(t: Promise<T>) {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userObject = await timeout(
-    authenticator()
+    (await authenticator())
       .isAuthenticated(request)
       .then((userObject) =>
         userObject
