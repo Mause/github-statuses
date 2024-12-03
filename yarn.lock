@@ -4798,30 +4798,30 @@ __metadata:
   linkType: hard
 
 "@tanstack/match-sorter-utils@npm:^8.7.6":
-  version: 8.15.1
-  resolution: "@tanstack/match-sorter-utils@npm:8.15.1"
+  version: 8.19.4
+  resolution: "@tanstack/match-sorter-utils@npm:8.19.4"
   dependencies:
     remove-accents: "npm:0.5.0"
-  checksum: 10/5a42964a6b45ec1cbc43720953156070751ce589c95825df2d3cb392978e37b1bbcd418853426902e18470b29939076255b3239241133d77f220c3be693a60b1
+  checksum: 10/1289bd422da8577e5b1b4f1673505b521745d2edaf249eee2d8854633896dcb8f4bf91909b8e0641d3df2818856ff530db6957ce907fba65c073b7305dee365d
   languageName: node
   linkType: hard
 
 "@tanstack/react-table@npm:^8.7.9":
-  version: 8.19.2
-  resolution: "@tanstack/react-table@npm:8.19.2"
+  version: 8.20.5
+  resolution: "@tanstack/react-table@npm:8.20.5"
   dependencies:
-    "@tanstack/table-core": "npm:8.19.2"
+    "@tanstack/table-core": "npm:8.20.5"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 10/899fa0a91f54d4429a569a69be9a876a6ad9d64376b81fbf726e5cbef2ceabe3b5edd852fb3bd94220df2756f5582e8cd127769cdac53575becc563ed8fd2579
+  checksum: 10/df67094795a0b7e4b34f73abe346443c2e806c572fea31b58759aa8ec5274f613e5e6941090eb16f861bda10d3088731bc6e7f15e5f90326db273bc55b9141ce
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.19.2":
-  version: 8.19.2
-  resolution: "@tanstack/table-core@npm:8.19.2"
-  checksum: 10/c0d980f43341a73bdaed6bf39db6addd20bf2d7f6b59a3cdc078afe963676e04c0354a02a4d6ba90086e3ab1b9e79429cb1222cca5e27990ef7068c89dc5d161
+"@tanstack/table-core@npm:8.20.5":
+  version: 8.20.5
+  resolution: "@tanstack/table-core@npm:8.20.5"
+  checksum: 10/5408237920d5796951e925278edbbe76f71006627a4e3da248a810970256f75d973538fe7ae75a32155d4a25a95abc4fffaea337b5120f7940d7e664dc9da87f
   languageName: node
   linkType: hard
 
