@@ -14,7 +14,7 @@ import { useFetcher, useMatches } from "@remix-run/react";
 import { useState } from "react";
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { colorModeCookie } from "~/components/cookies";
+import { colorModeCookie } from "~/components/cookies.server";
 type ColorModeWithAuto = NonNullable<
   Parameters<typeof ThemeProvider>[0]["colorMode"]
 >;
