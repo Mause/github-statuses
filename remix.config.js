@@ -19,6 +19,9 @@ module.exports = {
   browserNodeBuiltinsPolyfill: {
     modules: {
       url: true,
+      path: true,
+      os: true,
+      crypto: true,
     }
   }
 };
