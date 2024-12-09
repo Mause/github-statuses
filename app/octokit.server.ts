@@ -178,18 +178,18 @@ export async function call<Result, Variables extends RequestParameters>(
       } catch (e) {
         console.error(e);
         if (isRequestError(e)) {
-          if (e.message === "Bad credentials") {
+          if (e.message.includes("Bad credentials")) {
             throw await logoutAndRedirect(request);
           } else {
             console.log("Not a bad credentials error", e);
           }
         } else if (isGraphqlResponseError<Result>(e)) {
           console.warn("GraphqlResponseError", e.message);
-          Sentry.captureException(e);
           return e.data;
         } else {
           console.log("Not a request error", { name: identity(e) }, e);
         }
+        Sentry.captureException(e);
         throw e;
       }
     },
