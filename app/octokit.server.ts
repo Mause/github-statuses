@@ -178,7 +178,7 @@ export async function call<Result, Variables extends RequestParameters>(
       } catch (e) {
         console.error(e);
         if (isRequestError(e)) {
-          if (e.message === "Bad credentials") {
+          if (e.message.includes("Bad credentials")) {
             throw await logoutAndRedirect(request);
           } else {
             console.log("Not a bad credentials error", e);
