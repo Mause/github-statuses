@@ -8,7 +8,6 @@ import type { RequestParameters } from "@octokit/auth-app/dist-types/types";
 import * as Sentry from "@sentry/remix";
 import type { RequestError } from "@octokit/request-error";
 import type { GraphqlResponseError } from "@octokit/graphql";
-import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
 import { getInstallationForLogin } from "~/services/installation";
 import { commitSession, getSession } from "./services/session.server";
 import { catchError } from "./components";
@@ -26,7 +25,9 @@ export const redirectCookie = createCookie("redirect", {
 });
 
 export async function getUser(request: Requests): Promise<SessionShape> {
-  const res = await authenticator().isAuthenticated(toNodeRequest(request), {});
+  const res = await (
+    await authenticator()
+  ).isAuthenticated(toNodeRequest(request), {});
   if (!res) {
     const set_cookie = await redirectCookie.serialize(request.url);
     throw redirect("/login", {
@@ -118,26 +119,37 @@ export function getRootURL() {
   }
 }
 
-export const gitHubStrategy = () => {
-  const callbackURL = `${getRootURL()}/auth/github/callback`;
+export const gitHubStrategy = async () => {
+  const redirectURI = `${getRootURL()}/auth/github/callback`;
+
+  const { GitHubAppAuthStrategy } = await import(
+    "./services/github-app-auth.server.mjs"
+  );
 
   return new GitHubAppAuthStrategy(
     {
-      clientID: process.env.GITHUB_APP_CLIENT_ID!,
+      clientId: process.env.GITHUB_APP_CLIENT_ID!,
       clientSecret: process.env.GITHUB_APP_CLIENT_SECRET!,
-      callbackURL,
-      scope: ["user", "read:user"],
+      redirectURI,
+      scopes: ["user", "read:user"],
     },
-    async ({ accessToken, profile, extraParams, refreshToken }) => {
+    async ({
+      tokens: {
+        access_token,
+        refresh_token,
+        accessTokenExpiresIn,
+        refreshTokenExpiresIn,
+      },
+      profile,
+    }) => {
       const installationId = await getInstallationForLogin(profile._json);
-      console.log({ extraParams });
       return {
         login: profile._json.login,
         installationId,
-        accessToken,
-        refreshToken,
-        accessTokenExpiry: extraParams.accessTokenExpiresAt,
-        refreshTokenExpiry: extraParams.refreshTokenExpiresAt,
+        accessToken: access_token,
+        refreshToken: refresh_token,
+        accessTokenExpiry: accessTokenExpiresIn,
+        refreshTokenExpiry: refreshTokenExpiresIn,
       };
     },
   );
@@ -198,7 +210,7 @@ export async function call<Result, Variables extends RequestParameters>(
 
 export async function logoutAndRedirect(request: Request) {
   const res = await catchError<Response>(
-    authenticator().logout(request, {
+    (await authenticator()).logout(request, {
       redirectTo: "/",
     }),
   );
