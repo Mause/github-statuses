@@ -22,7 +22,7 @@ const factory = makeFactory<IssueOrPullRequest>({
   repository: each((tick) => {
     const faker = withSeed(tick);
     const nameWithOwner =
-      faker.internet.userName() + "/" + faker.internet.domainWord();
+      faker.internet.username() + "/" + faker.internet.domainWord();
     return {
       nameWithOwner,
       url: `https://github.com/${nameWithOwner}`,
