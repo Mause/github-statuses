@@ -18,8 +18,8 @@ export type SessionShape = Pick<
 
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
-export let authenticator = _.memoize(() => {
+export let authenticator = _.memoize(async () => {
   const authenticator = new Authenticator<SessionShape>(sessionStorage);
-  authenticator.use(gitHubStrategy());
+  authenticator.use(await gitHubStrategy());
   return authenticator;
 });

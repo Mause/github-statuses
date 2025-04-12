@@ -1,4 +1,4 @@
-import getCache, { throwError } from "~/services/cache";
+import { getCache, throwError } from "~/services/cache";
 import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 

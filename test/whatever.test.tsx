@@ -13,9 +13,10 @@ import { Octokit } from "@octokit/rest";
 import { vitest } from "vitest";
 
 test("hello", async () => {
-  let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
   try {
-    BasePage = (await import("~/routes/index")).default;
+    var BasePage = await loadComponent<{ asChildRoute: boolean }>(
+      "~/routes/index.js",
+    );
   } catch (e) {
     console.error(e);
     throw e;
@@ -35,12 +36,12 @@ test("hello", async () => {
   await screen.findByText("Action Statuses");
 });
 
-test('Displays error correctly', async () => {
-  let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
-  let ErrorBoundary: React.FunctionComponent;
+test("Displays error correctly", async () => {
   try {
-    BasePage = (await import("~/routes/index")).default;
-    ErrorBoundary = (await import("~/root")).ErrorBoundary;
+    var BasePage = await loadComponent<{ asChildRoute: boolean }>(
+      "~/routes/index.js",
+    );
+    var ErrorBoundary = (await import("~/root.js")).ErrorBoundary;
   } catch (e) {
     console.error(e);
     throw e;
@@ -54,13 +55,13 @@ test('Displays error correctly', async () => {
       },
       path: "/",
       id: "root",
-      ErrorBoundary
+      ErrorBoundary,
     },
   ]);
 
   await renderPrimer(<Stub />);
 
-  expect((await screen.findByText("This is an error"))).toBeVisible();
+  expect(await screen.findByText("This is an error")).toBeVisible();
 });
 
 test("RequestError instanceof", async () => {
@@ -105,3 +106,7 @@ test("graphql", async () => {
   expect(error.mock.calls).toMatchSnapshot();
   expect(warn.mock.calls).toMatchSnapshot();
 });
+
+async function loadComponent<T>(path: string) {
+  return (await import(path)).default as unknown as React.FunctionComponent<T>;
+}
