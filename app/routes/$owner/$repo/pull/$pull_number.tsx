@@ -34,16 +34,103 @@ import type { StandardTableOptions } from "~/components/StandardTable";
 import type { Dictionary } from "lodash";
 import { countBy } from "lodash";
 import { useLoaderDataReloading } from "~/components/useRevalidateOnFocus";
-import { getActions } from "./pullNumberQuery";
 import type { Get } from "type-fest";
-import type { PullRequestsFragment } from "~/components/graphql/graphql";
+import type {
+  GetActionsForPullRequestQueryVariables,
+  PullRequestsFragment,
+} from "~/components/graphql/graphql";
 import {
   CheckStatusState,
   CheckConclusionState,
+  GetActionsForPullRequestDocument,
+  PullRequestsFragmentDoc,
 } from "~/components/graphql/graphql";
 import type { loader as parentLoader } from "~/root";
 import { ActionProgress } from "~/components/ActionProgress";
 import { captureMessage } from "@sentry/remix";
+import gql from "graphql-tag";
+import { call as call$ } from "~/octokit.server";
+import { getFragment } from "~/components/graphql";
+import { serverOnly$ } from "vite-env-only/macros";
+
+export const fragment = gql`
+  fragment PullRequests on Repository {
+    pullRequest(number: $prNumber) {
+      title
+      state
+      permalink
+      commits(last: 1) {
+        nodes {
+          commit {
+            checkSuites(first: 100) {
+              nodes {
+                app {
+                  name
+                }
+                workflowRun {
+                  workflow {
+                    name
+                  }
+                }
+                conclusion
+                checkRuns(first: 100) {
+                  nodes {
+                    checkSuite {
+                      workflowRun {
+                        databaseId
+                      }
+                    }
+                    name
+                    conclusion
+                    startedAt
+                    completedAt
+                    permalink
+                    repository {
+                      nameWithOwner
+                    }
+                    status
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const query = gql`
+  query GetActionsForPullRequest(
+    $owner: String!
+    $repo: String!
+    $prNumber: Int!
+  ) {
+    repositoryOwner(login: $owner) {
+      repository(name: $repo) {
+        ...PullRequests
+      }
+    }
+  }
+`;
+
+const call = serverOnly$(call$);
+
+export async function getActions(
+  request: Request,
+  variables: Required<GetActionsForPullRequestQueryVariables>,
+): Promise<NonNullable<PullRequestsFragment["pullRequest"]>> {
+  const thing = await call!(
+    request,
+    GetActionsForPullRequestDocument,
+    variables,
+  );
+
+  return getFragment(
+    PullRequestsFragmentDoc,
+    thing.repositoryOwner?.repository,
+  )!.pullRequest!;
+}
 
 export const meta: MetaFunction<
   typeof loader,
