@@ -20,7 +20,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   try {
-    await authenticator().authenticate("github", request, {
+    await (
+      await authenticator()
+    ).authenticate("github", request, {
       successRedirect: await getRedirect(request),
       failureRedirect: "/login",
     });

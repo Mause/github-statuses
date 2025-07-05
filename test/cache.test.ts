@@ -1,4 +1,4 @@
-import getCache from "~/services/cache";
+import { getCache } from "~/services/cache";
 import dotenv from "dotenv";
 
 dotenv.config();
