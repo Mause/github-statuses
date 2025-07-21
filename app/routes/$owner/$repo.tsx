@@ -1,5 +1,6 @@
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { Heading, TabNav } from "@primer/react";
+import { Heading } from "@primer/react";
+import { TabNav } from "@primer/react/deprecated";
 import type { LoaderFunction } from "@remix-run/node";
 import { call } from "~/octokit.server";
 import gql from "graphql-tag";

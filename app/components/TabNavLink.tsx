@@ -1,5 +1,5 @@
 import { Link, useHref, useMatch } from "@remix-run/react";
-import { TabNav } from "@primer/react";
+import { TabNav } from "@primer/react/deprecated";
 import type { ReactNode } from "react";
 
 export function TabNavLink({
