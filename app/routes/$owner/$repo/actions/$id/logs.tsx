@@ -10,6 +10,7 @@ import {
   getInstallationOctokit,
   getInstallationId,
 } from "~/services/installation";
+// @ts-expect-error
 import * as asc from "ansi-sequence-parser";
 import { GearIcon } from "@primer/octicons-react";
 import {
@@ -137,7 +138,7 @@ export function ConstructLine({ line }: { line: string }) {
     case "command":
     case "endgroup":
     default: {
-      const spans = asc.parseAnsiSequences(line!);
+      const spans = asc.parseAnsiSequences(line!) as { value: string }[];
 
       return (
         <>

@@ -1,10 +1,11 @@
 import { json } from "@remix-run/node";
-import { getAppOctokit, getConfig } from "./github-app-auth.server";
 import { getUser, octokitFromConfig } from "~/octokit.server";
 import { createAppAuth } from "@octokit/auth-app";
 
 export async function getInstallationOctokit(request: Request) {
   const installationId = await getInstallationId(request);
+
+  const { getConfig } = await import("./github-app-auth.server.mjs");
 
   const { auth, ...rest } = getConfig();
   return octokitFromConfig({
@@ -30,6 +31,8 @@ export async function getInstallationId(
 }
 
 export async function getInstallationForLogin(user: { login: string }) {
+  const { getAppOctokit } = await import("./github-app-auth.server.mjs");
+
   const appOctokit = await getAppOctokit();
   const { data: installation } = await appOctokit.apps.getUserInstallation({
     username: user.login,

@@ -8,5 +8,5 @@ export async function loader() {
 }
 
 export const action: ActionFunction = async ({ request }) => {
-  return authenticator().authenticate("github", request);
+  return (await authenticator()).authenticate("github", request);
 };
