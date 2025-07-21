@@ -2059,38 +2059,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@github/combobox-nav@npm:^2.1.5":
-  version: 2.2.0
-  resolution: "@github/combobox-nav@npm:2.2.0"
-  checksum: 10/4e0516661ce363bb2dd99575640328a214e9a467fc9616c765f135de3642a21d8ea6fdead9b944bff823235f91887bba21424ee0ac7c6f48630493e854995353
+"@github/relative-time-element@npm:^4.4.5":
+  version: 4.4.8
+  resolution: "@github/relative-time-element@npm:4.4.8"
+  checksum: 10/922603f678b45b9662ee2fd02f609cc663694f2be3460efbb3dacdca8e622a33a7181381a91b4683c1837d6ec297eebbe33b691b3092500e049d0c6f6c948f25
   languageName: node
   linkType: hard
 
-"@github/markdown-toolbar-element@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "@github/markdown-toolbar-element@npm:2.2.0"
-  checksum: 10/534bae5f71b58447a9a6084e63f7d1300205b46786f570c967c18d1ef663c6bd9e946afa2987c4944f3f893c4799a27bbc85d5053da5b839ddb9ca6d8c2f1295
-  languageName: node
-  linkType: hard
-
-"@github/paste-markdown@npm:^1.4.0":
-  version: 1.4.3
-  resolution: "@github/paste-markdown@npm:1.4.3"
-  checksum: 10/18f245a7c9e091f5c8fcc4a4b83715bb0a039fbe98e4ab411c46a40f4065aa16ffb0fdcbdcd51e38635ee8bba7a74963f83b2f41246147fb9c86206c1c9a1fad
-  languageName: node
-  linkType: hard
-
-"@github/relative-time-element@npm:^4.4.1":
-  version: 4.4.2
-  resolution: "@github/relative-time-element@npm:4.4.2"
-  checksum: 10/75f5bcb825fdbfeb6552989f6e8cb52c36d45cad09a378f105565354a4a2bdab14ee010f183a5997449d1a8db5ecb8e5e73b26273438b2d651a0d379a870dd26
-  languageName: node
-  linkType: hard
-
-"@github/tab-container-element@npm:^4.8.0":
-  version: 4.8.0
-  resolution: "@github/tab-container-element@npm:4.8.0"
-  checksum: 10/d0f4464dec5c7cf4ce1a0bd7c9043e8566ec2e05e3dcb142d3d32c88bd7226eba4f705007ff738a119cc319ed851fbfbb1a0b6c42c7584a1829521f6bd914575
+"@github/tab-container-element@npm:4.8.2":
+  version: 4.8.2
+  resolution: "@github/tab-container-element@npm:4.8.2"
+  checksum: 10/2ad644d0ef0d41414e11db915703d21075cd920eeb96f0335078ede636b353342132e380e6472c63d2e614c3e2ca1beb74c536b9767c07b7596162b1e621c133
   languageName: node
   linkType: hard
 
@@ -3323,10 +3302,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oddbird/popover-polyfill@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@oddbird/popover-polyfill@npm:0.3.1"
-  checksum: 10/d2e58b66f1ee268c22bd8d4211b19f2066fee6ce11b734d0326db83b954c9022dd8ada80d50746a63b1f2570fee3c4c2429260d0364ca37e51a3994f9aba2361
+"@oddbird/popover-polyfill@npm:^0.5.2":
+  version: 0.5.2
+  resolution: "@oddbird/popover-polyfill@npm:0.5.2"
+  checksum: 10/f5f8487b1bbfd0c8fef89380a0b0f6b266e0f6a262defa931780ddb98585354b0144b027ce85d7d071890ec9068d75fc147b77918882ce6810a274de75e58c87
   languageName: node
   linkType: hard
 
@@ -3825,28 +3804,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/behaviors@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "@primer/behaviors@npm:1.7.0"
-  dependencies:
-    "@rollup/rollup-linux-x64-gnu": "npm:^4.18.0"
-  dependenciesMeta:
-    "@rollup/rollup-linux-x64-gnu":
-      optional: true
-  checksum: 10/0fd62869a80170e456b45db8fed8f4df112dc56ea25ad2ed2e3e89291f6d4ec1c2af128846908baa33365cc5fd9268a37b919d571130c324195cb95e150c020e
+"@primer/behaviors@npm:^1.8.0":
+  version: 1.8.1
+  resolution: "@primer/behaviors@npm:1.8.1"
+  checksum: 10/2414a99e1f498a500dea8ba073f0793fb44a94d89bb5c842f32adc648881f7e753e85b098320a4ef23c350cd53164c371b025135e3ec2a4a5eaa40cc7e5f1e80
   languageName: node
   linkType: hard
 
-"@primer/live-region-element@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@primer/live-region-element@npm:0.7.0"
+"@primer/live-region-element@npm:^0.7.1":
+  version: 0.7.2
+  resolution: "@primer/live-region-element@npm:0.7.2"
   dependencies:
     "@lit-labs/ssr-dom-shim": "npm:^1.2.0"
-  checksum: 10/bc2ec2aac9bb57aace8ff71e0d84dccd4bb58964a74fbf05b6a09ac31eefa28f008941f1657614a532945349d39f6607df3a5a709b599e75380880ce7e806d01
+  checksum: 10/e01607f179dff94303f17632526c50cb8da85ae49bd6b9dd8cc13073abb2a7ba7f1dab003cdbd7c9a8ed2d8dc88fc5d5d4faf9d7fd07ca5ac2c729617fabe6ca
   languageName: node
   linkType: hard
 
-"@primer/octicons-react@npm:^19.0.0, @primer/octicons-react@npm:^19.9.0":
+"@primer/octicons-react@npm:^19.0.0":
   version: 19.12.0
   resolution: "@primer/octicons-react@npm:19.12.0"
   peerDependencies:
@@ -3855,53 +3829,60 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/primitives@npm:^7.16.0":
-  version: 7.17.1
-  resolution: "@primer/primitives@npm:7.17.1"
-  checksum: 10/86c95550a02224e4d75476cf2ac790924984c2088711d2a51c77fd1ccdba8fe44168cb5f8335937fdb47aa09777a731dc656bf4aae770fea4e119b34c3728480
+"@primer/octicons-react@npm:^19.13.0":
+  version: 19.15.3
+  resolution: "@primer/octicons-react@npm:19.15.3"
+  peerDependencies:
+    react: ">=16.3"
+  checksum: 10/3f10102323dcc8e518e9eda5ac7c81919a9dddb1733d70ceceea173b2c711f8a29699c542c21b2e008fc950034743d04cb01124408c54bc090477d40c7c91e93
   languageName: node
   linkType: hard
 
-"@primer/react@npm:^36.0.0":
-  version: 36.27.0
-  resolution: "@primer/react@npm:36.27.0"
+"@primer/primitives@npm:10.x || 11.x":
+  version: 11.0.0
+  resolution: "@primer/primitives@npm:11.0.0"
+  checksum: 10/9cd3ebc00cea120645ffb3b0b120d7c6bc15c6bd5c69eb505f125f23aedd7033eb09b83ae61c00ec42010347e208f46eab3c0ff06486e46b0c31f93ebfc8a052
+  languageName: node
+  linkType: hard
+
+"@primer/react@npm:^37.0.0":
+  version: 37.28.1
+  resolution: "@primer/react@npm:37.28.1"
   dependencies:
-    "@github/combobox-nav": "npm:^2.1.5"
-    "@github/markdown-toolbar-element": "npm:^2.1.0"
-    "@github/paste-markdown": "npm:^1.4.0"
-    "@github/relative-time-element": "npm:^4.4.1"
-    "@github/tab-container-element": "npm:^4.8.0"
+    "@github/relative-time-element": "npm:^4.4.5"
+    "@github/tab-container-element": "npm:4.8.2"
     "@lit-labs/react": "npm:1.2.1"
-    "@oddbird/popover-polyfill": "npm:^0.3.1"
-    "@primer/behaviors": "npm:^1.7.0"
-    "@primer/live-region-element": "npm:^0.7.0"
-    "@primer/octicons-react": "npm:^19.9.0"
-    "@primer/primitives": "npm:^7.16.0"
+    "@oddbird/popover-polyfill": "npm:^0.5.2"
+    "@primer/behaviors": "npm:^1.8.0"
+    "@primer/live-region-element": "npm:^0.7.1"
+    "@primer/octicons-react": "npm:^19.13.0"
+    "@primer/primitives": "npm:10.x || 11.x"
     "@styled-system/css": "npm:^5.1.5"
     "@styled-system/props": "npm:^5.1.5"
     "@styled-system/theme-get": "npm:^5.1.2"
     "@types/react-is": "npm:^18.2.1"
-    "@types/styled-system": "npm:^5.1.12"
+    "@types/styled-system": "npm:^5.1.23"
     "@types/styled-system__css": "npm:^5.0.16"
     "@types/styled-system__theme-get": "npm:^5.0.1"
-    clsx: "npm:^1.2.1"
+    clsx: "npm:^2.1.1"
     color2k: "npm:^2.0.3"
-    deepmerge: "npm:^4.2.2"
-    focus-visible: "npm:^5.2.0"
-    fzy.js: "npm:^0.4.1"
+    deepmerge: "npm:^4.3.1"
+    focus-visible: "npm:^5.2.1"
     history: "npm:^5.0.0"
+    hsluv: "npm:1.0.1"
     lodash.isempty: "npm:^4.4.0"
     lodash.isobject: "npm:^3.0.2"
-    react-intersection-observer: "npm:^9.4.3"
+    react-compiler-runtime: "npm:^19.1.0-rc.2"
+    react-intersection-observer: "npm:^9.16.0"
     react-is: "npm:^18.2.0"
-    react-markdown: "npm:8.0.7"
     styled-system: "npm:^5.1.5"
+    type-check: "npm:0.4.0"
   peerDependencies:
-    "@types/react": ^18.0.0
-    "@types/react-dom": ^18.0.0
+    "@types/react": 18.x || 19.x
+    "@types/react-dom": 18.x || 19.x
     "@types/styled-components": ^5.1.11
-    react: ^18.0.0
-    react-dom: ^18.0.0
+    react: 18.x || 19.x
+    react-dom: 18.x || 19.x
     styled-components: 5.x
   peerDependenciesMeta:
     "@types/react":
@@ -3910,7 +3891,7 @@ __metadata:
       optional: true
     "@types/styled-components":
       optional: true
-  checksum: 10/eea2a1e1827cce6d85a761d4347ccf8836ff609d58771f5ac8ea3db43ee9f961400aef6a04ee46d058732896044f5df0d9db57b608cfd718039aa1cd1c4bf22a
+  checksum: 10/2fcc9b8b727b7c0bb230cee960e2f15c0362f7b3ece5e31587872b561ade2e19cc59aa73d555b90ccbdda44eb555e518ba477c8b1b051986252b043a1e17689b
   languageName: node
   linkType: hard
 
@@ -4301,13 +4282,6 @@ __metadata:
 "@rollup/rollup-linux-x64-gnu@npm:4.9.5":
   version: 4.9.5
   resolution: "@rollup/rollup-linux-x64-gnu@npm:4.9.5"
-  conditions: os=linux & cpu=x64 & libc=glibc
-  languageName: node
-  linkType: hard
-
-"@rollup/rollup-linux-x64-gnu@npm:^4.18.0":
-  version: 4.19.0
-  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.19.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -5253,7 +5227,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*, @types/prop-types@npm:^15.0.0":
+"@types/prop-types@npm:*":
   version: 15.7.6
   resolution: "@types/prop-types@npm:15.7.6"
   checksum: 10/5f2796c7330461a556c4d18035fb914b372f96b1619a4f8302d07e1ea708e06a2dbe666dfcd8ff03f64c625aa4c12b31f677d0298a32910f5ab7ee51521d8086
@@ -5327,12 +5301,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-system@npm:^5.1.12":
-  version: 5.1.17
-  resolution: "@types/styled-system@npm:5.1.17"
+"@types/styled-system@npm:^5.1.23":
+  version: 5.1.23
+  resolution: "@types/styled-system@npm:5.1.23"
   dependencies:
     csstype: "npm:^3.0.2"
-  checksum: 10/c39194f81b5f808ba0820a9e7fd00f8e89b63b68c3cc0dbd4193c9125899ce890ad7fc08474568618336ff9f41aa13f4ff06f3ded10e030f94321e26d364ec4b
+  checksum: 10/d453c52ce3fd78ac991e5dcc3bfba2bd19ee39e468692d8fa083c53c29a3035277022e0597bdf892da4b26da34236e0c449a41002ede4f465863b6dac2b9ada6
   languageName: node
   linkType: hard
 
@@ -7814,10 +7788,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "clsx@npm:1.2.1"
-  checksum: 10/5ded6f61f15f1fa0350e691ccec43a28b12fb8e64c8e94715f2a937bc3722d4c3ed41d6e945c971fc4dcc2a7213a43323beaf2e1c28654af63ba70c9968a8643
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10/cdfb57fa6c7649bbff98d9028c2f0de2f91c86f551179541cf784b1cfdc1562dcb951955f46d54d930a3879931a980e32a46b598acaea274728dbe068deca919
   languageName: node
   linkType: hard
 
@@ -8371,7 +8345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"deepmerge@npm:^4.2.2":
+"deepmerge@npm:^4.2.2, deepmerge@npm:^4.3.1":
   version: 4.3.1
   resolution: "deepmerge@npm:4.3.1"
   checksum: 10/058d9e1b0ff1a154468bf3837aea436abcfea1ba1d165ddaaf48ca93765fdd01a30d33c36173da8fbbed951dd0a267602bc782fe288b0fc4b7e1e7091afc4529
@@ -10779,10 +10753,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"focus-visible@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "focus-visible@npm:5.2.0"
-  checksum: 10/11f686d68dbd4a0efb6714f037a4611411ffb8db4369784fcd6ba7f6cc386a42a5fa08211f6feb14ad3660719b451d0621f95058ea49963a59cf204ced38c4bc
+"focus-visible@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "focus-visible@npm:5.2.1"
+  checksum: 10/b42a900fbccc05497b48a537b73c2ec41a209376f3df06ae908e151703921d0e62ae704a2e3a87bf86208e7f36a88fa3a672abdd629b5d7a6861c9ee3a399dca
   languageName: node
   linkType: hard
 
@@ -11031,13 +11005,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fzy.js@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "fzy.js@npm:0.4.1"
-  checksum: 10/90d371f9ac6366afacb74800316e33ff577579f38e538b9ec5b4c64d95181f91056de61dacea0b554f56db041e37e5888a171d2222ea0284489d796906967b7c
-  languageName: node
-  linkType: hard
-
 "gauge@npm:^3.0.0":
   version: 3.0.2
   resolution: "gauge@npm:3.0.2"
@@ -11263,7 +11230,7 @@ __metadata:
     "@octokit/types": "npm:^12.4.0"
     "@playwright/test": "npm:^1.41.2"
     "@primer/octicons-react": "npm:^19.0.0"
-    "@primer/react": "npm:^36.0.0"
+    "@primer/react": "npm:^37.0.0"
     "@remix-run/dev": "npm:^2.7.1"
     "@remix-run/eslint-config": "npm:^2.7.1"
     "@remix-run/node": "npm:^2.7.1"
@@ -11783,6 +11750,13 @@ __metadata:
   dependencies:
     lru-cache: "npm:^7.5.1"
   checksum: 10/2e48e3fac799b52d82277ff5693916bfa33441a2c06d1f11f9e82886bd235514783c2bdffb3abde67b7aeb6af457a48df38e6894740c7fc2e1bb78f5bcfac61e
+  languageName: node
+  linkType: hard
+
+"hsluv@npm:1.0.1":
+  version: 1.0.1
+  resolution: "hsluv@npm:1.0.1"
+  checksum: 10/3db76324361109bfe18f40988ee9788bb602b0af287540053b19380122747dd7e393f3994763560d4edf1c563f082913651b3481386bad5e9d5b34d56990b705
   languageName: node
   linkType: hard
 
@@ -16119,7 +16093,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.0.0, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -16267,6 +16241,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-compiler-runtime@npm:^19.1.0-rc.2":
+  version: 19.1.0-rc.2
+  resolution: "react-compiler-runtime@npm:19.1.0-rc.2"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0 || ^0.0.0-experimental
+  checksum: 10/81ded46aa183512698dccb2f272d3ed278a865c7b40c3644281e06a9d67a8967dff5f3da2a8e93db485193dd62e1764eec3e67872780b67660ecda7a1d6f3960
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.2.0":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
@@ -16279,12 +16262,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-intersection-observer@npm:^9.4.3":
-  version: 9.5.2
-  resolution: "react-intersection-observer@npm:9.5.2"
+"react-intersection-observer@npm:^9.16.0":
+  version: 9.16.0
+  resolution: "react-intersection-observer@npm:9.16.0"
   peerDependencies:
-    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/cb9b520d85ed0ca0b999a0534070d5339a5dd266e9fe142bbb04c60ad8203e28102b1aaa7cc921c6473ae92c124bbe216de8660536accc83259d242854b8dcaa
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+  checksum: 10/ded14524d9311cfb9dd9e65eb04748d07a1868f8c40dd628bec8a8474d43ee2373604fdc1e6a7d468a8e2e680638e41b91048ab9669555d50217c5c0c51247e0
   languageName: node
   linkType: hard
 
@@ -16315,32 +16302,6 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 10/200cd65bf2e0be7ba6055f647091b725a45dd2a6abef03bf2380ce701fd5edccee40b49b9d15edab7ac08a762bf83cb4081e31ec2673a5bfb549a36ba21570df
-  languageName: node
-  linkType: hard
-
-"react-markdown@npm:8.0.7":
-  version: 8.0.7
-  resolution: "react-markdown@npm:8.0.7"
-  dependencies:
-    "@types/hast": "npm:^2.0.0"
-    "@types/prop-types": "npm:^15.0.0"
-    "@types/unist": "npm:^2.0.0"
-    comma-separated-tokens: "npm:^2.0.0"
-    hast-util-whitespace: "npm:^2.0.0"
-    prop-types: "npm:^15.0.0"
-    property-information: "npm:^6.0.0"
-    react-is: "npm:^18.0.0"
-    remark-parse: "npm:^10.0.0"
-    remark-rehype: "npm:^10.0.0"
-    space-separated-tokens: "npm:^2.0.0"
-    style-to-object: "npm:^0.4.0"
-    unified: "npm:^10.0.0"
-    unist-util-visit: "npm:^4.0.0"
-    vfile: "npm:^5.0.0"
-  peerDependencies:
-    "@types/react": ">=16"
-    react: ">=16"
-  checksum: 10/5702a2ef0b8a8cb0a085bb5101810d7446e818f7b76291238eff73cce5aaea65b95ffa28f9b4127d1fc785b6cfe0790bba261b11c5a69655ff901399d8ea6896
   languageName: node
   linkType: hard
 
@@ -18058,7 +18019,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"style-to-object@npm:^0.4.0, style-to-object@npm:^0.4.1":
+"style-to-object@npm:^0.4.1":
   version: 0.4.2
   resolution: "style-to-object@npm:0.4.2"
   dependencies:
@@ -18584,7 +18545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-check@npm:^0.4.0, type-check@npm:~0.4.0":
+"type-check@npm:0.4.0, type-check@npm:^0.4.0, type-check@npm:~0.4.0":
   version: 0.4.0
   resolution: "type-check@npm:0.4.0"
   dependencies:
