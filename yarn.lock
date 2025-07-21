@@ -16380,11 +16380,11 @@ __metadata:
   linkType: hard
 
 "react-interval-hook@npm:^1.1.3":
-  version: 1.1.4
-  resolution: "react-interval-hook@npm:1.1.4"
+  version: 1.1.5
+  resolution: "react-interval-hook@npm:1.1.5"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 10/e0cab670d93fc4dfd18e20916cab5ce040948307213de2ca432870e4a4758ee123d064b011f77bfd163e8f2f63f086aee0a708824ce6e54516d40ae81b8a99b4
+  checksum: 10/32a2b02c79e7548e35996f214b74e6cca49940ec61ab824aafded2f106e67a2fdfde6b6a0d9d4f3335443fdbf7999f6c2423fdef3bb79262a95abf57ad5cabff
   languageName: node
   linkType: hard
 
