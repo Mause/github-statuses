@@ -6,7 +6,7 @@ import type {
 } from "@remix-run/node";
 import { createGlobalStyle } from "styled-components";
 import { json } from "@remix-run/node";
-import { Dialog } from "@primer/react/drafts";
+import { Dialog } from "@primer/react/experimental";
 import {
   Links,
   LiveReload,
