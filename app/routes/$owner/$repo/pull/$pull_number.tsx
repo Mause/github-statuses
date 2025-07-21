@@ -23,10 +23,10 @@ import {
 import {
   Heading,
   Link as PrimerLink,
-  Octicon,
   Flash,
   IconButton,
 } from "@primer/react";
+import { Octicon } from "@primer/react/deprecated";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, ExternalLink, titleCase } from "~/components";
