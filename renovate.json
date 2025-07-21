@@ -3,6 +3,7 @@
   "extends": [
     "config:base"
   ],
+  "configMigration": true,
   "packageRules": [
     {
       "groupName": "vercel monorepo",
