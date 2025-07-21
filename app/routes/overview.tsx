@@ -131,7 +131,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "__typename",
           header: "Type",
-          renderCell({ __typename }) {
+          renderCell({ __typename }: IssueOrPullRequest) {
             if (__typename == "Issue") {
               return <Octicon icon={IssueOpenedIcon} />;
             } else {
@@ -142,7 +142,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "number",
           header: "#",
-          renderCell(data) {
+          renderCell(data: IssueOrPullRequest) {
             return (
               <Link target="_blank" href={data.url}>
                 #{data.number}
@@ -158,7 +158,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "url",
           header: "URL",
-          renderCell(data) {
+          renderCell(data: IssueOrPullRequest) {
             return (
               <Link target="_blank" href={data.repository.url}>
                 {data.repository.nameWithOwner}
@@ -169,7 +169,9 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "updatedAt",
           header: "Updated",
-          renderCell: (data) => <RelativeTime datetime={data.updatedAt} />,
+          renderCell: (data: IssueOrPullRequest) => (
+            <RelativeTime datetime={data.updatedAt} />
+          ),
         },
       ]}
     ></DataTable>
