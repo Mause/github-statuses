@@ -9,7 +9,7 @@ import * as Sentry from "@sentry/remix";
 import type { RequestError } from "@octokit/request-error";
 import type { GraphqlResponseError } from "@octokit/graphql";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
-import { getInstallationForLogin } from "~/services/installation";
+import { getInstallationForLogin , getInstallationOctokit } from "~/services/installation";
 import { commitSession, getSession } from "./services/session.server";
 import { catchError } from "./components";
 
@@ -48,8 +48,7 @@ export const getOctokit = async (request: Request) => {
     return request.octokit as Octokit;
   }
 
-  const user = await getUser(request);
-  const octokit = octokitFromToken(user.accessToken);
+  const octokit = await getInstallationOctokit(request);
   (request as unknown as { octokit: Octokit }).octokit = octokit;
   return octokit;
 };
@@ -63,9 +62,6 @@ export async function tryGetOctokit(request: Request) {
 }
 
 const SECOND = 1000;
-
-export const octokitFromToken = (token: string) =>
-  octokitFromConfig({ auth: token });
 
 export const octokitFromConfig = (
   config: Partial<ConstructorParameters<typeof Throttled>[0]>,
