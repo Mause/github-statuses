@@ -133,8 +133,4 @@ function App() {
   );
 }
 
-export default withSentry(() => <App />, {
-  errorBoundaryOptions: {
-    fallback: <ErrorBoundary />,
-  },
-});
+export default withSentry(() => <App />);
