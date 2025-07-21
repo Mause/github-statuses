@@ -34,15 +34,29 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
           : null,
       ),
   );
-  return {
-    rootURL: getRootURL(),
-    redirect: await timeout(getRedirect(request)),
-    sentry: getSentryDsn(),
-    user: userObject,
-    userExtra: await timeout(getGithubUser(request)),
-    kv: await timeout(pingKv()),
-    env: _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
+  const items: Record<string, Promise<any>> = {
+    rootURL: Promise.resolve(getRootURL()),
+    redirect: timeout(getRedirect(request)),
+    sentry: Promise.resolve(getSentryDsn()),
+    user: Promise.resolve(userObject),
+    userExtra: timeout(getGithubUser(request)),
+    kv: timeout(pingKv()),
+    env: Promise.resolve(
+      _.pick(process.env, ["VERCEL_ENV", "HOSTNAME", "VERCEL_URL", "PORT"]),
+    ),
   };
+
+  return Object.fromEntries(
+    await Promise.all(
+      Object.entries(items).map(async ([key, value]) => {
+        try {
+          return [key, await value];
+        } catch (e) {
+          return [key, splatObject(e as Error)];
+        }
+      }),
+    ),
+  );
 };
 
 async function getGithubUser(request: Request) {
