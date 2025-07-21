@@ -9,7 +9,10 @@ import * as Sentry from "@sentry/remix";
 import type { RequestError } from "@octokit/request-error";
 import type { GraphqlResponseError } from "@octokit/graphql";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
-import { getInstallationForLogin , getInstallationOctokit } from "~/services/installation";
+import {
+  getInstallationForLogin,
+  getInstallationOctokit,
+} from "~/services/installation";
 import { commitSession, getSession } from "./services/session.server";
 import { catchError } from "./components";
 
