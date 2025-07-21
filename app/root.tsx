@@ -1,3 +1,4 @@
+import { captureRemixErrorBoundaryError , withSentry } from "@sentry/remix";
 import type {
   LoaderFunction,
   MetaFunction,
@@ -13,11 +14,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
   useMatches,
   useNavigation,
 } from "@remix-run/react";
 import { BaseStyles, Spinner, ThemeProvider, themeGet } from "@primer/react";
-import { withSentry } from "@sentry/remix";
 import { createHead } from "remix-island";
 import {
   Wrapper,
@@ -60,6 +61,10 @@ export const Head = createHead(() => (
 ));
 
 export function ErrorBoundary() {
+  const error = useRouteError();
+
+  captureRemixErrorBoundaryError(error);
+
   return (
     <AddTheme>
       <Meta />
