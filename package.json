@@ -109,7 +109,7 @@
     "*.{ts,tsx,js,graphql}": "yarn eslint --cache --fix",
     "*.{ts,tsx,js,graphql,css,md}": "yarn prettier --write"
   },
-  "packageManager": "yarn@4.5.3",
+  "packageManager": "yarn@4.9.2",
   "msw": {
     "workerDirectory": [
       "public"
