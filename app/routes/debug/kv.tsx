@@ -10,8 +10,8 @@ async function pingKv() {
   }
 }
 
-export const loader = () => {
+export const loader = async () => {
   return {
-    kv: timeout(pingKv()),
+    kv: await timeout(pingKv()),
   };
 };
