@@ -18,6 +18,7 @@ export const loader = (async ({ request }) => {
               ])
             : null,
         ),
+      "isAuthenticated",
     ),
   };
 }) satisfies LoaderFunction;

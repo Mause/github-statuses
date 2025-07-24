@@ -16,8 +16,8 @@ export async function pingKv() {
     const kv = getKv();
 
     return {
-      dbsize: await timeout(kv.dbsize()),
-      keys: await timeout(getKeys(kv)),
+      dbsize: await timeout(kv.dbsize(), "dbsize"),
+      keys: await timeout(getKeys(kv), "getKeys"),
     };
   } catch (e) {
     return splatObject(e);
@@ -26,6 +26,6 @@ export async function pingKv() {
 
 export const loader = async () => {
   return {
-    kv: await timeout(pingKv()),
+    kv: await timeout(pingKv(), "pingKv"),
   };
 };

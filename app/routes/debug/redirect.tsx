@@ -4,6 +4,6 @@ import { timeout } from "~/services";
 
 export const loader = (async ({ request }) => {
   return {
-    redirect: await timeout(getRedirect(request)),
+    redirect: await timeout(getRedirect(request), "getRedirect"),
   };
 }) satisfies LoaderFunction;
