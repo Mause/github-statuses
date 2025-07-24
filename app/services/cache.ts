@@ -9,22 +9,12 @@ export function throwError(msg: string): never {
   throw new Error(msg);
 }
 
-type XCache = StrategyOptions["cache"] & {
-  stat(): Promise<{ dbsize: number; keys: string[] }>;
-};
+type XCache = StrategyOptions["cache"];
 
 const ONE_HOUR_IN_SECONDS = 60 * 60;
 
 function getCache(): XCache {
-  const { env } = process;
-  const kv = createClient({
-    url:
-      env.UPSTASH_REDIS_REST_URL ??
-      throwError("Missing env var: UPSTASH_REDIS_REST_URL"),
-    token:
-      env.UPSTASH_REDIS_REST_TOKEN ??
-      throwError("Missing env var: UPSTASH_REDIS_REST_TOKEN"),
-  });
+  const kv = getKv();
   return {
     async get(key: string): Promise<string> {
       console.log(`retrieving from cache: ${key}`);
@@ -36,15 +26,20 @@ function getCache(): XCache {
         ex: ONE_HOUR_IN_SECONDS,
       });
     },
-    async stat() {
-      const keys = [];
-      for await (const key of kv.scanIterator({ match: "*" })) {
-        keys.push(key);
-      }
-
-      return { dbsize: await kv.dbsize(), keys };
-    },
   };
 }
 
+function rawGetKv() {
+  const { env } = process;
+  return createClient({
+    url:
+      env.UPSTASH_REDIS_REST_URL ??
+      throwError("Missing env var: UPSTASH_REDIS_REST_URL"),
+    token:
+      env.UPSTASH_REDIS_REST_TOKEN ??
+      throwError("Missing env var: UPSTASH_REDIS_REST_TOKEN"),
+  });
+}
+
+export const getKv = _.memoize(rawGetKv);
 export default _.memoize(getCache);
