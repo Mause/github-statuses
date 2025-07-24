@@ -11,6 +11,6 @@ function getSentryDsn() {
 
 export const loader = () => {
   return {
-    sentry: Promise.resolve(getSentryDsn()),
+    sentry: getSentryDsn(),
   };
 };

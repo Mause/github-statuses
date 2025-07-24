@@ -15,8 +15,8 @@ async function getGithubUser(request: Request) {
   return user;
 }
 
-export const loader = (({ request }) => {
+export const loader = (async ({ request }) => {
   return {
-    userExtra: timeout(getGithubUser(request)),
+    userExtra: await timeout(getGithubUser(request)),
   };
 }) satisfies LoaderFunction;
