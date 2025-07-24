@@ -1,7 +1,7 @@
 import { getKv } from "~/services/cache";
 import { splatObject } from "~/components/ErrorBoundary";
-import { timeout } from ".";
 import type { VercelKV } from "@vercel/kv";
+import { timeout } from "~/services";
 
 async function getKeys(kv: VercelKV) {
   const keys = [];
@@ -11,7 +11,7 @@ async function getKeys(kv: VercelKV) {
   return keys;
 }
 
-async function pingKv() {
+export async function pingKv() {
   try {
     const kv = getKv();
 
