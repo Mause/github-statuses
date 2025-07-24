@@ -10,5 +10,13 @@ export async function timeout<T>(t: Promise<T>) {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  return ["env", "kv", "redirect", "rootURL", "sentry", "user", "userExtra"];
+  let paths: string[] | null = ["inaccessible"];
+  try {
+    paths = require.resolve.paths("*.tsx");
+  } catch {}
+
+  return {
+    manual: ["env", "kv", "redirect", "rootURL", "sentry", "user", "userExtra"],
+    paths,
+  };
 };
