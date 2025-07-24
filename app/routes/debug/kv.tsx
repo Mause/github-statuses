@@ -1,10 +1,24 @@
-import getCache from "~/services/cache";
+import { getKv } from "~/services/cache";
 import { splatObject } from "~/components/ErrorBoundary";
-import { timeout } from ".";
+import type { VercelKV } from "@vercel/kv";
+import { timeout } from "~/services";
 
-async function pingKv() {
+async function getKeys(kv: VercelKV) {
+  const keys = [];
+  for await (const key of kv.scanIterator({ match: "*" })) {
+    keys.push(key);
+  }
+  return keys;
+}
+
+export async function pingKv() {
   try {
-    return await getCache().stat();
+    const kv = getKv();
+
+    return {
+      dbsize: await timeout(kv.dbsize()),
+      keys: await timeout(getKeys(kv)),
+    };
   } catch (e) {
     return splatObject(e);
   }

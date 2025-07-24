@@ -1,7 +1,7 @@
 import { authenticator } from "~/services/auth.server";
-import { timeout } from ".";
 import type { LoaderFunction } from "@remix-run/node";
 import { pick } from "lodash";
+import { timeout } from "~/services";
 
 export const loader = (async ({ request }) => {
   return {
