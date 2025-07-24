@@ -7,6 +7,9 @@ async function getKeys(kv: VercelKV) {
   const keys = [];
   for await (const key of kv.scanIterator({ match: "*" })) {
     keys.push(key);
+    if (keys.length >= 10) {
+      break;
+    }
   }
   return keys;
 }
@@ -26,6 +29,6 @@ export async function pingKv() {
 
 export const loader = async () => {
   return {
-    kv: await timeout(pingKv(), "pingKv"),
+    kv: await pingKv(),
   };
 };
