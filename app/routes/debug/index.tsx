@@ -1,5 +1,4 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { readdir } from "fs/promises";
 
 export async function timeout<T>(t: Promise<T>) {
   return await Promise.race([
@@ -11,5 +10,5 @@ export async function timeout<T>(t: Promise<T>) {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  return readdir(import.meta.dirname);
+  return ["env", "kv", "redirect", "rootURL", "sentry", "user", "userExtra"];
 };
