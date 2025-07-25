@@ -8,6 +8,7 @@ export const loader = (async () => {
     "env",
     "dbSize",
     "dbKeys",
+    "dbConfig",
     "redirect",
     "rootURL",
     "sentry",
