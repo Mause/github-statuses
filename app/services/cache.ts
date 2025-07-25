@@ -39,6 +39,7 @@ export function getKv() {
       env.UPSTASH_REDIS_REST_TOKEN ??
       throwError("Missing env var: UPSTASH_REDIS_REST_TOKEN"),
     latencyLogging: true,
+    enableAutoPipelining: false,
   });
 }
 
