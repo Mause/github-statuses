@@ -14,21 +14,13 @@ async function getKeys(kv: VercelKV) {
   return keys;
 }
 
-export async function pingKv() {
+export const loader = async () => {
   try {
     const kv = getKv();
-
     return {
-      dbsize: await timeout(kv.dbsize(), "dbsize"),
       keys: await timeout(getKeys(kv), "getKeys"),
     };
   } catch (e) {
     return splatObject(e);
   }
-}
-
-export const loader = async () => {
-  return {
-    kv: await pingKv(),
-  };
 };

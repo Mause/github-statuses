@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export async function timeout<T>(t: Promise<T>, name: string) {
   return await Promise.race([
     t,
@@ -12,4 +14,8 @@ export async function timeout<T>(t: Promise<T>, name: string) {
       );
     }),
   ]);
+}
+
+export function pick<T>(t: T, keys: (keyof T)[]) {
+  return _.pick(t, keys);
 }

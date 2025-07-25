@@ -4,6 +4,7 @@ import _ from "lodash";
 import dotenv from "dotenv";
 
 dotenv.config();
+type RedisConfigNodejs = Parameters<typeof createClient>[0];
 
 export function throwError(msg: string): never {
   throw new Error(msg);
@@ -29,17 +30,22 @@ function getCache(): XCache {
   };
 }
 
-function rawGetKv() {
+export function getConfig(): RedisConfigNodejs {
   const { env } = process;
-  return createClient({
+  return {
     url:
       env.UPSTASH_REDIS_REST_URL ??
       throwError("Missing env var: UPSTASH_REDIS_REST_URL"),
     token:
       env.UPSTASH_REDIS_REST_TOKEN ??
       throwError("Missing env var: UPSTASH_REDIS_REST_TOKEN"),
-  });
+    latencyLogging: true,
+    enableAutoPipelining: false,
+  };
 }
 
-export const getKv = _.memoize(rawGetKv);
+export function getKv() {
+  return createClient(getConfig());
+}
+
 export default _.memoize(getCache);
