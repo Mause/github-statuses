@@ -29,7 +29,7 @@ function getCache(): XCache {
   };
 }
 
-function rawGetKv() {
+export function getKv() {
   const { env } = process;
   return createClient({
     url:
@@ -42,5 +42,4 @@ function rawGetKv() {
   });
 }
 
-export const getKv = _.memoize(rawGetKv);
 export default _.memoize(getCache);
