@@ -1,22 +1,29 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { getRootURL } from "~/octokit.server";
+import { useLoaderData } from "@remix-run/react";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  let paths: string[] | null = ["inaccessible"];
-  try {
-    paths = require.resolve.paths("./*.tsx");
-  } catch {}
+export const loader = (async () => {
+  return [
+    "env",
+    "kv",
+    "redirect",
+    "rootURL",
+    "sentry",
+    "user",
+    "userExtra",
+  ].map((name) => `${getRootURL()}/debug/${name}`);
+}) satisfies LoaderFunction;
 
-  return {
-    manual: [
-      "env",
-      "kv",
-      "redirect",
-      "rootURL",
-      "sentry",
-      "user",
-      "userExtra",
-    ].map((name) => `${getRootURL()}/debug/${name}`),
-    paths,
-  };
-};
+export default function Debug() {
+  const data = useLoaderData<typeof loader>();
+
+  return (
+    <ul>
+      {data.map((url) => (
+        <li key={url}>
+          <a href={url}>url</a>
+        </li>
+      ))}
+    </ul>
+  );
+}
