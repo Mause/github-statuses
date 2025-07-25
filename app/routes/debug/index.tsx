@@ -6,7 +6,8 @@ import { Link } from "@primer/react";
 export const loader = (async () => {
   return [
     "env",
-    "kv",
+    "dbSize",
+    "dbKeys",
     "redirect",
     "rootURL",
     "sentry",
