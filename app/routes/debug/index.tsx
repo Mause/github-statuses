@@ -21,7 +21,7 @@ export default function Debug() {
     <ul>
       {data.map((url) => (
         <li key={url}>
-          <a href={url}>url</a>
+          <a href={url}>{url}</a>
         </li>
       ))}
     </ul>
