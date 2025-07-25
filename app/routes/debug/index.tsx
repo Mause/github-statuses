@@ -1,6 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { getRootURL } from "~/octokit.server";
 import { useLoaderData } from "@remix-run/react";
+import { Link } from "@primer/react";
 
 export const loader = (async () => {
   return [
@@ -21,7 +22,7 @@ export default function Debug() {
     <ul>
       {data.map((url) => (
         <li key={url}>
-          <a href={url}>{url}</a>
+          <Link href={url}>{url}</Link>
         </li>
       ))}
     </ul>
