@@ -4,7 +4,7 @@ import { getRootURL } from "~/octokit.server";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   let paths: string[] | null = ["inaccessible"];
   try {
-    paths = require.resolve.paths("*.tsx");
+    paths = require.resolve.paths("./*.tsx");
   } catch {}
 
   return {
