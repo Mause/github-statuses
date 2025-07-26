@@ -9,7 +9,10 @@ import * as Sentry from "@sentry/remix";
 import type { RequestError } from "@octokit/request-error";
 import type { GraphqlResponseError } from "@octokit/graphql";
 import { GitHubAppAuthStrategy } from "./services/github-app-auth.server";
-import { getInstallationForLogin , getInstallationOctokit } from "~/services/installation";
+import {
+  getInstallationForLogin,
+  getInstallationOctokit,
+} from "~/services/installation";
 import { commitSession, getSession } from "./services/session.server";
 import { catchError } from "./components";
 
@@ -178,14 +181,28 @@ export async function call<Result, Variables extends RequestParameters>(
             throw await logoutAndRedirect(request);
           } else {
             console.log("Not a bad credentials error", e);
+            Sentry.captureException(e);
           }
         } else if (isGraphqlResponseError<Result>(e)) {
           console.warn("GraphqlResponseError", e.message);
+          e.errors?.forEach((error) => {
+            console.warn("GraphqlResponseError", error.message, {
+              locations: error.locations,
+              extensions: error.extensions,
+              path: error.path,
+              type: error.type,
+            });
+          });
+          Sentry.captureException(e, {
+            tags: { queryName: getQueryName(query) },
+            contexts: { graphql: { queryName: getQueryName(query) } },
+            extra: { errors: e.errors },
+          });
           return e.data;
         } else {
           console.log("Not a request error", { name: identity(e) }, e);
+          Sentry.captureException(e);
         }
-        Sentry.captureException(e);
         throw e;
       }
     },
