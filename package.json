@@ -2,14 +2,15 @@
   "private": true,
   "scripts": {
     "prebuild": "graphql-codegen",
-    "build": "yarn prebuild && remix build --sourcemap",
+    "build": "yarn prebuild && remix build --sourcemap && yarn sentry:sourcemaps",
     "dev": "remix dev",
     "typecheck": "tsc",
     "test": "yarn node --experimental-modules node_modules/.bin/vitest",
     "test:e2e": "yarn playwright test",
     "test:debug": "yarn node --inspect-brk=0.0.0.0 --experimental-modules node_modules/.bin/vitest --runInBand",
     "prepare": "husky install && yarn pull",
-    "pull": "vc env pull .env"
+    "pull": "vc env pull .env",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org elliana-may --project action-statuses ./build && sentry-cli sourcemaps upload --org elliana-may --project action-statuses ./build"
   },
   "dependencies": {
     "@octokit/auth-app": "^6.0.0",
@@ -23,6 +24,7 @@
     "@remix-run/node": "^2.7.1",
     "@remix-run/react": "^2.7.1",
     "@remix-run/v1-route-convention": "^0.1.4",
+    "@sentry/cli": "^2.50.2",
     "@sentry/profiling-node": "^9.0.0",
     "@sentry/remix": "^9.0.0",
     "@tanstack/match-sorter-utils": "^8.7.6",
