@@ -7,16 +7,20 @@ export const loader = (async ({ request }) => {
     user: await timeout(
       authenticator()
         .isAuthenticated(request)
-        .then((userObject) =>
-          userObject
-            ? pick(userObject, [
-                "login",
-                "installationId",
-                "accessTokenExpiry",
-                "refreshTokenExpiry",
-              ])
-            : null,
-        ),
+        .then((userObject) => {
+          if (!userObject) {
+            return null;
+          }
+          return {
+            ...pick(userObject, [
+              "login",
+              "installationId",
+              "accessTokenExpiry",
+              "refreshTokenExpiry",
+            ]),
+            url: `https://github.com/apps/action-statuses/installations/${userObject.installationId}`,
+          };
+        }),
       "isAuthenticated",
     ),
   };
