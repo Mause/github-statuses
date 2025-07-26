@@ -23,5 +23,22 @@ exports[`graphql 3`] = `
     "Request failed due to following response errors:
  - Not Found",
   ],
+  [
+    "GraphqlResponseError",
+    "Not Found",
+    {
+      "extensions": undefined,
+      "locations": [
+        {
+          "column": 1,
+          "line": 1,
+        },
+      ],
+      "path": [
+        "user",
+      ],
+      "type": undefined,
+    },
+  ],
 ]
 `;

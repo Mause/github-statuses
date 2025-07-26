@@ -101,7 +101,7 @@ test("graphql", async () => {
   });
   expect(res).toMatchSnapshot();
   expect(error).toHaveBeenCalledTimes(1);
-  expect(warn).toHaveBeenCalledTimes(1);
+  expect(warn).toHaveBeenCalledTimes(2);
   expect(error.mock.calls).toMatchSnapshot();
   expect(warn.mock.calls).toMatchSnapshot();
 });
