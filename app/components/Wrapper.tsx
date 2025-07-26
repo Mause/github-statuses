@@ -5,10 +5,10 @@ import {
   Breadcrumbs,
   Link as PrimerLink,
   Spinner,
-  Octicon,
   IconButton,
 } from "@primer/react";
 import type { UIMatch } from "@remix-run/react";
+import { Octicon } from "@primer/react/deprecated";
 import { Link, useMatches, useRevalidator } from "@remix-run/react";
 import { GearIcon, MarkGithubIcon } from "@primer/octicons-react";
 import type { ReactNode } from "react";

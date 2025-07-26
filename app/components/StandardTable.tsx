@@ -23,7 +23,7 @@ import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import { fuzzyFilter } from "./fuzzyFilter";
 import { TextInput } from "@primer/react";
-import { Table } from "@primer/react/drafts";
+import { Table } from "@primer/react/experimental";
 import { TableSortHeader } from "@primer/react/lib-esm/DataTable/Table";
 import { getGridTemplateFromColumns } from "@primer/react/lib-esm/DataTable/useTable";
 import type { SortDirection as TableSortDirection } from "@primer/react/lib-esm/DataTable/sorting";

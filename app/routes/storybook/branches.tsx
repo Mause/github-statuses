@@ -1,4 +1,4 @@
-import { TabNav } from "@primer/react";
+import { TabNav } from "@primer/react/deprecated";
 import { Outlet } from "@remix-run/react";
 import { TabNavLink } from "~/components";
 

@@ -5,8 +5,6 @@ export {
   type StandardTableOptions,
 } from "./StandardTable";
 export { default as Wrapper } from "./Wrapper";
-export { Markdown } from "./Markdown";
-export { dedentBlock, dedent } from "./dedentBlock";
 export { titleCase } from "./titleCase";
 export { ErrorBoundary, splatObject } from "./ErrorBoundary";
 export { ActionProgress } from "./ActionProgress";

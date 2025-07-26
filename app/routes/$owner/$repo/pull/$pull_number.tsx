@@ -20,13 +20,8 @@ import {
   DotIcon,
   LogIcon,
 } from "@primer/octicons-react";
-import {
-  Heading,
-  Link as PrimerLink,
-  Octicon,
-  Flash,
-  IconButton,
-} from "@primer/react";
+import { Heading, Link as PrimerLink, Flash, IconButton } from "@primer/react";
+import { Octicon } from "@primer/react/deprecated";
 import humanizeDuration from "humanize-duration";
 import type { DataLoaderParams } from "~/components";
 import { StandardTable, ExternalLink, titleCase } from "~/components";
