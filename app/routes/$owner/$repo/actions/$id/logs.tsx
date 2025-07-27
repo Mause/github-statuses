@@ -28,6 +28,16 @@ import { useMemo, createContext, useContext, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
 import { splatObject } from "~/components";
+import { themeGet } from "@primer/react";
+
+export const PreStyle = styled.pre`
+  pre {
+    border-radius: 5px;
+    padding: 0.5em;
+    border: ${themeGet("borderWidths.1")} ${themeGet("colors.border.default")}
+      solid;
+  }
+`;
 
 export const PreStyle = styled.pre`
   pre {

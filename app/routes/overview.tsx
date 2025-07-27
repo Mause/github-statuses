@@ -11,8 +11,9 @@ import {
 } from "~/components/graphql/graphql";
 import { Wrapper } from "~/components";
 import { getFragment } from "~/components/graphql";
-import { DataTable } from "@primer/react/drafts";
-import { Link, Octicon, RelativeTime } from "@primer/react";
+import { DataTable } from "@primer/react/experimental";
+import { Link, RelativeTime } from "@primer/react";
+import { Octicon } from "@primer/react/deprecated";
 import { GitPullRequestIcon, IssueOpenedIcon } from "@primer/octicons-react";
 import _ from "lodash";
 
@@ -90,8 +91,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     searchQuery: `assignee:me is:open sort:updated-desc`,
     order: {
       field: IssueOrderField.UpdatedAt,
-      direction: OrderDirection.Desc
-    }
+      direction: OrderDirection.Desc,
+    },
   });
 
   let items = [];
@@ -130,7 +131,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "__typename",
           header: "Type",
-          renderCell({ __typename }) {
+          renderCell({ __typename }: IssueOrPullRequest) {
             if (__typename == "Issue") {
               return <Octicon icon={IssueOpenedIcon} />;
             } else {
@@ -141,7 +142,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "number",
           header: "#",
-          renderCell(data) {
+          renderCell(data: IssueOrPullRequest) {
             return (
               <Link target="_blank" href={data.url}>
                 #{data.number}
@@ -157,7 +158,7 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "url",
           header: "URL",
-          renderCell(data) {
+          renderCell(data: IssueOrPullRequest) {
             return (
               <Link target="_blank" href={data.repository.url}>
                 {data.repository.nameWithOwner}
@@ -168,7 +169,9 @@ export function Overview({ items }: { items: IssueOrPullRequest[] }) {
         {
           id: "updatedAt",
           header: "Updated",
-          renderCell: (data) => <RelativeTime datetime={data.updatedAt} />,
+          renderCell: (data: IssueOrPullRequest) => (
+            <RelativeTime datetime={data.updatedAt} />
+          ),
         },
       ]}
     ></DataTable>

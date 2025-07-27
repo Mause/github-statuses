@@ -1,5 +1,5 @@
 import { Link, useHref, useMatch } from "@remix-run/react";
-import { TabNav } from "@primer/react";
+import { TabNav } from "@primer/react/deprecated";
 import type { ReactNode } from "react";
 
 export function TabNavLink({
@@ -17,6 +17,8 @@ export function TabNavLink({
       to={to}
       aria-current={current ? "page" : false}
       selected={current}
-    >{children}</TabNav.Link>
+    >
+      {children}
+    </TabNav.Link>
   );
 }
