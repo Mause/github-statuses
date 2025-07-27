@@ -32,7 +32,7 @@ test("hello", async () => {
 
   await renderPrimer(<Stub />);
 
-  await screen.findByText("Action Statuses");
+  await screen.findByText("Please select a repository");
 });
 
 test("Displays error correctly", async () => {
