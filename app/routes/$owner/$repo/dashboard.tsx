@@ -158,6 +158,11 @@ export function Dashboard({
 
     const { original } = props.row;
 
+    if (parent!.owner.login == "duckdb" && parent!.name == "duckdb") {
+      // check if we have a pr targetting the "feat" branch
+      // then we should create a pr to the "feature" branch
+    }
+
     const create = createUrl({
       source: {
         ...selectedRepo,
