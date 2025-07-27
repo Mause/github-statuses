@@ -46,25 +46,38 @@ export async function getRedirect(request: Request): Promise<string> {
   return (await redirectCookie.parse(cookieHeader)) || "/";
 }
 
-export const getOctokit = async (request: Request) => {
-  if ("octokit" in request) {
-    return request.octokit as Octokit;
+type Flavour = "user" | "installation";
+
+export const getOctokit = async (request: Request, flavour: Flavour) => {
+  const key = Symbol(`octokit-${flavour}`);
+  const rq = request as unknown as { [key]: Octokit | undefined };
+  if (key in request) {
+    return rq[key] as Octokit;
   }
 
-  const octokit = await getInstallationOctokit(request);
-  (request as unknown as { octokit: Octokit }).octokit = octokit;
+  let octokit: Octokit;
+  if (flavour === "user") {
+    const user = await getUser(request);
+    octokit = octokitFromToken(user.accessToken);
+  } else {
+    octokit = await getInstallationOctokit(request);
+  }
+  rq[key] = octokit;
   return octokit;
 };
 
-export async function tryGetOctokit(request: Request) {
+export async function tryGetOctokit(request: Request, flavour: Flavour) {
   try {
-    return await getOctokit(request);
+    return await getOctokit(request, flavour);
   } catch (e) {
     return new Octokit();
   }
 }
 
 const SECOND = 1000;
+
+export const octokitFromToken = (token: string) =>
+  octokitFromConfig({ auth: token });
 
 export const octokitFromConfig = (
   config: Partial<ConstructorParameters<typeof Throttled>[0]>,
@@ -155,13 +168,21 @@ export function getQueryName(query: TypedDocumentString<any, any> | string) {
   return "unknown name";
 }
 
-export async function call<Result, Variables extends RequestParameters>(
-  request: Request,
-  query: TypedDocumentString<Result, Variables>,
-  variables?: Variables,
-  fragments?: TypedDocumentString<any, any>[],
-): Promise<Result> {
-  const octokit = await getOctokit(request);
+export async function call<Result, Variables extends RequestParameters>({
+  request,
+  query,
+  variables,
+  fragments,
+
+  flavour,
+}: {
+  request: Request;
+  query: TypedDocumentString<Result, Variables>;
+  variables?: Variables;
+  fragments?: TypedDocumentString<any, any>[];
+  flavour: Flavour;
+}): Promise<Result> {
+  const octokit = await getOctokit(request, flavour);
 
   return await Sentry.startSpan(
     {

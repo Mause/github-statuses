@@ -28,7 +28,7 @@ export async function getLiveLogs(
   console.log("getLiveLogs", args);
   let octokit;
   try {
-    octokit = await getOctokit(request);
+    octokit = await getOctokit(request, "user");
   } catch (e) {
     throw { error: "not logged in" };
   }
