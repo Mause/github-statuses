@@ -11,7 +11,7 @@ import {
 } from "~/components/graphql/graphql";
 import { Wrapper } from "~/components";
 import { getFragment } from "~/components/graphql";
-import { DataTable } from "@primer/react/drafts";
+import { DataTable } from "@primer/react/experimental";
 import { Link, Octicon, RelativeTime } from "@primer/react";
 import { GitPullRequestIcon, IssueOpenedIcon } from "@primer/octicons-react";
 import _ from "lodash";
