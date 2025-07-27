@@ -17,6 +17,7 @@ import {
   IconButton,
   Details,
   ToggleSwitch,
+  themeGet,
   FormControl,
   useDetails,
   Box,
@@ -27,7 +28,6 @@ import { useMemo, createContext, useContext, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
 import { splatObject } from "~/components";
-import { themeGet } from "@primer/react";
 
 export const PreStyle = styled.pre`
   pre {
