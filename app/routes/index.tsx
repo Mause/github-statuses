@@ -122,7 +122,7 @@ function SingleOrg({
   owner: SerializeFrom<ReposFragment>;
   asChildRoute: boolean;
   subs: string[];
-}): JSX.Element {
+}) {
   const [limit, setLimit] = useState(INCREMENT);
 
   return (

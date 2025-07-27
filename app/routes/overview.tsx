@@ -90,8 +90,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     searchQuery: `assignee:me is:open sort:updated-desc`,
     order: {
       field: IssueOrderField.UpdatedAt,
-      direction: OrderDirection.Desc
-    }
+      direction: OrderDirection.Desc,
+    },
   });
 
   let items = [];

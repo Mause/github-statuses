@@ -35,7 +35,7 @@ test("hello", async () => {
   await screen.findByText("Action Statuses");
 });
 
-test('Displays error correctly', async () => {
+test("Displays error correctly", async () => {
   let BasePage: React.FunctionComponent<{ asChildRoute: boolean }>;
   let ErrorBoundary: React.FunctionComponent;
   try {
@@ -54,13 +54,13 @@ test('Displays error correctly', async () => {
       },
       path: "/",
       id: "root",
-      ErrorBoundary
+      ErrorBoundary,
     },
   ]);
 
   await renderPrimer(<Stub />);
 
-  expect((await screen.findByText("This is an error"))).toBeVisible();
+  expect(await screen.findByText("This is an error")).toBeVisible();
 });
 
 test("RequestError instanceof", async () => {
