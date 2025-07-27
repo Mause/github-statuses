@@ -1,4 +1,4 @@
-import { captureRemixErrorBoundaryError , withSentry } from "@sentry/remix";
+import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix";
 import type {
   LoaderFunction,
   MetaFunction,
