@@ -28,6 +28,8 @@ jobs:
         cache: 'yarn'
     - run: yarn
     - run: yarn run build
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     - run: yarn run typecheck
     - run: yarn test
     - run: yarn eslint app/
