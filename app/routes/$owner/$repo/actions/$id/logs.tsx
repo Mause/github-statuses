@@ -17,17 +17,26 @@ import {
   IconButton,
   Details,
   ToggleSwitch,
+  themeGet,
   FormControl,
   useDetails,
   Box,
 } from "@primer/react";
-import { PreStyle } from "~/components/Markdown";
 import styled from "styled-components";
 import type { CSSProperties } from "react";
 import { useMemo, createContext, useContext, useState } from "react";
 import _ from "lodash";
 import { getOctokit } from "~/octokit.server";
 import { splatObject } from "~/components";
+
+export const PreStyle = styled.pre`
+  pre {
+    border-radius: 5px;
+    padding: 0.5em;
+    border: ${themeGet("borderWidths.1")} ${themeGet("colors.border.default")}
+      solid;
+  }
+`;
 
 const TIMESTAMP_LENGTH = "2023-11-19T15:41:59.0131964Z".length;
 interface Line {
