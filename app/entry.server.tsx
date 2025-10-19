@@ -1,5 +1,3 @@
-import "./instrumentation.server";
-
 import { sentryHandleError } from "@sentry/remix";
 import type { EntryContext } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
