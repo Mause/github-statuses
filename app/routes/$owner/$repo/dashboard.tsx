@@ -1,4 +1,3 @@
-import { json } from "@remix-run/node";
 import gql from "graphql-tag";
 
 import type { DataLoaderParams, StandardTableOptions } from "~/components";
@@ -136,10 +135,10 @@ export async function loader({
       };
     });
 
-  return json({
+  return {
     pulls,
     repo: _.pick(repo, ["name", "owner", "parent", "defaultBranchRef"]),
-  });
+  };
 }
 
 export function Dashboard({

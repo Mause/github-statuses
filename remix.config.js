@@ -12,6 +12,7 @@ module.exports = {
   // publicPath: "/build/",
   serverModuleFormat: 'cjs',
   future: {
+    v3_singleFetch: true,
   },
   routes(defineRoutes) {
     return createRoutesFromFolders(defineRoutes);
