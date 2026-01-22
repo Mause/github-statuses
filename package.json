@@ -43,7 +43,7 @@
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "humanize-duration": "^3.28.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-interval-hook": "^1.1.3",
