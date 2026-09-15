@@ -34,7 +34,7 @@
     "@vercel/analytics": "^1.0.0",
     "@vercel/kv": "^2.0.0",
     "@vercel/node": "^3.0.0",
-    "adm-zip": "^0.5.10",
+    "adm-zip": "^0.6.0",
     "ansi-sequence-parser": "^1.1.1",
     "async": "^3.2.4",
     "debug": "^4.3.6",
